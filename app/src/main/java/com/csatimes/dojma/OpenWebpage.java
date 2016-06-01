@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -22,6 +26,7 @@ import android.widget.ProgressBar;
  * It uses webView to load the url and also sets a title to the actionbar.
  */
 public class OpenWebpage extends AppCompatActivity {
+    private static String currentURL;
     private WebView webView;
     private ProgressBar pb;
 
@@ -37,12 +42,13 @@ public class OpenWebpage extends AppCompatActivity {
             actionBar.setTitle("CSATimes");
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
                     .colorPrimaryDark)));
+
         }
 
 
         Intent intent = getIntent();
         if (actionBar != null) actionBar.setTitle(intent.getStringExtra("TITLE"));
-
+        currentURL = intent.getStringExtra("URL");
 
         /**
          * The following codes are for the webView's settings
@@ -68,6 +74,7 @@ public class OpenWebpage extends AppCompatActivity {
 
                 ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null) actionBar.setTitle("Loading...");
+                currentURL = url;
                 view.loadUrl(url);
                 if (actionBar != null) actionBar.setTitle("CSATimes");
                 return true;
@@ -134,5 +141,25 @@ public class OpenWebpage extends AppCompatActivity {
         }
         // Otherwise defer to system default behavior.
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_open_in_browser) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentURL));
+            startActivity(Intent.createChooser(intent, "Open in browser..."));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.web_page_menu, menu);
+
+        return true;
     }
 }
