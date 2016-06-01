@@ -4,11 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +17,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -35,117 +30,9 @@ public class CustomHeraldAdapter extends BaseAdapter {
     List<Herald.HeraldItemObject> itemsList;
     String directory = Herald.ROOT_DIRECTORY + "/" + Herald.dojmaFolderName;
 
-    private static class ViewHolder {
-        TextView title;
-        TextView author;
-        TextView date;
-        ImageView image;
-    }
-
     public CustomHeraldAdapter(Context context, List<Herald.HeraldItemObject> itemsList) {
         this.context = context;
         this.itemsList = itemsList;
-    }
-
-    @Override
-    public int getCount() {
-        return itemsList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return itemsList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        ViewHolder holder;
-
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.herald_lv_item_format, null);
-            holder = new ViewHolder();
-            holder.title = (TextView) view.findViewById(R.id.herald_lv_item_title);
-            holder.author = (TextView) view.findViewById(R.id.herald_lv_item_author);
-            holder.date = (TextView) view.findViewById(R.id.herald_lv_item_date);
-            holder.image = (ImageView) view.findViewById(R.id.herald_lv_item_image);
-            view.setTag(holder);
-
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-
-        holder.title.setText(itemsList.get(position).title);
-        holder.author.setText(itemsList.get(position).author);
-        holder.date.setText(itemsList.get(position).date.subSequence(0, 10));
-        holder.image.setImageBitmap(decodeSampledBitmapFromResource(context.getResources(), R.drawable
-                .no_image_info, HomeActivity.dpToPx(100), HomeActivity.dpToPx
-                (100)));
-        try {
-            new LoadHolderImage(itemsList.get(position)).execute(holder.image).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return view;
-
-    }
-
-
-    private class LoadHolderImage extends AsyncTask<ImageView, Void, Void> {
-
-        private ImageView v;
-        private Bitmap bitmap;
-        Herald.HeraldItemObject foo;
-
-        public LoadHolderImage(Herald.HeraldItemObject foo) {
-            this.foo = foo;
-            Log.e("NEW", "Async loader called");
-        }
-
-        @Override
-        protected Void doInBackground(ImageView... params) {
-            v = params[0];
-            Log.e("NEW", "Calling image getter");
-            bitmap = setImage(context, foo);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            v.setImageBitmap(bitmap);
-        }
-    }
-
-
-    //Async method to download image from its link
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            if (params[0].compareTo("-1") == 0)
-                return null;
-            Bitmap bitmap = null;
-            try {
-                URL url = new URL(params[0]);
-                bitmap = BitmapFactory.decodeStream((InputStream) url.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-
     }
 
     //This method returns final optimised bitmap
@@ -206,6 +93,58 @@ public class CustomHeraldAdapter extends BaseAdapter {
         return inSampleSize;
     }
 
+    @Override
+    public int getCount() {
+        return itemsList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return itemsList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        ViewHolder holder;
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.herald_lv_item_format, null);
+            holder = new ViewHolder();
+            holder.title = (TextView) view.findViewById(R.id.herald_lv_item_title);
+            holder.author = (TextView) view.findViewById(R.id.herald_lv_item_author);
+            holder.date = (TextView) view.findViewById(R.id.herald_lv_item_date);
+            holder.image = (ImageView) view.findViewById(R.id.herald_lv_item_image);
+            view.setTag(holder);
+
+        } else {
+            holder = (ViewHolder) view.getTag();
+        }
+
+        holder.title.setText(itemsList.get(position).title);
+        holder.author.setText(itemsList.get(position).author);
+        holder.date.setText(itemsList.get(position).date.subSequence(0, 10));
+        holder.image.setImageBitmap(decodeSampledBitmapFromResource(context.getResources(), R.drawable
+                .no_image_info, HomeActivity.dpToPx(100), HomeActivity.dpToPx
+                (100)));
+        try {
+            new LoadHolderImage(itemsList.get(position)).execute(holder.image).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return view;
+
+    }
+
     //This method takes in a bitmap and the unique post id
     //It stores the image to the ROOT_DIRECTORY directory and the folder you specify
     //image is store in webp format
@@ -256,11 +195,11 @@ public class CustomHeraldAdapter extends BaseAdapter {
 
                         return defaultBitmap;
 
-                    } else {                        Log.e("NEW","download success!. saving");
-
+                    } else {
+                        Log.e("NEW", "download success!. saving");
                         //Method to save downloaded image by its post id
                         SaveImage(bitmap, obj.postID);
-                        Log.e("NEW","saved");
+                        Log.e("NEW", "saved");
 
                     }
 
@@ -274,6 +213,60 @@ public class CustomHeraldAdapter extends BaseAdapter {
         }
 
         return bitmap;
+    }
+
+    private static class ViewHolder {
+        TextView title;
+        TextView author;
+        TextView date;
+        ImageView image;
+    }
+
+    private class LoadHolderImage extends AsyncTask<ImageView, Void, Void> {
+
+        Herald.HeraldItemObject foo;
+        private ImageView v;
+        private Bitmap bitmap;
+
+        public LoadHolderImage(Herald.HeraldItemObject foo) {
+            this.foo = foo;
+            Log.e("NEW", "Async loader called");
+        }
+
+        @Override
+        protected Void doInBackground(ImageView... params) {
+            v = params[0];
+            Log.e("NEW", "Calling image getter");
+            bitmap = setImage(context, foo);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            v.setImageBitmap(bitmap);
+        }
+    }
+
+    //Async method to download image from its link
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            if (params[0].compareTo("-1") == 0)
+                return null;
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream) url.getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+
     }
 
 }

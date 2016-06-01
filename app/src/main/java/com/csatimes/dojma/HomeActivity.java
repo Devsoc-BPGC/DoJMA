@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -14,56 +13,70 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.Space;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
-import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static int NUMBEROFPAGES = 4;
+    public static int PAGENUMBER = 0;
+    public static boolean appStarted = true;
+    public static String user_pref_name = "USER_PREFS";
+    private static int[] pageColors = new int[NUMBEROFPAGES];
+    public FloatingActionButton fab;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    public FloatingActionButton fab;
     private Animation animation;
     private Window window;
-    public static int NUMBEROFPAGES = 4;
-    private static int[] pageColors = new int[NUMBEROFPAGES];
     private int[] fabColors;
     private Drawable[] fabIcons;
-    public static int PAGENUMBER = 0;
-    public static boolean appStarted = true;
-    SharedPreferences preferences;
-    public static String user_pref_name = "USER_PREFS";
-    SharedPreferences.Editor editor;
+
+    static int blendColors(int from, int to, float ratio) {
+        final float inverseRation = 1f - ratio;
+        final float r = Color.red(from) * ratio + Color.red(to) * inverseRation;
+        final float g = Color.green(from) * ratio + Color.green(to) * inverseRation;
+        final float b = Color.blue(from) * ratio + Color.blue(to) * inverseRation;
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
+    // DP <-> PX static converter method
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
-      Log.e("TAG","Home activity paused");
+        Log.e("TAG", "Home activity paused");
         editor.apply();
 
     }
@@ -72,7 +85,7 @@ public class HomeActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        Log.e("TAG","Home activity stopped");
+        Log.e("TAG", "Home activity stopped");
         editor.putBoolean("AppStarted", false);
         editor.apply();
     }
@@ -127,27 +140,6 @@ public class HomeActivity extends AppCompatActivity
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
-
-
-        DatabaseOperations dop = new DatabaseOperations(this);
-        Cursor cr = dop.getInformation();
-        for(int i=0;i<6;i++)
-            try {
-                Log.e("TAG", cr.getColumnName(i));
-            }catch (Exception e) {
-                Log.e("TAG", "e");
-            }
-
-
-
-
-
-
-
-
-
 
 
         // finally change the color
@@ -297,14 +289,6 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    static int blendColors(int from, int to, float ratio) {
-        final float inverseRation = 1f - ratio;
-        final float r = Color.red(from) * ratio + Color.red(to) * inverseRation;
-        final float g = Color.green(from) * ratio + Color.green(to) * inverseRation;
-        final float b = Color.blue(from) * ratio + Color.blue(to) * inverseRation;
-        return Color.rgb((int) r, (int) g, (int) b);
-    }
-
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
@@ -322,37 +306,6 @@ public class HomeActivity extends AppCompatActivity
 
         viewPager.setAdapter(adapter);
     }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -418,7 +371,6 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-
     /*
      * isOnline - Check if there is a NetworkConnection
      * @return boolean
@@ -433,13 +385,33 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    // DP <-> PX static converter method
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-    public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+        @Override
+        public Fragment getItem(int position) {
+
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }
