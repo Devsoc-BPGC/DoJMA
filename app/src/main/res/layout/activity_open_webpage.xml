@@ -1,0 +1,30 @@
+<RelativeLayout
+    android:id="@+id/webPage_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.csatimes.dojma.OpenWebpage">
+
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/webPageProgressBar"/>
+
+    <ProgressBar
+        android:id="@+id/webPageProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:progressBackgroundTint="@color/blue500"
+        android:progressTint="@color/colorPrimaryDark"
+        android:visibility="gone"/>
+</RelativeLayout>
