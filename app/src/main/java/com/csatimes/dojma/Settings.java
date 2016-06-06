@@ -3,34 +3,15 @@ package com.csatimes.dojma;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Settings extends AppCompatActivity {
     private Window window;
-    private CustomSettingsAdapter adapter;
-    private List<SettingsItem> settingsItemList = new ArrayList<>();
-    private ListView listView;
 
-    public class SettingsItem {
-        String name = "Setting Name";
-        String desc = "Setting Description";
 
-        public SettingsItem(String name, String desc) {
-            this.name = name;
-            this.desc = desc;
-        }
-    }
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -57,16 +38,10 @@ public class Settings extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             window.setStatusBarColor(color);
             window.setNavigationBarColor(color);
-
         }
         toolbar.setBackgroundColor(color);
 
 
-        //Default adapter for list
-        listView = (ListView) findViewById(R.id.settings_list_view);
-        settingsItemList.add(new SettingsItem("Rebuild Icons", "Tap to fix broken icons"));
-        adapter = new CustomSettingsAdapter(this,settingsItemList);
-        listView.setAdapter(adapter);
     }
 
 }

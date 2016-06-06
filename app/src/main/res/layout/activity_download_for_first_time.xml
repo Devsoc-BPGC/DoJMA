@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                tools:context="com.csatimes.dojma.DownloadForFirstTimeActivity">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:progress="0"
+        android:progressBackgroundTint="@color/orange500"
+        android:progressTint="@color/colorAccent"
+        android:secondaryProgress="0"
+        android:secondaryProgressTint="@color/orange500"/>
+
+    <TextView
+        android:id="@+id/downloading_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/progressBar"
+        android:text="Please wait while the articles are downloaded ..."/>
+
+    <Button
+        android:id="@+id/retry_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/downloading_textview"
+        android:text="Retry download"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

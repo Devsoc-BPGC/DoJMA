@@ -12,14 +12,47 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.csatimes.dojma.Settings"
     tools:showIn="@layout/activity_settings">
-<ListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/settings_list_view"
-    android:scrollIndicators="top|bottom"
-    android:animateLayoutChanges="true"
-    android:animationCache="false"
-    >
 
-</ListView>
+    <TextView
+        android:id="@+id/settings_rebuild_database"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:gravity="center_vertical|left"
+        android:text="Rebuild database"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/settings_keep_downloaded_images_hidden"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/settings_rebuild_database"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/settings_rebuild_database"
+        android:layout_below="@+id/settings_rebuild_database"
+        android:layout_toEndOf="@+id/settings_keep_downloaded_images_hidden_checkbox"
+        android:layout_toRightOf="@+id/settings_keep_downloaded_images_hidden_checkbox"
+        android:contextClickable="false"
+        android:enabled="true"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical|left"
+        android:longClickable="false"
+        android:text="Hide article images"
+        android:textSize="25sp"/>
+
+    <CheckBox
+        android:id="@+id/settings_keep_downloaded_images_hidden_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/settings_rebuild_database"
+        android:clickable="true"/>
 </RelativeLayout>

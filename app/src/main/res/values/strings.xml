@@ -14,4 +14,6 @@
     <string name="title_activity_open_webpage">OpenWebpage</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_download_for_first_time">First Time Setup</string>
 </resources>

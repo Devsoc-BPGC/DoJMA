@@ -40,14 +40,14 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
     public static int NUMBEROFPAGES = 4;
     public static int PAGENUMBER = 0;
     public static boolean appStarted = true;
-    public static String user_pref_name = "USER_PREFS";
+    public static String USER_PREFERENCES = "USER_PREFS";
     private static int[] pageColors = new int[NUMBEROFPAGES];
     public FloatingActionButton fab;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -55,14 +55,10 @@ public class HomeActivity extends AppCompatActivity
     private Window window;
     private int[] fabColors;
     private Drawable[] fabIcons;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
-    static int blendColors(int from, int to, float ratio) {
-        final float inverseRation = 1f - ratio;
-        final float r = Color.red(from) * ratio + Color.red(to) * inverseRation;
-        final float g = Color.green(from) * ratio + Color.green(to) * inverseRation;
-        final float b = Color.blue(from) * ratio + Color.blue(to) * inverseRation;
-        return Color.rgb((int) r, (int) g, (int) b);
-    }
+
 
     // DP <-> PX static converter method
     public static int dpToPx(int dp) {
@@ -71,6 +67,14 @@ public class HomeActivity extends AppCompatActivity
 
     public static int pxToDp(int px) {
         return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    static int blendColors(int from, int to, float ratio) {
+        final float inverseRation = 1f - ratio;
+        final float r = Color.red(from) * ratio + Color.red(to) * inverseRation;
+        final float g = Color.green(from) * ratio + Color.green(to) * inverseRation;
+        final float b = Color.blue(from) * ratio + Color.blue(to) * inverseRation;
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 
     @Override
@@ -96,12 +100,20 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        preferences = getApplicationContext().getSharedPreferences(user_pref_name, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
+
+        //If app has been installed for the first time download the articles and their data
+        //and then change shared preferences key "FIRST_TIME_INSTALL"
+        if (preferences.getBoolean("FIRST_TIME_INSTALL", true)) {
+            Intent startFirstTimeDownloader = new Intent(this, DownloadForFirstTimeActivity.class);
+            startActivity(startFirstTimeDownloader);
+            // finish();
+        }
         editor.putBoolean("AppStarted", true);
         editor.apply();
 
-        View activityHomeView = (View) findViewById(R.id.tabs);
+        View activityHomeView = findViewById(R.id.tabs);
         toolbarObject = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarObject);
 
@@ -197,9 +209,13 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
+                    //check for updates
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
+                    //gazette
                 } else if (tabLayout.getSelectedTabPosition() == 2) {
+                    //campus watch
                 } else if (tabLayout.getSelectedTabPosition() == 3) {
+                    //events
                 }
 
             }
@@ -207,7 +223,7 @@ public class HomeActivity extends AppCompatActivity
         //ratio for fab animation
         //strictly lying in [0,1)
         //galti se bhi 1 mat bharna
-        final float r = 0.9f;
+        final float r = 0.6f;
 
         //set animation
         animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.fab_anim);
@@ -378,11 +394,7 @@ public class HomeActivity extends AppCompatActivity
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
+        return netInfo != null && netInfo.isConnected();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -414,4 +426,5 @@ public class HomeActivity extends AppCompatActivity
             return mFragmentTitleList.get(position);
         }
     }
+
 }

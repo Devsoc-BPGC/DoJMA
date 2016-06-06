@@ -21,14 +21,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class handles the url passed from Herald on item click.
  * It uses webView to load the url and also sets a title to the actionbar.
  */
 public class OpenWebpage extends AppCompatActivity {
     private static String currentURL;
+    private static List<String> urlList;
+    private static List<String> titleList;
+    private static int POSITION;
     private WebView webView;
-    private ProgressBar pb;
+    private ProgressBar downloadProgressBar;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -36,7 +42,7 @@ public class OpenWebpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_webpage);
         webView = (WebView) findViewById(R.id.webView);
-        pb = (ProgressBar) findViewById(R.id.webPageProgressBar);
+        downloadProgressBar = (ProgressBar) findViewById(R.id.webPageProgressBar);
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle("CSATimes");
@@ -44,12 +50,16 @@ public class OpenWebpage extends AppCompatActivity {
                     .colorPrimaryDark)));
 
         }
-
+        POSITION = 0;
+        urlList = new ArrayList<>();
+        titleList = new ArrayList<>();
 
         Intent intent = getIntent();
         if (actionBar != null) actionBar.setTitle(intent.getStringExtra("TITLE"));
         currentURL = intent.getStringExtra("URL");
-
+        urlList.add(currentURL);
+        titleList.add(intent.getStringExtra("TITLE"));
+        POSITION++;
         /**
          * The following codes are for the webView's settings
          */
@@ -75,7 +85,9 @@ public class OpenWebpage extends AppCompatActivity {
                 ActionBar actionBar = getSupportActionBar();
                 if (actionBar != null) actionBar.setTitle("Loading...");
                 currentURL = url;
-                view.loadUrl(url);
+                urlList.add(currentURL);
+                POSITION++;
+                view.loadUrl(urlList.get(POSITION - 1));
                 if (actionBar != null) actionBar.setTitle("CSATimes");
                 return true;
             }
@@ -83,21 +95,21 @@ public class OpenWebpage extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                pb.setVisibility(View.VISIBLE);
+                downloadProgressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                pb.setVisibility(View.GONE);
+                downloadProgressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
                 super.onReceivedHttpError(view, request, errorResponse);
                 Snackbar.make(view, "HTTP error from server! Try again later. If the problem " +
-                        "persists write" +
-                        " to us", Snackbar.LENGTH_LONG).show();
+                        "persists pls" +
+                        " report", Snackbar.LENGTH_LONG).show();
             }
 
         });
@@ -106,7 +118,7 @@ public class OpenWebpage extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                pb.setProgress(newProgress);
+                downloadProgressBar.setProgress(newProgress);
             }
 
             @Override
@@ -114,6 +126,7 @@ public class OpenWebpage extends AppCompatActivity {
                 super.onReceivedTitle(view, title);
                 if (actionBar != null)
                     actionBar.setTitle(title);
+                titleList.add(title);
             }
 
             @Override
@@ -134,9 +147,10 @@ public class OpenWebpage extends AppCompatActivity {
     public void onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack();
+            POSITION--;
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null)
-                actionBar.setTitle("CSATimes");
+                actionBar.setTitle(titleList.get(POSITION));
             return;
         }
         // Otherwise defer to system default behavior.
@@ -149,8 +163,8 @@ public class OpenWebpage extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_open_in_browser) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentURL));
-            startActivity(Intent.createChooser(intent, "Open in browser..."));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlList.get(POSITION - 1)));
+            startActivity(Intent.createChooser(intent, "Open in browser"));
         }
         return true;
     }
@@ -159,7 +173,6 @@ public class OpenWebpage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.web_page_menu, menu);
-
         return true;
     }
 }
