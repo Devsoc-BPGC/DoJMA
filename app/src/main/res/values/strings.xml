@@ -16,4 +16,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_download_for_first_time">First Time Setup</string>
+    <string name="title_activity_about_us">About</string>
 </resources>

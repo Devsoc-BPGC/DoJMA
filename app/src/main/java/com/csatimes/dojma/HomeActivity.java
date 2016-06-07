@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +35,15 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attributes;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,11 +51,8 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    public static int NUMBEROFPAGES = 4;
-    public static int PAGENUMBER = 0;
     public static boolean appStarted = true;
-    public static String USER_PREFERENCES = "USER_PREFS";
-    private static int[] pageColors = new int[NUMBEROFPAGES];
+    private static int[] pageColors = new int[DojmaHelperMethod.NUMBEROFPAGES];
     public FloatingActionButton fab;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
@@ -57,42 +63,11 @@ public class HomeActivity extends AppCompatActivity
     private Drawable[] fabIcons;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private DatabaseOperations dop;
 
 
 
-    // DP <-> PX static converter method
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
 
-    public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    static int blendColors(int from, int to, float ratio) {
-        final float inverseRation = 1f - ratio;
-        final float r = Color.red(from) * ratio + Color.red(to) * inverseRation;
-        final float g = Color.green(from) * ratio + Color.green(to) * inverseRation;
-        final float b = Color.blue(from) * ratio + Color.blue(to) * inverseRation;
-        return Color.rgb((int) r, (int) g, (int) b);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("TAG", "Home activity paused");
-        editor.apply();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.e("TAG", "Home activity stopped");
-        editor.putBoolean("AppStarted", false);
-        editor.apply();
-    }
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -100,7 +75,7 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        preferences = getApplicationContext().getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences(DojmaHelperMethod.USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
 
         //If app has been installed for the first time download the articles and their data
@@ -108,7 +83,7 @@ public class HomeActivity extends AppCompatActivity
         if (preferences.getBoolean("FIRST_TIME_INSTALL", true)) {
             Intent startFirstTimeDownloader = new Intent(this, DownloadForFirstTimeActivity.class);
             startActivity(startFirstTimeDownloader);
-            // finish();
+            finish();
         }
         editor.putBoolean("AppStarted", true);
         editor.apply();
@@ -117,33 +92,23 @@ public class HomeActivity extends AppCompatActivity
         toolbarObject = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarObject);
 
+        dop = new DatabaseOperations(this);
+        if (dop.getInformation().getCount() != 0) {
+            Log.e("TAG", "Downloading more!");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    checkForUpdates();
+                }
+            });
+            dop.close();
+        }
+
         //reference fab button
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        //setup pagecolors
-        // pageColors = new int[NUMBEROFPAGES];
-        pageColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
-        pageColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.green500);
-        pageColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.quora_primary);
-        pageColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.facebook_primary);
+        setupColors();
 
-        //setup fab colors
-        fabColors = new int[NUMBEROFPAGES];
-        fabColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorAccent);
-        fabColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.lightblue500);
-        fabColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.orangeA400);
-        fabColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.yellowA400);
-
-
-        //setup fab icons
-        fabIcons = new Drawable[NUMBEROFPAGES];
-        fabIcons[0] = ContextCompat.getDrawable(HomeActivity.this, R.drawable.ic_refresh_white_24dp);
-        fabIcons[1] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_picture_in_picture_white_24dp);
-        fabIcons[2] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_local_convenience_store_white_24dp);
-        fabIcons[3] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_edit_white_24dp);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
@@ -171,6 +136,7 @@ public class HomeActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
         //Custom method to set icons for the tabs
         setupTabIcons();
 
@@ -181,16 +147,16 @@ public class HomeActivity extends AppCompatActivity
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                PAGENUMBER = tab.getPosition();
-                toolbarObject.setBackgroundColor(pageColors[PAGENUMBER]);
-                tabLayout.setBackgroundColor(pageColors[PAGENUMBER]);
+                DojmaHelperMethod.PAGENUMBER = tab.getPosition();
+                toolbarObject.setBackgroundColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
+                tabLayout.setBackgroundColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    window.setStatusBarColor(pageColors[PAGENUMBER]);
-                    window.setNavigationBarColor(pageColors[PAGENUMBER]);
+                    window.setStatusBarColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
+                    window.setNavigationBarColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
                 }
-                fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[PAGENUMBER]));
-                fab.setImageDrawable(fabIcons[PAGENUMBER]);
-                viewPager.setCurrentItem(PAGENUMBER);
+                fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[DojmaHelperMethod.PAGENUMBER]));
+                fab.setImageDrawable(fabIcons[DojmaHelperMethod.PAGENUMBER]);
+                viewPager.setCurrentItem(DojmaHelperMethod.PAGENUMBER);
             }
 
             @Override
@@ -227,6 +193,7 @@ public class HomeActivity extends AppCompatActivity
 
         //set animation
         animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.fab_anim);
+
         //fab icon ,color changes,tabs,toolbar color changes are defines here
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -237,7 +204,7 @@ public class HomeActivity extends AppCompatActivity
 
                 //the following is for scale change animation of the fab on change of fragment
                 // change ratio above
-                if (position < NUMBEROFPAGES - 1)
+                if (position < DojmaHelperMethod.NUMBEROFPAGES - 1)
                     if (positionOffset < r) {
                         fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[position]));
                         fab.setImageDrawable(fabIcons[position]);
@@ -256,7 +223,7 @@ public class HomeActivity extends AppCompatActivity
 
                 //special color change check for last page to avoid
                 //ArrayOutOfBoundsException
-                if (position == NUMBEROFPAGES - 1) {
+                if (position == DojmaHelperMethod.NUMBEROFPAGES - 1) {
 
                     toolbarObject.setBackgroundColor(pageColors[3]);
                     tabLayout.setBackgroundColor(pageColors[3]);
@@ -267,12 +234,12 @@ public class HomeActivity extends AppCompatActivity
                 }
 
 
-                if (position <= NUMBEROFPAGES - 2) {
+                if (position <= DojmaHelperMethod.NUMBEROFPAGES - 2) {
                     // Retrieve the current and next ColorFragment
                     final int from = pageColors[position];
                     final int to = pageColors[position + 1];
                     // Blend the colors and adjust the ActionBar
-                    final int blended = blendColors(to, from, positionOffset);
+                    final int blended = DojmaHelperMethod.blendColors(to, from, positionOffset);
 
                     toolbarObject.setBackgroundColor(blended);
                     tabLayout.setBackgroundColor(blended);
@@ -303,6 +270,70 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setupColors() {
+        //setup pagecolors
+        // pageColors = new int[NUMBEROFPAGES];
+        pageColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
+        pageColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
+        pageColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
+        pageColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.facebook_primary);
+
+        //setup fab colors
+        fabColors = new int[DojmaHelperMethod.NUMBEROFPAGES];
+        fabColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorAccent);
+        fabColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.lightblue500);
+        fabColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.green500);
+        fabColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.yellowA400);
+
+
+        //setup fab icons
+        fabIcons = new Drawable[DojmaHelperMethod.NUMBEROFPAGES];
+        fabIcons[0] = ContextCompat.getDrawable(HomeActivity.this, R.drawable.ic_refresh_white_24dp);
+        fabIcons[1] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
+                .ic_picture_in_picture_white_24dp);
+        fabIcons[2] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
+                .ic_local_convenience_store_white_24dp);
+        fabIcons[3] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
+                .ic_edit_white_24dp);
+    }
+
+    private void checkForUpdates() {
+        Log.e("TAG", "starting update check");
+        try {
+            new updateDatabase().execute(
+                    new URL("http://csatimes.co.in/dojma/"),
+                    new URL("http://csatimes.co.in/dojma/page/2"),
+                    new URL("http://csatimes.co.in/dojma/page/3"),
+                    new URL("http://csatimes.co.in/dojma/page/4"),
+                    new URL("http://csatimes.co.in/dojma/page/5"),
+                    new URL("http://csatimes.co.in/dojma/page/6"),
+                    new URL("http://csatimes.co.in/dojma/page/7"),
+                    new URL("http://csatimes.co.in/dojma/page/8"),
+                    new URL("http://csatimes.co.in/dojma/page/9"),
+                    new URL("http://csatimes.co.in/dojma/page/10"),
+                    new URL("http://csatimes.co.in/dojma/page/11")
+            );
+
+        } catch (MalformedURLException e) {
+            new SimpleAlertDialog().showDialog(this, "MalformedURLException", e.toString(), "OK", "",
+                    true, false);
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editor.apply();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        editor.putBoolean("AppStarted", false);
+        editor.apply();
     }
 
     private void setupTabIcons() {
@@ -350,18 +381,12 @@ public class HomeActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(HomeActivity.this, Settings.class);
-            settings.putExtra("pageColor", pageColors[PAGENUMBER]);
+            settings.putExtra("pageColor", pageColors[DojmaHelperMethod.PAGENUMBER]);
             startActivity(settings);
 
         } else if (id == R.id.action_about_us) {
-            SimpleAlertDialog sad = new SimpleAlertDialog();
-            sad.showDialog(this, "About", "This app has been created for DoJMA by the Mobile App " +
-                            "Club(MAC). If you find any issues with the app please report in the " +
-                            "Suggestions Page\n" +
-                            " Check " +
-                            "out our " +
-                            "Google Play page for more apps.", "OK", "", true,
-                    false);
+            Intent aboutUs = new Intent(this, AboutUs.class);
+            startActivity(aboutUs);
         }
 
         return super.onOptionsItemSelected(item);
@@ -391,10 +416,108 @@ public class HomeActivity extends AppCompatActivity
      * isOnline - Check if there is a NetworkConnection
      * @return boolean
      */
-    private boolean isOnline() {
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnected();
+    }
+
+    //Async method to download html document for parsing
+    private class updateDatabase extends AsyncTask<URL, Float, Void> {
+        int index = 0;
+
+        //AsyncTask has <params,progress,result> format
+        protected Void doInBackground(URL... url) {
+            org.jsoup.nodes.Document[] foo = new Document[url.length];
+            //initialise documents to null
+            for (index = 0; index < url.length; index++)
+                foo[index] = null;
+
+            for (int poo = 0; poo < url.length; poo++) {
+                try {
+                    {
+                        Log.e("TAG", "Connecting to URL " + url[poo]);
+                        foo[poo] = Jsoup.connect(url[poo].toString()).get();
+                        if (foo[poo] == null) Log.e("TAG", "Document null when downloaded");
+                        else {
+                            int noOfArticles = 0;
+
+                            String imageurl;
+
+                            //Get all elements that have the "article" tag
+                            Elements documentElements = foo[poo].getElementsByTag("article");
+
+                            Attributes postIDAttrib, mainAttrib, dateAttrib, imageURLAttrib;
+                            for (Element element : documentElements) {
+                                postIDAttrib = element.attributes();
+                                mainAttrib = element.child(0).child(0).attributes();
+                                dateAttrib = element.child(1).child(0).child(0).child(0)
+                                        .child(0).attributes
+                                                ();
+                                //or 1 at last pos // check for updated time also //time check
+                                // is also important
+                                //check if article has an associated img to it
+                                if (!element.getElementsByAttribute("src").isEmpty()) {
+                                    imageURLAttrib = element.child(0).child(0).child(0)
+                                            .attributes();
+                                    imageurl = imageURLAttrib.get
+                                            ("src");
+                                } else {
+                                    imageurl = "-1";
+                                }
+
+                                ///adding all these parsed values to database using insertRow
+                                // method of DatabaseOperations object
+
+                                DatabaseOperations dbop = new DatabaseOperations(HomeActivity.this);
+                                {
+                                    //String postid, String title,String postURL, String date,String updateDate, String
+                                    //author, String imageurl
+
+                                    //Cursor object foo is used to check whether that link already
+                                    // exists or not
+                                    //if it doesn't then add otherwise ignore
+                                    Cursor cursor = dbop.getReadableDatabase().rawQuery("SELECT *" +
+                                            " " +
+                                            "FROM" +
+                                            " " + TableData.TableInfo.TABLE_NAME + " WHERE " +
+                                            TableData.TableInfo.tablePostID + " = " +
+                                            "'" + postIDAttrib.get("id") + "';", null);
+
+
+                                    if (cursor.getCount() <= 0) {
+                                        dbop.insertRow(postIDAttrib.get("id"), mainAttrib.get
+                                                        ("title"), mainAttrib.get("href"), dateAttrib
+                                                        .get("datetime").substring(0, 10),
+                                                "update", "dojma_admin", imageurl);
+                                        Log.e("TAG", "Added row");
+
+                                    } else {
+                                        Log.e("TAG", "Record existed!");
+                                        //add update methods later
+                                       /* SQLiteDatabase sdb = dop.getWritableDatabase();
+                                        sdb.execSQL("UPDATE " + TableData.TableInfo.TABLE_NAME +
+                                                "\nSET " + TableData.TableInfo.tableURL + "='"
+                                                + mainAttrib.get("href") + "'\nWHERE " + TableData
+                                                .TableInfo.tablePostID + "='" + postIDAttrib.get("id")
+                                                + "';");
+                                        */
+                                    }
+                                    cursor.close();
+                                }
+                            }
+
+
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.e("TAG", "Error occurred");
+                }
+
+            }
+
+            return null;
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -426,5 +549,6 @@ public class HomeActivity extends AppCompatActivity
             return mFragmentTitleList.get(position);
         }
     }
+
 
 }

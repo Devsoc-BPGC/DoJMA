@@ -1,7 +1,9 @@
 package com.csatimes.dojma;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attributes;
@@ -73,27 +76,19 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
         //if downloaded then run this
         //after thread completion
-       /* if (downloadSuccess) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            preferences = getSharedPreferences(HomeActivity.USER_PREFERENCES, MODE_PRIVATE);
-            editor = preferences.edit();
-            editor.putBoolean("FIRST_TIME_INSTALL", false);
-            editor.apply();
-            startActivity(intent);
-            finish();
-        }*/
+
 
     }
 
 
-    private void loadList() {
+    public void loadList() {
         long timeStart = System.currentTimeMillis();
 
 
         try {
 
             new DownloadDocument().execute(
-                    new URL("http://csatimes.co.in/dojma"),
+                    new URL("http://csatimes.co.in/dojma/"),
                     new URL("http://csatimes.co.in/dojma/page/2"),
                     new URL("http://csatimes.co.in/dojma/page/3"),
                     new URL("http://csatimes.co.in/dojma/page/4"),
@@ -131,6 +126,22 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            DatabaseOperations dop = new DatabaseOperations(getBaseContext());
+            SQLiteDatabase sql = dop.getReadableDatabase();
+            if (dop.getInformation().getCount() >= 30) {
+                preferences = getSharedPreferences(DojmaHelperMethod.USER_PREFERENCES, MODE_PRIVATE);
+                editor = preferences.edit();
+                editor.putBoolean("FIRST_TIME_INSTALL", false);
+                editor.apply();
+                startActivity(new Intent(DownloadForFirstTimeActivity.this, HomeActivity.class));
+            } else {
+                Log.e("TAG", "size is " + dop.getInformation().getCount());
+                Toast.makeText(DownloadForFirstTimeActivity.this, "Download Failed! Try again " +
+                                "later",
+                        Toast.LENGTH_LONG).show();
+
+                DownloadForFirstTimeActivity.this.finish();
+            }
             progressBar.setProgress(100);
         }
 
@@ -202,6 +213,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                                                         ("title"), mainAttribute.get("href"), dateAttrib
                                                         .get("datetime").substring(0, 10),
                                                 "update", "dojma_admin", imageurl);
+                                        Log.e("TAG", "Added row");
 
                                     } else {
                                         Log.e("TAG", "foo not 0 - Record existed!");

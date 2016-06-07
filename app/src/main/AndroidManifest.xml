@@ -20,7 +20,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -58,6 +57,16 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_download_for_first_time"
             android:theme="@style/FullscreenTheme">
+        </activity>
+        <activity
+            android:name=".AboutUs"
+            android:label="@string/title_activity_about_us"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <category android:name="android.intent.category.DEFAULT"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
     </application>
 

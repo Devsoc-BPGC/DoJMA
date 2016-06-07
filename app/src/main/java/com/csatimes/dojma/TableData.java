@@ -11,7 +11,7 @@ public TableData()
 
 }
     public static abstract class TableInfo implements BaseColumns{
-        public static final String tablePostID="POST_ID";
+        public static final String tablePostID = "_id";
         public static final String tableTitle="ARTICLE_TITLE";
         public static final String tableImageURL="IMAGE_URL";
         public static final String tableImageSavedLoc="IMAGE_LOCATION";
