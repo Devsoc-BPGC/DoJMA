@@ -34,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attributes;
@@ -52,7 +53,7 @@ public class HomeActivity extends AppCompatActivity
 
 
     public static boolean appStarted = true;
-    private static int[] pageColors = new int[DojmaHelperMethod.NUMBEROFPAGES];
+    private static int[] pageColors = new int[DHC.NUMBEROFPAGES];
     public FloatingActionButton fab;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
@@ -64,28 +65,31 @@ public class HomeActivity extends AppCompatActivity
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private DatabaseOperations dop;
-
-
-
+    private NavigationView navigationView;
 
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
 
-        preferences = getApplicationContext().getSharedPreferences(DojmaHelperMethod.USER_PREFERENCES, MODE_PRIVATE);
-        editor = preferences.edit();
+        preferences = getApplicationContext().getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
         //If app has been installed for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
-        if (preferences.getBoolean("FIRST_TIME_INSTALL", true)) {
+        //This key is saved in strings.xml to avoid confusion
+        //It is called using android method getString(resID)
+
+        if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
             Intent startFirstTimeDownloader = new Intent(this, DownloadForFirstTimeActivity.class);
             startActivity(startFirstTimeDownloader);
             finish();
         }
-        editor.putBoolean("AppStarted", true);
+
+        setContentView(R.layout.activity_home);
+
+        editor = preferences.edit();
+        editor.putBoolean("APP_STARTED", true);
         editor.apply();
 
         View activityHomeView = findViewById(R.id.tabs);
@@ -94,7 +98,7 @@ public class HomeActivity extends AppCompatActivity
 
         dop = new DatabaseOperations(this);
         if (dop.getInformation().getCount() != 0) {
-            Log.e("TAG", "Downloading more!");
+            Log.e("TAG", "Checking for updates");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -107,6 +111,12 @@ public class HomeActivity extends AppCompatActivity
         //reference fab button
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
+
+        //Set the latest topic in the navigation bar
+        //custom method
+        setLatestTopicAsNavBarTitle();
+
+
         setupColors();
 
 
@@ -117,6 +127,7 @@ public class HomeActivity extends AppCompatActivity
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 
         // finally change the color
@@ -147,16 +158,16 @@ public class HomeActivity extends AppCompatActivity
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                DojmaHelperMethod.PAGENUMBER = tab.getPosition();
-                toolbarObject.setBackgroundColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
-                tabLayout.setBackgroundColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
+                DHC.PAGENUMBER = tab.getPosition();
+                toolbarObject.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
+                tabLayout.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    window.setStatusBarColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
-                    window.setNavigationBarColor(pageColors[DojmaHelperMethod.PAGENUMBER]);
+                    window.setStatusBarColor(pageColors[DHC.PAGENUMBER]);
+                    window.setNavigationBarColor(pageColors[DHC.PAGENUMBER]);
                 }
-                fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[DojmaHelperMethod.PAGENUMBER]));
-                fab.setImageDrawable(fabIcons[DojmaHelperMethod.PAGENUMBER]);
-                viewPager.setCurrentItem(DojmaHelperMethod.PAGENUMBER);
+                fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[DHC.PAGENUMBER]));
+                fab.setImageDrawable(fabIcons[DHC.PAGENUMBER]);
+                viewPager.setCurrentItem(DHC.PAGENUMBER);
             }
 
             @Override
@@ -204,7 +215,7 @@ public class HomeActivity extends AppCompatActivity
 
                 //the following is for scale change animation of the fab on change of fragment
                 // change ratio above
-                if (position < DojmaHelperMethod.NUMBEROFPAGES - 1)
+                if (position < DHC.NUMBEROFPAGES - 1)
                     if (positionOffset < r) {
                         fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[position]));
                         fab.setImageDrawable(fabIcons[position]);
@@ -223,7 +234,7 @@ public class HomeActivity extends AppCompatActivity
 
                 //special color change check for last page to avoid
                 //ArrayOutOfBoundsException
-                if (position == DojmaHelperMethod.NUMBEROFPAGES - 1) {
+                if (position == DHC.NUMBEROFPAGES - 1) {
 
                     toolbarObject.setBackgroundColor(pageColors[3]);
                     tabLayout.setBackgroundColor(pageColors[3]);
@@ -234,12 +245,12 @@ public class HomeActivity extends AppCompatActivity
                 }
 
 
-                if (position <= DojmaHelperMethod.NUMBEROFPAGES - 2) {
+                if (position <= DHC.NUMBEROFPAGES - 2) {
                     // Retrieve the current and next ColorFragment
                     final int from = pageColors[position];
                     final int to = pageColors[position + 1];
                     // Blend the colors and adjust the ActionBar
-                    final int blended = DojmaHelperMethod.blendColors(to, from, positionOffset);
+                    final int blended = DHC.blendColors(to, from, positionOffset);
 
                     toolbarObject.setBackgroundColor(blended);
                     tabLayout.setBackgroundColor(blended);
@@ -272,6 +283,16 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void setLatestTopicAsNavBarTitle() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView nav_sub_title = (TextView) headerView.findViewById(R.id.navigation_sub_title);
+        Cursor _temp = new DatabaseOperations(this).getInformation();
+        if (_temp.moveToFirst())
+            nav_sub_title.setText(_temp.getString(2));
+        _temp.close();
+    }
+
     private void setupColors() {
         //setup pagecolors
         // pageColors = new int[NUMBEROFPAGES];
@@ -281,7 +302,7 @@ public class HomeActivity extends AppCompatActivity
         pageColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.facebook_primary);
 
         //setup fab colors
-        fabColors = new int[DojmaHelperMethod.NUMBEROFPAGES];
+        fabColors = new int[DHC.NUMBEROFPAGES];
         fabColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorAccent);
         fabColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.lightblue500);
         fabColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.green500);
@@ -289,7 +310,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         //setup fab icons
-        fabIcons = new Drawable[DojmaHelperMethod.NUMBEROFPAGES];
+        fabIcons = new Drawable[DHC.NUMBEROFPAGES];
         fabIcons[0] = ContextCompat.getDrawable(HomeActivity.this, R.drawable.ic_refresh_white_24dp);
         fabIcons[1] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
                 .ic_picture_in_picture_white_24dp);
@@ -332,7 +353,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        editor.putBoolean("AppStarted", false);
+        editor.putBoolean(getString(R.string.SP_app_started), false);
         editor.apply();
     }
 
@@ -346,6 +367,7 @@ public class HomeActivity extends AppCompatActivity
     //Setting up the View Pager with the fragments
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         adapter.addFragment(new Herald(), "Herald");
         adapter.addFragment(new Gazette(), "Gazette");
         adapter.addFragment(new CampusWatch(), "Campus Watch");
@@ -381,7 +403,7 @@ public class HomeActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(HomeActivity.this, Settings.class);
-            settings.putExtra("pageColor", pageColors[DojmaHelperMethod.PAGENUMBER]);
+            settings.putExtra("pageColor", pageColors[DHC.PAGENUMBER]);
             startActivity(settings);
 
         } else if (id == R.id.action_about_us) {
@@ -391,6 +413,7 @@ public class HomeActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -419,7 +442,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
+        return (netInfo != null && netInfo.isConnected());
     }
 
     //Async method to download html document for parsing
@@ -428,24 +451,24 @@ public class HomeActivity extends AppCompatActivity
 
         //AsyncTask has <params,progress,result> format
         protected Void doInBackground(URL... url) {
-            org.jsoup.nodes.Document[] foo = new Document[url.length];
+            org.jsoup.nodes.Document[] documents = new Document[url.length];
             //initialise documents to null
             for (index = 0; index < url.length; index++)
-                foo[index] = null;
+                documents[index] = null;
 
             for (int poo = 0; poo < url.length; poo++) {
                 try {
                     {
                         Log.e("TAG", "Connecting to URL " + url[poo]);
-                        foo[poo] = Jsoup.connect(url[poo].toString()).get();
-                        if (foo[poo] == null) Log.e("TAG", "Document null when downloaded");
+                        documents[poo] = Jsoup.connect(url[poo].toString()).get();
+                        if (documents[poo] == null) Log.e("TAG", "Document null when downloaded");
                         else {
                             int noOfArticles = 0;
 
                             String imageurl;
 
                             //Get all elements that have the "article" tag
-                            Elements documentElements = foo[poo].getElementsByTag("article");
+                            Elements documentElements = documents[poo].getElementsByTag("article");
 
                             Attributes postIDAttrib, mainAttrib, dateAttrib, imageURLAttrib;
                             for (Element element : documentElements) {

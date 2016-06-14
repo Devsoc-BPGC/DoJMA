@@ -49,7 +49,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         cv.put(TableData.TableInfo.tableUpdateDate, updateDate);
         cv.put(TableData.TableInfo.tableDate, date);
         cv.put(TableData.TableInfo.tableURL, postURL);
-        cv.put(TableData.TableInfo.tableImageSavedLoc, DojmaHelperMethod.ROOT_DIRECTORY + "/" + DojmaHelperMethod
+        cv.put(TableData.TableInfo.tableImageSavedLoc, DHC.ROOT_DIRECTORY + "/" + DHC
                 .dojmaFolderName + "/" + postid + ".jpeg");
         sdb.insert(TableData.TableInfo.TABLE_NAME, null, cv);
     }

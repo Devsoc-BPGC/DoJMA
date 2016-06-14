@@ -11,9 +11,6 @@ import android.view.WindowManager;
 public class Settings extends AppCompatActivity {
     private Window window;
 
-
-
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -17,8 +17,9 @@
 
     </group>
 
-    <item android:title="Share"
-        android:icon="@android:drawable/ic_partial_secure">
+    <item
+        android:icon="@android:drawable/ic_partial_secure"
+        android:title="Share">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -30,7 +31,7 @@
                 android:title="Send"/>
             <item
                 android:id="@+id/nav_idea"
-                android:icon="@android:drawable/ic_dialog_info"
+                android:icon="@drawable/ic_info"
                 android:title="Suggest a feature"/>
         </menu>
     </item>

@@ -11,10 +11,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:maxHeight="100dp"
-        android:maxWidth="100dp"
-        android:minHeight="100dp"
-        android:minWidth="100dp"
+        android:foregroundGravity="center"
+        android:maxHeight="60dp"
+        android:maxWidth="60dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:padding="8dp"
         android:src="@drawable/no_image_info"
 
        />
@@ -22,53 +24,54 @@
     <TextView
         android:id="@+id/herald_lv_item_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:layout_above="@+id/herald_lv_item_date"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/herald_lv_item_image"
         android:text="Title"
-        android:textSize="22sp"/>
-
-    <Space
-        android:id="@+id/herald_empty_space"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_above="@+id/herald_lv_item_date"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/herald_lv_item_title"
-        android:visibility="invisible">
-    </Space>
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/herald_lv_item_date"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_alignBottom="@+id/herald_lv_item_image"
+        android:layout_alignTop="@+id/herald_lv_item_author"
         android:layout_toEndOf="@+id/herald_lv_item_image"
+        android:layout_toLeftOf="@+id/herald_lv_item_author"
         android:layout_toRightOf="@+id/herald_lv_item_image"
         android:gravity="start"
         android:text="Date"
-        android:textAlignment="viewStart"/>
+        android:textAlignment="viewStart"
+        android:textSize="12sp"/>
 
     <TextView
         android:id="@+id/herald_lv_item_author"
         android:layout_width="180dp"
         android:layout_height="20dp"
+        android:layout_alignBottom="@+id/herald_lv_item_image"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/herald_lv_item_date"
         android:gravity="end"
         android:text="Author"
         android:textAlignment="viewEnd"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
         android:textStyle="italic"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:layout_below="@+id/herald_lv_item_author"
-        android:layout_centerHorizontal="true"/>
+    <ProgressBar
+        android:id="@+id/loadingImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:foregroundGravity="center"
+        android:maxHeight="60dp"
+        android:maxWidth="60dp"
+        android:minHeight="60dp"
+        android:minWidth="60dp"
+        android:padding="8dp"/>
 
 </RelativeLayout>

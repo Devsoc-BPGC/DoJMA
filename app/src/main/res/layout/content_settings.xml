@@ -55,4 +55,13 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/settings_rebuild_database"
         android:clickable="true"/>
+
+    <ImageView
+        android:id="@+id/habla"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_picture_in_picture_black_24dp"/>
 </RelativeLayout>

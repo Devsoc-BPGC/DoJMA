@@ -41,9 +41,11 @@ public class OpenWebpage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_webpage);
+
         webView = (WebView) findViewById(R.id.webView);
         downloadProgressBar = (ProgressBar) findViewById(R.id.webPageProgressBar);
         final ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setTitle("CSATimes");
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
