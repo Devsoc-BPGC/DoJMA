@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -76,10 +79,22 @@ public class OpenWebpage extends AppCompatActivity {
         webView.setScrollbarFadingEnabled(false);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
+        //settings for caching the webview
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCacheMaxSize( 15* 1024 * 1024 );
+        webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
+        webView.getSettings().setAllowFileAccess( true );
+        webView.getSettings().setAppCacheEnabled( true );
+        webView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT );
+
+
+
         //finally load webview
         webView.loadUrl(intent.getStringExtra("URL"));
         //in case user clicks on links within the webview
         //because of the following code it will be handled inside webview
+
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -92,11 +107,24 @@ public class OpenWebpage extends AppCompatActivity {
                 view.loadUrl(urlList.get(POSITION - 1));
                 if (actionBar != null) actionBar.setTitle("CSATimes");
                 return true;
+
             }
+
+            public boolean isNetworkAvailable() {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+            }
+
+
+
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                if (!isNetworkAvailable()) { // loading offline
+                    webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+                }
                 downloadProgressBar.setVisibility(View.VISIBLE);
             }
 
