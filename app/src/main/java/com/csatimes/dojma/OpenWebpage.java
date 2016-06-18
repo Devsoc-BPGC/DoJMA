@@ -81,7 +81,7 @@ public class OpenWebpage extends AppCompatActivity {
         webView.getSettings().setDisplayZoomControls(false);
         //settings for caching the webview
         webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setAppCacheMaxSize( 15* 1024 * 1024 );
+        webView.getSettings().setAppCacheMaxSize( 15* 1024 * 1024 );//size of max cache stored set to 15 mb
         webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
         webView.getSettings().setAllowFileAccess( true );
         webView.getSettings().setAppCacheEnabled( true );
