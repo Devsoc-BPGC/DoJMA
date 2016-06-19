@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,7 +24,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,17 +33,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,9 +56,9 @@ public class HomeActivity extends AppCompatActivity
     private Drawable[] fabIcons;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private DatabaseOperations dop;
     private NavigationView navigationView;
-
+    private Realm database;
+    private RealmConfiguration realmConfiguration;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -95,18 +87,6 @@ public class HomeActivity extends AppCompatActivity
         View activityHomeView = findViewById(R.id.tabs);
         toolbarObject = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarObject);
-
-        dop = new DatabaseOperations(this);
-        if (dop.getInformation().getCount() != 0) {
-            Log.e("TAG", "Checking for updates");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    checkForUpdates();
-                }
-            });
-            dop.close();
-        }
 
         //reference fab button
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -287,10 +267,19 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView nav_sub_title = (TextView) headerView.findViewById(R.id.navigation_sub_title);
-        Cursor _temp = new DatabaseOperations(this).getInformation();
-        if (_temp.moveToFirst())
-            nav_sub_title.setText(_temp.getString(2));
-        _temp.close();
+        realmConfiguration = new RealmConfiguration.Builder(this)
+                .name
+                        (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+        database = Realm.getDefaultInstance();
+        if (database.where(HeraldNewsItemFormat.class).count() != 0)
+            nav_sub_title.setText(database
+                    .where
+                            (HeraldNewsItemFormat.class)
+                    .findAllSorted
+                            ("updateDate", Sort.DESCENDING)
+                    .first().getTitle());
+        database.close();
     }
 
     private void setupColors() {
@@ -320,30 +309,30 @@ public class HomeActivity extends AppCompatActivity
                 .ic_edit_white_24dp);
     }
 
-    private void checkForUpdates() {
-        Log.e("TAG", "starting update check");
-        try {
-            new updateDatabase().execute(
-                    new URL("http://csatimes.co.in/dojma/"),
-                    new URL("http://csatimes.co.in/dojma/page/2"),
-                    new URL("http://csatimes.co.in/dojma/page/3"),
-                    new URL("http://csatimes.co.in/dojma/page/4"),
-                    new URL("http://csatimes.co.in/dojma/page/5"),
-                    new URL("http://csatimes.co.in/dojma/page/6"),
-                    new URL("http://csatimes.co.in/dojma/page/7"),
-                    new URL("http://csatimes.co.in/dojma/page/8"),
-                    new URL("http://csatimes.co.in/dojma/page/9"),
-                    new URL("http://csatimes.co.in/dojma/page/10"),
-                    new URL("http://csatimes.co.in/dojma/page/11")
-            );
+    /*  private void checkForUpdates() {
+          Log.e("TAG", "starting update check");
+          try {
+              new updateDatabase().execute(
+                      new URL("http://csatimes.co.in/dojma/"),
+                      new URL("http://csatimes.co.in/dojma/page/2"),
+                      new URL("http://csatimes.co.in/dojma/page/3"),
+                      new URL("http://csatimes.co.in/dojma/page/4"),
+                      new URL("http://csatimes.co.in/dojma/page/5"),
+                      new URL("http://csatimes.co.in/dojma/page/6"),
+                      new URL("http://csatimes.co.in/dojma/page/7"),
+                      new URL("http://csatimes.co.in/dojma/page/8"),
+                      new URL("http://csatimes.co.in/dojma/page/9"),
+                      new URL("http://csatimes.co.in/dojma/page/10"),
+                      new URL("http://csatimes.co.in/dojma/page/11")
+              );
 
-        } catch (MalformedURLException e) {
-            new SimpleAlertDialog().showDialog(this, "MalformedURLException", e.toString(), "OK", "",
-                    true, false);
-        }
+          } catch (MalformedURLException e) {
+              new SimpleAlertDialog().showDialog(this, "MalformedURLException", e.toString(), "OK", "",
+                      true, false);
+          }
 
-    }
-
+      }
+  */
     @Override
     protected void onPause() {
         super.onPause();
@@ -446,7 +435,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     //Async method to download html document for parsing
-    private class updateDatabase extends AsyncTask<URL, Float, Void> {
+   /* private class updateDatabase extends AsyncTask<URL, Float, Void> {
         int index = 0;
 
         //AsyncTask has <params,progress,result> format
@@ -497,7 +486,7 @@ public class HomeActivity extends AppCompatActivity
                                     //String postid, String title,String postURL, String date,String updateDate, String
                                     //author, String imageurl
 
-                                    //Cursor object foo is used to check whether that link already
+                                    //Cursor object i is used to check whether that link already
                                     // exists or not
                                     //if it doesn't then add otherwise ignore
                                     Cursor cursor = dbop.getReadableDatabase().rawQuery("SELECT *" +
@@ -524,7 +513,7 @@ public class HomeActivity extends AppCompatActivity
                                                 + mainAttrib.get("href") + "'\nWHERE " + TableData
                                                 .TableInfo.tablePostID + "='" + postIDAttrib.get("id")
                                                 + "';");
-                                        */
+
                                     }
                                     cursor.close();
                                 }
@@ -542,7 +531,7 @@ public class HomeActivity extends AppCompatActivity
             return null;
         }
     }
-
+*/
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

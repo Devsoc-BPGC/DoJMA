@@ -15,12 +15,14 @@ import java.io.FileOutputStream;
  */
 public class DHC {
 
+    public static final String dojmaFolderName = "dojmaImages";
+    public static final String ROOT_DIRECTORY = Environment.getExternalStorageDirectory()
+            .toString();
+    public static final String directory = ROOT_DIRECTORY + "/" + dojmaFolderName;
+    public static final String USER_PREFERENCES = "USER_PREFS";
+    public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
     public static int NUMBEROFPAGES = 4;
     public static int PAGENUMBER = 0;
-    public static String dojmaFolderName = "dojmaImages";
-    public static String ROOT_DIRECTORY = Environment.getExternalStorageDirectory().toString();
-    public static String directory = ROOT_DIRECTORY + "/" + dojmaFolderName;
-    public static String USER_PREFERENCES = "USER_PREFS";
     public static String address = "http://csatimes.co.in/dojma";
 
     // DP <-> PX static converter method

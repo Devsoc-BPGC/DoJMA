@@ -4,15 +4,13 @@
              android:layout_height="match_parent"
              tools:context="com.csatimes.dojma.Herald">
 
-    <ListView
-        android:id="@+id/herald_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/herald_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:animateLayoutChanges="true"
         android:contextClickable="true"
         android:fadeScrollbars="true"
-        android:scrollIndicators="bottom"
         android:scrollbars="vertical"
         />
 </FrameLayout>

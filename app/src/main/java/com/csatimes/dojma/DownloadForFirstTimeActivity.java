@@ -3,7 +3,6 @@ package com.csatimes.dojma;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -14,11 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -32,19 +28,25 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+
+import static com.csatimes.dojma.DHC.directory;
+
 
 public class DownloadForFirstTimeActivity extends AppCompatActivity {
     private static int downloadAttempt = 0;
     private static int num = 1;
     private static int num2 = 1;
     private boolean downloadSuccess = false;
-    private ProgressBar progressBar;
     private Window window;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private Button retryDownloadButton;
-    private Thread newThread;
-    private ImageLoader downloader;
+    private RealmConfiguration realmConfiguration;
+    private Realm database;
+    private CircularFillableLoaders progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +54,10 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download_for_first_time);
         num = 0;
         num2 = 0;
-        retryDownloadButton = (Button) findViewById(R.id.retry_download);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+
+        progress = (CircularFillableLoaders) findViewById(R.id.progressBar);
+        progress.setProgress(0);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
@@ -63,6 +66,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -76,10 +80,6 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                 loadList();
             }
         }).start();
-
-
-        //after downloading is successfully complete,
-        //start Main activity
 
 
     }
@@ -114,186 +114,182 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
     //Async method to download html document for parsing
     private class DownloadDocument extends AsyncTask<URL, Integer, Void> {
-        int foo = 0;
+        int i = 0;
         Cursor cursor;
 
         //AsyncTask has <params,progress,result> format
         protected Void doInBackground(URL... htmlURL) {
             org.jsoup.nodes.Document[] HTMLDocuments = new Document[htmlURL.length];
+
+
             //initialise documents to null
-            for (foo = 0; foo < htmlURL.length; foo++)
-                HTMLDocuments[foo] = null;
-            DatabaseOperations dop = new DatabaseOperations
-                    (DownloadForFirstTimeActivity.this);
-            SQLiteDatabase sdb = dop.getReadableDatabase();
-            for (foo = 0; foo < htmlURL.length; foo++) {
+            for (i = 0; i < htmlURL.length; i++)
+                HTMLDocuments[i] = null;
+            realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
+                    .name
+                            (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+            database = Realm.getDefaultInstance();
+
+
+            for (i = 0; i < htmlURL.length; i++) {
                 try {
-                    {
-                        Log.e("TAG", "Connecting to URL " + htmlURL[foo]);
-                        HTMLDocuments[foo] = Jsoup.connect(htmlURL[foo].toString()).get();
-                        if (HTMLDocuments[foo] == null) Log.e("TAG", "HTML download failed");
-                        else {
 
-                            Log.e("TAG", HTMLDocuments[foo].title());
+                    Log.e("TAG", "Connecting to URL " + htmlURL[i]);
+                    HTMLDocuments[i] = Jsoup.connect(htmlURL[i].toString()).get();
+                    if (HTMLDocuments[i] == null)
+                        Log.e("TAG", "HTML download failed");
+                    else {
+                        Log.e("TAG", HTMLDocuments[i].title());
 
-                            Cursor cursor = null;
-                            int noOfArticles = 0;
-                            //notify onProgressUpdate using predefined method
+                        int noOfArticles = 0;
+                        //notify onProgressUpdate using predefined method
 
-                            String imageURL;
-                            //Get all elements that have the "article" tag
-                            Elements documentElements = HTMLDocuments[foo].getElementsByTag("article");
+                        String imageURL;
+                        //Get all elements that have the "article" tag
+                        Elements documentElements = HTMLDocuments[i].getElementsByTag("article");
 
-                            Attributes postIDAttribute, mainAttribute, dateAttrib,
-                                    updateDateAttrib, imageURLAttribute;
+                        Attributes postIDAttribute, mainAttribute, dateAttrib,
+                                updateDateAttrib, imageURLAttribute;
 
-                            int postsCounter = 0;
-                            for (Element element : documentElements) {
-                                noOfArticles++;
-                                postsCounter++;
-                                postIDAttribute = element.attributes();
-                                mainAttribute = element.child(0).child(0).attributes();
-                                dateAttrib = element.child(1).child(0).child(0).child(0)
-                                        .child(0).attributes
+                        int postsCounter = 0;
+                        for (Element element : documentElements) {
+                            noOfArticles++;
+                            postsCounter++;
+                            postIDAttribute = element.attributes();
+                            mainAttribute = element.child(0).child(0).attributes();
+                            dateAttrib = element.child(1).child(0).child(0).child(0)
+                                    .child(0).attributes
+                                            ();
+                            final String postIDTemp = postIDAttribute.get("id");
+
+
+                            try {
+                                updateDateAttrib = element.child(1).child(0).child(0).child(0)
+                                        .child(1).attributes
                                                 ();
-                                final String postIDTemp = postIDAttribute.get("id");
 
-
-                                try {
-                                    updateDateAttrib = element.child(1).child(0).child(0).child(0)
-                                            .child(1).attributes
-                                                    ();
-
-                                } catch (Exception e) {
-                                    //Incase there is no update date, use date of upload
-                                    Log.e("DATE", "update date did not exist");
-                                    updateDateAttrib = dateAttrib;
-
-                                }
-
-                                if (!element.getElementsByAttribute("src").isEmpty()) {
-                                    imageURLAttribute = element.child(0).child(0).child(0)
-                                            .attributes();
-                                    imageURL = imageURLAttribute.get
-                                            ("src");
-                                } else {
-                                    imageURL = "-1";
-                                }
-
-
-                                // also //time check
-                                // is also important
-
-
-                                //String postid, String title,String postURL, String date,String updateDate, String
-                                //author, String imageURL
-
-                                //Cursor object cursor is used to check whether that link
-                                // already exists or not
-                                //if it doesn't then add otherwise update
-
-                                cursor = sdb.rawQuery("SELECT * " +
-                                        "FROM" +
-                                        " " + TableData.TableInfo.TABLE_NAME + " WHERE " +
-                                        TableData.TableInfo.tablePostID + " = " +
-                                        "'" + postIDTemp + "';", null);
-
-
-                                if (cursor.getCount() <= 0) {
-
-                                    ///adding all these parsed values to database using insertRow
-                                    // method of DatabaseOperations object
-
-
-                                    dop.insertRow(postIDTemp, mainAttribute.get
-                                                    ("title"), mainAttribute.get("href"), dateAttrib
-                                                    .get("datetime").substring(0, 10),
-                                            updateDateAttrib.get("datetime").substring(0, 10),
-                                            "dojma_admin", imageURL);
-                                    Log.e("TAG", "Added row");
-
-                                } else {
-                                    Log.e("TAG", "Record existed!");
-                                       /* SQLiteDatabase sdb = dop.getWritableDatabase();
-                                        sdb.execSQL("UPDATE " + TableData.TableInfo.TABLE_NAME +
-                                                "\nSET " + TableData.TableInfo.tableURL + "='"
-                                                + mainAttribute.get("href") + "'\nWHERE " + TableData
-                                                .TableInfo.tablePostID + "='" + postIDAttribute.get("id")
-                                                + "';");
-*/
-                                }
-                                publishProgress(100 * (foo + 1) / htmlURL.length *
-                                        postsCounter /
-                                        noOfArticles);
-
+                            } catch (Exception e) {
+                                updateDateAttrib = dateAttrib;
 
                             }
-                            if (!cursor.isClosed())
-                                cursor.close();
+
+                            if (!element.getElementsByAttribute("src").isEmpty()) {
+                                imageURLAttribute = element.child(0).child(0).child(0)
+                                        .attributes();
+                                imageURL = imageURLAttribute.get
+                                        ("src");
+                            } else {
+                                imageURL = "-1";
+                            }
+
+
+                            // also //time check
+                            // is also important
+                            long postExists = 0;
+                            postExists = database.where
+                                    (HeraldNewsItemFormat.class).equalTo("postID", postIDTemp)
+                                    .count();
+                            if (postExists == 0) {
+
+                                database.beginTransaction();
+                                HeraldNewsItemFormat temp = database.createObject(HeraldNewsItemFormat.class);
+                                temp.setTitle(mainAttribute.get("title"));
+                                temp.setPostID(postIDTemp);
+                                temp.setAuthor("dojma_admin");
+                                temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
+                                temp.setLink(mainAttribute.get("href"));
+                                temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
+                                temp.setImageURL(imageURL);
+                                temp.setOriginalTime("ogtime");
+                                temp.setUpdateTime("uptime");
+                                temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
+                                database.commitTransaction();
+                            } else {
+                                Log.e("TAG", "Record existed!");
+                                //update database if required
+                                //this condition will probably happen only on app update
+                                //so we can defer it for later
+                            }
+                            publishProgress(100 * (i + 1) / htmlURL.length *
+                                    postsCounter /
+                                    noOfArticles);
+
 
                         }
+
                     }
+
                 } catch (IOException e) {
                     Log.e("TAG", e.toString());
                 }
 
             }
-
+            database.close();
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            progressBar.setProgress(values[0]);
+            progress.setProgress(values[0]);
 
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
+                    .name
+                            (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+            database = Realm.getDefaultInstance();
 
-            DatabaseOperations dop = new DatabaseOperations(getBaseContext());
-            SQLiteDatabase sql = dop.getReadableDatabase();
-            cursor = dop.getInformation();
-            if (cursor.getCount() >= 100) {
-                progressBar.setProgress(100);
+
+            long noOfPosts = database.where(HeraldNewsItemFormat.class).count();
+            database.close();
+            if (noOfPosts >= 100) {
+                progress.setProgress(100);
                 preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
                 editor = preferences.edit();
                 editor.putBoolean(getString(R.string.SP_first_install), false);
                 editor.apply();
-                if (cursor.moveToFirst())
-                    for (int i = 0; i < cursor.getCount(); i++) {
-                        Log.e("TAG", "Downloading for " + cursor.getString(2));
-                        Picasso.with(DownloadForFirstTimeActivity.this).load(cursor.getString(3))
-                                .resize(DHC.dpToPx(40), DHC.dpToPx(40)).into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                DHC.saveImage(bitmap, cursor.getString(0));
 
-                            }
+                realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
+                        .name
+                                (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+                Realm.setDefaultConfiguration(realmConfiguration);
+                database = Realm.getDefaultInstance();
 
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
+                final RealmResults<HeraldNewsItemFormat> results = database.where(HeraldNewsItemFormat
+                        .class).findAll();
+                int pixels = DHC.dpToPx(50);
 
-                            }
+                for (i = 0; i < results.size(); i++) {
+                    Picasso.with(DownloadForFirstTimeActivity.this).load(results.get(i).getLink())
+                            .resize(pixels, pixels).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            DHC.saveImage(bitmap, results.get(i).getPostID());
 
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
 
-                            }
-                        });
-                        cursor.moveToNext();
-                    }
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
+                }
+                database.close();
 
 
                 startActivity(new Intent(DownloadForFirstTimeActivity.this, HomeActivity.class));
             } else {
-                Log.e("TAG", "size is " + dop.getInformation().getCount());
-                Toast.makeText(DownloadForFirstTimeActivity.this, "Download Failed! Try again " +
-                                "later",
-                        Toast.LENGTH_LONG).show();
-
                 DownloadForFirstTimeActivity.this.finish();
                 System.exit(0);
             }
