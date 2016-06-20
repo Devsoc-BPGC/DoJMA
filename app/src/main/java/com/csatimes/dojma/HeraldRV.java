@@ -2,23 +2,19 @@ package com.csatimes.dojma;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 
@@ -31,11 +27,12 @@ import io.realm.RealmResults;
 public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> {
     private Context context;
     private RealmResults<HeraldNewsItemFormat> results;
-    private int pixels = DHC.dpToPx(40);
+    private int pixels = DHC.dpToPx(25);
 
     public HeraldRV(Context context, RealmResults<HeraldNewsItemFormat> results) {
         this.context = context;
         this.results = results;
+        Fresco.initialize(context);
     }
 
     @Override
@@ -56,52 +53,20 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> {
         holder.date.setText(results.get(position).getOriginalDate());
         holder.author.setText(results.get(position).getAuthor());
         holder.title.setText(results.get(position).getTitle());
-        holder.imageView.setVisibility(View.INVISIBLE);
-        holder.progressBar.setVisibility(View.VISIBLE);
+        //  holder.imageView.setVisibility(View.INVISIBLE);
+        //   holder.progressBar.setVisibility(View.VISIBLE);
         if (DHC.doesImageExists(results.get(position).getPostID())) {
-            Picasso.with(context).load(new File(DHC.directory, results.get(position).getPostID() + "" +
-                    ".jpeg")).resize(pixels, pixels).error(R.drawable.no_image_info)
-                    .into(holder.imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.imageView.setVisibility(View.VISIBLE);
-                            holder.progressBar.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            holder.progressBar.setVisibility(View.INVISIBLE);
-                        }
-                    });
-
+            Log.e("TAG", "Image Exists");
+            holder.imageView.setImageURI(Uri.fromFile(new File(DHC.directory, results.get(position).getPostID() + "" +
+                    ".jpeg")));
         } else {
+            Log.e("TAG", "Image Doesn't Exist");
+
             final int pos = position;
-            Log.e("TAG", "Image Not Found! Downloading");
-            Picasso.with(context).load(results.get(position).getImageURL())
-                    .into
-                            (new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    holder.imageView.setImageBitmap(bitmap);
-                                    DHC.saveImage(bitmap, results.get(pos).getPostID());
-                                    holder.imageView.setVisibility(View.VISIBLE);
-                                    holder.progressBar.setVisibility(View.INVISIBLE);
-                                }
 
-                                @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {
-                                    holder.imageView.setImageResource(R.drawable.no_image_info);
-                                    Log.e("TAG", "Failed Download");
-                                    holder.imageView.setVisibility(View.VISIBLE);
-                                    holder.progressBar.setVisibility(View.INVISIBLE);
+            Uri uri = Uri.parse(results.get(position).getImageURL());
+            holder.imageView.setImageURI(uri);
 
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-                            });
 
         }
     }
@@ -115,24 +80,24 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
+        return netInfo != null && netInfo.isConnected() && netInfo.isConnectedOrConnecting();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView imageView;
+        public SimpleDraweeView imageView;
         public TextView title;
         public TextView author;
         public TextView date;
-        public ProgressBar progressBar;
+        //  public ProgressBar progressBar;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
             author = (TextView) itemView.findViewById(R.id.herald_rv_item_author);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.loadingImage);
+            //  progressBar = (ProgressBar) itemView.findViewById(R.id.loadingImage);
             itemView.setOnClickListener(this);
         }
 

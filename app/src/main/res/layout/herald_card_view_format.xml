@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/herald_rv_item_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -26,7 +26,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="24dp"
-            android:src="@drawable/no_image_info"
+            app:placeholderImage="@drawable/no_image_info"
 
             />
 
@@ -57,19 +57,19 @@
             android:textSize="16sp"
             android:textStyle="italic"/>
 
-        <ProgressBar
-            android:id="@+id/loadingImage"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="24dp"
-            android:indeterminate="true"/>
-
+        <!--  <ProgressBar
+              android:id="@+id/loadingImage"
+              style="?android:attr/progressBarStyleSmall"
+              android:layout_width="100dp"
+              android:layout_height="100dp"
+              android:layout_alignParentEnd="true"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentTop="true"
+              android:layout_marginEnd="16dp"
+              android:layout_marginRight="16dp"
+              android:layout_marginTop="24dp"
+              android:indeterminate="true"/>
+  -->
         <TextView
             android:id="@+id/herald_rv_item_date"
             android:layout_width="wrap_content"
@@ -88,6 +88,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/herald_rv_item_image"
             />
+
     </RelativeLayout>
 
 

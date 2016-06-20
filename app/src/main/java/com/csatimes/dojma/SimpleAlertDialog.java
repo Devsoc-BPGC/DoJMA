@@ -4,10 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-
 /**
  * Created by Android on 21-01-2016.
  */

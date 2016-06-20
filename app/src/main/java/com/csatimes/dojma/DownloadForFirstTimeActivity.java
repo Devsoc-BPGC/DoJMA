@@ -3,8 +3,6 @@ package com.csatimes.dojma;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attributes;
@@ -266,24 +262,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                 int pixels = DHC.dpToPx(50);
 
                 for (i = 0; i < results.size(); i++) {
-                    Picasso.with(DownloadForFirstTimeActivity.this).load(results.get(i).getLink())
-                            .resize(pixels, pixels).into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            DHC.saveImage(bitmap, results.get(i).getPostID());
 
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-                    });
                 }
                 database.close();
 
