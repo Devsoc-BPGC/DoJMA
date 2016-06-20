@@ -1,6 +1,7 @@
 package com.csatimes.dojma;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,6 +197,21 @@ public class OpenWebpage extends AppCompatActivity {
         if (id == R.id.action_open_in_browser) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlList.get(POSITION - 1)));
             startActivity(Intent.createChooser(intent, "Open in browser"));
+        }
+        if(id==R.id.action_share){
+            Intent shareIntent=new Intent(Intent.ACTION_SEND,Uri.parse(urlList.get(POSITION-1)));
+            shareIntent.setType("text/plain");
+            String s1=currentURL;
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,s1);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+
+        }
+        if(id==R.id.action_copyLink)
+        {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(currentURL);
+            Toast.makeText(OpenWebpage.this,
+                    "Link Copied to Clipboard", Toast.LENGTH_LONG).show();
         }
         return true;
     }
