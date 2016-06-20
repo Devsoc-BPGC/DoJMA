@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-   <!--
+    <!--
+     <item
+         android:id="@+id/action_open_in_browser"
+         android:icon="@drawable/ic_launch"
+         android:orderInCategory="1"
+         android:title="Open in browser"
+         app:showAsAction="ifRoom"
+         />
+         -->
     <item
         android:id="@+id/action_open_in_browser"
         android:icon="@drawable/ic_launch"
-        android:orderInCategory="1"
-        android:title="Open in browser"
-        app:showAsAction="ifRoom"
-        />
-        -->
-    <item android:id="@+id/action_open_in_browser"
-        android:title="Open in browser"
         android:orderInCategory="2"
+        android:title="Open in browser"
         app:showAsAction="never"/>
-    <item android:id="@+id/action_share"
-        android:title="Share Article"
-        android:orderInCategory="1"
+    <item
+        android:id="@+id/action_share"
         android:actionProviderClass="android.widget.ShareActionProvider"
         android:icon="@drawable/ic_menu_share"
-        app:showAsAction="never" />
-    <item android:id="@+id/action_copyLink"
-        android:title="Copy Link"
+        android:orderInCategory="1"
+        android:title="Share Article"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_copyLink"
+        android:icon="@drawable/ic_copy_content"
         android:orderInCategory="3"
+        android:title="Copy Link"
         app:showAsAction="never"/>
 
 
