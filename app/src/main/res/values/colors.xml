@@ -33,4 +33,6 @@
     <color name="quora_primary">#b92b27</color>
     <color name="facebook_primary">#3b5999</color>
 
+    <color name="statusBarColor">@color/facebook_primary</color>
+    <color name="navigationBarColor">@color/facebook_primary</color>
 </resources>

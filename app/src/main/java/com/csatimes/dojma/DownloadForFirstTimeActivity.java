@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,15 +59,13 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
         //These flags are for system bar on top
         //Don't bother yourself with this code
         window = this.getWindow();
-        // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.statusBarColor));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
         }
 
         new Thread(new Runnable() {
@@ -101,7 +100,6 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
 
         } catch (MalformedURLException e) {
-            //e.printStackTrace();
             new SimpleAlertDialog().showDialog(this, "MalformedURLException", e.toString(), "OK", "",
                     true, false);
         }
@@ -121,6 +119,8 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
             //initialise documents to null
             for (i = 0; i < htmlURL.length; i++)
                 HTMLDocuments[i] = null;
+
+            //Setting up realm database
             realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
                     .name
                             (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
@@ -218,6 +218,10 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
                 } catch (IOException e) {
                     Log.e("TAG", e.toString());
+                    if (i == 0) {
+                        Snackbar.make(progress, "Failed to download the latest 16 articles.Please " +
+                                "update again later", Snackbar.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -259,15 +263,13 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
                 final RealmResults<HeraldNewsItemFormat> results = database.where(HeraldNewsItemFormat
                         .class).findAll();
-                int pixels = DHC.dpToPx(50);
 
-                for (i = 0; i < results.size(); i++) {
-
-                }
+//                for (i = 0; i < results.size(); i++) {
+//
+//                }
                 database.close();
-
-
                 startActivity(new Intent(DownloadForFirstTimeActivity.this, HomeActivity.class));
+                finish();
             } else {
                 DownloadForFirstTimeActivity.this.finish();
                 System.exit(0);

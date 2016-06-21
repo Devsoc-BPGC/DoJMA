@@ -33,6 +33,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LeakCanary.install(getApplication());
 
-        preferences = getApplicationContext().getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
         //If app has been installed for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
@@ -85,6 +88,8 @@ public class HomeActivity extends AppCompatActivity
         editor.apply();
 
         View activityHomeView = findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
         toolbarObject = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarObject);
 
@@ -122,7 +127,6 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
