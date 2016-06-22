@@ -55,8 +55,8 @@ public class OpenWebpage extends AppCompatActivity {
             actionBar.setTitle("CSATimes");
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
                     .colorPrimaryDark)));
-
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         POSITION = 0;
         urlList = new ArrayList<>();
         titleList = new ArrayList<>();
@@ -83,12 +83,11 @@ public class OpenWebpage extends AppCompatActivity {
         webView.getSettings().setDisplayZoomControls(false);
         //settings for caching the webview
         webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setAppCacheMaxSize( 15* 1024 * 1024 );//size of max cache stored set to 15 mb
+        webView.getSettings().setAppCacheMaxSize(15 * 1024 * 1024);//size of max cache stored set to 15 mb
         webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
-        webView.getSettings().setAllowFileAccess( true );
-        webView.getSettings().setAppCacheEnabled( true );
-        webView.getSettings().setCacheMode( WebSettings.LOAD_DEFAULT );
-
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
 
 
         //finally load webview
@@ -113,19 +112,17 @@ public class OpenWebpage extends AppCompatActivity {
             }
 
             public boolean isNetworkAvailable() {
-                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService( CONNECTIVITY_SERVICE );
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                 return activeNetworkInfo != null && activeNetworkInfo.isConnected();
             }
-
-
 
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 if (!isNetworkAvailable()) { // loading offline
-                    webView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK );
+                    webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
                 }
                 downloadProgressBar.setVisibility(View.VISIBLE);
             }
@@ -167,7 +164,7 @@ public class OpenWebpage extends AppCompatActivity {
             }
         });
 
-
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     /**
@@ -184,9 +181,11 @@ public class OpenWebpage extends AppCompatActivity {
             if (actionBar != null)
                 actionBar.setTitle(titleList.get(POSITION));
             return;
+        } else {
+            // Otherwise defer to system default behavior.
+            super.onBackPressed();
+            finish();
         }
-        // Otherwise defer to system default behavior.
-        super.onBackPressed();
     }
 
     @Override
@@ -197,21 +196,20 @@ public class OpenWebpage extends AppCompatActivity {
         if (id == R.id.action_open_in_browser) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlList.get(POSITION - 1)));
             startActivity(Intent.createChooser(intent, "Open in browser"));
-        }
-        if(id==R.id.action_share){
-            Intent shareIntent=new Intent(Intent.ACTION_SEND,Uri.parse(urlList.get(POSITION-1)));
+        } else if (id == R.id.action_share) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND, Uri.parse(urlList.get(POSITION - 1)));
             shareIntent.setType("text/plain");
-            String s1=currentURL;
-            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,s1);
+            String s1 = currentURL;
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, s1);
             startActivity(Intent.createChooser(shareIntent, "Share via"));
 
-        }
-        if(id==R.id.action_copyLink)
-        {
+        } else if (id == R.id.action_copyLink) {
             android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(currentURL);
             Toast.makeText(OpenWebpage.this,
                     "Link Copied to Clipboard", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.home) {
+            onBackPressed();
         }
         return true;
     }
