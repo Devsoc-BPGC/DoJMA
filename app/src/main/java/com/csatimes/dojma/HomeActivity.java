@@ -143,6 +143,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 DHC.PAGENUMBER = tab.getPosition();
+                if (DHC.PAGENUMBER == 0) ;
                 toolbarObject.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
                 tabLayout.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
                 if (Build.VERSION.SDK_INT >= 21) {

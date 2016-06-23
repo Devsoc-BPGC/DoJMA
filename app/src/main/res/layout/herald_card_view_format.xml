@@ -2,11 +2,12 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:padding="8dp"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
@@ -21,29 +22,19 @@
             android:id="@+id/herald_rv_item_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="24dp"
             app:placeholderImage="@drawable/no_image_info"
+            fresco:roundBottomLeft="true"
+            fresco:roundBottomRight="true"
+            fresco:roundWithOverlayColor="@color/white"
+            fresco:roundedCornerRadius="50dp"
+            fresco:roundingBorderColor="@color/white"
+            fresco:roundingBorderWidth="1dp"
 
-            />
-
-        <TextView
-            android:id="@+id/herald_rv_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/herald_rv_item_image"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="24dp"
-            android:text="Title"
-            android:textColor="@color/black"
-            android:textSize="24sp"
             />
 
         <TextView
@@ -52,24 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
             android:paddingLeft="16dp"
             android:paddingStart="16dp"
             android:text="Author"
             android:textSize="16sp"
             android:textStyle="italic"/>
 
-        <!--  <ProgressBar
-              android:id="@+id/loadingImage"
-              style="?android:attr/progressBarStyleSmall"
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:layout_alignParentEnd="true"
-              android:layout_alignParentRight="true"
-              android:layout_alignParentTop="true"
-              android:layout_marginEnd="16dp"
-              android:layout_marginRight="16dp"
-              android:layout_marginTop="24dp"
-              android:indeterminate="true"/>
+
   -->
         <TextView
             android:id="@+id/herald_rv_item_date"
@@ -89,6 +70,21 @@
             android:layout_height="50dp"
             android:layout_below="@id/herald_rv_item_image"
             />
+
+        <TextView
+            android:id="@+id/herald_rv_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/herald_rv_item_image"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="24dp"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="24sp"/>
 
     </RelativeLayout>
 

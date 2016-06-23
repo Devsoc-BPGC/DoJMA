@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import java.io.File;
 
 import io.realm.RealmResults;
 
@@ -54,21 +52,13 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> {
         holder.author.setText(results.get(position).getAuthor());
         holder.title.setText(results.get(position).getTitle());
         //  holder.imageView.setVisibility(View.INVISIBLE);
-        //   holder.progressBar.setVisibility(View.VISIBLE);
-        if (DHC.doesImageExists(results.get(position).getPostID())) {
-            Log.e("TAG", "Image Exists");
-            holder.imageView.setImageURI(Uri.fromFile(new File(DHC.directory, results.get(position).getPostID() + "" +
-                    ".jpeg")));
-        } else {
-            Log.e("TAG", "Image Doesn't Exist");
+        //  holder.progressBar.setVisibility(View.VISIBLE);
 
-            final int pos = position;
+        final int pos = position;
 
-            Uri uri = Uri.parse(results.get(position).getImageURL());
-            holder.imageView.setImageURI(uri);
+        holder.imageView.setImageURI(Uri.parse(results.get(position).getImageURL())
+        );
 
-
-        }
     }
 
     @Override
@@ -80,7 +70,30 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected() && netInfo.isConnectedOrConnecting();
+        return netInfo != null && netInfo.isConnected();
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT <= 22) {
+            NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+            for (NetworkInfo ni : netInfo) {
+                if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                    if (ni.isConnected())
+                        haveConnectedWifi = true;
+                if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                    if (ni.isConnected())
+                        haveConnectedMobile = true;
+            }
+            return haveConnectedWifi || haveConnectedMobile;
+        } else {
+
+        }
+        return false;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
