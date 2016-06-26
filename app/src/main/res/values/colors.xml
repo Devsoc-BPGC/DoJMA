@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/facebook_primary</color>
     <color name="colorPrimaryDark">@color/facebook_primary</color>
     <color name="colorAccent">@color/orange500</color>
+    <color name="colorPrimaryLight">@color/facebook_light</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="red500">#f44336</color>
@@ -32,6 +33,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="quora_primary">#b92b27</color>
     <color name="facebook_primary">#3b5999</color>
+    <color name="facebook_light">#8b9dc3</color>
 
     <color name="statusBarColor">@color/facebook_primary</color>
     <color name="navigationBarColor">@color/facebook_primary</color>

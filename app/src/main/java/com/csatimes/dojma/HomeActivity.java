@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -31,8 +32,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
@@ -40,6 +48,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
@@ -61,6 +70,8 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private Realm database;
     private RealmConfiguration realmConfiguration;
+    private ImageView nav_bar_background;
+    private RealmResults<HeraldNewsItemFormat> results;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -86,6 +97,7 @@ public class HomeActivity extends AppCompatActivity
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
         editor.apply();
+        Fresco.initialize(this);
 
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -172,6 +184,8 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     //check for updates
+                    //and refresh fragment
+
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     //gazette
                 } else if (tabLayout.getSelectedTabPosition() == 2) {
@@ -257,7 +271,6 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbarObject, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -272,18 +285,38 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView nav_sub_title = (TextView) headerView.findViewById(R.id.navigation_sub_title);
+        nav_bar_background = (ImageView) headerView.findViewById(R.id.nav_bar_image);
+
+
         realmConfiguration = new RealmConfiguration.Builder(this)
                 .name
                         (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
-        if (database.where(HeraldNewsItemFormat.class).count() != 0)
-            nav_sub_title.setText(database
-                    .where
-                            (HeraldNewsItemFormat.class)
-                    .findAllSorted
-                            ("updateDate", Sort.DESCENDING)
-                    .first().getTitle());
+
+        if (database.where(HeraldNewsItemFormat.class).count() != 0) {
+
+            results = database.where(HeraldNewsItemFormat.class)
+                    .findAllSorted("originalDate", Sort.DESCENDING);
+            nav_bar_background.setImageResource(R.drawable.about_us_gradient);
+            RequestQueue queue = Volley.newRequestQueue(this);
+            ImageRequest request = new ImageRequest(results.get(0).getImageURL(), new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    nav_bar_background.setImageBitmap(response);
+
+                }
+            }, 0, 0, null, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    nav_bar_background.setImageResource(R.color.colorPrimary);
+
+                }
+            });
+            queue.add(request);
+            nav_sub_title.setText(results.get(0).getTitle());
+        }
         database.close();
     }
 
@@ -314,30 +347,7 @@ public class HomeActivity extends AppCompatActivity
                 .ic_edit_white_24dp);
     }
 
-    /*  private void checkForUpdates() {
-          Log.e("TAG", "starting update check");
-          try {
-              new updateDatabase().execute(
-                      new URL("http://csatimes.co.in/dojma/"),
-                      new URL("http://csatimes.co.in/dojma/page/2"),
-                      new URL("http://csatimes.co.in/dojma/page/3"),
-                      new URL("http://csatimes.co.in/dojma/page/4"),
-                      new URL("http://csatimes.co.in/dojma/page/5"),
-                      new URL("http://csatimes.co.in/dojma/page/6"),
-                      new URL("http://csatimes.co.in/dojma/page/7"),
-                      new URL("http://csatimes.co.in/dojma/page/8"),
-                      new URL("http://csatimes.co.in/dojma/page/9"),
-                      new URL("http://csatimes.co.in/dojma/page/10"),
-                      new URL("http://csatimes.co.in/dojma/page/11")
-              );
 
-          } catch (MalformedURLException e) {
-              new SimpleAlertDialog().showDialog(this, "MalformedURLException", e.toString(), "OK", "",
-                      true, false);
-          }
-
-      }
-  */
     @Override
     protected void onPause() {
         super.onPause();
@@ -439,107 +449,10 @@ public class HomeActivity extends AppCompatActivity
         return (netInfo != null && netInfo.isConnected());
     }
 
-    //Async method to download html document for parsing
-   /* private class updateDatabase extends AsyncTask<URL, Float, Void> {
-        int index = 0;
 
-        //AsyncTask has <params,progress,result> format
-        protected Void doInBackground(URL... url) {
-            org.jsoup.nodes.Document[] documents = new Document[url.length];
-            //initialise documents to null
-            for (index = 0; index < url.length; index++)
-                documents[index] = null;
-
-            for (int poo = 0; poo < url.length; poo++) {
-                try {
-                    {
-                        Log.e("TAG", "Connecting to URL " + url[poo]);
-                        documents[poo] = Jsoup.connect(url[poo].toString()).get();
-                        if (documents[poo] == null) Log.e("TAG", "Document null when downloaded");
-                        else {
-                            int noOfArticles = 0;
-
-                            String imageurl;
-
-                            //Get all elements that have the "article" tag
-                            Elements documentElements = documents[poo].getElementsByTag("article");
-
-                            Attributes postIDAttrib, mainAttrib, dateAttrib, imageURLAttrib;
-                            for (Element element : documentElements) {
-                                postIDAttrib = element.attributes();
-                                mainAttrib = element.child(0).child(0).attributes();
-                                dateAttrib = element.child(1).child(0).child(0).child(0)
-                                        .child(0).attributes
-                                                ();
-                                //or 1 at last pos // check for updated time also //time check
-                                // is also important
-                                //check if article has an associated img to it
-                                if (!element.getElementsByAttribute("src").isEmpty()) {
-                                    imageURLAttrib = element.child(0).child(0).child(0)
-                                            .attributes();
-                                    imageurl = imageURLAttrib.get
-                                            ("src");
-                                } else {
-                                    imageurl = "-1";
-                                }
-
-                                ///adding all these parsed values to database using insertRow
-                                // method of DatabaseOperations object
-
-                                DatabaseOperations dbop = new DatabaseOperations(HomeActivity.this);
-                                {
-                                    //String postid, String title,String postURL, String date,String updateDate, String
-                                    //author, String imageurl
-
-                                    //Cursor object i is used to check whether that link already
-                                    // exists or not
-                                    //if it doesn't then add otherwise ignore
-                                    Cursor cursor = dbop.getReadableDatabase().rawQuery("SELECT *" +
-                                            " " +
-                                            "FROM" +
-                                            " " + TableData.TableInfo.TABLE_NAME + " WHERE " +
-                                            TableData.TableInfo.tablePostID + " = " +
-                                            "'" + postIDAttrib.get("id") + "';", null);
-
-
-                                    if (cursor.getCount() <= 0) {
-                                        dbop.insertRow(postIDAttrib.get("id"), mainAttrib.get
-                                                        ("title"), mainAttrib.get("href"), dateAttrib
-                                                        .get("datetime").substring(0, 10),
-                                                "update", "dojma_admin", imageurl);
-                                        Log.e("TAG", "Added row");
-
-                                    } else {
-                                        Log.e("TAG", "Record existed!");
-                                        //add update methods later
-                                       /* SQLiteDatabase sdb = dop.getWritableDatabase();
-                                        sdb.execSQL("UPDATE " + TableData.TableInfo.TABLE_NAME +
-                                                "\nSET " + TableData.TableInfo.tableURL + "='"
-                                                + mainAttrib.get("href") + "'\nWHERE " + TableData
-                                                .TableInfo.tablePostID + "='" + postIDAttrib.get("id")
-                                                + "';");
-
-                                    }
-                                    cursor.close();
-                                }
-                            }
-
-
-                        }
-                    }
-                } catch (IOException e) {
-                    Log.e("TAG", "Error occurred");
-                }
-
-            }
-
-            return null;
-        }
-    }
-*/
     class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentListTitle = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -547,23 +460,23 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
-
-            return mFragmentList.get(position);
+            return fragmentList.get(position);
         }
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
+            return fragmentList.size();
         }
 
         public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
+            fragmentList.add(fragment);
+            fragmentListTitle.add(title);
+
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+            return fragmentListTitle.get(position);
         }
     }
 
