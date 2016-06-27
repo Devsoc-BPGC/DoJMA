@@ -70,7 +70,7 @@ public class SuggestFeature extends AppCompatActivity {
 
 
                     // To set the typeface of the texxt
-                    snctetxt.setTypeface(null,Typeface.BOLD);
+                    snctetxt.setTypeface(null, Typeface.BOLD);
 
                     //finally show the snackbar
                     snack.show();

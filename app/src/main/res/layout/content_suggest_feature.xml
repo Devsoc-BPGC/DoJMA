@@ -20,17 +20,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-android:textSize="20sp"
-        android:text="Hey! Thanks for using this app! Any constructive feedback or suggestion would be welcomed."/>
+        android:text="Hey! Thanks for using this app! Any constructive feedback or suggestion would be welcomed."
+        android:textSize="20sp"/>
 
     <EditText
+        android:id="@+id/feature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter feedback"
-        android:textColorHint="@color/grey500"
-        android:gravity="center|bottom"
-        android:id="@+id/feature"
-        android:text=""
         android:layout_below="@+id/suggest_title"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:gravity="center|bottom"
+        android:hint="Enter feedback"
+        android:text=""
+        android:textColorHint="@color/grey500"/>
 </RelativeLayout>

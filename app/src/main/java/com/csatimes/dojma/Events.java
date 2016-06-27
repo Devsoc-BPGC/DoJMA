@@ -10,6 +10,7 @@ public class Events extends Fragment {
     public Events() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

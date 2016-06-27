@@ -11,6 +11,7 @@ public class CampusWatch extends Fragment {
     public CampusWatch() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

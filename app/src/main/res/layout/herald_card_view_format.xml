@@ -27,31 +27,13 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:placeholderImage="@drawable/no_image_info"
             fresco:roundBottomLeft="true"
             fresco:roundBottomRight="true"
             fresco:roundWithOverlayColor="@color/white"
             fresco:roundedCornerRadius="50dp"
             fresco:roundingBorderColor="@color/white"
             fresco:roundingBorderWidth="1dp"
-
             />
-
-        <TextView
-            android:id="@+id/herald_rv_item_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="24dp"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:text="Author"
-            android:textSize="16sp"
-            android:textStyle="italic"/>
-
-
-  -->
         <TextView
             android:id="@+id/herald_rv_item_date"
             android:layout_width="wrap_content"
@@ -65,10 +47,33 @@
             android:text="Date"
             android:textSize="14sp"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/herald_rv_item_image"
+        <TextView
+            android:id="@+id/herald_rv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/herald_rv_item_date"
+            android:layout_toLeftOf="@+id/herald_rv_item_image"
+            android:layout_toStartOf="@+id/herald_rv_item_image"
+            android:maxLines="3"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Desc"/>
+
+        <TextView
+            android:id="@+id/herald_rv_item_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/herald_rv_desc"
+            android:layout_toLeftOf="@+id/herald_rv_item_image"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:text="Article Author from Dojma"
+            android:textSize="16sp"
+            android:textStyle="italic"
             />
 
         <TextView

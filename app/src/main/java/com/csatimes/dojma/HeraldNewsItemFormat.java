@@ -21,10 +21,12 @@ public class HeraldNewsItemFormat extends RealmObject {
     private String imageURL;
     private String imageSavedLoc;
     private String link;
+    private String desc = null;
 
     public HeraldNewsItemFormat(String title, String author, String originalDate, String
-            updateDate, String originalTime, String updateTime, String postID, String imageURL,
-                                String imageSavedLoc, String link) {
+            updateDate, String originalTime, String updateTime, String postID, String
+                                        imageURL,
+                                String imageSavedLoc, String link, String desc) {
 
         this.title = title;
         this.author = author;
@@ -36,6 +38,7 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.imageURL = imageURL;
         this.imageSavedLoc = imageSavedLoc;
         this.link = link;
+        this.desc = desc;
 
     }
 
@@ -96,6 +99,14 @@ public class HeraldNewsItemFormat extends RealmObject {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getPostID() {
