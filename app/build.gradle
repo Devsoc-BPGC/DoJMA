@@ -32,8 +32,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.android.gms:play-services-analytics:9.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
 
 }
+apply plugin: 'com.google.gms.google-services'

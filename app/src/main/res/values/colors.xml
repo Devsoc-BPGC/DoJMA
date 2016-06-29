@@ -37,4 +37,6 @@
 
     <color name="statusBarColor">@color/facebook_primary</color>
     <color name="navigationBarColor">@color/facebook_primary</color>
+
+    <color name="materialSearchBackground">@color/white</color>
 </resources>

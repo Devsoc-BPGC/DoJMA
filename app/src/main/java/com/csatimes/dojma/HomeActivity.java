@@ -41,6 +41,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
@@ -71,7 +74,9 @@ public class HomeActivity extends AppCompatActivity
     private Realm database;
     private RealmConfiguration realmConfiguration;
     private ImageView nav_bar_background;
+    private Tracker mTracker;
     private RealmResults<HeraldNewsItemFormat> results;
+    private MaterialSearchView searchView;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -93,7 +98,10 @@ public class HomeActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_home);
-
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Home Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
         editor.apply();
@@ -126,7 +134,35 @@ public class HomeActivity extends AppCompatActivity
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
+        searchView.setCursorDrawable(R.drawable.cursor_material_search);
+        searchView.setVoiceSearch(true);
 
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
         // finally change the color
 
         //If on starting the app, no internet connection is available, error Snackbar is
@@ -385,15 +421,22 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
             super.onBackPressed();
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+
         return true;
     }
 
