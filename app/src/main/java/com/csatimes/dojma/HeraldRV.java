@@ -58,7 +58,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        HeraldNewsItemFormat foobar = results.get(position);
+        final HeraldNewsItemFormat foobar = results.get(position);
         holder.date.setText(foobar.getOriginalDate());
         holder.author.setText(foobar.getAuthor());
         holder.title.setText(foobar.getTitle());
@@ -80,8 +80,16 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                             Document bar = Jsoup.parse(response);
                             Elements _foobar = bar.getElementsByTag("p");
                             if (_foobar.first().hasText()) {
-                                foo.setDesc(_foobar.first().text());
-                            } else holder.desc.setText("");
+                                StringBuilder sb = new StringBuilder(_foobar.first().text());
+                                if (sb.length() < 100) {
+                                    sb.append(" ... ");
+                                    if (_foobar.last().hasText())
+                                        sb.append(_foobar.last().text());
+                                }
+                                foo.setDesc(sb.toString());
+                            } else {
+                                foo.setDesc(foo.getTitle());
+                            }
                         }
                     });
                 }

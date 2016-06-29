@@ -43,6 +43,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_refresh_white_24dp"
-        android:stateListAnimator="@anim/fab_download_anim"/>
+        android:stateListAnimator="@anim/fab_download_anim"
+        app:layout_behavior="com.csatimes.dojma.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>
