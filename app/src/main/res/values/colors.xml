@@ -39,4 +39,8 @@
     <color name="navigationBarColor">@color/facebook_primary</color>
 
     <color name="materialSearchBackground">@color/white</color>
+    <color name="likeDotsColorPrimary">@color/red500</color>
+    <color name="likeDotsColorSecondary">@color/colorAccent</color>
+    <color name="likeCircleStart">@color/red500</color>
+    <color name="likeCircleEnd">@color/red500</color>
 </resources>

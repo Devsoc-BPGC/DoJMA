@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
+    android:id="@+id/herald_parent_card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
@@ -18,22 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/herald_rv_item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            fresco:roundBottomLeft="true"
-            fresco:roundBottomRight="true"
-            fresco:roundWithOverlayColor="@color/white"
-            fresco:roundedCornerRadius="50dp"
-            fresco:roundingBorderColor="@color/white"
-            fresco:roundingBorderWidth="1dp"
-            />
         <TextView
             android:id="@+id/herald_rv_item_date"
             android:layout_width="wrap_content"
@@ -50,7 +35,7 @@
         <TextView
             android:id="@+id/herald_rv_desc"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/herald_rv_item_date"
@@ -64,7 +49,7 @@
         <TextView
             android:id="@+id/herald_rv_item_author"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="27dp"
             android:layout_below="@+id/herald_rv_desc"
             android:layout_toLeftOf="@+id/herald_rv_item_image"
             android:maxLines="1"
@@ -90,6 +75,43 @@
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="24sp"/>
+
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/herald_rv_item_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="27dp"
+            fresco:roundBottomLeft="true"
+            fresco:roundBottomRight="true"
+            fresco:roundWithOverlayColor="@color/white"
+            fresco:roundedCornerRadius="50dp"
+            fresco:roundingBorderColor="@color/white"
+            fresco:roundingBorderWidth="1dp"/>
+
+        <com.like.LikeButton
+            android:id="@+id/herald_like_button"
+            android:layout_width="40dp"
+            android:layout_height="42dp"
+            android:layout_alignTop="@+id/herald_rv_item_author"
+            android:layout_below="@+id/herald_rv_desc"
+            android:layout_toEndOf="@+id/herald_rv_item_author"
+            android:layout_toRightOf="@+id/herald_rv_item_author"
+            app:anim_scale_factor="3.5"
+            app:circle_end_color="@color/likeCircleEnd"
+            app:circle_start_color="@color/likeCircleStart"
+            app:dots_primary_color="@color/likeDotsColorPrimary"
+            app:dots_secondary_color="@color/likeDotsColorSecondary"
+            app:icon_size="20dp"
+            app:icon_type="heart"
+            app:is_enabled="true"
+            app:liked="false"/>
+
 
     </RelativeLayout>
 

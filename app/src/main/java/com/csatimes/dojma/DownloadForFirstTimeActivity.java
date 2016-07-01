@@ -70,8 +70,8 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
     public void loadList() {
 
-        new DownloadDocument().execute(
-                "http://csatimes.co.in/dojma/",
+        new DownloadDocument().execute(/*
+                "http://csatimes.co.in/dojma/",*/
                 "http://csatimes.co.in/dojma/page/2",
                 "http://csatimes.co.in/dojma/page/3",
                 "http://csatimes.co.in/dojma/page/4",
@@ -168,8 +168,8 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                             temp.setLink(mainAttribute.get("href"));
                             temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
                             temp.setImageURL(imageURL);
-                            temp.setOriginalTime("ogtime");
-                            temp.setUpdateTime("uptime");
+                            temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
+                            temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
                             temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
                             database.commitTransaction();
 

@@ -1,6 +1,8 @@
 package com.csatimes.dojma;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +27,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,7 +80,7 @@ public class HomeActivity extends AppCompatActivity
     private Tracker mTracker;
     private RealmResults<HeraldNewsItemFormat> results;
     private MaterialSearchView searchView;
-
+    private ViewPagerAdapter adapter;
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -385,16 +388,34 @@ public class HomeActivity extends AppCompatActivity
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("TAG", "onResume called");
+        //adapter.getItem(0)
+
+    }
+
+    @Override
     protected void onPause() {
-        super.onPause();
         editor.apply();
+        super.onPause();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         editor.putBoolean(getString(R.string.SP_app_started), false);
         editor.apply();
+
+        Intent downloaderBack = new Intent(this, UpdateCheckerService.class);
+        startService(downloaderBack);
+        /*  final PendingIntent pending = PendingIntent.getService(this, 0, downloaderBack, 0);
+        //startService(downloaderBack);
+        final AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pending);
+        long interval = 30000;//1800000;//milliseconds
+        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), interval, pending);
+       */
+        super.onStop();
     }
 
     private void setupTabIcons() {
@@ -406,7 +427,7 @@ public class HomeActivity extends AppCompatActivity
 
     //Setting up the View Pager with the fragments
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(new Herald(), "Herald");
         adapter.addFragment(new Gazette(), "Gazette");
@@ -492,6 +513,28 @@ public class HomeActivity extends AppCompatActivity
         return (netInfo != null && netInfo.isConnected());
     }
 
+    public void scheduleAlarmForUpdateService() {
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Setup periodic alarm every 5 seconds
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
+        // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_HOUR, pIntent);
+    }
+
+    public void cancelAlarm() {
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
@@ -522,6 +565,4 @@ public class HomeActivity extends AppCompatActivity
             return fragmentListTitle.get(position);
         }
     }
-
-
 }

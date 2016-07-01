@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,27 +21,32 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
 /**
  * Created by Vikramaditya Kukreja on 19-06-2016.
  */
 
-public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implements ItemTouchHelperAdapter {
+public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implements
+        ItemTouchHelperAdapter, View.OnClickListener {
     private Context context;
-    private RealmResults<HeraldNewsItemFormat> results;
+    private RealmList<HeraldNewsItemFormat> resultsList;
     private int pixels = DHC.dpToPx(25);
     private Realm database;
+    private int dismissPosition;
 
-    public HeraldRV(Context context, RealmResults<HeraldNewsItemFormat> results, Realm database) {
+    public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
+            database) {
         this.context = context;
-        this.results = results;
+        this.resultsList = resultsList;
         this.database = database;
         Fresco.initialize(context);
     }
@@ -58,24 +65,33 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final HeraldNewsItemFormat foobar = results.get(position);
+        final HeraldNewsItemFormat foobar = resultsList.get(position);
+        final int pos = position;
+
         holder.date.setText(foobar.getOriginalDate());
         holder.author.setText(foobar.getAuthor());
         holder.title.setText(foobar.getTitle());
 
-        final int pos = position;
+        if (foobar.isFav())
+            holder.fav.setLiked(true);
+        else holder.fav.setLiked(false);
 
+        if (foobar.isRead()) {
+            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
+            //       .cardview_shadow_end_color));
+
+        }
 
         if (foobar.getDesc() == null) {
             RequestQueue queue = Volley.newRequestQueue(context);
-            StringRequest request = new StringRequest(results.get(position).getLink(), new Response.Listener<String>() {
+            StringRequest request = new StringRequest(resultsList.get(position).getLink(), new Response.Listener<String>() {
                 @Override
                 public void onResponse(final String response) {
                     database.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm bgRealm) {
                             HeraldNewsItemFormat foo = bgRealm.where(HeraldNewsItemFormat.class)
-                                    .equalTo("postID", results.get(pos).getPostID())
+                                    .equalTo("postID", resultsList.get(pos).getPostID())
                                     .findFirst();
                             Document bar = Jsoup.parse(response);
                             Elements _foobar = bar.getElementsByTag("p");
@@ -110,7 +126,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return resultsList.size();
     }
 
     public boolean isOnline() {
@@ -144,9 +160,36 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     }
 
     @Override
-    public void onItemDismiss(int position) {
-        //results.deleteFromRealm(position);
+    public void onItemDismiss(final int position, RecyclerView rv) {
+        database.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                HeraldNewsItemFormat _lolwa = database.where(HeraldNewsItemFormat.class).equalTo
+                        ("postID", resultsList.get(position).getPostID()).findFirst();
+                _lolwa.setDismissed(true);
+            }
+        });
+        dismissPosition = position;
+        this.resultsList.remove(position);
         this.notifyItemRemoved(position);
+        Snackbar.make(rv, "Article dismissed", Snackbar.LENGTH_LONG).setAction("UNDO", this).show();
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+        database.beginTransaction();
+
+        HeraldNewsItemFormat _lolwa = database.where(HeraldNewsItemFormat.class).equalTo
+                ("postID", resultsList.get(dismissPosition).getPostID()).findFirst();
+        _lolwa.setDismissed(false);
+
+        database.commitTransaction();
+
+        resultsList.add(dismissPosition, _lolwa);
+        notifyItemInserted(dismissPosition);
     }
 
 
@@ -157,7 +200,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         public TextView author;
         public TextView date;
         public TextView desc;
-        //  public ProgressBar progressBar;
+        public LikeButton fav;
+        public CardView card;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -166,8 +210,36 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
-
+            fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
+            card = (CardView) itemView;
             itemView.setOnClickListener(this);
+            fav.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    database.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            HeraldNewsItemFormat foo = realm.where(HeraldNewsItemFormat.class)
+                                    .equalTo("postID", resultsList.get(getAdapterPosition()).getPostID
+                                            ()).findFirst();
+                            foo.setFav(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    database.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            HeraldNewsItemFormat foo = realm.where(HeraldNewsItemFormat.class)
+                                    .equalTo("postID", resultsList.get(getAdapterPosition()).getPostID
+                                            ()).findFirst();
+                            foo.setFav(false);
+                        }
+                    });
+                }
+            });
         }
 
         @Override
@@ -177,13 +249,19 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                     /*if (isOnline())*/
                     {
                         Intent openWebpage = new Intent(context, OpenWebpage.class);
-                        openWebpage.putExtra("URL", results.get(getAdapterPosition()).getLink());
-                        openWebpage.putExtra("TITLE", results.get(getAdapterPosition()).getTitle());
+
+                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
+                        openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
+                                ());
+                        openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
+                                ());
+
                         context.startActivity(openWebpage);
                     }/* else {
                         Snackbar.make(view, "Unable to connect to internet", Snackbar.LENGTH_LONG).show();
                     }*/
                 }
+
             }
 
         }

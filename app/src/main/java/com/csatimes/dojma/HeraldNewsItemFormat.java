@@ -22,11 +22,15 @@ public class HeraldNewsItemFormat extends RealmObject {
     private String imageSavedLoc;
     private String link;
     private String desc = null;
+    private boolean fav = false;
+    private boolean read = false;
+    private boolean dismissed = false;
 
     public HeraldNewsItemFormat(String title, String author, String originalDate, String
             updateDate, String originalTime, String updateTime, String postID, String
                                         imageURL,
-                                String imageSavedLoc, String link, String desc) {
+                                String imageSavedLoc, String link, String desc, boolean fav,
+                                boolean read, boolean dismissed) {
 
         this.title = title;
         this.author = author;
@@ -39,10 +43,36 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.imageSavedLoc = imageSavedLoc;
         this.link = link;
         this.desc = desc;
-
+        this.fav = fav;
+        this.read = read;
+        this.dismissed = dismissed;
     }
 
     public HeraldNewsItemFormat() {
+    }
+
+    public boolean isDismissed() {
+        return dismissed;
+    }
+
+    public void setDismissed(boolean dismissed) {
+        this.dismissed = dismissed;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean fav) {
+        this.fav = fav;
     }
 
     public String getLink() {
