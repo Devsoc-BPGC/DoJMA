@@ -14,6 +14,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="title_activity_open_webpage">OpenWebpage</string>
+    <string name="title_activity_chrome_custom_tab">ChromseCustomTab</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 

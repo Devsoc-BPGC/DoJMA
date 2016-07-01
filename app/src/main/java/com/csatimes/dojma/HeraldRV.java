@@ -248,7 +248,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                 if (view.getId() == itemView.getId()) {
                     /*if (isOnline())*/
                     {
-                        Intent openWebpage = new Intent(context, OpenWebpage.class);
+                        Intent openWebpage = new Intent(context, ChromeCustomTab.class);
 
                         openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
                         openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
