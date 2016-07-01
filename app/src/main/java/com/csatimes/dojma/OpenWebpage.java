@@ -29,6 +29,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * This class handles the url passed from Herald on item click.
  * It uses webView to load the url and also sets a title to the actionbar.
@@ -40,6 +43,9 @@ public class OpenWebpage extends AppCompatActivity {
     private static int POSITION;
     private WebView webView;
     private ProgressBar downloadProgressBar;
+    private String postID;
+    private Realm database;
+    private RealmConfiguration realmConfiguration;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -63,6 +69,7 @@ public class OpenWebpage extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (actionBar != null) actionBar.setTitle(intent.getStringExtra("TITLE"));
+        postID = intent.getStringExtra("POSTID");
         currentURL = intent.getStringExtra("URL");
         urlList.add(currentURL);
         titleList.add(intent.getStringExtra("TITLE"));
@@ -131,6 +138,17 @@ public class OpenWebpage extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 downloadProgressBar.setVisibility(View.GONE);
+                realmConfiguration = new RealmConfiguration.Builder(OpenWebpage.this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+                Realm.setDefaultConfiguration(realmConfiguration);
+                database = Realm.getDefaultInstance();
+                database.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        HeraldNewsItemFormat foo = realm.where(HeraldNewsItemFormat.class)
+                                .equalTo("postID", postID).findFirst();
+                        foo.setRead(true);
+                    }
+                });
             }
 
             @Override

@@ -37,6 +37,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
 
 
 }
