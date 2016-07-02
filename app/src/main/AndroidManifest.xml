@@ -91,6 +91,10 @@
             android:name=".AlarmReceiver"
             android:process=":remote">
         </receiver>
+        <receiver
+            android:name=".CopyLinkBroadcastReceiver"
+            android:enabled="true">
+        </receiver>
         <receiver android:name="com.csatimes.dojma.BootBroadcastService">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
