@@ -25,7 +25,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_copyLink"
-        android:icon="@drawable/ic_copy_content"
+
         android:orderInCategory="3"
         android:title="Copy Link"
         app:showAsAction="never"/>

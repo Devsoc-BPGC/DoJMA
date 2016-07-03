@@ -6,6 +6,7 @@ package com.csatimes.dojma;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class ChromeCustomTab extends AppCompatActivity{
     CustomTabsServiceConnection mCustomTabsServiceConnection;
     CustomTabsIntent mCustomTabsIntent;
     //CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
 
 
 
@@ -120,6 +122,11 @@ public class ChromeCustomTab extends AppCompatActivity{
 
 
 
+
+
+
+
     }
+
 
 }

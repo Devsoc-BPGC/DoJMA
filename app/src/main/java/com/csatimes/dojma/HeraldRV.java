@@ -242,6 +242,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             });
         }
 
+
+
         @Override
         public void onClick(View view) {
             {

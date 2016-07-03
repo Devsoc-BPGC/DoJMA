@@ -25,6 +25,11 @@
             >
         </android.support.v7.widget.SearchView>
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/herald_recycler_view"
@@ -41,6 +46,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
 </FrameLayout>
