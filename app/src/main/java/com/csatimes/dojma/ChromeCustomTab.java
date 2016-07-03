@@ -42,6 +42,7 @@ public class ChromeCustomTab extends AppCompatActivity{
     private Realm database;
     private RealmConfiguration realmConfiguration;
     final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
+
     //int color=getResources().getColor(blue500);
 
     CustomTabsClient mCustomTabsClient;
@@ -78,11 +79,13 @@ public class ChromeCustomTab extends AppCompatActivity{
                 mCustomTabsClient.warmup(0L);
                 mCustomTabsSession = mCustomTabsClient.newSession(null);
             }
+
             @Override
             public void onServiceDisconnected(ComponentName name) {
                 mCustomTabsClient= null;
             }
         };
+
         CustomTabsClient.bindCustomTabsService(this, CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
 
         /*//sharing intent
