@@ -7,6 +7,13 @@
     android:background="@android:color/white"
     tools:context="com.csatimes.dojma.OpenWebpage">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/open_webpage_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true">
+
+    </android.support.v7.widget.Toolbar>
 
     <WebView
         android:id="@+id/webView"
@@ -21,7 +28,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/open_webpage_toolbar"
         android:layout_centerHorizontal="true"
         android:background="@color/white"
         android:progressBackgroundTint="@color/blue500"

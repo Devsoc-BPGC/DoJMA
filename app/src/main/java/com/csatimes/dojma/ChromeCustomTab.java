@@ -3,10 +3,10 @@ package com.csatimes.dojma;
 /**
  * Created by yash on 1/7/16.
  */
+
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,17 +17,9 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
-import static java.lang.Boolean.TRUE;
 
 //import static com.csatimes.dojma.R.color.blue500;
 
@@ -36,28 +28,20 @@ public class ChromeCustomTab extends AppCompatActivity{
     private static List<String> urlList;
     private static List<String> titleList;
     private static int POSITION;
-    private WebView webView;
-    private ProgressBar downloadProgressBar;
-    private String postID;
-    private Realm database;
-    private RealmConfiguration realmConfiguration;
     final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
+    CustomTabsClient mCustomTabsClient;
 
     //int color=getResources().getColor(blue500);
-
-    CustomTabsClient mCustomTabsClient;
     CustomTabsSession mCustomTabsSession;
     CustomTabsServiceConnection mCustomTabsServiceConnection;
     CustomTabsIntent mCustomTabsIntent;
+    private String postID;
     //CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_chrome_custom_tab);
+        //  setContentView(R.layout.acitivity_chrome_custom_tab);
 
 
         POSITION = 0;

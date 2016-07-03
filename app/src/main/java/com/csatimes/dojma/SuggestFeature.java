@@ -14,16 +14,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SuggestFeature extends AppCompatActivity {
-    EditText suggestion;
-    Intent emailIntent;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
+public class SuggestFeature extends AppCompatActivity {
+    private EditText suggestion;
+    private Intent emailIntent;
+    private Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest_feature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Suggest");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {

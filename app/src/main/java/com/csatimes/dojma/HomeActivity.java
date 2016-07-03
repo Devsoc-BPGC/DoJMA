@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -81,6 +82,8 @@ public class HomeActivity extends AppCompatActivity
     private RealmResults<HeraldNewsItemFormat> results;
     private MaterialSearchView searchView;
     private ViewPagerAdapter adapter;
+    private boolean isGoogleChromeInstalled;
+
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class HomeActivity extends AppCompatActivity
 
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
-        //If app has been installed for the first time download the articles and their data
+        //If app has been isGoogleChromeInstalled for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
         //This key is saved in strings.xml to avoid confusion
         //It is called using android method getString(resID)
@@ -101,12 +104,22 @@ public class HomeActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_home);
+
+
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
         mTracker.setScreenName("Home Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
+
+        isGoogleChromeInstalled = appInstalledOrNot("com.android.chrome");
+        if (isGoogleChromeInstalled)
+            editor.putBoolean(getString(R.string.SP_chrome_install_status), true);
+        else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
+
         editor.apply();
         Fresco.initialize(this);
 
@@ -496,8 +509,11 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_idea) {
             Intent suggestFeature = new Intent(HomeActivity.this, SuggestFeature.class);
             startActivity(suggestFeature);
-        }
+        } else if (id == R.id.nav_favourites) {
+            Intent favourites = new Intent(HomeActivity.this, Favourites.class);
+            startActivity(favourites);
 
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -536,6 +552,20 @@ public class HomeActivity extends AppCompatActivity
         alarm.cancel(pIntent);
     }
 
+    private boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
+    }
+
+    //code to check if google chrome is intalled or not
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
         private final List<String> fragmentListTitle = new ArrayList<>();
@@ -565,4 +595,5 @@ public class HomeActivity extends AppCompatActivity
             return fragmentListTitle.get(position);
         }
     }
+
 }

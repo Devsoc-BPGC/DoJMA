@@ -2,7 +2,6 @@ package com.csatimes.dojma;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,24 +65,6 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
         loadList();
 
 
-    }
-
-    //code to check if google chrome is intalled or not
-
-
-
-    boolean installed = appInstalledOrNot("com.android.chrome");
-    private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
-        boolean app_installed;
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed;
     }
 
 

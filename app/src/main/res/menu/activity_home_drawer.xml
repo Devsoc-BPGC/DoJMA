@@ -14,6 +14,10 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow"/>
+        <item
+            android:id="@+id/nav_favourites"
+            android:icon="@drawable/ic_heart"
+            android:title="Favourites"/>
 
     </group>
 

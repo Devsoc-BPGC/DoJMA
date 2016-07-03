@@ -8,8 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class Settings extends AppCompatActivity {
     private Window window;
+    private Tracker mTracker;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -18,6 +22,11 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Settings");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //These flags are for system bar on top

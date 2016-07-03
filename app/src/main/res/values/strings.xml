@@ -7,6 +7,7 @@
     <string name="action_settings">Settings</string>
     <string name="SP_first_install">FIRST_TIME_INSTALL</string>
     <string name="SP_app_started">APP_STARTED</string>
+    <string name="SP_chrome_install_status">CHROME_IS_INSTALLED</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,4 +22,6 @@
     <string name="title_activity_download_for_first_time">First Time Setup</string>
     <string name="title_activity_about_us">About</string>
     <string name="title_share_this_article">Share article</string>
+    <string name="title_activity_favourite">Favourite Section</string>
+    <string name="title_activity_favourites">Favourites</string>
 </resources>

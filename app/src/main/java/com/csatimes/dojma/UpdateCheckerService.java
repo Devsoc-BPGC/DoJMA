@@ -163,6 +163,7 @@ public class UpdateCheckerService extends IntentService {
                             noOfArticlesUpdatedByService++;
                     } else {
                         database.beginTransaction();
+
                         HeraldNewsItemFormat _temp = database.createObject(HeraldNewsItemFormat
                                 .class);
                         _temp.setTitle(mainAttribute.get("title"));
@@ -172,11 +173,13 @@ public class UpdateCheckerService extends IntentService {
                         _temp.setLink(mainAttribute.get("href"));
                         _temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
                         _temp.setImageURL(imageURL);
+                        _temp.setDismissed(false);
                         _temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
                         _temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
                         _temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
                         noOfArticlesDownloadedByService++;
                         Log.e("TAG", "New Articles downloaded");
+
                         database.commitTransaction();
                     }
                 }

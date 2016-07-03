@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -42,6 +44,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private int pixels = DHC.dpToPx(25);
     private Realm database;
     private int dismissPosition;
+    private Tracker mTracker;
+    private boolean isGoogleChromeInstalled = false;
 
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
             database) {
@@ -49,6 +53,15 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.resultsList = resultsList;
         this.database = database;
         Fresco.initialize(context);
+//        AnalyticsApplication application = (AnalyticsApplication) getActivity()
+//                .getApplication();
+//        mTracker = application.getDefaultTracker();
+//        mTracker.setScreenName("Herald");
+//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
+        this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 
     @Override
@@ -243,25 +256,27 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         }
 
 
-
         @Override
         public void onClick(View view) {
             {
                 if (view.getId() == itemView.getId()) {
                     /*if (isOnline())*/
                     {
-                        Intent openWebpage = new Intent(context, ChromeCustomTab.class);
 
-                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
+                        Intent openWebpage;
+                        if (isGoogleChromeInstalled)
+                            openWebpage = new Intent(context, ChromeCustomTab.class);
+                        else openWebpage = new Intent(context, OpenWebpage.class);
+                        Log.e("TAG", isGoogleChromeInstalled + " chrome status");
+                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition())
+                                .getLink());
                         openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
                                 ());
                         openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
                                 ());
 
                         context.startActivity(openWebpage);
-                    }/* else {
-                        Snackbar.make(view, "Unable to connect to internet", Snackbar.LENGTH_LONG).show();
-                    }*/
+                    }
                 }
 
             }

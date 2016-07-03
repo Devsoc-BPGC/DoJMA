@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,6 +47,7 @@ public class OpenWebpage extends AppCompatActivity {
     private String postID;
     private Realm database;
     private RealmConfiguration realmConfiguration;
+    private Toolbar toolbar;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -55,14 +57,20 @@ public class OpenWebpage extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webView);
         downloadProgressBar = (ProgressBar) findViewById(R.id.webPageProgressBar);
+        toolbar = (Toolbar) findViewById(R.id.open_webpage_toolbar);
+
+        setSupportActionBar(toolbar);
+
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setTitle("CSATimes");
             actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
                     .colorPrimaryDark)));
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         POSITION = 0;
         urlList = new ArrayList<>();
         titleList = new ArrayList<>();
@@ -182,7 +190,7 @@ public class OpenWebpage extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //  getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     /**
