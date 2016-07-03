@@ -61,6 +61,7 @@
             android:name=".ChromeCustomTab"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_chrome_custom_tab"
+            android:parentActivityName=".HomeActivity"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

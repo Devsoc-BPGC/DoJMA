@@ -1,15 +1,18 @@
 package com.csatimes.dojma;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,13 +49,35 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private int dismissPosition;
     private Tracker mTracker;
     private boolean isGoogleChromeInstalled = false;
+    private CustomTabsIntent customTabsIntent;
+    private Activity activity;
 
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
-            database) {
+            database, Activity activity) {
         this.context = context;
         this.resultsList = resultsList;
         this.database = database;
+        this.activity = activity;
         Fresco.initialize(context);
+        //copy link
+//        Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
+//        String copy_label = "Copy Link";
+//        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        customTabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(ContextCompat.getColor(context, R.color.blue500))
+                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable
+                        .ic_arrow_back))
+                .addDefaultShareMenuItem()
+                // .addMenuItem(copy_label, copy_pendingIntent)
+                .setStartAnimations(context, R.anim.slide_in_right, R.anim.slid_out_right)
+                .setExitAnimations(context, R.anim.slide_in_right, R.anim.slid_out_right)
+                .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
+                .enableUrlBarHiding().build();
+
+
 //        AnalyticsApplication application = (AnalyticsApplication) getActivity()
 //                .getApplication();
 //        mTracker = application.getDefaultTracker();
@@ -263,19 +288,30 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                     /*if (isOnline())*/
                     {
 
-                        Intent openWebpage;
-                        if (isGoogleChromeInstalled)
-                            openWebpage = new Intent(context, ChromeCustomTab.class);
-                        else openWebpage = new Intent(context, OpenWebpage.class);
-                        Log.e("TAG", isGoogleChromeInstalled + " chrome status");
-                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition())
-                                .getLink());
-                        openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
-                                ());
-                        openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
-                                ());
+                        Intent openWebpage = null;
+                        if (isGoogleChromeInstalled) {
+                            //openWebpage = new Intent(context, ChromeCustomTab.class);
+                            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                                    Uri
+                                            .parse(resultsList.get(getAdapterPosition()).getLink()),
+                                    new CustomTabActivityHelper.CustomTabFallback() {
+                                        @Override
+                                        public void openUri(Activity activity, Uri uri) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                        } else {
+                            openWebpage = new Intent(context, OpenWebpage.class);
+                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition())
+                                    .getLink());
+                            openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
+                                    ());
+                            openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
+                                    ());
 
-                        context.startActivity(openWebpage);
+                            context.startActivity(openWebpage);
+                        }
                     }
                 }
 

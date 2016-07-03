@@ -47,7 +47,7 @@ public class Favourites extends AppCompatActivity {
         realmList = new RealmList();
         realmList.addAll(realmResults);
 
-        heraldRVAdapter = new HeraldRV(this, realmList, database);
+        heraldRVAdapter = new HeraldRV(this, realmList, database, Favourites.this);
         heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
                 .getBoolean(getString(R.string.SP_chrome_install_status), false));
 

@@ -21,9 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static com.csatimes.dojma.R.color.blue500;
-
-public class ChromeCustomTab extends AppCompatActivity{
+public class ChromeCustomTab extends AppCompatActivity {
     private static String currentURL;
     private static List<String> urlList;
     private static List<String> titleList;
@@ -41,7 +39,6 @@ public class ChromeCustomTab extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  setContentView(R.layout.acitivity_chrome_custom_tab);
 
 
         POSITION = 0;
@@ -59,14 +56,14 @@ public class ChromeCustomTab extends AppCompatActivity{
         mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-                mCustomTabsClient= customTabsClient;
+                mCustomTabsClient = customTabsClient;
                 mCustomTabsClient.warmup(0L);
                 mCustomTabsSession = mCustomTabsClient.newSession(null);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                mCustomTabsClient= null;
+                mCustomTabsClient = null;
             }
         };
 
@@ -80,40 +77,31 @@ public class ChromeCustomTab extends AppCompatActivity{
         */
 
         //copy link
-        Intent copy_intent=new Intent(this,CopyLinkBroadcastReceiver.class);
-        String copy_label="Copy Link";
-        PendingIntent copy_pendingIntent=PendingIntent.getBroadcast(this,0,copy_intent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-
-
-
-
+        Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
+        String copy_label = "Copy Link";
+        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
                 .setShowTitle(true)
-                .setToolbarColor(ContextCompat.getColor(this,R.color.blue500))
-                .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_arrow_back))
+                .setToolbarColor(ContextCompat.getColor(this, R.color.blue500))
+                .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back))
                 .addDefaultShareMenuItem()
-                .addMenuItem(copy_label,copy_pendingIntent)
-                .setStartAnimations(this,R.anim.slide_in_right,R.anim.slid_out_right)
-                .setExitAnimations(this,R.anim.slide_in_right,R.anim.slid_out_right)
-                .setSecondaryToolbarColor(ContextCompat.getColor(this,R.color.amber500))
+                .addMenuItem(copy_label, copy_pendingIntent)
+                .setStartAnimations(this, R.anim.slide_in_right, R.anim.slid_out_right)
+                .setExitAnimations(this, R.anim.slide_in_right, R.anim.slid_out_right)
+                .setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.amber500))
                 .enableUrlBarHiding()
                 //.setActionButton(BitmapFactory.decodeResource(getResources(),R.id.action_share)," dsd",share_menuIntent,TRUE)
                 .build();
         mCustomTabsIntent.launchUrl(this, Uri.parse(currentURL));
 
 
-
-
-
-
-
-
-
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }
