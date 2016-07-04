@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/herald_rv_item_author"
             android:layout_width="match_parent"
-            android:layout_height="27dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/herald_rv_desc"
             android:layout_toLeftOf="@+id/herald_rv_item_image"
             android:maxLines="1"

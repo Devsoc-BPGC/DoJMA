@@ -38,6 +38,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
     private Realm database;
     private CircularFillableLoaders progress;
     private String startingURL = "http://csatimes.co.in/dojma/";
+
     //public static boolean installed=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

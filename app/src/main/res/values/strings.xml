@@ -24,4 +24,5 @@
     <string name="title_share_this_article">Share article</string>
     <string name="title_activity_favourite">Favourite Section</string>
     <string name="title_activity_favourites">Favourites</string>
+    <string name="title_activity_images_and_media">Images And Media</string>
 </resources>

@@ -279,7 +279,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                     if (isGoogleChromeInstalled) {
 
                         Intent intent = new Intent((Intent.ACTION_SEND));
-                        intent.setType("text/plain");
                         intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                                 (getAdapterPosition()).getLink());
 

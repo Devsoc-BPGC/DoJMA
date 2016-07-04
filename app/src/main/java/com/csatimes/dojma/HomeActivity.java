@@ -404,8 +404,7 @@ public class HomeActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Log.e("TAG", "onResume called");
-        //adapter.getItem(0)
-
+        viewPager.requestFocus();
     }
 
     @Override
@@ -507,12 +506,14 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_idea) {
-            Intent suggestFeature = new Intent(HomeActivity.this, SuggestFeature.class);
-            startActivity(suggestFeature);
+            Intent intent = new Intent(HomeActivity.this, SuggestFeature.class);
+            startActivity(intent);
         } else if (id == R.id.nav_favourites) {
-            Intent favourites = new Intent(HomeActivity.this, Favourites.class);
-            startActivity(favourites);
-
+            Intent intent = new Intent(HomeActivity.this, Favourites.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(this, ImagesAndMedia.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

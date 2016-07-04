@@ -57,7 +57,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
-
         <activity
             android:name=".DownloadForFirstTimeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -98,6 +97,15 @@
         <activity
             android:name=".Favourites"
             android:label="@string/title_activity_favourites"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".ImagesAndMedia"
+            android:label="@string/title_activity_images_and_media"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
