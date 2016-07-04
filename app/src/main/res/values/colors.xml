@@ -43,4 +43,9 @@
     <color name="likeDotsColorSecondary">@color/colorAccent</color>
     <color name="likeCircleStart">@color/red500</color>
     <color name="likeCircleEnd">@color/red500</color>
+
+    <color name="shareDotsColorPrimary">@color/blue500</color>
+    <color name="shareDotsColorSecondary">@color/facebook_primary</color>
+    <color name="shareCircleStart">@color/facebook_light</color>
+    <color name="shareCircleEnd">@color/facebook_primary</color>
 </resources>

@@ -26,16 +26,16 @@
         </android.support.v7.widget.SearchView>
 
         <android.support.v4.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipeContainer"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/herald_serach_view">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/herald_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/herald_serach_view"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginRight="16dp"
