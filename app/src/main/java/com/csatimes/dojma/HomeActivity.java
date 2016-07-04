@@ -487,7 +487,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(settings);
 
         } else if (id == R.id.action_about_us) {
-            Intent aboutUs = new Intent(this, AboutUs.class);
+            Intent aboutUs = new Intent(HomeActivity.this, AboutUs.class);
             startActivity(aboutUs);
         }
 

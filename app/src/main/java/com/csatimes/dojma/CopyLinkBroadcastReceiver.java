@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -14,18 +15,18 @@ import android.widget.Toast;
 
 
 public class CopyLinkBroadcastReceiver extends BroadcastReceiver {
-    private static String currentURL;
+    
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        currentURL = intent.getStringExtra("URL");
-        if (currentURL != null) {
-
+        Uri uri = intent.getData();
+        if (uri != null) {
             ClipboardManager clipboardManager =
                     (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newUri(null, currentURL.toString(), Uri.parse(currentURL));
+            ClipData clipData = ClipData.newUri(null, uri.toString(), uri);
             clipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(context, "Link Copied To ClipBoard " , Toast.LENGTH_SHORT).show();
+            Toast.makeText(context," Link Copied to Clipboard",Toast.LENGTH_SHORT).show();
         }
     }
+
 }

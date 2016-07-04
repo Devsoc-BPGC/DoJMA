@@ -282,13 +282,17 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                         intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                                 (getAdapterPosition()).getLink());
 
+                        Intent copy_intent=new Intent(context,CopyLinkBroadcastReceiver.class);
+                        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        String copy_label="Copy Link";
+
                         customTabsIntent = new CustomTabsIntent.Builder()
                                 .setShowTitle(true)
                                 .setToolbarColor(ContextCompat.getColor(context, R.color
                                         .blue500))
                                 .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
                                 // .addDefaultShareMenuItem()
-                                // .addMenuItem(copy_label, copy_pendingIntent)
+                                 .addMenuItem(copy_label, copy_pendingIntent)
                                 .setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left)
                                 .setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right)
                                 .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
