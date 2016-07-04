@@ -1,6 +1,8 @@
 package com.csatimes.dojma;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -59,23 +62,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.database = database;
         this.activity = activity;
         Fresco.initialize(context);
-        //copy link
-//        Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
-//        String copy_label = "Copy Link";
-//        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        customTabsIntent = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(ContextCompat.getColor(context, R.color.blue500))
-                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable
-                        .ic_arrow_back))
-                .addDefaultShareMenuItem()
-                // .addMenuItem(copy_label, copy_pendingIntent)
-                .setStartAnimations(context, R.anim.slide_in_right, R.anim.slid_out_right)
-                .setExitAnimations(context, R.anim.slide_in_right, R.anim.slid_out_right)
-                .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
-                .enableUrlBarHiding().build();
 
 
 //        AnalyticsApplication application = (AnalyticsApplication) getActivity()
@@ -240,6 +226,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         public TextView desc;
         public LikeButton fav;
         public CardView card;
+        public ImageButton share;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -250,6 +237,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             card = (CardView) itemView;
+            share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
+
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override
@@ -278,41 +267,69 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                     });
                 }
             });
+            share.setOnClickListener(this);
         }
 
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
         @Override
         public void onClick(View view) {
             {
                 if (view.getId() == itemView.getId()) {
-                    /*if (isOnline())*/
-                    {
+                    if (isGoogleChromeInstalled) {
 
-                        Intent openWebpage = null;
-                        if (isGoogleChromeInstalled) {
-                            //openWebpage = new Intent(context, ChromeCustomTab.class);
-                            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
-                                    Uri
-                                            .parse(resultsList.get(getAdapterPosition()).getLink()),
-                                    new CustomTabActivityHelper.CustomTabFallback() {
-                                        @Override
-                                        public void openUri(Activity activity, Uri uri) {
-                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                            context.startActivity(intent);
-                                        }
-                                    });
-                        } else {
-                            openWebpage = new Intent(context, OpenWebpage.class);
-                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition())
-                                    .getLink());
-                            openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle
-                                    ());
-                            openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
-                                    ());
+                        Intent intent = new Intent((Intent.ACTION_SEND));
+                        intent.setType("text/plain");
+                        intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                                (getAdapterPosition()).getLink());
 
-                            context.startActivity(openWebpage);
-                        }
+                        customTabsIntent = new CustomTabsIntent.Builder()
+                                .setShowTitle(true)
+                                .setToolbarColor(ContextCompat.getColor(context, R.color
+                                        .blue500))
+                                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
+                                // .addDefaultShareMenuItem()
+                                // .addMenuItem(copy_label, copy_pendingIntent)
+                                .setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left)
+                                .setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right)
+                                .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
+                                .setActionButton(BitmapFactory.decodeResource(context
+                                                .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                        PendingIntent.getActivity(context, getAdapterPosition(),
+                                                intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                .enableUrlBarHiding()
+                                .build();
+
+                        CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                                Uri.parse(resultsList.get(getAdapterPosition()).getLink()),
+                                new CustomTabActivityHelper.CustomTabFallback() {
+                                    @Override
+                                    public void openUri(Activity activity, Uri uri) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                        intent.putExtra(Intent.EXTRA_REFERRER,
+                                                Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+
+                                        context.startActivity(intent);
+                                    }
+                                });
+                    } else {
+                        Intent openWebpage = new Intent(context, OpenWebpage.class);
+
+                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
+                        openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
+                        openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
+
+                        context.startActivity(openWebpage);
                     }
+
+                } else if (view.getId() == share.getId()) {
+                    Intent intent = new Intent((Intent.ACTION_SEND));
+                    intent.setType("text/plain");
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                            (getAdapterPosition()).getLink());
+                    context.startActivity(Intent.createChooser(intent, "Share link via"));
+
+
                 }
 
             }

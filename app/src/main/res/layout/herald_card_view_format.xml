@@ -112,6 +112,18 @@
             app:is_enabled="true"
             app:liked="false"/>
 
+        <ImageButton
+            android:id="@+id/herald_rv_share_button"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/herald_like_button"
+            android:layout_alignTop="@+id/herald_like_button"
+            android:layout_below="@+id/herald_rv_desc"
+            android:layout_toEndOf="@+id/herald_like_button"
+            android:layout_toRightOf="@+id/herald_like_button"
+            android:background="@color/white"
+            android:src="@drawable/ic_share"
+            />
 
     </RelativeLayout>
 
