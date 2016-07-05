@@ -21,9 +21,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 
 import static com.csatimes.dojma.DHC.directory;
 
@@ -70,127 +73,167 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
 
 
     public void loadList() {
+        //Setting up links in database
+        realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
+                .name
+                        (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+        database = Realm.getDefaultInstance();
 
-        new DownloadDocument().execute(/*
-                "http://csatimes.co.in/dojma/",*/
-                "http://csatimes.co.in/dojma/page/2",
-                "http://csatimes.co.in/dojma/page/3",
-                "http://csatimes.co.in/dojma/page/4",
-                "http://csatimes.co.in/dojma/page/5",
-                "http://csatimes.co.in/dojma/page/6",
-                "http://csatimes.co.in/dojma/page/7",
-                "http://csatimes.co.in/dojma/page/8",
-                "http://csatimes.co.in/dojma/page/9",
-                "http://csatimes.co.in/dojma/page/10",
-                "http://csatimes.co.in/dojma/page/11"
-        );
+        for (int i = 1; i < 11; i++) {
+            if (i != 1) {
+                if (database.where(HeraldLinks.class).equalTo("address", DHC.address + i).findAll()
+                        .size() == 0) {
+                    database.beginTransaction();
+                    HeraldLinks temp = database.createObject(HeraldLinks.class);
+                    temp.setAddress(DHC.address + "page/" + i);
+                    database.commitTransaction();
+                }
+            } else {
+                if (database.where(HeraldLinks.class).equalTo("address", DHC.address).findAll()
+                        .size() == 0) {
+                    database.beginTransaction();
+                    HeraldLinks temp = database.createObject(HeraldLinks.class);
+                    temp.setAddress(DHC.address);
+                    database.commitTransaction();
+                }
+            }
+        }
+        RealmList<HeraldLinks> allLinks = new RealmList<>();
+        allLinks.addAll(database.where(HeraldLinks.class).findAll());
+        List<String> simpleLinks = new ArrayList<>();
+        for (int i = 0; i < allLinks.size(); i++)
+            simpleLinks.add(allLinks.get(i).getAddress());
+        database.close();
+
+        new DownloadDocument(simpleLinks).execute();
 
 
     }
 
 
     //Async method to download html document for parsing
-    private class DownloadDocument extends AsyncTask<String, Integer, Void> {
+    private class DownloadDocument extends AsyncTask<Void, Integer, Void> {
         int i = 0;
+        List<String> urlList;
+
+
+        DownloadDocument(List<String> urlList) {
+            this.urlList = urlList;
+        }
 
         //AsyncTask has <params,progress,result> format
-        protected Void doInBackground(String... htmlURL) {
-            org.jsoup.nodes.Document[] HTMLDocuments = new Document[htmlURL.length];
+        protected Void doInBackground(Void... voids) {
+            if (urlList != null) {
+                org.jsoup.nodes.Document[] HTMLDocuments = new Document[urlList.size()];
+
+                realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
+                        .name
+                                (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+                Realm.setDefaultConfiguration(realmConfiguration);
+                database = Realm.getDefaultInstance();
+
+                //initialise documents to null
+                for (i = 0; i < urlList.size(); i++)
+                    HTMLDocuments[i] = null;
 
 
-            //initialise documents to null
-            for (i = 0; i < htmlURL.length; i++)
-                HTMLDocuments[i] = null;
+                for (i = 0; i < urlList.size(); i++) {
+                    try {
+                        Log.e("TAG", "Connecting to URL " + urlList.get(i));
+                        HTMLDocuments[i] = Jsoup.connect(urlList.get(i)).get();
+                        if (HTMLDocuments[i] == null) {
+                            Log.e("TAG", "HTML download failed");
+                            if (i == 0)
+                                Snackbar.make(progress, "Failed to download the latest 16 " +
+                                        "articles. Please update again later on", Snackbar.LENGTH_LONG).show();
+                        } else {
+                            Log.e("TAG", HTMLDocuments[i].title());
 
-            //Setting up realm database for articles
-            realmConfiguration = new RealmConfiguration.Builder(DownloadForFirstTimeActivity.this)
-                    .name
-                            (DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-            Realm.setDefaultConfiguration(realmConfiguration);
-            database = Realm.getDefaultInstance();
+                            //Get all elements that have the "article" tag
+                            Elements documentElements = HTMLDocuments[i].getElementsByTag("article");
 
+                            /*
+                            if(documentElements.size()==16 && i==urlList.size()-1){
+                                database.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        HeraldLinks temp = realm.createObject(HeraldLinks.class);
+                                        temp.setAddress(DHC.address+"page/"+(i+1));
+                                    }
+                                });
+                            }
+                            */
+                            Attributes postIDAttribute, mainAttribute, dateAttrib,
+                                    updateDateAttrib, imageURLAttribute;
+                            String imageURL;
 
-            for (i = 0; i < htmlURL.length; i++) {
-                try {
-                    Log.e("TAG", "Connecting to URL " + htmlURL[i]);
-                    HTMLDocuments[i] = Jsoup.connect(htmlURL[i]).get();
-                    if (HTMLDocuments[i] == null) {
-                        Log.e("TAG", "HTML download failed");
-                        if (i == 0) Snackbar.make(progress, "Failed to download the latest 16 " +
-                                "articles. Please update again later on", Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Log.e("TAG", HTMLDocuments[i].title());
-
-                        //Get all elements that have the "article" tag
-                        Elements documentElements = HTMLDocuments[i].getElementsByTag("article");
-
-                        Attributes postIDAttribute, mainAttribute, dateAttrib,
-                                updateDateAttrib, imageURLAttribute;
-                        String imageURL;
-
-                        int postsCounter = 0;
-                        for (Element element : documentElements) {
-                            postsCounter++;
-                            postIDAttribute = element.attributes();
-                            mainAttribute = element.child(0).child(0).attributes();
-                            dateAttrib = element.child(1).child(0).child(0).child(0)
-                                    .child(0).attributes
-                                            ();
-                            final String postIDTemp = postIDAttribute.get("id");
-
-                            try {
-                                updateDateAttrib = element.child(1).child(0).child(0).child(0)
-                                        .child(1).attributes
+                            int postsCounter = 0;
+                            for (Element element : documentElements) {
+                                postsCounter++;
+                                postIDAttribute = element.attributes();
+                                mainAttribute = element.child(0).child(0).attributes();
+                                dateAttrib = element.child(1).child(0).child(0).child(0)
+                                        .child(0).attributes
                                                 ();
+                                final String postIDTemp = postIDAttribute.get("id");
 
-                            } catch (Exception e) {
-                                updateDateAttrib = dateAttrib;
+                                try {
+                                    updateDateAttrib = element.child(1).child(0).child(0).child(0)
+                                            .child(1).attributes
+                                                    ();
+
+                                } catch (Exception e) {
+                                    updateDateAttrib = dateAttrib;
+
+                                }
+
+                                if (!element.getElementsByAttribute("src").isEmpty()) {
+                                    imageURLAttribute = element.child(0).child(0).child(0)
+                                            .attributes();
+                                    imageURL = imageURLAttribute.get
+                                            ("src");
+                                } else {
+                                    imageURL = "-1";
+                                }
+
+                                // also //time check
+                                // is also important
+
+                                database.beginTransaction();
+                                HeraldNewsItemFormat temp = database.createObject(HeraldNewsItemFormat.class);
+                                temp.setTitle(mainAttribute.get("title"));
+                                temp.setPostID(postIDTemp);
+                                temp.setAuthor("dojma_admin");
+                                temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
+                                temp.setLink(mainAttribute.get("href"));
+                                temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
+                                temp.setImageURL(imageURL);
+                                temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
+                                temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
+                                temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
+                                database.commitTransaction();
+
+
+                                publishProgress(100 * (i + 1) / urlList.size() *
+                                        postsCounter /
+                                        DHC.noOfArticlesPerPage);
 
                             }
-
-                            if (!element.getElementsByAttribute("src").isEmpty()) {
-                                imageURLAttribute = element.child(0).child(0).child(0)
-                                        .attributes();
-                                imageURL = imageURLAttribute.get
-                                        ("src");
-                            } else {
-                                imageURL = "-1";
-                            }
-
-                            // also //time check
-                            // is also important
-
-                            database.beginTransaction();
-                            HeraldNewsItemFormat temp = database.createObject(HeraldNewsItemFormat.class);
-                            temp.setTitle(mainAttribute.get("title"));
-                            temp.setPostID(postIDTemp);
-                            temp.setAuthor("dojma_admin");
-                            temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
-                            temp.setLink(mainAttribute.get("href"));
-                            temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
-                            temp.setImageURL(imageURL);
-                            temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
-                            temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
-                            temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
-                            database.commitTransaction();
-
-
-                            publishProgress(100 * (i + 1) / htmlURL.length *
-                                    postsCounter /
-                                    DHC.noOfArticlesPerPage);
-
 
                         }
 
+                    } catch (IOException ignored) {
+
                     }
 
-                } catch (IOException ignored) {
-
                 }
-
+                database.close();
+            } else {
+                Log.e("TAG", "URL LIST IS NULL");
             }
-            database.close();
             return null;
+
         }
 
         @Override
