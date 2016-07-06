@@ -27,7 +27,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:support-v13:24.0.0'
-
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
     compile 'com.android.support:cardview-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
@@ -41,5 +41,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.alexvasilkov:gesture-views:2.1.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    compile 'com.alexvasilkov:android-commons:1.2.4'
+
 }
 apply plugin: 'com.google.gms.google-services'

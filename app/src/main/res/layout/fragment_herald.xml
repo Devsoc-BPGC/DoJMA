@@ -18,7 +18,7 @@
             android:background="@color/colorPrimary"
             app:closeIcon="@drawable/ic_clear_white_24dp"
             app:queryBackground="@color/colorPrimary"
-            app:queryHint="Search articles"
+            app:queryHint="Search Herald articles"
             app:searchHintIcon="@drawable/ic_search_white_24dp"
             app:searchIcon="@drawable/ic_search_white_24dp"
 

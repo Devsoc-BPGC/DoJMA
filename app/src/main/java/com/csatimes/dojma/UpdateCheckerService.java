@@ -101,7 +101,6 @@ public class UpdateCheckerService extends IntentService {
                                 .class).equalTo("postID", postIDTemp).findAll();
 
                         if (results.size() != 0) {
-                            Log.e("TAG", "Article Existed ... modifying data");
                             HeraldNewsItemFormat temp = results.get(0);
                             if (temp.getTitle().compareToIgnoreCase(mainAttribute.get("title")) != 0) {
 
