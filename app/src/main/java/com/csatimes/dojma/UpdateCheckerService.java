@@ -29,9 +29,11 @@ import static com.csatimes.dojma.DHC.directory;
 
 public class UpdateCheckerService extends IntentService {
 
+    public static final String DOWNLOAD_SUCCESS = "com.csatimes.dojma.intent.action.dns";
+    public static UpdateCheckerService instance;
+    public static volatile boolean stop = false;
     private RealmConfiguration realmConfiguration;
     private Realm database;
-
     private int noOfArticlesDownloadedByService = 0;
     private boolean isUpdatePresent;
     private int noOfArticlesUpdatedByService = 0;
@@ -40,12 +42,28 @@ public class UpdateCheckerService extends IntentService {
         super("UpdateCheckerService");
     }
 
+    public static boolean isInstanceCreated() {
+        return instance != null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        instance = null;
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        String url = DHC.address;
         noOfArticlesDownloadedByService = 0;
         noOfArticlesUpdatedByService = 0;
         isUpdatePresent = false;
+        stop = false;
 
         try {
             WakefulBroadcastReceiver.completeWakefulIntent(intent);
@@ -61,150 +79,158 @@ public class UpdateCheckerService extends IntentService {
         links.addAll(database.where(HeraldLinks.class).findAll());
 
         for (HeraldLinks link : links) {
-            Log.e("TAG", "Downloading from " + link.getAddress());
-            try {
-                Document HTMLDocument = Jsoup.connect(link.getAddress()).get();
+            if (!stop) {
+                Log.e("TAG", "Downloading from " + link.getAddress());
+                try {
+                    Document HTMLDocument = Jsoup.connect(link.getAddress()).get();
 
-                if (HTMLDocument != null) {
-                    Elements documentElements = HTMLDocument.getElementsByTag("article");
-                    Attributes postIDAttribute, mainAttribute, dateAttrib, updateDateAttrib, imageURLAttribute;
-                    String imageURL;
+                    if (HTMLDocument != null) {
+                        Elements documentElements = HTMLDocument.getElementsByTag("article");
+                        Attributes postIDAttribute, mainAttribute, dateAttrib, updateDateAttrib, imageURLAttribute;
+                        String imageURL;
 
-                    for (Element element : documentElements) {
-                        isUpdatePresent = false;
-                        postIDAttribute = element.attributes();
-                        mainAttribute = element.child(0).child(0).attributes();
-                        dateAttrib = element.child(1).child(0).child(0).child(0)
-                                .child(0).attributes
-                                        ();
-                        final String postIDTemp = postIDAttribute.get("id");
-
-                        try {
-                            updateDateAttrib = element.child(1).child(0).child(0).child(0)
-                                    .child(1).attributes
+                        for (Element element : documentElements) {
+                            isUpdatePresent = false;
+                            postIDAttribute = element.attributes();
+                            mainAttribute = element.child(0).child(0).attributes();
+                            dateAttrib = element.child(1).child(0).child(0).child(0)
+                                    .child(0).attributes
                                             ();
+                            final String postIDTemp = postIDAttribute.get("id");
 
-                        } catch (Exception e) {
-                            updateDateAttrib = dateAttrib;
-                        }
+                            try {
+                                updateDateAttrib = element.child(1).child(0).child(0).child(0)
+                                        .child(1).attributes
+                                                ();
 
-                        if (!element.getElementsByAttribute("src").isEmpty()) {
-                            imageURLAttribute = element.child(0).child(0).child(0)
-                                    .attributes();
-                            imageURL = imageURLAttribute.get
-                                    ("src");
-                        } else {
-                            imageURL = "-1";
-                        }
-
-                        RealmResults<HeraldNewsItemFormat> results = database.where(HeraldNewsItemFormat
-                                .class).equalTo("postID", postIDTemp).findAll();
-
-                        if (results.size() != 0) {
-                            HeraldNewsItemFormat temp = results.get(0);
-                            if (temp.getTitle().compareToIgnoreCase(mainAttribute.get("title")) != 0) {
-
-                                database.beginTransaction();
-                                temp.setTitle(mainAttribute.get("title"));
-                                database.commitTransaction();
-
-                                isUpdatePresent = true;
-                            }
-                            if (temp.getUpdateTime().compareTo(updateDateAttrib.get("datetime")
-                                    .substring(10, 16)) !=
-                                    0) {
-
-
-                                database.beginTransaction();
-                                temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
-                                database.commitTransaction();
-
-                                isUpdatePresent = true;
-                            }
-                            if (temp.getOriginalTime().compareTo(dateAttrib.get("datetime")
-                                    .substring(10, 16)) !=
-                                    0) {
-
-
-                                database.beginTransaction();
-                                temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
-                                database.commitTransaction();
-
-                                isUpdatePresent = true;
+                            } catch (Exception e) {
+                                updateDateAttrib = dateAttrib;
                             }
 
-                            if (temp.getUpdateDate().compareTo(updateDateAttrib.get("datetime")
-                                    .substring(0, 10)) != 0) {
-
-                                database.beginTransaction();
-                                temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
-                                database.commitTransaction();
-
-                                isUpdatePresent = true;
+                            if (!element.getElementsByAttribute("src").isEmpty()) {
+                                imageURLAttribute = element.child(0).child(0).child(0)
+                                        .attributes();
+                                imageURL = imageURLAttribute.get
+                                        ("src");
+                            } else {
+                                imageURL = "-1";
                             }
 
+                            RealmResults<HeraldNewsItemFormat> results = database.where(HeraldNewsItemFormat
+                                    .class).equalTo("postID", postIDTemp).findAll();
 
-                            if (temp.getLink().compareTo(mainAttribute.get("href")) != 0) {
+                            if (results.size() != 0) {
+                                HeraldNewsItemFormat temp = results.get(0);
+                                if (temp.getTitle().compareToIgnoreCase(mainAttribute.get("title")) != 0) {
 
-                                database.beginTransaction();
-                                temp.setLink(mainAttribute.get("href"));
-                                database.commitTransaction();
+                                    database.beginTransaction();
+                                    temp.setTitle(mainAttribute.get("title"));
+                                    database.commitTransaction();
 
-                                isUpdatePresent = true;
-                            }
-
-                            if (temp.getImageURL().compareTo(imageURL) != 0) {
-
-                                database.beginTransaction();
-                                temp.setImageURL(imageURL);
-                                database.commitTransaction();
-
-                                isUpdatePresent = true;
-                            }
-                            if (isUpdatePresent)
-                                noOfArticlesUpdatedByService++;
-                        } else {
-                            String description = null;
-                            {
-                                Document desc = Jsoup.connect(mainAttribute.get("href")).get();
-                                Elements elements = desc.getElementsByTag("p");
-                                StringBuilder stringBuilder = new StringBuilder();
-                                for (Element element1 : elements) {
-                                    if (element1.hasText())
-                                        stringBuilder.append(element1.text() + "\n");
+                                    isUpdatePresent = true;
                                 }
-                                description = stringBuilder.toString();
+                                if (temp.getUpdateTime().compareTo(updateDateAttrib.get("datetime")
+                                        .substring(10, 16)) !=
+                                        0) {
+
+
+                                    database.beginTransaction();
+                                    temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
+                                    database.commitTransaction();
+
+                                    isUpdatePresent = true;
+                                }
+                                if (temp.getOriginalTime().compareTo(dateAttrib.get("datetime")
+                                        .substring(10, 16)) !=
+                                        0) {
+
+
+                                    database.beginTransaction();
+                                    temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
+                                    database.commitTransaction();
+
+                                    isUpdatePresent = true;
+                                }
+
+                                if (temp.getUpdateDate().compareTo(updateDateAttrib.get("datetime")
+                                        .substring(0, 10)) != 0) {
+
+                                    database.beginTransaction();
+                                    temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
+                                    database.commitTransaction();
+
+                                    isUpdatePresent = true;
+                                }
+
+
+                                if (temp.getLink().compareTo(mainAttribute.get("href")) != 0) {
+
+                                    database.beginTransaction();
+                                    temp.setLink(mainAttribute.get("href"));
+                                    database.commitTransaction();
+
+                                    isUpdatePresent = true;
+                                }
+
+                                if (temp.getImageURL().compareTo(imageURL) != 0) {
+
+                                    database.beginTransaction();
+                                    temp.setImageURL(imageURL);
+                                    database.commitTransaction();
+
+                                    isUpdatePresent = true;
+                                }
+                                if (isUpdatePresent)
+                                    noOfArticlesUpdatedByService++;
+                            } else {
+                                String description = null;
+                                {
+                                    Document desc = Jsoup.connect(mainAttribute.get("href")).get();
+                                    Elements elements = desc.getElementsByTag("p");
+                                    StringBuilder stringBuilder = new StringBuilder();
+                                    for (Element element1 : elements) {
+                                        if (element1.hasText())
+                                            stringBuilder.append(element1.text() + "\n");
+                                    }
+                                    description = stringBuilder.toString();
+                                }
+                                database.beginTransaction();
+
+                                HeraldNewsItemFormat _temp = database.createObject(HeraldNewsItemFormat
+                                        .class);
+                                _temp.setTitle(mainAttribute.get("title"));
+                                _temp.setPostID(postIDTemp);
+                                _temp.setAuthor("dojma_admin");
+                                _temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
+                                _temp.setLink(mainAttribute.get("href"));
+                                _temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
+                                _temp.setImageURL(imageURL);
+                                _temp.setDismissed(false);
+                                _temp.setDesc(description);
+                                _temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
+                                _temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
+                                _temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
+
+                                database.commitTransaction();
+                                noOfArticlesDownloadedByService++;
+
                             }
-                            database.beginTransaction();
-
-                            HeraldNewsItemFormat _temp = database.createObject(HeraldNewsItemFormat
-                                    .class);
-                            _temp.setTitle(mainAttribute.get("title"));
-                            _temp.setPostID(postIDTemp);
-                            _temp.setAuthor("dojma_admin");
-                            _temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
-                            _temp.setLink(mainAttribute.get("href"));
-                            _temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
-                            _temp.setImageURL(imageURL);
-                            _temp.setDismissed(false);
-                            _temp.setDesc(description);
-                            _temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
-                            _temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
-                            _temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");
-
-                            database.commitTransaction();
-                            noOfArticlesDownloadedByService++;
-
                         }
                     }
-                }
 
-            } catch (IOException e) {
+                } catch (IOException e) {
+                }
             }
         }
+        Intent i = new Intent();
+        i.setAction(DOWNLOAD_SUCCESS);
+        sendBroadcast(i);
+        Log.e("TAG", "broadcast sent");
 
         String message = null;
         if (noOfArticlesDownloadedByService != 0 || noOfArticlesUpdatedByService != 0) {
+
+
             if (noOfArticlesUpdatedByService != 0 && noOfArticlesDownloadedByService != 0)
                 message = noOfArticlesDownloadedByService + " articles downloaded and " +
                         noOfArticlesUpdatedByService + " updated";
@@ -232,9 +258,8 @@ public class UpdateCheckerService extends IntentService {
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(69, downloadNotif.build());
         }
-
         database.close();
-        stopSelf();
+
     }
 
 

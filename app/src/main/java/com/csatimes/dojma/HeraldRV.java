@@ -75,6 +75,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -203,7 +204,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public void onClick(View view) {
-
+//need to check why this isn't working
         database.beginTransaction();
 
         HeraldNewsItemFormat _lolwa = database.where(HeraldNewsItemFormat.class).equalTo
@@ -293,8 +294,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                                 .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
                                 // .addDefaultShareMenuItem()
                                 .addMenuItem(copy_label, copy_pendingIntent)
-                                .setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left)
-                                .setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right)
+                                .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                                .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
                                 .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
                                 .setActionButton(BitmapFactory.decodeResource(context
                                                 .getResources(), R.drawable.ic_share_white_24dp), "Share",

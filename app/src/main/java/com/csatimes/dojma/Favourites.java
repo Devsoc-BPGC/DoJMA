@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
@@ -63,9 +64,13 @@ public class Favourites extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                realmResults = database.where(HeraldNewsItemFormat.class).beginGroup().equalTo
-                        ("fav", true).endGroup().contains
-                        ("title", query)
+                realmResults = database
+                        .where(HeraldNewsItemFormat.class)
+                        .beginGroup()
+                        .equalTo("fav", true)
+                        .endGroup()
+                        .contains
+                                ("title", query, Case.INSENSITIVE)
                         .findAll();
                 realmList.clear();
                 realmList.addAll(realmResults);
@@ -77,8 +82,13 @@ public class Favourites extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                realmResults = database.where(HeraldNewsItemFormat.class).beginGroup().equalTo
-                        ("fav", true).endGroup().contains("title", newText).findAll();
+                realmResults = database
+                        .where(HeraldNewsItemFormat.class)
+                        .beginGroup()
+                        .equalTo("fav", true)
+                        .endGroup()
+                        .contains("title", newText, Case.INSENSITIVE)
+                        .findAll();
                 realmList.clear();
                 realmList.addAll(realmResults);
                 heraldRVAdapter.notifyDataSetChanged();

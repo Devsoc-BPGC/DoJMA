@@ -28,7 +28,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +43,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -121,7 +119,6 @@ public class HomeActivity extends AppCompatActivity
         else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
 
         editor.apply();
-        Fresco.initialize(this);
 
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -137,9 +134,7 @@ public class HomeActivity extends AppCompatActivity
         //custom method
         setLatestTopicAsNavBarTitle();
 
-
         setupColors();
-
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
@@ -237,7 +232,19 @@ public class HomeActivity extends AppCompatActivity
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     //check for updates
                     //and refresh fragment
-
+                    if (!UpdateCheckerService.isInstanceCreated()) {
+                        final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
+                        UpdateCheckerService.stop = false;
+                        startService(intent);
+                        Snackbar.make(v, "Checking for updates ... ", Snackbar.LENGTH_LONG)
+                                .setAction("Cancel", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (UpdateCheckerService.isInstanceCreated())
+                                            UpdateCheckerService.stop = true;
+                                    }
+                                }).show();
+                    }
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     //gazette
                 } else if (tabLayout.getSelectedTabPosition() == 2) {
@@ -331,6 +338,7 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     private void setLatestTopicAsNavBarTitle() {
@@ -403,7 +411,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("TAG", "onResume called");
         viewPager.requestFocus();
     }
 
@@ -564,8 +571,6 @@ public class HomeActivity extends AppCompatActivity
         }
         return app_installed;
     }
-
-    //code to check if google chrome is intalled or not
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();

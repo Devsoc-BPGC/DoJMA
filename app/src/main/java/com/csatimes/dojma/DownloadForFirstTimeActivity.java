@@ -138,7 +138,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                     HTMLDocuments[i] = null;
 
 
-                for (i = 0; i < urlList.size(); i++) {
+                for (i = 1; i < urlList.size(); i++) {
                     try {
                         Log.e("TAG", "Connecting to URL " + urlList.get(i));
                         HTMLDocuments[i] = Jsoup.connect(urlList.get(i)).get();
