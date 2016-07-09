@@ -73,4 +73,10 @@
         <!-- Hint for edit text -->
         <item name="android:hint">Search all</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@color/alert_dialog_background</item>
+        <item name="android:textColor">@color/alert_dialog_text_color</item>
+
+    </style>
 </resources>

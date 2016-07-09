@@ -232,6 +232,8 @@ public class HomeActivity extends AppCompatActivity
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     //check for updates
                     //and refresh fragment
+                    new SimpleAlertDialog().showDialog(HomeActivity.this, "Message", "details",
+                            "Ok", "", true, false);
                     if (!UpdateCheckerService.isInstanceCreated()) {
                         final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
                         UpdateCheckerService.stop = false;
@@ -411,6 +413,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        searchView.clearFocus();
         viewPager.requestFocus();
     }
 

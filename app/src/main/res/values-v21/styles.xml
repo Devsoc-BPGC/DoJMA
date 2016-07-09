@@ -6,4 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="@android:style/Theme.Material.Dialog">
+        <item name="android:background">@color/alert_dialog_background</item>
+        <item name="android:textColor">@color/alert_dialog_text_color</item>
+
+    </style>
 </resources>

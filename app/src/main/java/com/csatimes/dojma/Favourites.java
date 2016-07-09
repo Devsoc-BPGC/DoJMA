@@ -21,7 +21,6 @@ public class Favourites extends AppCompatActivity {
 
     private MaterialSearchView searchView;
     private Realm database;
-    private RealmConfiguration realmConfiguration;
     private RealmResults realmResults;
     private RealmList realmList;
     private RecyclerView favHeraldRV;
@@ -40,7 +39,7 @@ public class Favourites extends AppCompatActivity {
 
         searchView.setHint("Search favourites");
 
-        realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
 
@@ -126,7 +125,6 @@ public class Favourites extends AppCompatActivity {
             searchView.closeSearch();
         } else {
             database.close();
-            finish();
             super.onBackPressed();
 
         }

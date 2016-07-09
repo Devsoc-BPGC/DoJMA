@@ -3,6 +3,7 @@ package com.csatimes.dojma;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.view.ContextThemeWrapper;
 
 /**
  * Created by Android on 21-01-2016.
@@ -16,7 +17,8 @@ public class SimpleAlertDialog {
         this.context = context;
         this.title = title;
         this.message = message;
-        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        AlertDialog.Builder ad = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style
+                .AlertDialogTheme));
         ad.setTitle(title);
         ad.setMessage(message);
         if (POSDisplay)

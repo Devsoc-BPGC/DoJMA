@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,12 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         return resultsList.size();
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        Fresco.shutDown();
+        super.onDetachedFromRecyclerView(recyclerView);
+    }
+
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
@@ -186,17 +193,20 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public void onItemDismiss(final int position, RecyclerView rv) {
+
         database.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                HeraldNewsItemFormat _lolwa = database.where(HeraldNewsItemFormat.class).equalTo
+                HeraldNewsItemFormat temp = database.where(HeraldNewsItemFormat.class).equalTo
                         ("postID", resultsList.get(position).getPostID()).findFirst();
-                _lolwa.setDismissed(true);
+                temp.setDismissed(true);
             }
         });
+        Log.e("TAG", "dismissed at " + position);
         dismissPosition = position;
         this.resultsList.remove(position);
         this.notifyItemRemoved(position);
+
         Snackbar.make(rv, "Article dismissed", Snackbar.LENGTH_LONG).setAction("UNDO", this).show();
 
     }
@@ -206,15 +216,15 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     public void onClick(View view) {
 //need to check why this isn't working
         database.beginTransaction();
-
-        HeraldNewsItemFormat _lolwa = database.where(HeraldNewsItemFormat.class).equalTo
-                ("postID", resultsList.get(dismissPosition).getPostID()).findFirst();
-        _lolwa.setDismissed(false);
+        Log.e("TAG", "dismissed pos = " + dismissPosition);
+        HeraldNewsItemFormat temp = database.where(HeraldNewsItemFormat.class).equalTo
+                ("dismissed", true).findAll().last();
+        temp.setDismissed(false);
 
         database.commitTransaction();
 
-        resultsList.add(dismissPosition, _lolwa);
-        notifyItemInserted(dismissPosition);
+        resultsList.add(dismissPosition, temp);
+        this.notifyItemInserted(dismissPosition);
     }
 
 

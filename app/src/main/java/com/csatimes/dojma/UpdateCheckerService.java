@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
@@ -29,14 +30,15 @@ import static com.csatimes.dojma.DHC.directory;
 
 public class UpdateCheckerService extends IntentService {
 
-    public static final String DOWNLOAD_SUCCESS = "com.csatimes.dojma.intent.action.dns";
+    public static final String DOWNLOAD_SUCCESS_ACTION = "com.csatimes.dojma.intent.action.dns";
+    public static final String UPDATE_CHECK_OVER = "com.csatimes.dojma.intent.action.uco";
     public static UpdateCheckerService instance;
     public static volatile boolean stop = false;
-    private RealmConfiguration realmConfiguration;
     private Realm database;
-    private int noOfArticlesDownloadedByService = 0;
+    private RealmConfiguration realmConfiguration;
     private boolean isUpdatePresent;
     private int noOfArticlesUpdatedByService = 0;
+    private int noOfArticlesDownloadedByService = 0;
 
     public UpdateCheckerService() {
         super("UpdateCheckerService");
@@ -60,6 +62,7 @@ public class UpdateCheckerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.e("TAG", "onHandleIntent");
         noOfArticlesDownloadedByService = 0;
         noOfArticlesUpdatedByService = 0;
         isUpdatePresent = false;
@@ -80,7 +83,6 @@ public class UpdateCheckerService extends IntentService {
 
         for (HeraldLinks link : links) {
             if (!stop) {
-                Log.e("TAG", "Downloading from " + link.getAddress());
                 try {
                     Document HTMLDocument = Jsoup.connect(link.getAddress()).get();
 
@@ -222,44 +224,75 @@ public class UpdateCheckerService extends IntentService {
                 }
             }
         }
-        Intent i = new Intent();
-        i.setAction(DOWNLOAD_SUCCESS);
-        sendBroadcast(i);
-        Log.e("TAG", "broadcast sent");
 
         String message = null;
+
         if (noOfArticlesDownloadedByService != 0 || noOfArticlesUpdatedByService != 0) {
 
+            //Send update available broadcast if Herald fragment is attached
+            Intent i = new Intent();
+            i.setAction(DOWNLOAD_SUCCESS_ACTION);
+            sendBroadcast(i);
 
-            if (noOfArticlesUpdatedByService != 0 && noOfArticlesDownloadedByService != 0)
-                message = noOfArticlesDownloadedByService + " articles downloaded and " +
-                        noOfArticlesUpdatedByService + " updated";
-            else if (noOfArticlesDownloadedByService == 0)
-                message = noOfArticlesUpdatedByService + " articles updated";
-            else if (noOfArticlesUpdatedByService == 0) {
-                message = noOfArticlesDownloadedByService + " articles downloaded";
+            Log.e("TAG", noOfArticlesDownloadedByService + " " + noOfArticlesUpdatedByService);
+
+            //create message for notification
+            message = setNotificationMessage(noOfArticlesDownloadedByService, noOfArticlesUpdatedByService);
+            if (message != null) {
+                Intent openHerald = new Intent(this, HomeActivity.class);
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                        DHC.UPDATE_SERVICE_PENDING_INTENT_CODE, openHerald, PendingIntent.FLAG_CANCEL_CURRENT);
+
+                NotificationCompat.Builder downloadNotif =
+                        new NotificationCompat.Builder(this).setAutoCancel(true)
+                                .setSmallIcon(R.drawable.dojma)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.dojma))
+                                .setColor(Color.BLACK)
+                                .setContentTitle("DoJMA update ")
+                                .setContentText(message);
+
+                downloadNotif.setContentIntent(pendingIntent);
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(DHC.UPDATE_SERVICE_NOTIFICATION_CODE, downloadNotif.build());
             }
-            Intent openHerald = new Intent(this, HomeActivity.class);
+        } else {
 
-            PendingIntent articlesDnPI = PendingIntent.getActivity(this,
-                    69, openHerald, PendingIntent.FLAG_CANCEL_CURRENT);
-
-            NotificationCompat.Builder downloadNotif =
-                    new NotificationCompat.Builder(this).setAutoCancel(true)
-                            .setSmallIcon(R.drawable.dojma)
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.dojma))
-                            .setColor(Color.BLACK)
-                            .setContentTitle("DoJMA update ")
-                            .setContentText(message);
-
-            downloadNotif.setContentIntent(articlesDnPI);
-
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(69, downloadNotif.build());
+            Intent i = new Intent();
+            i.setAction(UPDATE_CHECK_OVER);
+            sendBroadcast(i);
         }
         database.close();
+    }
 
+    @NonNull
+    private String setNotificationMessage(int downloads, int updates) {
+        String foo = null;
+
+        if (updates != 0 && downloads != 0) {
+            if (downloads == 1)
+                foo = "1 article downloaded and " + updates + " " +
+                        "updated";
+            else
+                foo = downloads + " articles downloaded and " +
+                        updates + " updated";
+
+        } else if (downloads == 0) {
+            if (updates == 1)
+                foo = "1 article updated";
+            else {
+                foo = updates + " articles updated";
+            }
+        } else if (updates == 0) {
+            if (downloads == 1)
+                foo = "1 article downloaded";
+            else foo = downloads +
+                    " articles downloaded";
+        } else return null;
+
+        return foo;
     }
 
 

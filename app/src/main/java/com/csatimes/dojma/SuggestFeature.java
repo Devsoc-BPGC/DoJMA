@@ -21,12 +21,14 @@ public class SuggestFeature extends AppCompatActivity {
     private EditText suggestion;
     private Intent emailIntent;
     private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest_feature);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
@@ -46,7 +48,7 @@ public class SuggestFeature extends AppCompatActivity {
                             .ACTION_SEND);
                     emailIntent.setData(Uri.parse("mailto:"));
                     emailIntent.setType("text/plain");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mac", "f2015209@goa.bits-pilani" +
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mobileapplicationclub@gmail.com", "f2015209@goa.bits-pilani" +
                             ".ac.in"});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "FEATURE/SUGG REQUEST FOR DOJMA APP");
                     emailIntent.putExtra(Intent.EXTRA_TEXT, suggestion.getText().toString());
@@ -87,7 +89,6 @@ public class SuggestFeature extends AppCompatActivity {
                 }
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }

@@ -24,6 +24,7 @@ import com.alexvasilkov.gestures.transition.SimpleViewsTracker;
 import com.alexvasilkov.gestures.transition.ViewsCoordinator;
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.transition.ViewsTransitionBuilder;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -283,6 +284,12 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        Fresco.shutDown();
+        super.onDestroy();
+    }
+
     private class ViewHolder {
         final Toolbar toolbar;
         final View toolbarBack;
@@ -304,5 +311,4 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
             pagerBackground = Views.find(activity, R.id.advanced_full_background);
         }
     }
-
 }
