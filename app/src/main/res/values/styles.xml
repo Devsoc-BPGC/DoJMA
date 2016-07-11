@@ -16,7 +16,7 @@
     </style>
 
     <style name="CustomToolbar">
-        <item name="android:id">@id/toolbar</item>
+        <item name="android:id">@id/offline_toolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">?attr/colorPrimary</item>
@@ -74,9 +74,13 @@
         <item name="android:hint">Search all</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="@android:style/Theme.Dialog">
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/alert_dialog_background</item>
         <item name="android:textColor">@color/alert_dialog_text_color</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
+    <style name="FilterDialogThemeLight" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowShowAnimation">@anim/commons_slide_up_to_bottom</item>
     </style>
 </resources>

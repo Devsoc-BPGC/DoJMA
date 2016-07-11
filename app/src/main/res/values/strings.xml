@@ -42,5 +42,20 @@
     <string name="menu_crop_square">Square</string>
     <string name="menu_crop_circle">Circle</string>
     <string name="title_activity_searchable">Search DoJMA</string>
-
+    <string name="filter_articles">Filter articles</string>
+    <string name="sort_order">Sort Order</string>
+    \
+    <string-array name="filter_options">
+        <item>Favourites</item>
+        <item>Dismissed</item>
+        <item>New</item>
+    </string-array>
+    <string-array name="sort_options">
+        <item>Name</item>
+        <item>Date Created</item>
+        <item>Date Updated</item>
+        <item>Popular</item>
+        <item>Favourites</item>
+    </string-array>
+    <string name="title_activity_offline_simple_viewer">Offline View</string>
 </resources>

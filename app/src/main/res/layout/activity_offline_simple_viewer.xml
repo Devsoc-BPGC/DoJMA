@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.csatimes.dojma.Settings">
+
+    tools:context="com.csatimes.dojma.OfflineSimpleViewer">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,7 +23,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_settings"/>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize">
 
+        <include layout="@layout/content_offline_simple_viewer"/>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

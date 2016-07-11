@@ -20,7 +20,7 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbar);
 
         AnalyticsApplication application = (AnalyticsApplication) getApplication();

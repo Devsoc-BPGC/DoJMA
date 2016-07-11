@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        toolbarObject = (Toolbar) findViewById(R.id.toolbar);
+        toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbarObject);
 
         //reference fab button
@@ -234,6 +234,7 @@ public class HomeActivity extends AppCompatActivity
                     //and refresh fragment
                     new SimpleAlertDialog().showDialog(HomeActivity.this, "Message", "details",
                             "Ok", "", true, false);
+
                     if (!UpdateCheckerService.isInstanceCreated()) {
                         final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
                         UpdateCheckerService.stop = false;
@@ -574,6 +575,7 @@ public class HomeActivity extends AppCompatActivity
         }
         return app_installed;
     }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();

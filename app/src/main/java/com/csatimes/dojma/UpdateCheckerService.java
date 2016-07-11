@@ -192,7 +192,7 @@ public class UpdateCheckerService extends IntentService {
                                     StringBuilder stringBuilder = new StringBuilder();
                                     for (Element element1 : elements) {
                                         if (element1.hasText())
-                                            stringBuilder.append(element1.text() + "\n");
+                                            stringBuilder.append(element1.text() + "\n\n");
                                     }
                                     description = stringBuilder.toString();
                                 }

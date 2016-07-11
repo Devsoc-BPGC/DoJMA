@@ -23,6 +23,8 @@ public class DHC {
     public static final String USER_PREFERENCES = "USER_PREFS";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
     public static final String REALM_DOJMA_LINKS_DATABASE = "DOJMA_LINKS_DATABASE";
+    static final String FILTER_SUFFIX = "filter_";
+    static final String SORT_SUFFIX = "sort_";
     public static int NUMBEROFPAGES = 4;
     public static int PAGENUMBER = 0;
     public static String address = "http://csatimes.co.in/dojma/";
@@ -140,6 +142,4 @@ public class DHC {
 
         return file.exists();
     }
-
-
 }

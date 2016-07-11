@@ -7,9 +7,19 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="@android:style/Theme.Material.Dialog">
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/alert_dialog_background</item>
         <item name="android:textColor">@color/alert_dialog_text_color</item>
-
+        <item name="android:textColorAlertDialogListItem">@color/alert_dialog_list_item_text_color
+        </item>
     </style>
+
+    <style name="FilterDialogThemeLight" parent="AlertDialog.AppCompat.Light">
+        <item name="android:windowShowAnimation">@anim/commons_slide_up_to_bottom</item>
+        <item name="android:background">@color/filter_dialog_bg_color_light</item>
+        <item name="android:colorPrimary">@color/black</item>
+        <item name="android:textColor">@color/filter_dialog_text_color_light</item>
+        <item name="android:colorAccent">@color/filter_dialog_accent_color_light</item>
+    </style>
+
 </resources>

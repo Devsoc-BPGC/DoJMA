@@ -37,6 +37,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -161,36 +165,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         super.onDetachedFromRecyclerView(recyclerView);
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnected();
-    }
-
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT <= 22) {
-            NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-            for (NetworkInfo ni : netInfo) {
-                if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                    if (ni.isConnected())
-                        haveConnectedWifi = true;
-                if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                    if (ni.isConnected())
-                        haveConnectedMobile = true;
-            }
-            return haveConnectedWifi || haveConnectedMobile;
-        } else {
-
-        }
-        return false;
-    }
-
     @Override
     public void onItemDismiss(final int position, RecyclerView rv) {
 
@@ -227,6 +201,33 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.notifyItemInserted(dismissPosition);
     }
 
+    public boolean hasInternetAccess(Context context) {
+        if (isNetworkAvailable(context)) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection)
+                        (new URL("http://clients3.google.com/generate_204")
+                                .openConnection());
+                urlc.setRequestProperty("User-Agent", "Android");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 204 &&
+                        urlc.getContentLength() == 0);
+            } catch (IOException e) {
+                Log.e("TAG", "Error checking internet connection", e);
+            }
+        } else {
+            Log.d("TAG", "No network available!");
+        }
+        return false;
+    }
+
+    private boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -287,56 +288,62 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         public void onClick(View view) {
             {
                 if (view.getId() == itemView.getId()) {
-                    if (isGoogleChromeInstalled) {
+                    if (hasInternetAccess(context))
+                        if (isGoogleChromeInstalled) {
 
-                        Intent intent = new Intent((Intent.ACTION_SEND));
-                        intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
-                                (getAdapterPosition()).getLink());
+                            Intent intent = new Intent((Intent.ACTION_SEND));
+                            intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                                    (getAdapterPosition()).getLink());
 
-                        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-                        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        String copy_label = "Copy Link";
+                            Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+                            PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            String copy_label = "Copy Link";
 
-                        customTabsIntent = new CustomTabsIntent.Builder()
-                                .setShowTitle(true)
-                                .setToolbarColor(ContextCompat.getColor(context, R.color
-                                        .blue500))
-                                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
-                                // .addDefaultShareMenuItem()
-                                .addMenuItem(copy_label, copy_pendingIntent)
-                                .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
-                                .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
-                                .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
-                                .setActionButton(BitmapFactory.decodeResource(context
-                                                .getResources(), R.drawable.ic_share_white_24dp), "Share",
-                                        PendingIntent.getActivity(context, 69,
-                                                intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
-                                .addDefaultShareMenuItem()
-                                .enableUrlBarHiding()
-                                .build();
+                            customTabsIntent = new CustomTabsIntent.Builder()
+                                    .setShowTitle(true)
+                                    .setToolbarColor(ContextCompat.getColor(context, R.color
+                                            .blue500))
+                                    .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
+                                    // .addDefaultShareMenuItem()
+                                    .addMenuItem(copy_label, copy_pendingIntent)
+                                    .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                                    .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
+                                    .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
+                                    .setActionButton(BitmapFactory.decodeResource(context
+                                                    .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                            PendingIntent.getActivity(context, 69,
+                                                    intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                    .addDefaultShareMenuItem()
+                                    .enableUrlBarHiding()
+                                    .build();
 
-                        CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
-                                Uri.parse(resultsList.get(getAdapterPosition()).getLink()),
-                                new CustomTabActivityHelper.CustomTabFallback() {
-                                    @Override
-                                    public void openUri(Activity activity, Uri uri) {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                        intent.putExtra(Intent.EXTRA_REFERRER,
-                                                Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+                            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                                    Uri.parse(resultsList.get(getAdapterPosition()).getLink()),
+                                    new CustomTabActivityHelper.CustomTabFallback() {
+                                        @Override
+                                        public void openUri(Activity activity, Uri uri) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                            intent.putExtra(Intent.EXTRA_REFERRER,
+                                                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
 
-                                        context.startActivity(intent);
-                                    }
-                                });
-                    } else {
-                        Intent openWebpage = new Intent(context, OpenWebpage.class);
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                        } else {
+                            Intent openWebpage = new Intent(context, OpenWebpage.class);
 
-                        openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
-                        openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
-                        openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
+                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
+                            openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
+                            openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
 
-                        context.startActivity(openWebpage);
+                            context.startActivity(openWebpage);
+                        }
+                    else {
+                        Intent intent = new Intent(context, OfflineSimpleViewer.class);
+                        intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
+                                ());
+                        context.startActivity(intent);
                     }
-
                 } else if (view.getId() == share.getId()) {
                     Intent intent = new Intent((Intent.ACTION_SEND));
                     intent.setType("text/plain");
@@ -351,4 +358,5 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
         }
     }
+
 }

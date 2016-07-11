@@ -54,4 +54,11 @@
     <color name="alert_dialog_background">@color/grey800</color>
     <color name="alert_dialog_text_color">@color/white</color>
     <color name="alert_dialog_title_text_color">@color/white</color>
+    <color name="alert_dialog_list_item_text_color">@color/white</color>
+    <color name="herald_searchview_background">@color/colorPrimary</color>
+
+    <color name="filter_dialog_text_color_light">@color/black</color>
+    <color name="filter_dialog_accent_color_light">@color/blue500</color>
+    <color name="filter_dialog_bg_color_light">@color/white</color>
+
 </resources>

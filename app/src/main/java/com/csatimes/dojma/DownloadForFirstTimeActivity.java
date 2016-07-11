@@ -66,6 +66,23 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.statusBarColor));
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
         }
+        preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        editor = preferences.edit();
+
+        //Set up filter options in sharedprefs
+        for (int i = 0; i < getResources().getStringArray(R.array.filter_options).length; i++) {
+            editor.putBoolean(DHC.FILTER_SUFFIX + getResources().getStringArray(R.array
+                    .filter_options)[i], false);
+        }
+        //Set up sort options in sharedprefs
+        for (int i = 0; i < getResources().getStringArray(R.array.sort_options).length; i++) {
+            editor.putBoolean(DHC.SORT_SUFFIX + getResources().getStringArray(R.array
+                    .sort_options)[i], false);
+        }
+        editor.putBoolean(DHC.SORT_SUFFIX + getResources().getStringArray(R.array
+                .sort_options)[1], true);
+        editor.apply();
+
         loadList();
 
 
@@ -256,8 +273,6 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
             database.close();
             if (noOfPosts >= 100) {
                 progress.setProgress(100);
-                preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
-                editor = preferences.edit();
                 editor.putBoolean(getString(R.string.SP_first_install), false);
                 editor.apply();
                 startActivity(new Intent(DownloadForFirstTimeActivity.this, HomeActivity.class));
