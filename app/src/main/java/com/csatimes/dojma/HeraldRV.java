@@ -37,10 +37,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -59,6 +55,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private boolean isGoogleChromeInstalled = false;
     private CustomTabsIntent customTabsIntent;
     private Activity activity;
+    private RecyclerView recyclerView;
 
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
             database, Activity activity) {
@@ -185,12 +182,13 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     }
 
+    public void setRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
 
     @Override
     public void onClick(View view) {
-//need to check why this isn't working
         database.beginTransaction();
-        Log.e("TAG", "dismissed pos = " + dismissPosition);
         HeraldNewsItemFormat temp = database.where(HeraldNewsItemFormat.class).equalTo
                 ("dismissed", true).findAll().last();
         temp.setDismissed(false);
@@ -199,34 +197,16 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
         resultsList.add(dismissPosition, temp);
         this.notifyItemInserted(dismissPosition);
+        recyclerView.smoothScrollToPosition(dismissPosition);
     }
 
-    public boolean hasInternetAccess(Context context) {
-        if (isNetworkAvailable(context)) {
-            try {
-                HttpURLConnection urlc = (HttpURLConnection)
-                        (new URL("http://clients3.google.com/generate_204")
-                                .openConnection());
-                urlc.setRequestProperty("User-Agent", "Android");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(1500);
-                urlc.connect();
-                return (urlc.getResponseCode() == 204 &&
-                        urlc.getContentLength() == 0);
-            } catch (IOException e) {
-                Log.e("TAG", "Error checking internet connection", e);
-            }
-        } else {
-            Log.d("TAG", "No network available!");
-        }
-        return false;
-    }
 
     private boolean isNetworkAvailable(Context context) {
+        Log.e("TAG", "in isNetworkAvailable");
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -288,9 +268,10 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         public void onClick(View view) {
             {
                 if (view.getId() == itemView.getId()) {
-                    if (hasInternetAccess(context))
+                    if (isNetworkAvailable(context)) {
+                        Log.e("TAG", "internet is there");
                         if (isGoogleChromeInstalled) {
-
+                            Log.e("TAG", "gc installed");
                             Intent intent = new Intent((Intent.ACTION_SEND));
                             intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                                     (getAdapterPosition()).getLink());
@@ -330,6 +311,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                                         }
                                     });
                         } else {
+                            Log.e("TAG", "openWebpage");
                             Intent openWebpage = new Intent(context, OpenWebpage.class);
 
                             openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
@@ -338,7 +320,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
                             context.startActivity(openWebpage);
                         }
-                    else {
+                    } else {
+                        Log.e("TAG", "reached intent");
                         Intent intent = new Intent(context, OfflineSimpleViewer.class);
                         intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
                                 ());

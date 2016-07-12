@@ -20,6 +20,7 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,6 +48,8 @@ public class Settings extends AppCompatActivity {
         }
         toolbar.setBackgroundColor(color);
 
+        getFragmentManager().beginTransaction().add(R.id.content_settings_frame, new SettingsFragment())
+                .commit();
 
     }
 

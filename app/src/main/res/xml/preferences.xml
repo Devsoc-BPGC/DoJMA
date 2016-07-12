@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_general"
+        android:title="General">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_general_night_mode"
+            android:summary="Use darker backgrounds to reduce strain to the eyes"
+            android:title="Enable Night Mode"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_syncing_settings"
+        android:title="Syncing">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_sync"
+            android:summary="Download and sync even when app is not being used"
+            android:title="Sync"/>
+        <ListPreference
+            android:defaultValue="2"
+            android:dependency="pref_sync"
+            android:dialogTitle="Select syncing interval"
+            android:entries="@array/settings_sync_intervals"
+            android:entryValues="@array/settings_sync_interval_values"
+            android:key="pref_key_snyc_iterval"
+            android:negativeButtonText="CANCEL"
+            android:positiveButtonText="OK"
+            android:summary="Specify regular time interval to check for updates"
+            android:title="Select sync interval"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_browser"
+        android:title="Browser">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_browser_inapp_enable"
+            android:summary="Articles will be loaded inside app"
+            android:title="Use in app browser"
+            />
+        <ListPreference
+            android:defaultValue="1"
+            android:dependency="pref_browser_inapp_enable"
+            android:entries="@array/settings_browser_list"
+            android:entryValues="@array/settings_browser_list_values"
+            android:key="pref_browser_list"
+            android:summary="Choose between Chrome Custom Tabs(if supported),WebView,OfflineViewer"
+            android:title="Change in app browser">
+        </ListPreference>
+
+    </PreferenceCategory>
+</PreferenceScreen>

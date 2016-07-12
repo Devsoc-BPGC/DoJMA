@@ -57,5 +57,35 @@
         <item>Popular</item>
         <item>Favourites</item>
     </string-array>
+
+    <string-array name="settings_browser_list">
+        <item>Chrome Custom Tabs</item>
+        <item>Android WebView</item>
+        <item>Simple Offline WebViewer</item>
+    </string-array>
+    <string-array name="settings_browser_list_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="settings_sync_intervals">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>12 hours</item>
+        <item>1 day</item>
+    </string-array>
+
+    <string-array name="settings_sync_interval_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="title_activity_offline_simple_viewer">Offline View</string>
 </resources>
