@@ -29,6 +29,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Searchable"/>
         </activity>
         <activity
             android:name=".SuggestFeature"
@@ -136,6 +140,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".POSTDownloaderActivity"
+            android:label="@string/title_activity_postdownloader"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

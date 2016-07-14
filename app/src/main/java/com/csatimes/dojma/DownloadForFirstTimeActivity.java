@@ -83,7 +83,7 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                 .sort_options)[1], true);
         editor.apply();
 
-        loadList();
+        //loadList();
 
 
     }
@@ -220,10 +220,10 @@ public class DownloadForFirstTimeActivity extends AppCompatActivity {
                                 database.beginTransaction();
                                 HeraldNewsItemFormat temp = database.createObject(HeraldNewsItemFormat.class);
                                 temp.setTitle(mainAttribute.get("title"));
-                                temp.setPostID(postIDTemp);
-                                temp.setAuthor("dojma_admin");
+                                // temp.setPostID(postIDTemp);
+                                // temp.setAuthor("dojma_admin");
                                 temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
-                                temp.setLink(mainAttribute.get("href"));
+                                temp.setUrl(mainAttribute.get("href"));
                                 temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
                                 temp.setImageURL(imageURL);
                                 temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));

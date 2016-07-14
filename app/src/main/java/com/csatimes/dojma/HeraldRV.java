@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +23,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -96,8 +88,12 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         final int pos = position;
 
         holder.date.setText(foobar.getOriginalDate());
-        holder.author.setText(foobar.getAuthor());
-        holder.title.setText(foobar.getTitle());
+        if (foobar.getAuthorName() != null)
+            holder.author.setText(foobar.getAuthorName());
+        else if (foobar.getAuthorSlug() != null)
+            holder.author.setText(foobar.getAuthorSlug());
+        else holder.author.setText("dojam_Admin");
+
 
         if (foobar.isFav())
             holder.fav.setLiked(true);
@@ -106,49 +102,22 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         if (foobar.isRead()) {
             // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
             //       .cardview_shadow_end_color));
-
         }
-
-        if (foobar.getDesc() == null) {
-            RequestQueue queue = Volley.newRequestQueue(context);
-            StringRequest request = new StringRequest(resultsList.get(position).getLink(), new Response.Listener<String>() {
-                @Override
-                public void onResponse(final String response) {
-                    database.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm bgRealm) {
-                            HeraldNewsItemFormat foo = bgRealm.where(HeraldNewsItemFormat.class)
-                                    .equalTo("postID", resultsList.get(pos).getPostID())
-                                    .findFirst();
-                            Document bar = Jsoup.parse(response);
-                            Elements _foobar = bar.getElementsByTag("p");
-                            if (_foobar.first().hasText()) {
-                                StringBuilder sb = new StringBuilder(_foobar.first().text());
-                                if (sb.length() < 100) {
-                                    sb.append(" ... ");
-                                    if (_foobar.last().hasText())
-                                        sb.append(_foobar.last().text());
-                                }
-                                foo.setDesc(sb.toString());
-                            } else {
-                                foo.setDesc(foo.getTitle());
-                            }
-                        }
-                    });
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-            queue.add(request);
+        //since Html.fromHtml is deprecated from N onwards we add the special flag
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            holder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
+            holder.title.setText(Html.fromHtml(foobar.getTitle(), Html.FROM_HTML_MODE_LEGACY));
         } else {
-            holder.desc.setText(foobar.getDesc());
+            holder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
+            holder.title.setText(Html.fromHtml(foobar.getTitle()));
         }
-        holder.imageView.setImageURI(Uri.parse(foobar.getImageURL())
-        );
+        try {
+            holder.imageView.setImageURI(Uri.parse(foobar.getImageURL())
 
+            );
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -230,6 +199,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
+            imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
 
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {
@@ -274,7 +244,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                             Log.e("TAG", "gc installed");
                             Intent intent = new Intent((Intent.ACTION_SEND));
                             intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
-                                    (getAdapterPosition()).getLink());
+                                    (getAdapterPosition()).getUrl());
 
                             Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
                             PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -299,7 +269,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                                     .build();
 
                             CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
-                                    Uri.parse(resultsList.get(getAdapterPosition()).getLink()),
+                                    Uri.parse(resultsList.get(getAdapterPosition()).getUrl()),
                                     new CustomTabActivityHelper.CustomTabFallback() {
                                         @Override
                                         public void openUri(Activity activity, Uri uri) {
@@ -314,7 +284,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                             Log.e("TAG", "openWebpage");
                             Intent openWebpage = new Intent(context, OpenWebpage.class);
 
-                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getLink());
+                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getUrl());
                             openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
                             openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
 
@@ -331,7 +301,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                     Intent intent = new Intent((Intent.ACTION_SEND));
                     intent.setType("text/plain");
                     intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
-                            (getAdapterPosition()).getLink());
+                            (getAdapterPosition()).getUrl());
                     context.startActivity(Intent.createChooser(intent, "Share link via"));
 
 

@@ -60,15 +60,20 @@ public class OpenWebpage extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.open_webpage_toolbar);
 
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         final ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setTitle("CSATimes");
-            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
-                    .colorPrimaryDark)));
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color
+                    .colorPrimary)));
 
         }
         POSITION = 0;

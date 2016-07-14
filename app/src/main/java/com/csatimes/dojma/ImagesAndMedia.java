@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,7 +77,7 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
 
-        realmResults = database.where(HeraldNewsItemFormat.class).notEqualTo("link", "-1")
+        realmResults = database.where(HeraldNewsItemFormat.class).notEqualTo("url", "")
                 .findAllSorted("originalDate", Sort.DESCENDING);
         realmList = new RealmList<>();
         realmList.addAll(realmResults);
@@ -99,8 +100,20 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
     }
 
     private void initGrid() {
+
+        //Setup columns according to device screen
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         // Setting up images grid
-        final int cols = 4;
+        float t = dpWidth / 150;
+        float r = dpWidth % 150;
+        int cols = 0;
+        if (r > 50f)
+            cols = (int) Math.ceil(dpWidth / 150);
+        else
+            cols = (int) t;
+
 
         views.grid.setLayoutManager(new GridLayoutManager(this, cols));
         views.grid.setItemAnimator(new DefaultItemAnimator());

@@ -165,10 +165,10 @@ public class UpdateCheckerService extends IntentService {
                                 }
 
 
-                                if (temp.getLink().compareTo(mainAttribute.get("href")) != 0) {
+                                if (temp.getUrl().compareTo(mainAttribute.get("href")) != 0) {
 
                                     database.beginTransaction();
-                                    temp.setLink(mainAttribute.get("href"));
+                                    temp.setUrl(mainAttribute.get("href"));
                                     database.commitTransaction();
 
                                     isUpdatePresent = true;
@@ -201,14 +201,14 @@ public class UpdateCheckerService extends IntentService {
                                 HeraldNewsItemFormat _temp = database.createObject(HeraldNewsItemFormat
                                         .class);
                                 _temp.setTitle(mainAttribute.get("title"));
-                                _temp.setPostID(postIDTemp);
-                                _temp.setAuthor("dojma_admin");
+                                // _temp.setPostID(postIDTemp);
+                                // _temp.setAuthor("dojma_admin");
                                 _temp.setUpdateDate(updateDateAttrib.get("datetime").substring(0, 10));
-                                _temp.setLink(mainAttribute.get("href"));
+                                _temp.setUrl(mainAttribute.get("href"));
                                 _temp.setOriginalDate(dateAttrib.get("datetime").substring(0, 10));
                                 _temp.setImageURL(imageURL);
                                 _temp.setDismissed(false);
-                                _temp.setDesc(description);
+                                _temp.setContent(description);
                                 _temp.setOriginalTime(dateAttrib.get("datetime").substring(10, 16));
                                 _temp.setUpdateTime(updateDateAttrib.get("datetime").substring(10, 16));
                                 _temp.setImageSavedLoc(directory + "/" + postIDTemp + ".jpeg");

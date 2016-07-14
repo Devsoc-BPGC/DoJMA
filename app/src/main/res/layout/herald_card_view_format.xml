@@ -87,6 +87,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="27dp"
+
             fresco:roundBottomLeft="true"
             fresco:roundBottomRight="true"
             fresco:roundWithOverlayColor="@color/white"
@@ -122,7 +123,7 @@
             android:layout_toEndOf="@+id/herald_like_button"
             android:layout_toRightOf="@+id/herald_like_button"
             android:background="@color/white"
-            android:src="@drawable/ic_share"
+            app:srcCompat="@drawable/ic_share"
             />
 
     </RelativeLayout>

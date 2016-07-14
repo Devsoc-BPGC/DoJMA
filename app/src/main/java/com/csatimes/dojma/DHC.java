@@ -132,14 +132,11 @@ public class DHC {
 
     //This method takes in unique postid checks whether that image is available offline or not.
     public static boolean doesImageExists(String id) {
-
         File imageDownloadFolder = new File(ROOT_DIRECTORY + "/" + dojmaFolderName +
                 "/");
         imageDownloadFolder.mkdirs();
         String downloadedImageName = id + ".jpeg";
         File file = new File(imageDownloadFolder, downloadedImageName);
-
-
         return file.exists();
     }
 }

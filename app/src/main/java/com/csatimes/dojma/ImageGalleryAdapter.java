@@ -6,9 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.analytics.Tracker;
 
@@ -56,7 +56,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final HeraldNewsItemFormat foobar = resultsList.get(position);
         holder.simpleDraweeView.setImageURI(Uri.parse(foobar.getImageURL()));
-        holder.simpleDraweeView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_anim));
         holder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +86,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         ViewHolder(final View itemView) {
             super(itemView);
             simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.images_rv_imageview);
+            simpleDraweeView.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
 
         }
     }

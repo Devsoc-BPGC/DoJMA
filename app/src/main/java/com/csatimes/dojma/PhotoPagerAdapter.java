@@ -1,8 +1,6 @@
 package com.csatimes.dojma;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -10,12 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexvasilkov.android.commons.utils.Views;
-import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
 import com.alexvasilkov.gestures.views.GestureImageView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import io.realm.RealmList;
 
@@ -102,32 +97,33 @@ public class PhotoPagerAdapter
         holder.progress.setVisibility(View.VISIBLE);
         holder.progress.animate().setStartDelay(PROGRESS_DELAY).alpha(1f);
 
-        HeraldNewsItemFormat item = realmList.get(position);
-        Log.e("TAG", "calling picasso downloader");
-        if (true/*!DHC.doesImageExists(item.getPostID())*/) {
+        final HeraldNewsItemFormat item = realmList.get(position);
+       /* if (!DHC.doesImageExists(item.getPostID())) {
+            Log.e("TAG", "images doesnt exists " + item.getPostID());
             Picasso.with(context).load(item.getImageURL()).into(new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    Log.e("TAG", "success in bitmap");
+                    Log.e("TAG", "success in bitmap for " + item.getPostID());
                     final int pos = position;
+                    Log.e("TAG", "saving image for " + item.getPostID());
                     DHC.saveImage(bitmap, realmList.get(pos).getPostID());
                     holder.progress.animate().cancel();
                     holder.progress.animate().alpha(0f);
                     // Re-enabling touch controls
                     if (holder.gesturesDisabled) {
                         holder.image.getController().getSettings().enableGestures();
-                        holder.image.getController().getSettings().setFitMethod(Settings.Fit.INSIDE);
                         holder.gesturesDisabled = false;
                     }
                     holder.image.setImageBitmap(bitmap);
-                    holder.progress.animate().alpha(0f);
+                    holder.image.getController().getSettings().setFitMethod(Settings.Fit.INSIDE);
                     holder.progress.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-
                     holder.progress.animate().alpha(0f);
+                    Log.e("TAG","bitmap fail");
+
                 }
 
                 @Override
@@ -144,14 +140,14 @@ public class PhotoPagerAdapter
                 holder.image.getController().getSettings().setFitMethod(Settings.Fit.INSIDE);
                 holder.gesturesDisabled = false;
             }
-            holder.image.setImageBitmap(DHC.decodeSampledBitmapFromFile((DHC.directory + item
-                    .getPostID() + ".jpeg"), 100, 100));
+            holder.image.setImageBitmap(DHC.decodeSampledBitmapFromFile((DHC.directory + "/" + item
+                    .getPostID() + ".jpeg"), 300, 300));
             holder.progress.animate().alpha(0f);
             Log.e("TAG", DHC.directory + "/" + item.getPostID() + ".jpeg");
             holder.progress.setVisibility(View.INVISIBLE);
 
         }
-
+*/
     }
 
     @Override
@@ -164,8 +160,6 @@ public class PhotoPagerAdapter
         }
         holder.progress.animate().cancel();
         holder.progress.setAlpha(0f);
-
-        holder.image.setImageDrawable(null);
     }
 
     static class ViewHolder extends RecyclePagerAdapter.ViewHolder {

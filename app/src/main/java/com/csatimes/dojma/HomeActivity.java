@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -96,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
         //It is called using android method getString(resID)
 
         if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
-            Intent startFirstTimeDownloader = new Intent(this, DownloadForFirstTimeActivity.class);
+            Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
             startActivity(startFirstTimeDownloader);
             finish();
         }
@@ -104,11 +105,16 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
 
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("Home Activity");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        //Check if analytics is allowed by user
+        boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
 
+        if (sharedPrefAnalytics) {
+            AnalyticsApplication application = (AnalyticsApplication) getApplication();
+            mTracker = application.getDefaultTracker();
+            mTracker.setScreenName("Home Activity");
+            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
 
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
@@ -429,8 +435,8 @@ public class HomeActivity extends AppCompatActivity
         editor.putBoolean(getString(R.string.SP_app_started), false);
         editor.apply();
 
-        Intent downloaderBack = new Intent(this, UpdateCheckerService.class);
-        startService(downloaderBack);
+        // Intent downloaderBack = new Intent(this, UpdateCheckerService.class);
+        // startService(downloaderBack);
         /*  final PendingIntent pending = PendingIntent.getService(this, 0, downloaderBack, 0);
         //startService(downloaderBack);
         final AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
@@ -525,9 +531,18 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this, ImagesAndMedia.class);
             startActivity(intent);
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(HomeActivity.this, Settings.class);
+            intent.putExtra("pageColor", pageColors[DHC.PAGENUMBER]);
+            startActivity(intent);
+        } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(HomeActivity.this, AboutUs.class);
+            startActivity(intent);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

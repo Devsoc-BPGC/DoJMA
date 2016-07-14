@@ -86,6 +86,17 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string-array name="general_notification_options">
+        <item>New articles arrive</item>
+        <item>Articles are updated</item>
+    </string-array>
+    <string-array name="general_notification_option_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 
     <string name="title_activity_offline_simple_viewer">Offline View</string>
+    <string name="title_activity_postdownloader">POSTDownloaderActivity</string>
+    <string name="pda_download_starting_msg">Starting download</string>
 </resources>
