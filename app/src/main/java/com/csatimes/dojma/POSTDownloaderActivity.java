@@ -137,11 +137,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 downloadStatusTV.setText("pehle step pe hi fail hogaya chake");
-                // RealmConfiguration realmConfiguration = new RealmConfiguration.Builder
-                //         (POSTDownloaderActivity.this)
-                //         .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-                // Realm.setDefaultConfiguration(realmConfiguration);
-                // Realm.deleteRealm(realmConfiguration);
+
             }
         });
 

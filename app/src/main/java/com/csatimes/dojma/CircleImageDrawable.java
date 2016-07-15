@@ -5,7 +5,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.facebook.drawee.drawable.DrawableUtils;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
@@ -18,7 +17,7 @@ public class CircleImageDrawable extends ProgressBarDrawable {
     private final Paint mPaint = new
             Paint(Paint.ANTI_ALIAS_FLAG);
     private final int MAX_LEVEL = 10000;
-    private int mBackgroundColor = 0x80000000;
+    private int mBackgroundColor = 0x00000000;
     private int mColor = 0xFF3B5999;
     private int mBarWidth = 10;
     private int mLevel = 0;
@@ -132,10 +131,8 @@ public class CircleImageDrawable extends ProgressBarDrawable {
 
     private void drawArc(Canvas canvas, int level, int color) {
         mPaint.setColor(color);
-        if (level >= 7500) {
-            mPaint.setAlpha(0);
+        mPaint.setAlpha(255 - 255 * level / MAX_LEVEL);
 
-        }
         Rect bounds = getBounds();
         // find center point
         int xpos = bounds.left + bounds.width() / 2;
@@ -143,11 +140,12 @@ public class CircleImageDrawable extends ProgressBarDrawable {
         RectF rectF = new RectF(xpos - radius, ypos - radius, xpos + radius, ypos + radius);
         float degree = (float) level / (float) MAX_LEVEL * 360;
         canvas.drawArc(rectF, 270, degree, false, mPaint);
-        Log.e("TAG", "level: " + level + ", degree: " + degree);
+        // Log.e("TAG", "level: " + level + ", degree: " + degree);
     }
 
     private void drawCircle(Canvas canvas, int color) {
         mPaint.setColor(color);
+
         Rect bounds = getBounds();
         int xpos = bounds.left + bounds.width() / 2;
         int ypos = bounds.bottom - bounds.height() / 2;

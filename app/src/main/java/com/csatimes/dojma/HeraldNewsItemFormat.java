@@ -8,32 +8,33 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class HeraldNewsItemFormat extends RealmObject {
+
     @PrimaryKey
     private String postID;
-    private String title = null;
-    private String title_plain = null;
-    private String originalDate = null;
-    private String updateDate = null;
-    private String originalTime = null;
-    private String updateTime = null;
-    private String imageURL = null;
-    private String imageSavedLoc = null;
-    private String url = null;
-    private String content = null;
-    private String excerpt = null;
-    private String authorID = null;
-    private String authorSlug = null;
-    private String authorName = null;
-    private String authorFName = null;
-    private String authorLName = null;
-    private String authorNName = null;
-    private String authorURL = null;
-    private String authorDesc = null;
-    private String comment_status = null;
-    private int comment_count;
-    private String type = null;
-    private String slug = null;
-    private String status = null;
+    private String title = "";
+    private String title_plain = "";
+    private String originalDate = "";
+    private String updateDate = "";
+    private String originalTime = "";
+    private String updateTime = "";
+    private String imageURL = "";
+    private String imageSavedLoc = "";
+    private String url = "";
+    private String content = "";
+    private String excerpt = "";
+    private String authorID = "";
+    private String authorSlug = "";
+    private String authorName = "";
+    private String authorFName = "";
+    private String authorLName = "";
+    private String authorNName = "";
+    private String authorURL = "";
+    private String authorDesc = "";
+    private String comment_status = "";
+    private int comment_count = 0;
+    private String type = "";
+    private String slug = "";
+    private String status = "";
     private boolean fav = false;
     private boolean read = false;
     private boolean dismissed = false;

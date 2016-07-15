@@ -146,6 +146,11 @@
             android:label="@string/title_activity_postdownloader"
             android:theme="@style/AppTheme">
         </activity>
+
+        <service
+            android:name=".ImageUrlHandlerService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

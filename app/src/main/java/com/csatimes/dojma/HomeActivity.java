@@ -240,6 +240,7 @@ public class HomeActivity extends AppCompatActivity
                     //and refresh fragment
                     new SimpleAlertDialog().showDialog(HomeActivity.this, "Message", "details",
                             "Ok", "", true, false);
+                    startService(new Intent(HomeActivity.this, ImageUrlHandlerService.class));
 
                     if (!UpdateCheckerService.isInstanceCreated()) {
                         final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);

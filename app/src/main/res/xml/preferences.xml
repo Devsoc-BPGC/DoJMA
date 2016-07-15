@@ -9,6 +9,10 @@
             android:summary="Use darker backgrounds to reduce strain to the eyes"
             android:title="Enable Night Mode"
             />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_general_circle_loader_fresco"
+            android:title="Enable animation for images"/>
         <MultiSelectListPreference
             android:dialogTitle="Notification alert"
             android:entries="@array/general_notification_options"
@@ -64,7 +68,7 @@
             android:defaultValue="true"
             android:key="pref_other_analytics"
             android:summary="Help us improve the DoJMA app by sending user statistics to Google Analytics.\nYou will not be identified personally."
-            android:title="Let DoJMA app collect usage behaviour"
+            android:title="Allow usage behaviour collection"
             />
     </PreferenceCategory>
 </PreferenceScreen>
