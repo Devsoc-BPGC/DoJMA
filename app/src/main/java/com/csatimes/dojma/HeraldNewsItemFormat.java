@@ -31,6 +31,11 @@ public class HeraldNewsItemFormat extends RealmObject {
     private String authorURL = "";
     private String authorDesc = "";
     private String comment_status = "";
+    private String categoryID = "";
+    private String categorySlug = "";
+    private String categoryTitle = "";
+    private String categoryDescription;
+    private int categoryCount = 0;
     private int comment_count = 0;
     private String type = "";
     private String slug = "";
@@ -43,8 +48,7 @@ public class HeraldNewsItemFormat extends RealmObject {
 
     }
 
-    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate,
-                                String updateDate, String originalTime, String updateTime, String imageURL, String imageSavedLoc, String url, String content, String excerpt, String authorID, String authorSlug, String authorName, String authorFName, String authorLName, String authorNName, String authorURL, String authorDesc, String comment_status, int comment_count, String type, String slug, String status, boolean fav, boolean read, boolean dismissed) {
+    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate, String updateDate, String originalTime, String updateTime, String imageURL, String imageSavedLoc, String url, String content, String excerpt, String authorID, String authorSlug, String authorName, String authorFName, String authorLName, String authorNName, String authorURL, String authorDesc, String comment_status, String categoryID, String categorySlug, String categoryTitle, String categoryDescription, int categoryCount, int comment_count, String type, String slug, String status, boolean fav, boolean read, boolean dismissed) {
         this.postID = postID;
         this.title = title;
         this.title_plain = title_plain;
@@ -66,6 +70,11 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.authorURL = authorURL;
         this.authorDesc = authorDesc;
         this.comment_status = comment_status;
+        this.categoryID = categoryID;
+        this.categorySlug = categorySlug;
+        this.categoryTitle = categoryTitle;
+        this.categoryDescription = categoryDescription;
+        this.categoryCount = categoryCount;
         this.comment_count = comment_count;
         this.type = type;
         this.slug = slug;
@@ -73,6 +82,46 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.fav = fav;
         this.read = read;
         this.dismissed = dismissed;
+    }
+
+    public int getCategoryCount() {
+        return categoryCount;
+    }
+
+    public void setCategoryCount(int categoryCount) {
+        this.categoryCount = categoryCount;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
+    }
+
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
+    }
+
+    public String getCategorySlug() {
+        return categorySlug;
+    }
+
+    public void setCategorySlug(String categorySlug) {
+        this.categorySlug = categorySlug;
+    }
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
     }
 
     public String getPostID() {

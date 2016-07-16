@@ -176,6 +176,35 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
                                         entry.setComment_count(post.getInt("comment_count"));
                                         entry.setComment_status(post.getString("comment_status"));
+                                        //Save category information
+                                        if (post.getJSONArray("categories").length() != 0) {
+                                            try {
+                                                entry.setCategoryID(post.getJSONArray("categories").getJSONObject
+                                                        (0).getInt("id") + "");
+                                                entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("title"));
+                                                entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("slug"));
+                                                entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("description"));
+                                                entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
+                                                        (0).getInt("post_count"));
+                                            } catch (Exception e) {
+                                                Log.e("TAG", "Exception raised in category for post " + post
+                                                        .getInt("id") + "");
+                                                entry.setCategoryID("");
+                                                entry.setCategoryCount(0);
+                                                entry.setCategoryDescription("");
+                                                entry.setCategorySlug("");
+                                                entry.setCategoryTitle("");
+                                            }
+                                        } else {
+                                            entry.setCategoryID("");
+                                            entry.setCategoryCount(0);
+                                            entry.setCategoryDescription("");
+                                            entry.setCategorySlug("");
+                                            entry.setCategoryTitle("");
+                                        }
                                         if (len != 0)
                                             entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
                                         else entry.setImageURL("");

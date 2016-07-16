@@ -108,6 +108,36 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                             entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
                             entry.setComment_count(post.getInt("comment_count"));
                             entry.setComment_status(post.getString("comment_status"));
+                            //Save category information
+                            if (post.getJSONArray("categories").length() != 0) {
+                                try {
+                                    entry.setCategoryID(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("id") + "");
+                                    entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("title"));
+                                    entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("slug"));
+                                    entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("description"));
+                                    entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("post_count"));
+                                } catch (Exception e) {
+                                    Log.e("TAG", "Exception raised in category for post " + post
+                                            .getInt("id") + "");
+                                    entry.setCategoryID("");
+                                    entry.setCategoryCount(0);
+                                    entry.setCategoryDescription("");
+                                    entry.setCategorySlug("");
+                                    entry.setCategoryTitle("");
+                                }
+                            } else {
+                                entry.setCategoryID("");
+                                entry.setCategoryCount(0);
+                                entry.setCategoryDescription("");
+                                entry.setCategorySlug("");
+                                entry.setCategoryTitle("");
+                            }
+                            //Save image information
                             if (post.getJSONArray("attachments").length() != 0)
                                 entry.setImageURL(post.getJSONArray("attachments").getJSONObject(post.getJSONArray("attachments").length() - 1).getString("url"));
                             else
@@ -169,6 +199,9 @@ public class POSTDownloaderActivity extends AppCompatActivity {
             Realm.setDefaultConfiguration(realmConfiguration);
             Realm database = Realm.getDefaultInstance();
             if (database.where(HeraldNewsItemFormat.class).findAll().size() != 0) {
+                //Since image urls are linking to HD images, we need to start the Image handler
+                // service to get small sized image urls
+                startService(new Intent(POSTDownloaderActivity.this, ImageUrlHandlerService.class));
                 Log.e("TAG", "starting home activity");
                 Intent intent = new Intent(POSTDownloaderActivity.this, HomeActivity.class);
                 startActivity(intent);
@@ -260,6 +293,35 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                                         entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
                                         entry.setComment_count(post.getInt("comment_count"));
                                         entry.setComment_status(post.getString("comment_status"));
+                                        //Save category information
+                                        if (post.getJSONArray("categories").length() != 0) {
+                                            try {
+                                                entry.setCategoryID(post.getJSONArray("categories").getJSONObject
+                                                        (0).getInt("id") + "");
+                                                entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("title"));
+                                                entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("slug"));
+                                                entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
+                                                        (0).getString("description"));
+                                                entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
+                                                        (0).getInt("post_count"));
+                                            } catch (Exception e) {
+                                                Log.e("TAG", "Exception raised in category for post " + post
+                                                        .getInt("id") + "");
+                                                entry.setCategoryID("");
+                                                entry.setCategoryCount(0);
+                                                entry.setCategoryDescription("");
+                                                entry.setCategorySlug("");
+                                                entry.setCategoryTitle("");
+                                            }
+                                        } else {
+                                            entry.setCategoryID("");
+                                            entry.setCategoryCount(0);
+                                            entry.setCategoryDescription("");
+                                            entry.setCategorySlug("");
+                                            entry.setCategoryTitle("");
+                                        }
                                         if (len != 0)
                                             entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
                                         else entry.setImageURL("");
