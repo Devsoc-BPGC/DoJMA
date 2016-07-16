@@ -37,7 +37,7 @@
             android:layout_marginBottom="8dp"
             android:background="@color/herald_searchview_background"
             android:contentDescription="@string/sort_order"
-            android:src="@drawable/ic_sort"
+            app:srcCompat="@drawable/ic_sort"
             />
 
         <ImageButton
@@ -50,7 +50,7 @@
             android:layout_toStartOf="@+id/herald_sort"
             android:background="@color/herald_searchview_background"
             android:contentDescription="@string/filter_articles"
-            android:src="@drawable/ic_filter"
+            app:srcCompat="@drawable/ic_filter"
             />
 
         <android.support.v4.widget.SwipeRefreshLayout
@@ -60,20 +60,20 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/herald_serach_view">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/herald_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginRight="16dp"
-                android:contextClickable="true"
-                android:fadeScrollbars="true"
-                android:scrollIndicators="right"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbars="vertical"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/herald_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:contextClickable="true"
+                    />
+
+            </RelativeLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 

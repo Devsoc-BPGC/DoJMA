@@ -44,6 +44,7 @@ dependencies {
     compile 'com.alexvasilkov:android-commons:1.2.4'
     compile 'com.android.support:support-v4:24.0.0'
     compile 'com.android.support:support-vector-drawable:24.0.0'
+    compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
 }

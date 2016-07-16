@@ -28,6 +28,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.turingtechnologies.materialscrollbar.IDateableAdapter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -37,7 +43,7 @@ import io.realm.RealmList;
  */
 
 public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implements
-        ItemTouchHelperAdapter, View.OnClickListener {
+        ItemTouchHelperAdapter, View.OnClickListener, IDateableAdapter {
     private Context context;
     private RealmList<HeraldNewsItemFormat> resultsList;
     private int pixels = DHC.dpToPx(25);
@@ -65,10 +71,19 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 //        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
+    public static Date parseDate(String date) {
+        Log.e("TAG", date);
+        try {
+            SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+            return simpleDate.parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
     public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -169,13 +184,18 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         recyclerView.smoothScrollToPosition(dismissPosition);
     }
 
-
     private boolean isNetworkAvailable(Context context) {
         Log.e("TAG", "in isNetworkAvailable");
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    public Date getDateForElement(int element) {
+
+        return parseDate(resultsList.get(element).getOriginalDate());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
