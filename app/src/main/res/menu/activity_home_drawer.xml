@@ -11,6 +11,11 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery"/>
         <item
+            android:id="@+id/dojma_categories"
+            android:title="Categories"
+            android:icon="@drawable/category"
+            />
+        <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Slideshow"/>

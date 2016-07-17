@@ -117,6 +117,15 @@
                 android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
         <activity
+            android:name=".CategoryListView"
+            android:label="@string/title_activity_categories"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
+        <activity
             android:name=".Searchable"
             android:label="@string/title_activity_searchable"
             android:parentActivityName=".HomeActivity"

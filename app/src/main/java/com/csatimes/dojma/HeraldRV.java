@@ -274,7 +274,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                                     .setShowTitle(true)
                                     .setToolbarColor(ContextCompat.getColor(context, R.color
                                             .blue500))
-                                    .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back))
+                                    .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_backone))
                                     // .addDefaultShareMenuItem()
                                     .addMenuItem(copy_label, copy_pendingIntent)
                                     .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)

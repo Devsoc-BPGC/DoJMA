@@ -25,6 +25,7 @@
     <string name="title_activity_favourite">Favourite Section</string>
     <string name="title_activity_favourites">Favourites</string>
     <string name="title_activity_images_and_media">Images And Media</string>
+    <string name="title_activity_categories">Categories</string>
 
 
     <string name="menu_enable_pan">Pan</string>
