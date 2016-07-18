@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class CategoryListView extends ListActivity {
                 catlist.add(temp.getCategoryTitle());
             }
         }
-            List<String> catlist2=new ArrayList<>();
+            final List<String> catlist2=new ArrayList<>();
 
 
 
@@ -88,6 +89,7 @@ public class CategoryListView extends ListActivity {
                     catlist2.add(catlist.get(i));
                 }
             }
+        Collections.sort(catlist2);
 
 
 
@@ -95,6 +97,25 @@ public class CategoryListView extends ListActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view,R.id.label, catlist2);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
        this.setListAdapter(adapter);
+        ListView lv = getListView();
+
+        // listening to single list item on click
+        lv.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // selected item
+
+
+                // Launching new Activity on selecting single List Item
+                Intent i = new Intent(getApplicationContext(), OpenCategoryListView.class);
+                // sending data to new activity
+                i.putExtra("myCategoryTag",catlist2.get(position));
+
+                startActivity(i);
+
+            }
+        });
 
 
 
