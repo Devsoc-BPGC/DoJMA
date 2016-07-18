@@ -100,4 +100,16 @@
     <string name="title_activity_offline_simple_viewer">Offline View</string>
     <string name="title_activity_postdownloader">POSTDownloaderActivity</string>
     <string name="pda_download_starting_msg">Starting download</string>
+    <string name="PREFERENCES_general_image_animations">pref_general_circle_loader_fresco</string>
+    <string name="PREFERENCE_general_night_mode">pref_general_night_mode</string>
+    <string name="PREFERENCE_general_notification_interval">pref_general_notif</string>
+    <string name="PREFERENCE_sync_syncing">pref_sync</string>
+    <string name="PREFERENCE_sync_interval">pref_key_snyc_iterval</string>
+    <string name="PREFERENCE_browser_in_app">pref_browser_inapp_enable</string>
+    <string name="PREFERENCE_browser_list">pref_browser_list</string>
+    <string name="PREFERENCE_others_analytics">pref_other_analytics</string>
+    <string name="PREFERENCE_others">pref_key_others</string>
+    <string name="PREFERENCE_browser">pref_key_browser</string>
+    <string name="PREFERENCE_sync">pref_key_syncing_settings</string>
+    <string name="PREFERENCE_general">pref_key_general</string>
 </resources>

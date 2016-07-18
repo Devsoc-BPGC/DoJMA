@@ -16,14 +16,13 @@ import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
 public class GestureSettingsMenu implements GestureSettingsSetupListener {
 
-    private static final float OVERSCROLL = 32f;
-
+    private static final float OVERSCROLL = 16f;
     @InstanceState
     private boolean isPanEnabled = true;
     @InstanceState
     private boolean isZoomEnabled = true;
     @InstanceState
-    private boolean isRotationEnabled = false;
+    private boolean isRotationEnabled = true;
     @InstanceState
     private boolean isRestrictRotation = false;
     @InstanceState
@@ -31,7 +30,7 @@ public class GestureSettingsMenu implements GestureSettingsSetupListener {
     @InstanceState
     private boolean isOverscrollYEnabled = false;
     @InstanceState
-    private boolean isOverzoomEnabled = true;
+    private boolean isOverzoomEnabled = false;
     @InstanceState
     private boolean isFitViewport = true;
     @InstanceState

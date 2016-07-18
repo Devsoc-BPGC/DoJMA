@@ -18,7 +18,7 @@ public class CircleImageDrawable extends ProgressBarDrawable {
             Paint(Paint.ANTI_ALIAS_FLAG);
     private final int MAX_LEVEL = 10000;
     private int mBackgroundColor = 0x00000000;
-    private int mColor = 0xFF3B5999;
+    private int mColor = 0xFFFF9800;
     private int mBarWidth = 10;
     private int mLevel = 0;
     private boolean mHideWhenZero = true;

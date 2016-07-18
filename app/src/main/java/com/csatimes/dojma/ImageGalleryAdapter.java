@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.gms.analytics.Tracker;
 
 import io.realm.RealmList;
 
@@ -20,7 +18,6 @@ import io.realm.RealmList;
 public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
     private final OnPhotoListener listener;
     private Context context;
-    private Tracker mTracker;
     private RealmList<HeraldNewsItemFormat> resultsList;
 
     public ImageGalleryAdapter(Context context, RealmList<HeraldNewsItemFormat> resultsList, OnPhotoListener listener) {
@@ -28,8 +25,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         this.context = context;
         this.resultsList = resultsList;
         this.listener = listener;
-
-        Fresco.initialize(context);
     }
 
     public static SimpleDraweeView getImage(RecyclerView.ViewHolder holder) {
@@ -42,7 +37,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = this.context;
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View herald_card_view_format = inflater.inflate(R.layout.images_rv_item_format, parent, false);
@@ -57,13 +51,12 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         try {
             holder.simpleDraweeView.setImageURI(Uri.parse(foobar.getImageURL()));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         holder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int pos = holder.getAdapterPosition();
-                listener.onPhotoClick(pos);
+                listener.onPhotoClick(holder.getAdapterPosition());
             }
         });
     }
@@ -73,10 +66,10 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         return resultsList.size();
     }
 
+    //This method is used when more than one kind of ViewHolders are required in RecyclerView
     @Override
     public int getItemViewType(int position) {
-        if (position % 4 <= 1) return 0;
-        else return 0;
+        return 0;
     }
 
     public interface OnPhotoListener {

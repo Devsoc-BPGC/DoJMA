@@ -207,7 +207,7 @@ public class UpdateCheckerService extends IntentService {
                                         }
                                         if (len != 0)
                                             entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
-                                        else entry.setImageURL("");
+                                        else entry.setImageURL("false");
 
                                     }
                                 } catch (JSONException e) {

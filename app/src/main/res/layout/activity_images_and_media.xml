@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:fitsSystemWindows="true"
     tools:context="com.csatimes.dojma.ImagesAndMedia">
 
@@ -12,7 +13,8 @@
         style="@style/CustomToolbar"
         android:background="@color/black"/>
 
-    <include layout="@layout/content_images_and_media"/>
+    <include layout="@layout/content_images_and_media"
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>

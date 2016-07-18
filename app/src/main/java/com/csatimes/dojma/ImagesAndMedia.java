@@ -11,21 +11,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.utils.Views;
-import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.commons.DepthPageTransformer;
-import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
-import com.alexvasilkov.gestures.transition.SimpleViewsTracker;
-import com.alexvasilkov.gestures.transition.ViewsCoordinator;
-import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
-import com.alexvasilkov.gestures.transition.ViewsTransitionBuilder;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,15 +23,12 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAnimator
-        .PositionUpdateListener, ImageGalleryAdapter.OnPhotoListener {
-    private static final int PAGE_SIZE = 30;
+public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAdapter.OnPhotoListener {
     private static final int NO_POSITION = -1;
     RealmList<HeraldNewsItemFormat> realmList;
     RealmResults<HeraldNewsItemFormat> realmResults;
     Realm database;
     RealmConfiguration realmConfiguration;
-    private ViewsTransitionAnimator<Integer> animator;
     private ImageGalleryAdapter gridAdapter;
     private PhotoPagerAdapter pagerAdapter;
     private ViewPager.OnPageChangeListener pagerListener;
@@ -55,6 +42,7 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
     private int savedGridPositionFromTop;
     @InstanceState
     private int savedPhotoCount;
+    private boolean isViewPagerVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,25 +65,15 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
 
-        realmResults = database.where(HeraldNewsItemFormat.class).notEqualTo("url", "")
+        realmResults = database.where(HeraldNewsItemFormat.class).notEqualTo("url", "false")
+                .notEqualTo("bigImageUrl", "false")
                 .findAllSorted("originalDate", Sort.DESCENDING);
         realmList = new RealmList<>();
         realmList.addAll(realmResults);
 
-        initDecorMargins();
+
         initGrid();
         initPager();
-        initAnimator();
-
-
-        if (savedPagerPosition != NO_POSITION) {
-            // Photo was show in pager, we should switch to pager mode instantly
-            onPositionUpdate(1f, false);
-        }
-
-    }
-
-    private void initDecorMargins() {
 
     }
 
@@ -147,67 +125,23 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
             }
         });
 
-        onCreateOptionsMenuFullMode(views.pagerToolbar.getMenu());
-
-        views.pagerToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return onOptionsItemSelectedFullMode(item);
-            }
-        });
-    }
-
-    private void initAnimator() {
-
-        animator = new ViewsTransitionBuilder<Integer>()
-                .fromRecyclerView(views.grid, new SimpleViewsTracker() {
-                    @Override
-                    public View getViewForPosition(int position) {
-                        RecyclerView.ViewHolder holder =
-                                views.grid.findViewHolderForLayoutPosition(position);
-                        return holder == null ? null : ImageGalleryAdapter.getImage(holder);
-                    }
-                })
-                .intoViewPager(views.pager, new SimpleViewsTracker() {
-                    @Override
-                    public View getViewForPosition(int position) {
-                        RecyclePagerAdapter.ViewHolder holder = pagerAdapter.getViewHolder(position);
-                        return holder == null ? null : PhotoPagerAdapter.getImage(holder);
-                    }
-                })
-                .build();
-        animator.addPositionUpdateListener(this);
-        animator.setReadyListener(new ViewsCoordinator.OnViewsReadyListener<Integer>() {
-            @Override
-            public void onViewsReady(@NonNull Integer id) {
-                // Setting image drawable from 'from' view to 'to' to prevent flickering
-                ImageView from = (ImageView) animator.getFromView();
-                ImageView to = (ImageView) animator.getToView();
-                if (to.getDrawable() == null) {
-                    to.setImageDrawable(from.getDrawable());
-                }
-            }
-        });
     }
 
     private void onPhotoInPagerSelected(int position) {
-       /* Photo photo = pagerAdapter.getPhoto(position);
-        if (photo == null) {
-            views.pagerTitle.setText(null);
-        } else {
-            SpannableBuilder title = new SpannableBuilder(Ex6AdvancedDemoActivity.this);
-            title.append(photo.getTitle()).append("\n")
-                    .createStyle().setColorResId(R.color.text_secondary_light).apply()
-                    .append(R.string.photo_by).append(" ")
-                    .append(photo.getOwner().getUsername());
-            //views.pagerTitle.setText(title.build());
-        }*/
+
     }
 
     @Override
     public void onPhotoClick(int position) {
         pagerAdapter.setActivated(true);
-        animator.enter(position, true);
+        isViewPagerVisible = true;
+        views.pager.setVisibility(View.INVISIBLE);
+        views.pager.setCurrentItem(position, false);
+        views.toolbarBack.setVisibility(View.VISIBLE);
+        views.pagerToolbar.setVisibility(View.VISIBLE);
+        views.appBarLayout.setVisibility(View.INVISIBLE);
+        views.pagerBackground.setVisibility(View.VISIBLE);
+        views.pager.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -220,8 +154,16 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
 
     @Override
     public void onBackPressed() {
-        if (!animator.isLeaving()) {
-            animator.exit(true);
+        if (isViewPagerVisible) {
+            pagerAdapter.setActivated(false);
+            isViewPagerVisible = true;
+            views.pager.setVisibility(View.GONE);
+            views.appBarLayout.setVisibility(View.VISIBLE);
+            views.toolbarBack.setVisibility(View.GONE);
+            views.pagerToolbar.setVisibility(View.GONE);
+            views.pagerBackground.setVisibility(View.GONE);
+            views.pager.setVisibility(View.GONE);
+            isViewPagerVisible = false;
         } else {
             super.onBackPressed();
         }
@@ -232,7 +174,7 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
 
         savedPhotoCount = gridAdapter.getItemCount();
 
-        savedPagerPosition = animator.isLeaving() || pagerAdapter.getCount() == 0
+        savedPagerPosition = pagerAdapter.getCount() == 0
                 ? NO_POSITION : views.pager.getCurrentItem();
 
         if (views.grid.getChildCount() > 0) {
@@ -251,57 +193,6 @@ public class ImagesAndMedia extends AppCompatActivity implements ViewPositionAni
         savedGridPositionFromTop = 0;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return settingsMenu.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (settingsMenu.onOptionsItemSelected(item)) {
-            invalidateOptionsMenu();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void onCreateOptionsMenuFullMode(Menu menu) {
-    }
-
-    private boolean onOptionsItemSelectedFullMode(MenuItem item) {
-        switch (item.getItemId()) {
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public void onPositionUpdate(float state, boolean isLeaving) {
-        views.pagerBackground.setVisibility(state == 0f ? View.INVISIBLE : View.VISIBLE);
-        views.pagerBackground.getBackground().setAlpha((int) (255 * state));
-//
-//        views.toolbar.setVisibility(state == 1f ? View.INVISIBLE : View.VISIBLE);
-//        views.toolbar.setAlpha((float) Math.sqrt(1d - state)); // Slow down toolbar animation
-
-        views.appBarLayout.setVisibility(state == 1f ? View.INVISIBLE : View.VISIBLE);
-        views.appBarLayout.setAlpha((float) Math.sqrt(1d - state)); // Slow down toolbar animation
-
-        views.pagerToolbar.setVisibility(state == 0f ? View.INVISIBLE : View.VISIBLE);
-        views.pagerToolbar.setAlpha(state);
-
-        // views.pagerTitle.setVisibility(state == 1f ? View.VISIBLE : View.INVISIBLE);
-
-        if (isLeaving && state == 0f) {
-            pagerAdapter.setActivated(false);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        Fresco.shutDown();
-        super.onDestroy();
-    }
 
     private class ViewHolder {
         final Toolbar toolbar;

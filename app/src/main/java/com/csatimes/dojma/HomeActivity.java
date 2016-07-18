@@ -186,9 +186,10 @@ public class HomeActivity extends AppCompatActivity
         // shown.
         // If on clicking fab button, no internet is there, Custom SimpleAlertDialog is generated
         if (!isOnline()) {
-            Snackbar.make(activityHomeView, "No Internet. Can't check for updates.",
-                    Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Snackbar snack = Snackbar.make(activityHomeView, "No Internet. Can't check for updates.", Snackbar.LENGTH_LONG);
+            View sncview = snack.getView();
+            sncview.setBackgroundColor(pageColors[0]);
+            snack.show();
         }
 
 
@@ -312,7 +313,6 @@ public class HomeActivity extends AppCompatActivity
                     }
                 }
 
-
                 if (position <= DHC.NUMBEROFPAGES - 2) {
                     // Retrieve the current and next ColorFragment
                     final int from = pageColors[position];
@@ -368,7 +368,7 @@ public class HomeActivity extends AppCompatActivity
 
             results = database.where(HeraldNewsItemFormat.class)
                     .findAllSorted("originalDate", Sort.DESCENDING);
-            nav_bar_background.setImageResource(R.drawable.about_us_gradient);
+            nav_bar_background.setImageResource(R.color.colorPrimary);
             RequestQueue queue = Volley.newRequestQueue(this);
             ImageRequest request = new ImageRequest(results.get(0).getImageURL(), new Response.Listener<Bitmap>() {
                 @Override

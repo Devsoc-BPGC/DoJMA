@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.csatimes.dojma.ImagesAndMedia"
     tools:showIn="@layout/activity_images_and_media">
@@ -31,7 +32,7 @@
         android:id="@+id/images_recyclerView_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/images_appbar"
+        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/white"
         />
 

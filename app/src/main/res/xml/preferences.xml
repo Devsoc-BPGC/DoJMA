@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="pref_key_general"
+        android:key="@string/PREFERENCE_general"
         android:title="General">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="pref_general_night_mode"
+            android:enabled="false"
+            android:key="@string/PREFERENCE_general_night_mode"
             android:summary="Use darker backgrounds to reduce strain to the eyes"
             android:title="Enable Night Mode"
             />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="pref_general_circle_loader_fresco"
-            android:title="Enable animation for images"/>
         <MultiSelectListPreference
             android:dialogTitle="Notification alert"
             android:entries="@array/general_notification_options"
             android:entryValues="@array/general_notification_option_values"
-            android:key="pref_general_notif"
+            android:key="@string/PREFERENCE_general_notification_interval"
             android:title="Customise notifications"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="pref_key_syncing_settings"
+        android:key="@string/PREFERENCE_sync"
         android:title="Syncing">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_sync"
+            android:key="@string/PREFERENCE_sync_syncing"
             android:summary="Download and sync even when app is not being used"
             android:title="Sync"/>
         <ListPreference
             android:defaultValue="2"
-            android:dependency="pref_sync"
+            android:dependency="@string/PREFERENCE_sync_syncing"
             android:dialogTitle="Select syncing interval"
             android:entries="@array/settings_sync_intervals"
             android:entryValues="@array/settings_sync_interval_values"
-            android:key="pref_key_snyc_iterval"
+            android:key="@string/PREFERENCE_sync_interval"
             android:negativeButtonText="CANCEL"
             android:positiveButtonText="OK"
             android:summary="Specify regular time interval to check for updates"
@@ -42,31 +39,31 @@
 
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="pref_key_browser"
+        android:key="@string/PREFERENCE_browser"
         android:title="Browser">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_browser_inapp_enable"
+            android:key="@string/PREFERENCE_browser_in_app"
             android:summary="Articles will be loaded inside app"
             android:title="Use in app browser"
             />
         <ListPreference
             android:defaultValue="1"
-            android:dependency="pref_browser_inapp_enable"
+            android:dependency="@string/PREFERENCE_browser_in_app"
             android:entries="@array/settings_browser_list"
             android:entryValues="@array/settings_browser_list_values"
-            android:key="pref_browser_list"
+            android:key="@string/PREFERENCE_browser_list"
             android:summary="Choose between Chrome Custom Tabs(if supported),WebView,OfflineViewer"
             android:title="Change in app browser">
         </ListPreference>
 
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="pref_key_others"
+        android:key="@string/PREFERENCE_others"
         android:title="Other">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_other_analytics"
+            android:key="@string/PREFERENCE_others_analytics"
             android:summary="Help us improve the DoJMA app by sending user statistics to Google Analytics.\nYou will not be identified personally."
             android:title="Allow usage behaviour collection"
             />

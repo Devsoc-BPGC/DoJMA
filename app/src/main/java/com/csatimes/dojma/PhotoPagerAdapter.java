@@ -1,16 +1,17 @@
 package com.csatimes.dojma;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexvasilkov.android.commons.utils.Views;
-import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
-import com.alexvasilkov.gestures.views.GestureImageView;
+import com.alexvasilkov.gestures.views.GestureFrameLayout;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import io.realm.RealmList;
 
@@ -33,8 +34,12 @@ public class PhotoPagerAdapter
         this.viewPager = viewPager;
     }
 
-    public static GestureImageView getImage(RecyclePagerAdapter.ViewHolder holder) {
-        return ((ViewHolder) holder).image;
+    public static SimpleDraweeView getImage(RecyclePagerAdapter.ViewHolder holder) {
+        if (holder instanceof ViewHolder) {
+            return ((ViewHolder) holder).image;
+        } else {
+            return null;
+        }
     }
 
     public void setRealmList(RealmList<HeraldNewsItemFormat> realmList) {
@@ -71,83 +76,15 @@ public class PhotoPagerAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup container) {
         final ViewHolder holder = new ViewHolder(container);
-        holder.image.getController().getSettings().setFillViewport(true).setMaxZoom(3f);
-        holder.image.getController().enableScrollInViewPager(viewPager);
-        holder.image.getPositionAnimator().addPositionUpdateListener(
-                new ViewPositionAnimator.PositionUpdateListener() {
-                    @Override
-                    public void onPositionUpdate(float state, boolean isLeaving) {
-                        holder.progress.setVisibility(state == 1f ? View.VISIBLE : View.INVISIBLE);
-                    }
-                });
+        holder.gestureFrameLayout.getController().getSettings().setFillViewport(true).setMaxZoom
+                (3f).setOverzoomFactor(1.5f);
+        holder.gestureFrameLayout.getController().enableScrollInViewPager(viewPager);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        if (setupListener != null) {
-            setupListener.onSetupGestureView(holder.image);
-        }
-        Log.e("TAG", "onBindPager");
-        // Temporary disabling touch controls
-        if (!holder.gesturesDisabled) {
-            holder.image.getController().getSettings().disableGestures();
-            holder.gesturesDisabled = true;
-        }
-        holder.progress.setVisibility(View.VISIBLE);
-        holder.progress.animate().setStartDelay(PROGRESS_DELAY).alpha(1f);
-
-        final HeraldNewsItemFormat item = realmList.get(position);
-       /* if (!DHC.doesImageExists(item.getPostID())) {
-            Log.e("TAG", "images doesnt exists " + item.getPostID());
-            Picasso.with(context).load(item.getImageURL()).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    Log.e("TAG", "success in bitmap for " + item.getPostID());
-                    final int pos = position;
-                    Log.e("TAG", "saving image for " + item.getPostID());
-                    DHC.saveImage(bitmap, realmList.get(pos).getPostID());
-                    holder.progress.animate().cancel();
-                    holder.progress.animate().alpha(0f);
-                    // Re-enabling touch controls
-                    if (holder.gesturesDisabled) {
-                        holder.image.getController().getSettings().enableGestures();
-                        holder.gesturesDisabled = false;
-                    }
-                    holder.image.setImageBitmap(bitmap);
-                    holder.image.getController().getSettings().setFitMethod(Settings.Fit.INSIDE);
-                    holder.progress.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-                    holder.progress.animate().alpha(0f);
-                    Log.e("TAG","bitmap fail");
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                }
-            });
-        } else {
-            holder.progress.animate().cancel();
-            holder.progress.animate().alpha(0f);
-            // Re-enabling touch controls
-            if (holder.gesturesDisabled) {
-                holder.image.getController().getSettings().enableGestures();
-                holder.image.getController().getSettings().setFitMethod(Settings.Fit.INSIDE);
-                holder.gesturesDisabled = false;
-            }
-            holder.image.setImageBitmap(DHC.decodeSampledBitmapFromFile((DHC.directory + "/" + item
-                    .getPostID() + ".jpeg"), 300, 300));
-            holder.progress.animate().alpha(0f);
-            Log.e("TAG", DHC.directory + "/" + item.getPostID() + ".jpeg");
-            holder.progress.setVisibility(View.INVISIBLE);
-
-        }
-*/
+        holder.image.setImageURI(Uri.parse(realmList.get(position).getImageURL()));
     }
 
     @Override
@@ -155,23 +92,28 @@ public class PhotoPagerAdapter
         super.onRecycleViewHolder(holder);
 
         if (holder.gesturesDisabled) {
-            holder.image.getController().getSettings().enableGestures();
+            holder.gestureFrameLayout.getController().getSettings().enableGestures();
             holder.gesturesDisabled = false;
         }
-        holder.progress.animate().cancel();
-        holder.progress.setAlpha(0f);
     }
 
     static class ViewHolder extends RecyclePagerAdapter.ViewHolder {
-        final GestureImageView image;
+        final SimpleDraweeView image;
         final View progress;
-
+        final GestureFrameLayout gestureFrameLayout;
         boolean gesturesDisabled;
 
         ViewHolder(ViewGroup parent) {
             super(Views.inflate(parent, R.layout.item_photo_full));
             image = Views.find(itemView, R.id.photo_full_image);
             progress = Views.find(itemView, R.id.photo_full_progress);
+            gestureFrameLayout = Views.find(itemView, R.id.gesture_frame);
+            CircleImageDrawable cid = new CircleImageDrawable();
+            cid.setColor(Color.WHITE);
+
+            image.getHierarchy().setProgressBarImage(cid);
+            gestureFrameLayout.getController().getSettings().setOverscrollDistance(0, 0);
+
         }
     }
 

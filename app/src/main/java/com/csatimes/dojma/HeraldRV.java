@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -23,8 +25,17 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.Priority;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -46,7 +57,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         ItemTouchHelperAdapter, View.OnClickListener, IDateableAdapter {
     private Context context;
     private RealmList<HeraldNewsItemFormat> resultsList;
-    private int pixels = DHC.dpToPx(25);
     private Realm database;
     private int dismissPosition;
     private Tracker mTracker;
@@ -54,6 +64,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private CustomTabsIntent customTabsIntent;
     private Activity activity;
     private RecyclerView recyclerView;
+    private ImagePipeline imagePipeline;
 
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
             database, Activity activity) {
@@ -61,28 +72,16 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.resultsList = resultsList;
         this.database = database;
         this.activity = activity;
-        Fresco.initialize(context);
 
-
-//        AnalyticsApplication application = (AnalyticsApplication) getActivity()
-//                .getApplication();
-//        mTracker = application.getDefaultTracker();
-//        mTracker.setScreenName("Herald");
-//        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     public static Date parseDate(String date) {
-        Log.e("TAG", date);
         try {
             SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
             return simpleDate.parse(date);
         } catch (ParseException e) {
             return null;
         }
-    }
-
-    public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
-        this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 
     @Override
@@ -99,6 +98,8 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
+
         final HeraldNewsItemFormat foobar = resultsList.get(position);
         final int pos = position;
 
@@ -128,22 +129,58 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         }
         try {
             holder.imageView.setImageURI(Uri.parse(foobar.getImageURL())
-
             );
         } catch (Exception e) {
+        }
 
+
+        if (imagePipeline == null)
+            imagePipeline = Fresco.getImagePipeline();
+
+        try {
+            ImageRequest imageRequest = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.parse(foobar.getImageURL()))
+                    .setRequestPriority(Priority.HIGH)
+                    .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
+                    .build();
+
+            DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, context);
+
+            try {
+                Log.e("TAG", "trying");
+                dataSource.subscribe(new BaseBitmapDataSubscriber() {
+                    @Override
+                    public void onNewResultImpl(@Nullable Bitmap bitmap) {
+                        if (bitmap == null) {
+                            Log.d("TAG", "Bitmap data source returned success, but bitmap null.");
+                            return;
+                        } else {
+                            DHC.saveImage(bitmap, foobar.getPostID());
+                        }
+                    }
+
+                    @Override
+                    public void onFailureImpl(DataSource dataSource) {
+                        // No cleanup required here
+                        Log.e("TAG", "failed");
+                    }
+                }, CallerThreadExecutor.getInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (dataSource != null) {
+                    dataSource.close();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public int getItemCount() {
         return resultsList.size();
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        Fresco.shutDown();
-        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @Override
@@ -198,6 +235,10 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         return parseDate(resultsList.get(element).getOriginalDate());
     }
 
+    public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
+        this.isGoogleChromeInstalled = isGoogleChromeInstalled;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public SimpleDraweeView imageView;
@@ -220,6 +261,9 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
+
+            //enable animations only if user prferences.xml allows so
+            //the key has been copied from preferences.xml
 
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {

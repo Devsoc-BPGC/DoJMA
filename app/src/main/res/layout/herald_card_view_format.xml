@@ -94,7 +94,7 @@
             fresco:roundBottomRight="true"
             fresco:roundWithOverlayColor="@color/white"
             fresco:roundedCornerRadius="50dp"
-            fresco:roundingBorderColor="@color/white"
+            fresco:roundingBorderColor="@android:color/transparent"
             fresco:roundingBorderWidth="1dp"/>
 
         <com.like.LikeButton

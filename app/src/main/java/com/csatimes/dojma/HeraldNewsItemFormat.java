@@ -43,12 +43,23 @@ public class HeraldNewsItemFormat extends RealmObject {
     private boolean fav = false;
     private boolean read = false;
     private boolean dismissed = false;
+    private String bigImageUrl = "";
 
     public HeraldNewsItemFormat() {
 
     }
 
-    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate, String updateDate, String originalTime, String updateTime, String imageURL, String imageSavedLoc, String url, String content, String excerpt, String authorID, String authorSlug, String authorName, String authorFName, String authorLName, String authorNName, String authorURL, String authorDesc, String comment_status, String categoryID, String categorySlug, String categoryTitle, String categoryDescription, int categoryCount, int comment_count, String type, String slug, String status, boolean fav, boolean read, boolean dismissed) {
+
+    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate,
+                                String updateDate, String originalTime, String updateTime,
+                                String imageURL, String imageSavedLoc, String url, String content,
+                                String excerpt, String authorID, String authorSlug, String authorName,
+                                String authorFName, String authorLName, String authorNName,
+                                String authorURL, String authorDesc, String comment_status,
+                                String categoryID, String categorySlug, String categoryTitle,
+                                String categoryDescription, int categoryCount, int comment_count,
+                                String type, String slug, String status, boolean fav, boolean read,
+                                boolean dismissed, String bigImageUrl) {
         this.postID = postID;
         this.title = title;
         this.title_plain = title_plain;
@@ -82,6 +93,16 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.fav = fav;
         this.read = read;
         this.dismissed = dismissed;
+        this.bigImageUrl = bigImageUrl;
+
+    }
+
+    public String getBigImageUrl() {
+        return bigImageUrl;
+    }
+
+    public void setBigImageUrl(String bigImageUrl) {
+        this.bigImageUrl = bigImageUrl;
     }
 
     public int getCategoryCount() {

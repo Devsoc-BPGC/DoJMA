@@ -3,8 +3,8 @@ package com.csatimes.dojma;
 /**
  * Created by yash on 16/7/16.
  */
+
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,8 +25,6 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
-
-import static java.security.AccessController.getContext;
 
 public class CategoryListView extends ListActivity {
     private SharedPreferences preferences;

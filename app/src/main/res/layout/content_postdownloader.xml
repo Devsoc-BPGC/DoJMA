@@ -1,15 +1,24 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/loading_dojma"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-    <TextView
-        android:id="@+id/json_download_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+        android:id="@+id/loading_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Download Status"
-        android:textSize="24sp"/>
+        android:src="@mipmap/ic_launcher"
+        app:cfl_border_width="7dp"
+        app:cfl_progress="0"
+        app:cfl_wave_amplitude="0.6"
+        app:cfl_wave_color="@color/facebook_light"/>
 </RelativeLayout>

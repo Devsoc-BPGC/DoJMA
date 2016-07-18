@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class OfflineSimpleViewer extends AppCompatActivity {
-
+    private HeraldNewsItemFormat article;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class OfflineSimpleViewer extends AppCompatActivity {
         Realm database = Realm.getDefaultInstance();
 
         if (postID != null) {
-            HeraldNewsItemFormat article = database.where(HeraldNewsItemFormat.class)
+            article = database.where(HeraldNewsItemFormat.class)
                     .equalTo("postID", postID)
                     .findFirst();
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -71,4 +73,26 @@ public class OfflineSimpleViewer extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.offline_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.offline_menu_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, article.getUrl());
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Share via"));
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

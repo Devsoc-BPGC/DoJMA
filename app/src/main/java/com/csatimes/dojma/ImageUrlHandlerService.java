@@ -62,7 +62,7 @@ public class ImageUrlHandlerService extends IntentService {
                                                 ("src"));
                                         updates++;
                                     } catch (Exception e) {
-                                        temp.setImageURL("");
+                                        temp.setImageURL("false");
                                     }
                                 }
                             }
