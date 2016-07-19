@@ -81,8 +81,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/herald_rv_item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"

@@ -48,7 +48,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,8 +100,7 @@ public class HomeActivity extends AppCompatActivity
         }
         Fresco.initialize(this);
         setContentView(R.layout.activity_home);
-
-
+        startService(new Intent(this, UpdateCheckerService.class));
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         //Check if analytics is allowed by user
         boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
@@ -235,16 +233,12 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (tabLayout.getSelectedTabPosition() == 0) {
-                    //check for updates
-                    //and refresh fragment
-                    new SimpleAlertDialog().showDialog(HomeActivity.this, "Message", "details",
-                            "Ok", "", true, false);
-                    startService(new Intent(HomeActivity.this, ImageUrlHandlerService.class));
-
                     if (!UpdateCheckerService.isInstanceCreated()) {
+
                         final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
                         UpdateCheckerService.stop = false;
                         startService(intent);
+
                         Snackbar snackbar = Snackbar.make(v, "Checking for updates ... ", Snackbar
                                 .LENGTH_LONG)
                                 .setAction("Cancel", new View.OnClickListener() {
@@ -549,9 +543,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.dojma_categories) {
             Intent intent = new Intent(HomeActivity.this, CategoryListView.class);
             startActivity(intent);
-        }
-        else if(id==R.id.dojma_archives){
-            Intent intent=new Intent(HomeActivity.this,ArchiveListView.class);
+        } else if (id == R.id.dojma_archives) {
+            Intent intent = new Intent(HomeActivity.this, ArchiveListView.class);
             startActivity(intent);
         }
 

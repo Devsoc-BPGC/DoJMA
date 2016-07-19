@@ -22,7 +22,7 @@ public class CircleImageDrawable extends ProgressBarDrawable {
     private int mBarWidth = 10;
     private int mLevel = 0;
     private boolean mHideWhenZero = true;
-    private int radius = 100;
+    private int radius = 90;
 
     public CircleImageDrawable() {
         mPaint.setStyle(Paint.Style.STROKE);

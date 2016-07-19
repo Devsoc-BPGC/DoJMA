@@ -47,23 +47,23 @@ public class ImageUrlHandlerService extends IntentService {
                     document = Jsoup.connect(urlPrefix + i).get();
                 else document = Jsoup.connect(address).get();
                 if (document != null) {
-                    Log.e("TAG", "downloading " + document.location());
+                    Log.e("TAG", "imagehandler service downloading " + document.location());
                     Elements elements = document.getElementsByTag("article");
                     for (final Element element : elements) {
                         final String postID = element.attributes().get("id").substring(5);
                         database.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                if (database.where(HeraldNewsItemFormat.class).findAll()
-                                        .size() != 0) {
+                                if (database.where(HeraldNewsItemFormat.class).findAll().size() != 0) {
                                     HeraldNewsItemFormat temp = realm.where(HeraldNewsItemFormat.class).equalTo("postID", postID).findFirst();
-                                    try {
-                                        temp.setImageURL(element.child(0).child(0).child(0).attributes().get
-                                                ("src"));
-                                        updates++;
-                                    } catch (Exception e) {
-                                        temp.setImageURL("false");
-                                    }
+                                    if (temp != null)
+                                        try {
+                                            temp.setImageURL(element.child(0).child(0).child(0).attributes().get
+                                                    ("src"));
+                                            updates++;
+                                        } catch (Exception e) {
+                                            temp.setImageURL("false");
+                                        }
                                 }
                             }
                         });

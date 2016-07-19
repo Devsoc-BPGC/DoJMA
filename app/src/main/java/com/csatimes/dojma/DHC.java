@@ -23,6 +23,9 @@ public class DHC {
     public static final String USER_PREFERENCES = "USER_PREFS";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
     public static final String REALM_DOJMA_LINKS_DATABASE = "DOJMA_LINKS_DATABASE";
+    public static final String eventsAddress = "https://raw.githubusercontent" +
+            ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
+    public static final String startingJSONURL = "http://csatimes.co.in/dojma/?json=all";
     static final String FILTER_SUFFIX = "filter_";
     static final String SORT_SUFFIX = "sort_";
     public static int NUMBEROFPAGES = 4;
@@ -31,8 +34,6 @@ public class DHC {
     public static int noOfArticlesPerPage = 16;
     public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
-    public static final String eventsAddress= "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
 
     // DP <-> PX static converter method
     public static int dpToPx(int dp) {

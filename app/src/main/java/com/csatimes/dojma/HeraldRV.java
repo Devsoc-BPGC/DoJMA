@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -25,17 +23,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.facebook.common.executors.CallerThreadExecutor;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.Priority;
 import com.facebook.imagepipeline.core.ImagePipeline;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -86,14 +75,11 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         // Inflate the custom layout
         View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
         // Return a new holder instance
         return new ViewHolder(herald_card_view_format);
-
     }
 
     @Override
@@ -101,7 +87,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
 
         final HeraldNewsItemFormat foobar = resultsList.get(position);
-        final int pos = position;
 
         holder.date.setText(foobar.getOriginalDate());
         if (foobar.getAuthorName() != null)
@@ -134,48 +119,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         }
 
 
-        if (imagePipeline == null)
-            imagePipeline = Fresco.getImagePipeline();
-
-        try {
-            ImageRequest imageRequest = ImageRequestBuilder
-                    .newBuilderWithSource(Uri.parse(foobar.getImageURL()))
-                    .setRequestPriority(Priority.HIGH)
-                    .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
-                    .build();
-
-            DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, context);
-
-            try {
-                Log.e("TAG", "trying");
-                dataSource.subscribe(new BaseBitmapDataSubscriber() {
-                    @Override
-                    public void onNewResultImpl(@Nullable Bitmap bitmap) {
-                        if (bitmap == null) {
-                            Log.d("TAG", "Bitmap data source returned success, but bitmap null.");
-                            return;
-                        } else {
-                            DHC.saveImage(bitmap, foobar.getPostID());
-                        }
-                    }
-
-                    @Override
-                    public void onFailureImpl(DataSource dataSource) {
-                        // No cleanup required here
-                        Log.e("TAG", "failed");
-                    }
-                }, CallerThreadExecutor.getInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (dataSource != null) {
-                    dataSource.close();
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

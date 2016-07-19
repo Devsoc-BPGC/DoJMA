@@ -71,7 +71,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:contextClickable="true"
-                    />
+                    tools:targetApi="m"/>
 
             </RelativeLayout>
         </android.support.v4.widget.SwipeRefreshLayout>

@@ -91,7 +91,7 @@ public class UpdateCheckerService extends IntentService {
                 if (j != 1) url = new URL(urlPrefix + j + urlSuffix);
                 else
                     url = new URL(address);
-                Log.e("TAG", url.toString());
+                Log.e("TAG", url.toString() + " updatecheckerservice");
                 // Read all the text returned by the server
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                 String str;
@@ -128,28 +128,30 @@ public class UpdateCheckerService extends IntentService {
                                         HeraldNewsItemFormat entry = realm.where
                                                 (HeraldNewsItemFormat.class).equalTo("postID",
                                                 post.getInt("id") + "").findFirst();
-                                        entry.setType(post.getString("type"));
-                                        entry.setSlug(post.getString("slug"));
-                                        entry.setUrl(post.getString("url"));
-                                        entry.setStatus(post.getString("status"));
-                                        entry.setTitle(post.getString("title"));
-                                        entry.setTitle_plain(post.getString("title_plain"));
-                                        entry.setContent(post.getString("content"));
-                                        entry.setExcerpt(post.getString("excerpt"));
-                                        entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalMonthYear(post.getString("date").substring(0,7));
-                                        entry.setUpdateDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalTime(post.getString("date").substring(11));
-                                        entry.setUpdateTime(post.getString("date").substring(11));
-                                        entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                        entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
-                                        entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
-                                        entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
-                                        entry.setAuthorURL(post.getJSONObject("author").getString("url"));
-                                        entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
-                                        entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
-                                        entry.setComment_count(post.getInt("comment_count"));
-                                        entry.setComment_status(post.getString("comment_status"));
+                                        if (entry != null) {
+                                            entry.setType(post.getString("type"));
+                                            entry.setSlug(post.getString("slug"));
+                                            entry.setUrl(post.getString("url"));
+                                            entry.setStatus(post.getString("status"));
+                                            entry.setTitle(post.getString("title"));
+                                            entry.setTitle_plain(post.getString("title_plain"));
+                                            entry.setContent(post.getString("content"));
+                                            entry.setExcerpt(post.getString("excerpt"));
+                                            entry.setOriginalDate(post.getString("date").substring(0, 10));
+                                            entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
+                                            entry.setUpdateDate(post.getString("date").substring(0, 10));
+                                            entry.setOriginalTime(post.getString("date").substring(11));
+                                            entry.setUpdateTime(post.getString("date").substring(11));
+                                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
+                                            entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
+                                            entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
+                                            entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
+                                            entry.setAuthorURL(post.getJSONObject("author").getString("url"));
+                                            entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
+                                            entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
+                                            entry.setComment_count(post.getInt("comment_count"));
+                                            entry.setComment_status(post.getString("comment_status"));
+                                        }
                                     } else {
                                         noOfArticlesDownloadedByService++;
                                         int len = post.getJSONArray("attachments").length();
@@ -165,7 +167,7 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalMonthYear(post.getString("date").substring(0,7));
+                                        entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
                                         entry.setUpdateDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalTime(post.getString("date").substring(11));
                                         entry.setUpdateTime(post.getString("date").substring(11));
@@ -265,6 +267,7 @@ public class UpdateCheckerService extends IntentService {
             sendBroadcast(i);
         }
         database.close();
+        startService(new Intent(UpdateCheckerService.this, ImageUrlHandlerService.class));
         stopSelf();
     }
 
