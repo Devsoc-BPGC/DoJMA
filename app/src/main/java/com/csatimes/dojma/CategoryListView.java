@@ -53,10 +53,10 @@ public class CategoryListView extends ListActivity {
         List<String> catlist=new ArrayList<>(set.size());
         List<HeraldNewsItemFormat> catlistarr=new ArrayList<>();
         catlistarr.addAll(categories);
-        int count=catlistarr.size();
+
         Set<HeraldNewsItemFormat> set2=new HashSet<>();
         set2.addAll(catlistarr);
-        int count2=set2.size();
+
         catlistarr.clear();
         catlist.clear();
 

@@ -1,6 +1,7 @@
 package com.csatimes.dojma;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,49 +19,51 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
- * Created by yash on 18/7/16.
+ * Created by yash on 19/7/16.
  */
 
-public class OpenCategoryListView extends AppCompatActivity {
+public class OpenArchiveListView extends AppCompatActivity {
 
 
     private MaterialSearchView searchView;
     private Realm database;
     private RealmResults realmResults;
     private RealmList realmList;
-    private RecyclerView catHeraldRV;
+    private RecyclerView arcHeraldRV;
     private HeraldRV heraldRVAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_category_open_list_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.offline_category_toolbar);
+
+        setContentView(R.layout.activity_archive_open_list_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.offline_archive_toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        searchView = (MaterialSearchView) findViewById(R.id.category_material_search_view);
-        catHeraldRV = (RecyclerView) findViewById(R.id.category_list_view_herald_rv);
+        searchView = (MaterialSearchView) findViewById(R.id.archive_material_search_view);
+        arcHeraldRV = (RecyclerView) findViewById(R.id.archive_list_view_herald_rv);
 
         searchView.setHint("Search post");
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
-        realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag")).findAll();
+        realmResults = database.where(HeraldNewsItemFormat.class).equalTo("originalMonthYear",getIntent().getStringExtra("myOriginalMonthYear")).findAll();
         realmList = new RealmList();
         realmList.addAll(realmResults);
 
-        heraldRVAdapter = new HeraldRV(this, realmList, database, OpenCategoryListView.this);
+        heraldRVAdapter = new HeraldRV(this, realmList, database, OpenArchiveListView.this);
         heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
                 .getBoolean(getString(R.string.SP_chrome_install_status), false));
 
-        catHeraldRV.setHasFixedSize(true);
-        catHeraldRV.setLayoutManager(new LinearLayoutManager(this));
-        catHeraldRV.setItemAnimator(new DefaultItemAnimator());
+        arcHeraldRV.setHasFixedSize(true);
+        arcHeraldRV.setLayoutManager(new LinearLayoutManager(this));
+        arcHeraldRV.setItemAnimator(new DefaultItemAnimator());
 
-        catHeraldRV.setAdapter(heraldRVAdapter);
+        arcHeraldRV.setAdapter(heraldRVAdapter);
+
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener(){
             @Override
@@ -68,7 +71,7 @@ public class OpenCategoryListView extends AppCompatActivity {
                 realmResults = database
                         .where(HeraldNewsItemFormat.class)
                         .beginGroup()
-                        .equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag"))
+                        .equalTo("originalMonthYear",getIntent().getStringExtra("myOriginalMonthYear"))
                         .endGroup()
                         .contains
                                 ("title", query, Case.INSENSITIVE)
@@ -86,7 +89,7 @@ public class OpenCategoryListView extends AppCompatActivity {
                 realmResults = database
                         .where(HeraldNewsItemFormat.class)
                         .beginGroup()
-                        .equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag"))
+                        .equalTo("originalMonthYear",getIntent().getStringExtra("myOriginalMonthYear"))
                         .endGroup()
                         .contains("title", newText, Case.INSENSITIVE)
                         .findAll();
@@ -109,7 +112,9 @@ public class OpenCategoryListView extends AppCompatActivity {
                 //Do some magic
             }
         });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -137,6 +137,7 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
+                                        entry.setOriginalMonthYear(post.getString("date").substring(0,7));
                                         entry.setUpdateDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalTime(post.getString("date").substring(11));
                                         entry.setUpdateTime(post.getString("date").substring(11));
@@ -164,6 +165,7 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
+                                        entry.setOriginalMonthYear(post.getString("date").substring(0,7));
                                         entry.setUpdateDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalTime(post.getString("date").substring(11));
                                         entry.setUpdateTime(post.getString("date").substring(11));

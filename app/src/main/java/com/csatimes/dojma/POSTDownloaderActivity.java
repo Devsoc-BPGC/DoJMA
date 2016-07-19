@@ -140,6 +140,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                             entry.setContent(post.getString("content"));
                             entry.setExcerpt(post.getString("excerpt"));
                             entry.setOriginalDate(post.getString("date").substring(0, 10));
+                            entry.setOriginalMonthYear(post.getString("date").substring(0,7));
                             entry.setUpdateDate(post.getString("date").substring(0, 10));
                             entry.setOriginalTime(post.getString("date").substring(11));
                             entry.setUpdateTime(post.getString("date").substring(11));
@@ -341,6 +342,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
+                                        entry.setOriginalMonthYear(post.getString("date").substring(0,7));
                                         entry.setUpdateDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalTime(post.getString("date").substring(11));
                                         entry.setUpdateTime(post.getString("date").substring(11));
@@ -353,6 +355,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                                         entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
                                         entry.setComment_count(post.getInt("comment_count"));
                                         entry.setComment_status(post.getString("comment_status"));
+                                        
                                         //Save category information
                                         if (post.getJSONArray("categories").length() != 0) {
                                             try {

@@ -14,6 +14,7 @@ public class HeraldNewsItemFormat extends RealmObject {
     private String title = "";
     private String title_plain = "";
     private String originalDate = "";
+    private String originalMonthYear="";
     private String updateDate = "";
     private String originalTime = "";
     private String updateTime = "";
@@ -50,7 +51,7 @@ public class HeraldNewsItemFormat extends RealmObject {
     }
 
 
-    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate,
+    public HeraldNewsItemFormat(String postID, String title, String title_plain, String originalDate,String originalMonthYear,
                                 String updateDate, String originalTime, String updateTime,
                                 String imageURL, String imageSavedLoc, String url, String content,
                                 String excerpt, String authorID, String authorSlug, String authorName,
@@ -64,6 +65,7 @@ public class HeraldNewsItemFormat extends RealmObject {
         this.title = title;
         this.title_plain = title_plain;
         this.originalDate = originalDate;
+        this.originalMonthYear=originalMonthYear;
         this.updateDate = updateDate;
         this.originalTime = originalTime;
         this.updateTime = updateTime;
@@ -176,6 +178,17 @@ public class HeraldNewsItemFormat extends RealmObject {
     public void setOriginalDate(String originalDate) {
         this.originalDate = originalDate;
     }
+
+
+    public String getOriginalMonthYear() {
+        return originalMonthYear;
+    }
+
+    public void setOriginalMonthYear(String originalMonthYear) {
+        this.originalMonthYear = originalMonthYear;
+    }
+
+
 
     public String getUpdateDate() {
         return updateDate;

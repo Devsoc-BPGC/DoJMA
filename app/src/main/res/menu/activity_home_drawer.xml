@@ -12,6 +12,11 @@
             android:title="Categories"
             />
         <item
+            android:id="@+id/dojma_archives"
+            android:icon="@drawable/archive"
+            android:title="Archives"
+            />
+        <item
             android:id="@+id/nav_favourites"
             android:icon="@drawable/ic_heart"
             android:title="Favourites"/>

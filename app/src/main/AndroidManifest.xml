@@ -111,6 +111,15 @@
                 android:value="com.csatimes.dojma.CategoryListView"/>
         </activity>
         <activity
+            android:name=".OpenArchiveListView"
+            android:label="Archives"
+            android:parentActivityName=".ArchiveListView"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.ArchiveListView"/>
+        </activity>
+        <activity
             android:name=".ImagesAndMedia"
             android:label="@string/title_activity_images_and_media"
             android:parentActivityName=".HomeActivity"
@@ -122,6 +131,15 @@
         <activity
             android:name=".CategoryListView"
             android:label="@string/title_activity_categories"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".ArchiveListView"
+            android:label="Archives"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
