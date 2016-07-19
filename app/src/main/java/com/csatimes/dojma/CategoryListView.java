@@ -116,4 +116,10 @@ public class CategoryListView extends ListActivity {
 
 
     }
+
+    @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
+    }
 }

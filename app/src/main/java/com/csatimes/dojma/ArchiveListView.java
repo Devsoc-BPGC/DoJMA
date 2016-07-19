@@ -9,11 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -44,21 +44,21 @@ public class ArchiveListView extends ListActivity {
                 .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
-        archives=database.where(HeraldNewsItemFormat.class).findAllSorted("originalMonthYear", Sort.ASCENDING);
+        archives = database.where(HeraldNewsItemFormat.class).findAllSorted("originalMonthYear", Sort.ASCENDING);
         resultsList = new RealmList<>();
         Set<HeraldNewsItemFormat> set = new HashSet<>();
         set.addAll(archives);
 
-        List<String> archlist=new ArrayList<>(set.size());
-        List<HeraldNewsItemFormat> archlist2=new ArrayList<>();
+        List<String> archlist = new ArrayList<>(set.size());
+        List<HeraldNewsItemFormat> archlist2 = new ArrayList<>();
         archlist2.addAll(archives);
 
-        Set<HeraldNewsItemFormat> set2=new HashSet<>();
+        Set<HeraldNewsItemFormat> set2 = new HashSet<>();
         set2.addAll(archlist2);
-        Set<HeraldNewsItemFormat> setOg=new HashSet<>();
+        Set<HeraldNewsItemFormat> setOg = new HashSet<>();
         setOg.addAll(archlist2);
-        List<String> archlistOg=new ArrayList<>(set.size());
-        for(HeraldNewsItemFormat temp:setOg){
+        List<String> archlistOg = new ArrayList<>(set.size());
+        for (HeraldNewsItemFormat temp : setOg) {
             archlistOg.add(temp.getOriginalMonthYear());
 
         }
@@ -67,42 +67,36 @@ public class ArchiveListView extends ListActivity {
         archlist.clear();
 
 
-
-
-
-        final List<String> archlistOg2=new ArrayList<>();
-        for(int i=0;i<archlistOg.size();i++){
-            int flag=0;
-            for(int j=i+1;j<archlistOg.size();j++){
-                if(archlistOg.get(j).compareTo(archlistOg.get(i))==0){
-                    flag=1;
+        final List<String> archlistOg2 = new ArrayList<>();
+        for (int i = 0; i < archlistOg.size(); i++) {
+            int flag = 0;
+            for (int j = i + 1; j < archlistOg.size(); j++) {
+                if (archlistOg.get(j).compareTo(archlistOg.get(i)) == 0) {
+                    flag = 1;
                     break;
 
                 }
             }
-            if(flag==0)
-            {
-                if(archlistOg.get(i).compareTo("")!=0)
+            if (flag == 0) {
+                if (archlistOg.get(i).compareTo("") != 0)
                     archlistOg2.add(archlistOg.get(i));
             }
         }
 
 
-
         Collections.sort(archlistOg2);
         Collections.reverse(archlistOg2);
-        final List<String> archlistString=new ArrayList<>();
-        for(int i=0;i<archlistOg2.size();i++)
-        {
+        final List<String> archlistString = new ArrayList<>();
+        for (int i = 0; i < archlistOg2.size(); i++) {
 
             try {
-                SimpleDateFormat newDate=new SimpleDateFormat("yyyy-MM", Locale.UK);
-                Date date=newDate.parse(archlistOg2.get(i));
+                SimpleDateFormat newDate = new SimpleDateFormat("yyyy-MM", Locale.UK);
+                Date date = newDate.parse(archlistOg2.get(i));
                 SimpleDateFormat newDateOut = new SimpleDateFormat("MMM yyyy");
                 archlistString.add(newDateOut.format(date));
             } catch (ParseException e) {
                 //Handle exception here, most of the time you will just log it.
-                Log.e("TAG","exception found in date format");
+                Log.e("TAG", "exception found in date format");
                 e.printStackTrace();
             }
 
@@ -111,9 +105,8 @@ public class ArchiveListView extends ListActivity {
         //Collections.sort(archlistString);
 
 
-
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view,R.id.label, archlistString);
-       // ListView listView = (ListView) findViewById(R.id.mobile_list);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, archlistString);
+        // ListView listView = (ListView) findViewById(R.id.mobile_list);
         this.setListAdapter(adapter);
         ListView lv = getListView();
 
@@ -128,12 +121,18 @@ public class ArchiveListView extends ListActivity {
                 // Launching new Activity on selecting single List Item
                 Intent i = new Intent(getApplicationContext(), OpenArchiveListView.class);
                 // sending data to new activity
-                i.putExtra("myOriginalMonthYear",archlistOg2.get(position));
+                i.putExtra("myOriginalMonthYear", archlistOg2.get(position));
 
                 startActivity(i);
 
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
     }
 }

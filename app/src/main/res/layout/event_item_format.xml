@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="#e3e3e3"
+                android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event name"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:id="@+id/events_format_title"/>
+
+    <TextView
+        android:text="Location if any"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:textSize="15sp"
+        android:id="@+id/events_format_location"
+        android:layout_below="@+id/events_format_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Event details"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:id="@+id/events_format_description"
+        android:layout_below="@+id/events_format_location"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:text="DateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/events_format_description"
+        android:layout_toRightOf="@+id/events_format_location"
+        android:layout_toEndOf="@+id/events_format_location"
+        android:paddingLeft="16dp"
+        android:textSize="15sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:id="@+id/events_format_time"/>
+</RelativeLayout>

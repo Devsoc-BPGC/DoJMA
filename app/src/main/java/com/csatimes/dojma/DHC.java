@@ -31,7 +31,8 @@ public class DHC {
     public static int noOfArticlesPerPage = 16;
     public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
-
+    public static final String eventsAddress= "https://raw.githubusercontent" +
+            ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
 
     // DP <-> PX static converter method
     public static int dpToPx(int dp) {

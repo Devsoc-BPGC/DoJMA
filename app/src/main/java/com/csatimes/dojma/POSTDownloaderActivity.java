@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -261,6 +262,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                 circularFillableLoaders.setProgress(100);
                 startService(new Intent(POSTDownloaderActivity.this, ImageUrlHandlerService.class));
                 Log.e("TAG", "starting home activity");
+                Fresco.shutDown();
                 Intent intent = new Intent(POSTDownloaderActivity.this, HomeActivity.class);
                 startActivity(intent);
                 database.close();
@@ -273,6 +275,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor
                         (POSTDownloaderActivity.this, R.color.colorPrimary));
                 snackbar.show();
+                Fresco.shutDown();
                 database.delete(HeraldNewsItemFormat.class);
                 database.close();
 
@@ -355,7 +358,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                                         entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
                                         entry.setComment_count(post.getInt("comment_count"));
                                         entry.setComment_status(post.getString("comment_status"));
-                                        
                                         //Save category information
                                         if (post.getJSONArray("categories").length() != 0) {
                                             try {

@@ -44,6 +44,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -87,21 +88,18 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LeakCanary.install(getApplication());
-
+        //LeakCanary.install(getApplication());
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
-
         //If app has been isGoogleChromeInstalled for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
         //This key is saved in strings.xml to avoid confusion
         //It is called using android method getString(resID)
-
         if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
             Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
             startActivity(startFirstTimeDownloader);
             finish();
         }
-
+        Fresco.initialize(this);
         setContentView(R.layout.activity_home);
 
 
@@ -247,14 +245,17 @@ public class HomeActivity extends AppCompatActivity
                         final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
                         UpdateCheckerService.stop = false;
                         startService(intent);
-                        Snackbar.make(v, "Checking for updates ... ", Snackbar.LENGTH_LONG)
+                        Snackbar snackbar = Snackbar.make(v, "Checking for updates ... ", Snackbar
+                                .LENGTH_LONG)
                                 .setAction("Cancel", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         if (UpdateCheckerService.isInstanceCreated())
                                             UpdateCheckerService.stop = true;
                                     }
-                                }).show();
+                                });
+                        snackbar.getView().setBackgroundColor(pageColors[0]);
+                        snackbar.show();
                     }
                 } else if (tabLayout.getSelectedTabPosition() == 1) {
                     //gazette
@@ -461,7 +462,7 @@ public class HomeActivity extends AppCompatActivity
 
         adapter.addFragment(new Herald(), "Herald");
         adapter.addFragment(new Gazette(), "Gazette");
-        adapter.addFragment(new CampusWatch(), "Campus Watch");
+        adapter.addFragment(new Utilities(), "Utilities");
         adapter.addFragment(new Events(), "Events");
 
         viewPager.setAdapter(adapter);
@@ -520,8 +521,14 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Hey checkout DoJMA's android app on http://play" +
+                    ".google" +
+                    ".com/store/apps/details?id=com.csatimes.dojma and get all the latest " +
+                    "updates\n");
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, "Share app link via ... "));
 
         } else if (id == R.id.nav_idea) {
             Intent intent = new Intent(HomeActivity.this, SuggestFeature.class);
@@ -539,9 +546,8 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(HomeActivity.this, AboutUs.class);
             startActivity(intent);
-        }
-        else if(id==R.id.dojma_categories){
-            Intent intent=new Intent(HomeActivity.this,CategoryListView.class);
+        } else if (id == R.id.dojma_categories) {
+            Intent intent = new Intent(HomeActivity.this, CategoryListView.class);
             startActivity(intent);
         }
         else if(id==R.id.dojma_archives){
@@ -622,7 +628,6 @@ public class HomeActivity extends AppCompatActivity
         public void addFragment(Fragment fragment, String title) {
             fragmentList.add(fragment);
             fragmentListTitle.add(title);
-
         }
 
         @Override

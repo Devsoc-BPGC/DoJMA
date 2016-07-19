@@ -231,7 +231,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public Date getDateForElement(int element) {
-
         return parseDate(resultsList.get(element).getOriginalDate());
     }
 

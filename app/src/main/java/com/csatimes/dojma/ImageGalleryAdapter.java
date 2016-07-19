@@ -82,8 +82,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         ViewHolder(final View itemView) {
             super(itemView);
             simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.images_rv_imageview);
-            simpleDraweeView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
-
+            CircleImageDrawable cid = new CircleImageDrawable();
+            cid.setRadius(75);
+            simpleDraweeView.getHierarchy().setProgressBarImage(cid);
         }
     }
 
