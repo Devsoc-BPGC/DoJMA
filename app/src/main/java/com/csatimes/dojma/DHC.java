@@ -23,8 +23,7 @@ public class DHC {
     public static final String USER_PREFERENCES = "USER_PREFS";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
     public static final String REALM_DOJMA_LINKS_DATABASE = "DOJMA_LINKS_DATABASE";
-    public static final String eventsAddress = "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
+    public static final String eventsAddress = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
     public static final String startingJSONURL = "http://csatimes.co.in/dojma/?json=all";
     public static final String GazetteLink = "https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Gazette/data.txt";

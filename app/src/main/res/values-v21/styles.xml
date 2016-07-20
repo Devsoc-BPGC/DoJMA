@@ -22,4 +22,8 @@
         <item name="android:colorAccent">@color/filter_dialog_accent_color_light</item>
     </style>
 
+    <style name="ColoredButton2" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:colorAccent">@color/yellowA400</item>
+    </style>
+
 </resources>

@@ -10,9 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -28,6 +30,8 @@ public class Events extends Fragment implements View.OnClickListener {
     private TextView errorText;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private ProgressBar progressBar;
+
     public Events() {
         // Required empty public constructor
     }
@@ -35,9 +39,9 @@ public class Events extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("TAG", "onResume");
         if (isOnline())
             new DownloadList().execute();
-
     }
 
     @Override
@@ -46,6 +50,8 @@ public class Events extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         eventsRV = (RecyclerView) view.findViewById(R.id.events_recycler_view);
         errorText = (TextView) view.findViewById(R.id.error_text_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.events_progress);
+
 
         if (!isOnline()) {
             errorText.setText("Stay connected for latest updates on events");
@@ -53,6 +59,7 @@ public class Events extends Fragment implements View.OnClickListener {
             eventsRV.setVisibility(View.GONE);
         } else {
             errorText.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
         }
         eventsRV.setHasFixedSize(true);
         eventsRV.setItemAnimator(new DefaultItemAnimator());
@@ -78,8 +85,13 @@ public class Events extends Fragment implements View.OnClickListener {
 
     private class DownloadList extends AsyncTask<Void, Void, Void> {
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
+        @Override
+        protected Void doInBackground(Void... voids) {
             try {
                 URL url = new URL(DHC.eventsAddress);
                 // Read all the text returned by the server
@@ -101,6 +113,8 @@ public class Events extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            progressBar.setVisibility(View.GONE);
             if (response != null) {
                 try {
                     InputStream stream = new ByteArrayInputStream(response.getBytes("US-ASCII"));
@@ -112,11 +126,8 @@ public class Events extends Fragment implements View.OnClickListener {
                     for (int i = 0; i < noOfEvents; i++) {
                         events[i] = new EventItem(scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine());
                     }
-                    if (adapter == null) {
-                        adapter = new EventsRV(getContext(), events);
-                        eventsRV.setAdapter(adapter);
-                    } else
-                        adapter.notifyDataSetChanged();
+                    adapter = new EventsRV(getContext(), events);
+                    eventsRV.setAdapter(adapter);
 
                     scanner.close();
                     reader.close();
@@ -125,6 +136,7 @@ public class Events extends Fragment implements View.OnClickListener {
                 } catch (Exception e) {
                     errorText.setText("Could not check for updates");
                     errorText.setVisibility(View.VISIBLE);
+
                 }
 
             } else {

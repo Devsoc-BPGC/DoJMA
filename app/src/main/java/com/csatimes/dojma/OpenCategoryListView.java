@@ -48,7 +48,7 @@ public class OpenCategoryListView extends AppCompatActivity {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
-        realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag")).findAll();
+        realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag")).findAll();
         realmList = new RealmList();
         realmList.addAll(realmResults);
 
@@ -62,13 +62,13 @@ public class OpenCategoryListView extends AppCompatActivity {
 
         catHeraldRV.setAdapter(heraldRVAdapter);
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 realmResults = database
                         .where(HeraldNewsItemFormat.class)
                         .beginGroup()
-                        .equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag"))
+                        .equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag"))
                         .endGroup()
                         .contains
                                 ("title", query, Case.INSENSITIVE)
@@ -86,7 +86,7 @@ public class OpenCategoryListView extends AppCompatActivity {
                 realmResults = database
                         .where(HeraldNewsItemFormat.class)
                         .beginGroup()
-                        .equalTo("categoryTitle",getIntent().getStringExtra("myCategoryTag"))
+                        .equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag"))
                         .endGroup()
                         .contains("title", newText, Case.INSENSITIVE)
                         .findAll();
@@ -109,6 +109,12 @@ public class OpenCategoryListView extends AppCompatActivity {
                 //Do some magic
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        database.close();
     }
 
     @Override
