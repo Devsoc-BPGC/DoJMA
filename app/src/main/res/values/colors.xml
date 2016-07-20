@@ -18,6 +18,7 @@
     <color name="cyan500">#00BCD4</color>
     <color name="teal500">#009688</color>
     <color name="green500">#4CAF50</color>
+    <color name="green800">#2E7D32</color>
     <color name="lightgreen">#8BC34A</color>
     <color name="lime500">#CDDC39</color>
     <color name="yellow500">#FFEB3B</color>
@@ -61,5 +62,8 @@
     <color name="filter_dialog_text_color_light">@color/black</color>
     <color name="filter_dialog_accent_color_light">@color/blue500</color>
     <color name="filter_dialog_bg_color_light">@color/white</color>
+
+    <color name="call_button">@color/blue500</color>
+    <color name="add_contact">@color/grey500</color>
 
 </resources>

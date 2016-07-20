@@ -4,4 +4,27 @@
              android:layout_height="match_parent"
              tools:context=".Utilities">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/utilities_medc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Medical Centre Contact"/>
+
+        <ListView
+            android:id="@+id/utilities_medc_list"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/utilities_medc_title"/>
+
+    </RelativeLayout>
 </FrameLayout>

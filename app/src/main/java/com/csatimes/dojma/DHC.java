@@ -15,7 +15,7 @@ import java.io.FileOutputStream;
  */
 public class DHC {
 
-    public static final String dojmaFolderName = "dojmaImages";
+    public static final String dojmaFolderName = "dojma";
     public static final String ROOT_DIRECTORY = Environment.getExternalStorageDirectory()
             .toString();
     public static final String defaultImageURL = "-1";
@@ -26,6 +26,8 @@ public class DHC {
     public static final String eventsAddress = "https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
     public static final String startingJSONURL = "http://csatimes.co.in/dojma/?json=all";
+    public static final String GazetteLink = "https://raw.githubusercontent" +
+            ".com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Gazette/data.txt";
     static final String FILTER_SUFFIX = "filter_";
     static final String SORT_SUFFIX = "sort_";
     public static int NUMBEROFPAGES = 4;

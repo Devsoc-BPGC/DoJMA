@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/utitlities_medc_call"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/selectableItemBackground"
+        app:srcCompat="@drawable/ic_call"/>
+
+    <TextView
+        android:id="@+id/utilities_medc_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/utitlities_medc_call"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/utitlities_medc_call"
+        android:layout_toLeftOf="@+id/view"
+        android:layout_toStartOf="@+id/view"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="Contact Name"
+        android:textSize="20sp"/>
+
+    <ImageButton
+        android:id="@+id/utitlities_medc_add"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/utitlities_medc_call"
+        android:layout_toStartOf="@+id/utitlities_medc_call"
+        android:background="?attr/selectableItemBackground"
+        app:srcCompat="@drawable/ic_add_contact"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/utitlities_medc_add"
+        android:layout_toStartOf="@+id/utitlities_medc_add"
+        android:background="@color/grey500"/>
+</RelativeLayout>
