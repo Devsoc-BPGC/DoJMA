@@ -65,6 +65,7 @@ public class Gazette extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
         String[] text = {
+                
                 "Volume 1 Issue 5",
                 "Volume 1 Issue 4",
                 "Volume 1 Issue 3",

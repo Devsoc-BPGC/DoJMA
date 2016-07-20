@@ -28,6 +28,7 @@ public class Utilities extends Fragment {
         switch (requestCode)
         {
             case REQUEST_CALL_PHONE: {
+
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     //reload my activity with permission granted or use the features what required the permission
