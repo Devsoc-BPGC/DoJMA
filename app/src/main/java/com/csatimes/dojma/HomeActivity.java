@@ -133,8 +133,10 @@ public class HomeActivity extends AppCompatActivity
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        window.setStatusBarColor(pageColors);
-        window.setNavigationBarColor(pageColors);
+        if (Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(pageColors);
+            window.setNavigationBarColor(pageColors);
+        }
 
         searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
         searchView.setCursorDrawable(R.drawable.cursor_material_search);

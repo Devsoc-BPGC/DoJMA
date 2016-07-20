@@ -51,7 +51,7 @@ public class OpenCategoryListView extends AppCompatActivity {
         realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag")).findAll();
         realmList = new RealmList();
         realmList.addAll(realmResults);
-
+        getSupportActionBar().setTitle(getIntent().getStringExtra("myCategoryTag"));
         heraldRVAdapter = new HeraldRV(this, realmList, database, OpenCategoryListView.this);
         heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
                 .getBoolean(getString(R.string.SP_chrome_install_status), false));

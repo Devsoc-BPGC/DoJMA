@@ -95,14 +95,10 @@ public class CategoryListView extends ListActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // selected item
-
-
                 // Launching new Activity on selecting single List Item
                 Intent i = new Intent(getApplicationContext(), OpenCategoryListView.class);
                 // sending data to new activity
                 i.putExtra("myCategoryTag", catlist2.get(position));
-
                 startActivity(i);
 
             }

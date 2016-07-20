@@ -105,7 +105,7 @@ public class ArchiveListView extends ListActivity {
         //Collections.sort(archlistString);
 
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, archlistString);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.activity_list_view, R.id.label, archlistString);
         // ListView listView = (ListView) findViewById(R.id.mobile_list);
         this.setListAdapter(adapter);
         ListView lv = getListView();

@@ -8,7 +8,8 @@
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.csatimes.dojma.HomeActivity">
+    tools:context="com.csatimes.dojma.HomeActivity"
+    tools:overrideLibrary="com.miguelcatalan.materialsearchview">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -30,9 +31,10 @@
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/material_search_view"
-                style="@style/MaterialSearchViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <!--style="@style/MaterialSearchViewStyle"-->
+
         </FrameLayout>
 
         <android.support.design.widget.TabLayout
