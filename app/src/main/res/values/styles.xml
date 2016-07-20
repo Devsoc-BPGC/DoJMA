@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -85,4 +85,9 @@
     </style>
 
     <style name="ColoredButton" parent="Base.Widget.AppCompat.Button.Borderless.Colored"></style>
+
+    <style name="ColoredButton2" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:colorAccent" tools:targetApi="lollipop">@color/yellowA400</item>
+    </style>
+
 </resources>

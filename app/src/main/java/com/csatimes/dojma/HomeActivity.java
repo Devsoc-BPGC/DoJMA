@@ -7,15 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -34,8 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,15 +57,11 @@ public class HomeActivity extends AppCompatActivity
 
 
     public static boolean appStarted = true;
-    private static int[] pageColors = new int[DHC.NUMBEROFPAGES];
-    public FloatingActionButton fab;
+    private static int pageColors = 0;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private Animation animation;
     private Window window;
-    private int[] fabColors;
-    private Drawable[] fabIcons;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private NavigationView navigationView;
@@ -119,18 +110,14 @@ public class HomeActivity extends AppCompatActivity
         if (isGoogleChromeInstalled)
             editor.putBoolean(getString(R.string.SP_chrome_install_status), true);
         else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
-
         editor.apply();
+
 
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbarObject);
-
-        //reference fab button
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-
 
         //Set the latest topic in the navigation bar
         //custom method
@@ -146,45 +133,19 @@ public class HomeActivity extends AppCompatActivity
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        window.setStatusBarColor(pageColors);
+        window.setNavigationBarColor(pageColors);
 
         searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
         searchView.setCursorDrawable(R.drawable.cursor_material_search);
         searchView.setVoiceSearch(true);
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Do some magic
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Do some magic
-                return false;
-            }
-        });
-
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                //Do some magic
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                //Do some magic
-            }
-        });
         // finally change the color
 
         //If on starting the app, no internet connection is available, error Snackbar is
         // shown.
-        // If on clicking fab button, no internet is there, Custom SimpleAlertDialog is generated
         if (!isOnline()) {
             Snackbar snack = Snackbar.make(activityHomeView, "No Internet. Can't check for updates.", Snackbar.LENGTH_LONG);
-            View sncview = snack.getView();
-            sncview.setBackgroundColor(pageColors[0]);
             snack.show();
         }
 
@@ -198,23 +159,11 @@ public class HomeActivity extends AppCompatActivity
         setupTabIcons();
 
 
-        //Listeners
-
         // tabLayout listenener
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                DHC.PAGENUMBER = tab.getPosition();
-                if (DHC.PAGENUMBER == 0) ;
-                toolbarObject.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
-                tabLayout.setBackgroundColor(pageColors[DHC.PAGENUMBER]);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    window.setStatusBarColor(pageColors[DHC.PAGENUMBER]);
-                    window.setNavigationBarColor(pageColors[DHC.PAGENUMBER]);
-                }
-                fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[DHC.PAGENUMBER]));
-                fab.setImageDrawable(fabIcons[DHC.PAGENUMBER]);
-                viewPager.setCurrentItem(DHC.PAGENUMBER);
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -228,14 +177,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (tabLayout.getSelectedTabPosition() == 0) {
-                    if (!UpdateCheckerService.isInstanceCreated()) {
-
-                        final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
+        /*final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
                         UpdateCheckerService.stop = false;
                         startService(intent);
 
@@ -249,84 +191,17 @@ public class HomeActivity extends AppCompatActivity
                                     }
                                 });
                         snackbar.getView().setBackgroundColor(pageColors[0]);
-                        snackbar.show();
-                    }
-                } else if (tabLayout.getSelectedTabPosition() == 1) {
-                    //gazette
-                } else if (tabLayout.getSelectedTabPosition() == 2) {
-                    //campus watch
-                } else if (tabLayout.getSelectedTabPosition() == 3) {
-                    //events
-                }
+                        snackbar.show();*/
 
-            }
-        });
-        //ratio for fab animation
-        //strictly lying in [0,1)
-        //galti se bhi 1 mat bharna
-        final float r = 0.6f;
-
-        //set animation
-        animation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.fab_anim);
-
-        //fab icon ,color changes,tabs,toolbar color changes are defines here
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                //need to optimise code by moving the setImageDrawable to other method
-                //will do later
-
-                //the following is for scale change animation of the fab on change of fragment
-                // change ratio above
-                if (position < DHC.NUMBEROFPAGES - 1)
-                    if (positionOffset < r) {
-                        fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[position]));
-                        fab.setImageDrawable(fabIcons[position]);
-                        fab.setScaleX(1 - positionOffset);
-                        fab.setScaleY(1 - positionOffset);
-                    } else if (positionOffset >= r && positionOffset < 1) {
-                        fab.setImageDrawable(fabIcons[position + 1]);
-                        fab.setBackgroundTintList(ColorStateList.valueOf(fabColors[position + 1]));
-                        fab.setScaleX((r / (1 - r)) * (positionOffset - r) + (1 - r));
-                        fab.setScaleY((r / (1 - r)) * (positionOffset - r) + (1 - r));
-
-                    }
-
-                //following is blending of toolbar/statusbar/system bar colors given in
-                // pageColors array
-
-                //special color change check for last page to avoid
-                //ArrayOutOfBoundsException
-                if (position == DHC.NUMBEROFPAGES - 1) {
-
-                    toolbarObject.setBackgroundColor(pageColors[3]);
-                    tabLayout.setBackgroundColor(pageColors[3]);
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        window.setStatusBarColor(pageColors[3]);
-                        window.setNavigationBarColor(pageColors[3]);
-                    }
-                }
-
-                if (position <= DHC.NUMBEROFPAGES - 2) {
-                    // Retrieve the current and next ColorFragment
-                    final int from = pageColors[position];
-                    final int to = pageColors[position + 1];
-                    // Blend the colors and adjust the ActionBar
-                    final int blended = DHC.blendColors(to, from, positionOffset);
-
-                    toolbarObject.setBackgroundColor(blended);
-                    tabLayout.setBackgroundColor(blended);
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        window.setStatusBarColor(blended);
-                        window.setNavigationBarColor(blended);
-                    }
-                }
 
             }
 
             @Override
             public void onPageSelected(int position) {
+
             }
 
             @Override
@@ -387,29 +262,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void setupColors() {
         //setup pagecolors
-        // pageColors = new int[NUMBEROFPAGES];
-        pageColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
-        pageColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
-        pageColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
-        pageColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.facebook_primary);
-
-        //setup fab colors
-        fabColors = new int[DHC.NUMBEROFPAGES];
-        fabColors[0] = ContextCompat.getColor(HomeActivity.this, R.color.colorAccent);
-        fabColors[1] = ContextCompat.getColor(HomeActivity.this, R.color.lightblue500);
-        fabColors[2] = ContextCompat.getColor(HomeActivity.this, R.color.green500);
-        fabColors[3] = ContextCompat.getColor(HomeActivity.this, R.color.yellowA400);
-
-
-        //setup fab icons
-        fabIcons = new Drawable[DHC.NUMBEROFPAGES];
-        fabIcons[0] = ContextCompat.getDrawable(HomeActivity.this, R.drawable.ic_refresh_white_24dp);
-        fabIcons[1] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_picture_in_picture_white_24dp);
-        fabIcons[2] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_local_convenience_store_white_24dp);
-        fabIcons[3] = ContextCompat.getDrawable(HomeActivity.this, R.drawable
-                .ic_edit_white_24dp);
+        pageColors = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
     }
 
 
@@ -446,8 +299,8 @@ public class HomeActivity extends AppCompatActivity
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_event_note_white_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_event_note_white_24dp);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
     }
 
     //Setting up the View Pager with the fragments
@@ -456,8 +309,8 @@ public class HomeActivity extends AppCompatActivity
 
         adapter.addFragment(new Herald(), "Herald");
         adapter.addFragment(new Gazette(), "Gazette");
-        adapter.addFragment(new Utilities(), "Utilities");
         adapter.addFragment(new Events(), "Events");
+        adapter.addFragment(new Utilities(), "Utilities");
 
         viewPager.setAdapter(adapter);
     }
@@ -496,7 +349,7 @@ public class HomeActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(HomeActivity.this, Settings.class);
-            settings.putExtra("pageColor", pageColors[DHC.PAGENUMBER]);
+            settings.putExtra("pageColor", pageColors);
             startActivity(settings);
 
         } else if (id == R.id.action_about_us) {
@@ -535,7 +388,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(HomeActivity.this, Settings.class);
-            intent.putExtra("pageColor", pageColors[DHC.PAGENUMBER]);
+            intent.putExtra("pageColor", pageColors);
             startActivity(intent);
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(HomeActivity.this, AboutUs.class);
