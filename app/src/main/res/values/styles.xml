@@ -83,4 +83,6 @@
     <style name="FilterDialogThemeLight" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowShowAnimation">@anim/commons_slide_up_to_bottom</item>
     </style>
+
+    <style name="ColoredButton" parent="Base.Widget.AppCompat.Button.Borderless.Colored"></style>
 </resources>

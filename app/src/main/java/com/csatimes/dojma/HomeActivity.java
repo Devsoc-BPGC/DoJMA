@@ -540,12 +540,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(HomeActivity.this, AboutUs.class);
             startActivity(intent);
-        } else if (id == R.id.dojma_categories) {
-            Intent intent = new Intent(HomeActivity.this, CategoryListView.class);
-            startActivity(intent);
-        } else if (id == R.id.dojma_archives) {
-            Intent intent = new Intent(HomeActivity.this, ArchiveListView.class);
-            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

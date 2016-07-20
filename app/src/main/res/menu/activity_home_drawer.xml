@@ -7,16 +7,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="Gallery"/>
         <item
-            android:id="@+id/dojma_categories"
-            android:icon="@drawable/category"
-            android:title="Categories"
-            />
-        <item
-            android:id="@+id/dojma_archives"
-            android:icon="@drawable/archive"
-            android:title="Archives"
-            />
-        <item
             android:id="@+id/nav_favourites"
             android:icon="@drawable/ic_heart"
             android:title="Favourites"/>
@@ -24,12 +14,12 @@
 
     <item
         android:icon="@android:drawable/ic_partial_secure"
-        android:title="Share">
+        android:title="Others">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
+                android:title="Share app"/>
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_settings"
