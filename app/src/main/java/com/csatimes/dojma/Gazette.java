@@ -2,10 +2,13 @@ package com.csatimes.dojma;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -16,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.Manifest;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,9 +34,29 @@ import static com.csatimes.dojma.DHC.directory;
 public class Gazette extends Fragment {
 
     ListView listView;
+    private static final int REQUEST_WRITE_STORAGE = 112;
+    private int flag=0;
 
     public Gazette() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode)
+        {
+            case REQUEST_WRITE_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    //reload my activity with permission granted or use the features what required the permission
+                } else
+                {
+                    Toast.makeText(getActivity(), "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     @Override
@@ -55,14 +80,30 @@ public class Gazette extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.gazette_list_format, text);
         listView = (ListView) view.findViewById(R.id.gazette_listview);
         listView.setAdapter(adapter);
+
+
+        final boolean hasPermission = (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_STORAGE);
+        }
+
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
 
                 File pdfFolder = new File(directory + "/");
                 pdfFolder.mkdirs();
                 String pdfName = "vol1issue" + (5 - i) + ".pdf";
                 File file = new File(pdfFolder, pdfName);
+
 
                 if (file.exists()) {
                     Uri path = Uri.fromFile(file);
