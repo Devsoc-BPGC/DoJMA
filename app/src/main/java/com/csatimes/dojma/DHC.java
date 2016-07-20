@@ -30,7 +30,6 @@ public class DHC {
     static final String FILTER_SUFFIX = "filter_";
     static final String SORT_SUFFIX = "sort_";
     public static int NUMBEROFPAGES = 4;
-    public static int PAGENUMBER = 0;
     public static String address = "http://csatimes.co.in/dojma/";
     public static int noOfArticlesPerPage = 16;
     public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;

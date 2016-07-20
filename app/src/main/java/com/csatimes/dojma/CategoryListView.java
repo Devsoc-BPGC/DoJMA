@@ -34,7 +34,6 @@ public class CategoryListView extends ListActivity {
     private RealmList<HeraldNewsItemFormat> resultsList;
 
 
-
     //private String[] categorydata;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,55 +43,51 @@ public class CategoryListView extends ListActivity {
                 .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
-        categories=database.where(HeraldNewsItemFormat.class).findAllSorted("categoryTitle", Sort.ASCENDING);
+        categories = database.where(HeraldNewsItemFormat.class).findAllSorted("categoryTitle", Sort.ASCENDING);
         resultsList = new RealmList<>();
         Set<HeraldNewsItemFormat> set = new HashSet<>();
         set.addAll(categories);
 
         //ArrayList<String> myStringArray1 = new ArrayList<String>();
-        List<String> catlist=new ArrayList<>(set.size());
-        List<HeraldNewsItemFormat> catlistarr=new ArrayList<>();
+        List<String> catlist = new ArrayList<>(set.size());
+        List<HeraldNewsItemFormat> catlistarr = new ArrayList<>();
         catlistarr.addAll(categories);
 
-        Set<HeraldNewsItemFormat> set2=new HashSet<>();
+        Set<HeraldNewsItemFormat> set2 = new HashSet<>();
         set2.addAll(catlistarr);
 
         catlistarr.clear();
         catlist.clear();
 
 
-        for(HeraldNewsItemFormat temp:set2) {
+        for (HeraldNewsItemFormat temp : set2) {
             if (!set2.contains(catlist)) {
                 catlist.add(temp.getCategoryTitle());
             }
         }
-            final List<String> catlist2=new ArrayList<>();
+        final List<String> catlist2 = new ArrayList<>();
 
 
+        for (int i = 0; i < catlist.size(); i++) {
+            int flag = 0;
+            for (int j = i + 1; j < catlist.size(); j++) {
+                if (catlist.get(j).compareToIgnoreCase(catlist.get(i)) == 0) {
+                    flag = 1;
+                    break;
 
-            for(int i=0;i<catlist.size();i++){
-                int flag=0;
-                for(int j=i+1;j<catlist.size();j++){
-                    if(catlist.get(j).compareToIgnoreCase(catlist.get(i))==0){
-                        flag=1;
-                        break;
-
-                    }
-                }
-                if(flag==0)
-                {
-                    if(catlist.get(i).compareToIgnoreCase("")!=0)
-                    catlist2.add(catlist.get(i));
                 }
             }
+            if (flag == 0) {
+                if (catlist.get(i).compareToIgnoreCase("") != 0)
+                    catlist2.add(catlist.get(i));
+            }
+        }
         Collections.sort(catlist2);
 
 
-
-
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view,R.id.label, catlist2);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, catlist2);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
-       this.setListAdapter(adapter);
+        this.setListAdapter(adapter);
         ListView lv = getListView();
 
         // listening to single list item on click
@@ -106,13 +101,12 @@ public class CategoryListView extends ListActivity {
                 // Launching new Activity on selecting single List Item
                 Intent i = new Intent(getApplicationContext(), OpenCategoryListView.class);
                 // sending data to new activity
-                i.putExtra("myCategoryTag",catlist2.get(position));
+                i.putExtra("myCategoryTag", catlist2.get(position));
 
                 startActivity(i);
 
             }
         });
-
 
 
     }
