@@ -1,13 +1,9 @@
 package com.csatimes.dojma;
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +36,6 @@ public class ContactAdapter extends ArrayAdapter {
     }
 
 
-
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -59,7 +53,7 @@ public class ContactAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_CALL);
+                intent.setAction(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + contactNumbers[position]));
                 Log.e("TAG", "calling");
                 getContext().startActivity(intent);

@@ -203,10 +203,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
-
-            //enable animations only if user prferences.xml allows so
-            //the key has been copied from preferences.xml
-
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override

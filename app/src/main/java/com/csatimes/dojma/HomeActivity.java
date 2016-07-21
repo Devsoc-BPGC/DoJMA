@@ -74,6 +74,12 @@ public class HomeActivity extends AppCompatActivity
     private ViewPagerAdapter adapter;
     private boolean isGoogleChromeInstalled;
 
+    @Override
+    protected void onDestroy() {
+        startService(new Intent(this, UpdateCheckerService.class));
+        super.onDestroy();
+    }
+
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +97,6 @@ public class HomeActivity extends AppCompatActivity
         }
         Fresco.initialize(this);
         setContentView(R.layout.activity_home);
-        startService(new Intent(this, UpdateCheckerService.class));
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         //Check if analytics is allowed by user
         boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
@@ -159,58 +164,6 @@ public class HomeActivity extends AppCompatActivity
 
         //Custom method to set icons for the tabs
         setupTabIcons();
-
-
-        // tabLayout listenener
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        /*final Intent intent = new Intent(HomeActivity.this, UpdateCheckerService.class);
-                        UpdateCheckerService.stop = false;
-                        startService(intent);
-
-                        Snackbar snackbar = Snackbar.make(v, "Checking for updates ... ", Snackbar
-                                .LENGTH_LONG)
-                                .setAction("Cancel", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        if (UpdateCheckerService.isInstanceCreated())
-                                            UpdateCheckerService.stop = true;
-                                    }
-                                });
-                        snackbar.getView().setBackgroundColor(pageColors[0]);
-                        snackbar.show();*/
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

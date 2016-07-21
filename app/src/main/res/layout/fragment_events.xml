@@ -12,12 +12,19 @@
         android:textSize="16sp"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/events_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/events_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/error_text_view"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/events_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/events_progress"

@@ -1,13 +1,16 @@
 package com.csatimes.dojma;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -80,7 +83,13 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 intent.putExtra("title", eventItems[position].getTitle());
                 intent.putExtra("description", eventItems[position].getDesc());
                 intent.putExtra("eventLocation", eventItems[position].getLocation());
-                context.startActivity(intent);
+                try {
+                    context.startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    Snackbar.make(view, "No calendar found", Snackbar.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(context, "Sorry could not open calendar", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
