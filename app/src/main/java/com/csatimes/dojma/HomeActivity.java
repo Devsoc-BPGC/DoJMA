@@ -161,7 +161,9 @@ public class HomeActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
+        if (savedInstanceState != null) {
+            viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
+        }
         //Custom method to set icons for the tabs
         setupTabIcons();
 
@@ -401,6 +403,11 @@ public class HomeActivity extends AppCompatActivity
         return app_installed;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currenItem", viewPager.getCurrentItem());
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
@@ -430,5 +437,4 @@ public class HomeActivity extends AppCompatActivity
             return fragmentListTitle.get(position);
         }
     }
-
 }

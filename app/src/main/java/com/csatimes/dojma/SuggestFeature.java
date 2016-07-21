@@ -55,8 +55,7 @@ public class SuggestFeature extends AppCompatActivity {
                             .ACTION_SEND);
                     emailIntent.setData(Uri.parse("mailto:"));
                     emailIntent.setType("text/plain");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mobileapplicationclub@gmail.com", "f2015209@goa.bits-pilani" +
-                            ".ac.in"});
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"mobileapplicationclub@gmail.com", "dojma.bitsgoa@gmail.com"});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "FEATURE/SUGG. FOR DOJMA " +
                             "APP");
                     emailIntent.putExtra(Intent.EXTRA_TEXT, suggestion.getText().toString());

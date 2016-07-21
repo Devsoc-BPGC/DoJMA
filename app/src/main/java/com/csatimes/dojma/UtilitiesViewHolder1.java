@@ -1,0 +1,77 @@
+package com.csatimes.dojma;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+
+/**
+ * Created by Vikramaditya Kukreja on 21-07-2016.
+ */
+
+public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    private ImageButton call1, call2, call3;
+    private Context context;
+    private String[] contactNumbers = {"123456", "131233", "3124124"};
+
+    public UtilitiesViewHolder1(View itemView, Context context) {
+        super(itemView);
+        call1 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call1);
+        call2 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call2);
+        call3 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call3);
+        this.context = context;
+        call1.setOnClickListener(this);
+        call2.setOnClickListener(this);
+        call3.setOnClickListener(this);
+    }
+
+    public ImageButton getCall1() {
+        return call1;
+    }
+
+    public void setCall1(ImageButton call1) {
+        this.call1 = call1;
+    }
+
+    public ImageButton getCall2() {
+        return call2;
+    }
+
+    public void setCall2(ImageButton call2) {
+        this.call2 = call2;
+    }
+
+    public ImageButton getCall3() {
+        return call3;
+    }
+
+    public void setCall3(ImageButton call3) {
+        this.call3 = call3;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == call1.getId()) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + contactNumbers[0]));
+            context.startActivity(intent);
+
+        } else if (view.getId() == call2.getId()) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + contactNumbers[0]));
+            context.startActivity(intent);
+
+        } else if (view.getId() == call3.getId()) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + contactNumbers[0]));
+            context.startActivity(intent);
+
+        }
+    }
+}
