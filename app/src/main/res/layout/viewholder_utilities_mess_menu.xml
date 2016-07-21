@@ -28,10 +28,51 @@
             android:textColor="@color/white"
             android:textSize="22sp"/>
 
-        <TextView
+        <Button
+            android:id="@+id/viewholder_mess_format_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewholder_mess_format_title"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/white"
+            android:elevation="0dp"
+            android:gravity="center"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:text="A-Mess"
+            android:textColor="@color/utilities_mess_background"
+            android:textSize="14sp"
+            android:translationZ="0dp"
+            />
+
+        <Button
+            android:id="@+id/viewholder_mess_format_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewholder_mess_format_a"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/white"
+            android:elevation="0dp"
+            android:gravity="center"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:text="C-Mess"
+            android:textColor="@color/utilities_mess_background"
+            android:textSize="14sp"
+            android:translationZ="0dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/viewholder_mess_format_c"
             android:padding="16dp"
             android:text="Checkout the weekly updated mess menu!"
             android:textColor="@color/white"

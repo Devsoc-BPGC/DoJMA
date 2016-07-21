@@ -24,7 +24,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case 1:
                 View v2 = inflater.inflate(R.layout.viewholder_utilities_mess_menu, parent, false);
-                viewHolder = new UtilitiesViewHolder2(v2);
+                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext());
                 break;
             case 2:
                 View v3 = inflater.inflate(R.layout.viewholder_utilities_links, parent, false);

@@ -134,11 +134,13 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     @Override
     public void onRefresh() {
         progressBar.setVisibility(View.GONE);
-        if (isOnline())
+        if (isOnline()) {
             new DownloadList().execute();
-        else {
-            Snackbar.make(swipeRefreshLayout, "No internet", Snackbar.LENGTH_LONG).show();
+            errorText.setVisibility(View.GONE);
+        } else {
+            Snackbar.make(swipeRefreshLayout, R.string.no_internet_msg, Snackbar.LENGTH_LONG).show();
             setOldValues();
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

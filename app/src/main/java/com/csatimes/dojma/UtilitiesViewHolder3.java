@@ -14,23 +14,39 @@ import android.widget.Button;
 public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements View.OnClickListener {
     Button link1;
     Button link2;
+    Button link3;
+    Button link4;
+
     Context context;
 
     public UtilitiesViewHolder3(View itemView, Context context) {
         super(itemView);
         link1 = (Button) itemView.findViewById(R.id.viewholder_links_format_link1);
         link2 = (Button) itemView.findViewById(R.id.viewholder_links_format_link2);
+        link3 = (Button) itemView.findViewById(R.id.viewholder_links_format_link3);
+        link4 = (Button) itemView.findViewById(R.id.viewholder_links_format_link4);
         this.context = context;
         link1.setOnClickListener(this);
         link2.setOnClickListener(this);
+        link3.setOnClickListener(this);
+        link4.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == link1.getId()) {
-
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://10.1.1.242/moodle/"));
+            context.startActivity(intent);
         } else if (view.getId() == link2.getId()) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://swd.bits-goa.ac.in/"));
+            context.startActivity(intent);
+
+        } else if (view.getId() == link3.getId()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://csatimes.co.in"));
+            context.startActivity(intent);
+
+        } else if (view.getId() == link4.getId()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.bits-pilani.ac.in/Goa/"));
             context.startActivity(intent);
 
         }

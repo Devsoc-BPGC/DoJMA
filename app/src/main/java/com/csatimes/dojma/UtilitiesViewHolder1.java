@@ -13,19 +13,23 @@ import android.widget.ImageButton;
 
 public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private ImageButton call1, call2, call3;
+    private ImageButton call1, call2, call3, call4;
     private Context context;
-    private String[] contactNumbers = {"123456", "131233", "3124124"};
+    private String[] contactNumbers = {"123456", "131233", "3124124", "3244324"};
 
     public UtilitiesViewHolder1(View itemView, Context context) {
         super(itemView);
         call1 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call1);
         call2 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call2);
         call3 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call3);
+        call4 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call4);
+
         this.context = context;
         call1.setOnClickListener(this);
         call2.setOnClickListener(this);
         call3.setOnClickListener(this);
+        call4.setOnClickListener(this);
+
     }
 
     public ImageButton getCall1() {
@@ -63,13 +67,19 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
         } else if (view.getId() == call2.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + contactNumbers[0]));
+            intent.setData(Uri.parse("tel:" + contactNumbers[1]));
             context.startActivity(intent);
 
         } else if (view.getId() == call3.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + contactNumbers[0]));
+            intent.setData(Uri.parse("tel:" + contactNumbers[2]));
+            context.startActivity(intent);
+
+        } else if (view.getId() == call4.getId()) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + contactNumbers[3]));
             context.startActivity(intent);
 
         }

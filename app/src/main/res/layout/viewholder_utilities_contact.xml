@@ -30,17 +30,19 @@
 
         <TextView
             android:id="@+id/viewholder_contact_format_name1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/viewholder_contact_format_call1"
             android:layout_alignTop="@+id/viewholder_contact_format_call1"
             android:layout_below="@+id/viewholder_contact_format_title"
-            android:gravity="center"
+            android:layout_toLeftOf="@+id/viewholder_contact_format_call1"
+            android:layout_toStartOf="@+id/viewholder_contact_format_call1"
+            android:gravity="left|center_vertical"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
-            android:text="Med C "
+            android:text="Medical Centre "
             android:textColor="@color/white"
             android:textSize="14sp"/>
 
@@ -63,12 +65,14 @@
 
         <TextView
             android:id="@+id/viewholder_contact_format_name2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/viewholder_contact_format_call2"
             android:layout_alignTop="@+id/viewholder_contact_format_call2"
             android:layout_below="@+id/viewholder_contact_format_name1"
-            android:gravity="center"
+            android:layout_toLeftOf="@+id/viewholder_contact_format_call2"
+            android:layout_toStartOf="@+id/viewholder_contact_format_call2"
+            android:gravity="left|center_vertical"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -81,7 +85,7 @@
         <ImageButton
             android:id="@+id/viewholder_contact_format_call2"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/utilities_contacts_call_button_size"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/viewholder_contact_format_call1"
@@ -98,12 +102,14 @@
 
         <TextView
             android:id="@+id/viewholder_contact_format_name3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/viewholder_contact_format_call3"
             android:layout_alignTop="@+id/viewholder_contact_format_call3"
             android:layout_below="@+id/viewholder_contact_format_name2"
-            android:gravity="center"
+            android:layout_toLeftOf="@+id/viewholder_contact_format_call3"
+            android:layout_toStartOf="@+id/viewholder_contact_format_call3"
+            android:gravity="left|center_vertical"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
 
@@ -132,9 +138,45 @@
             app:srcCompat="@drawable/ic_call_white"/>
 
         <TextView
+            android:id="@+id/viewholder_contact_format_name4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/viewholder_contact_format_call4"
+            android:layout_alignTop="@+id/viewholder_contact_format_call4"
+            android:layout_below="@+id/viewholder_contact_format_name3"
+            android:layout_toLeftOf="@+id/viewholder_contact_format_call4"
+            android:layout_toStartOf="@+id/viewholder_contact_format_call4"
+            android:gravity="left|center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:text="Chief Warden"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+
+        <ImageButton
+            android:id="@+id/viewholder_contact_format_call4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/viewholder_contact_format_call3"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            app:srcCompat="@drawable/ic_call_white"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_contact_format_call3"
+            android:layout_below="@+id/viewholder_contact_format_call4"
             android:padding="16dp"
             android:text="Click here for more contact numbers"
             android:textColor="@color/white"

@@ -49,7 +49,7 @@ public class Utilities extends Fragment {
 //        listView.setAdapter(new ContactAdapter(getContext(), ContactAdapter.contactNames));
         utilitiesRecyclerView = (RecyclerView) view.findViewById(R.id.utilities_rv);
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         utilitiesRecyclerView.setLayoutManager(sglm);
         UtilitiesRV adapter = new UtilitiesRV();
         utilitiesRecyclerView.setItemAnimator(new DefaultItemAnimator());
