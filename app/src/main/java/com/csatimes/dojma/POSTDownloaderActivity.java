@@ -20,6 +20,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
+import java.util.Random;
+
 public class POSTDownloaderActivity extends AppCompatActivity {
     int initProgress = 0;
     private SharedPreferences preferences;
@@ -46,8 +48,8 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_postdownloader);
         circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.loading_image);
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.loading_dojma);
-
-        simpleDraweeView.setImageURI(Uri.parse(images[1]));
+        int random = new Random().nextInt(4);
+        simpleDraweeView.setImageURI(Uri.parse(images[random]));
 
 
         preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);

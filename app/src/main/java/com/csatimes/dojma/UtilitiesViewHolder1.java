@@ -29,7 +29,7 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
         call2.setOnClickListener(this);
         call3.setOnClickListener(this);
         call4.setOnClickListener(this);
-
+        itemView.setOnClickListener(this);
     }
 
     public ImageButton getCall1() {
@@ -58,28 +58,34 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == call1.getId()) {
+        int id = view.getId();
+
+        if (id == call1.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + contactNumbers[0]));
             context.startActivity(intent);
 
-        } else if (view.getId() == call2.getId()) {
+        } else if (id == call2.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + contactNumbers[1]));
             context.startActivity(intent);
 
-        } else if (view.getId() == call3.getId()) {
+        } else if (id == call3.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + contactNumbers[2]));
             context.startActivity(intent);
 
-        } else if (view.getId() == call4.getId()) {
+        } else if (id == call4.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + contactNumbers[3]));
+            context.startActivity(intent);
+
+        } else if (id == itemView.getId()) {
+            Intent intent = new Intent(context, ContactsActivity.class);
             context.startActivity(intent);
 
         }

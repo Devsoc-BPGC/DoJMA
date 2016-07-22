@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/activity_contacts"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.csatimes.dojma.ContactsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/contacts_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/contacts_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="Contacts List"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/contacts_app_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/contacts_categories_emergency"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="bottom"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:text="Emergency"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contacts_categories_emergency_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contacts_categories_emergency"/>
+
+            <TextView
+                android:id="@+id/contacts_categories_academic"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/contacts_categories_emergency_RecyclerView"
+                android:gravity="bottom"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:text="Academic"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contacts_categories_academic_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contacts_categories_academic"/>
+
+            <TextView
+                android:id="@+id/contacts_categories_hostel"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/contacts_categories_academic_RecyclerView"
+                android:gravity="bottom"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:text="Hostel"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contacts_categories_hostel_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contacts_categories_hostel"/>
+
+            <TextView
+                android:id="@+id/contacts_categories_others"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/contacts_categories_hostel_RecyclerView"
+                android:gravity="bottom"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:text="Other Services"
+
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contacts_categories_others_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contacts_categories_others"/>
+
+            <TextView
+                android:id="@+id/contacts_categories_misc"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/contacts_categories_others_RecyclerView"
+                android:gravity="bottom"
+                android:paddingEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingStart="8dp"
+                android:text="Miscellaneous"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/contacts_list_header_size"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contacts_categories_misc_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contacts_categories_misc"/>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

@@ -34,6 +34,11 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View v4 = inflater.inflate(R.layout.viewholder_utilities_misc, parent, false);
                 viewHolder = new UtilitiesViewHolder4(v4);
                 break;
+            case 4:
+                View v5 = inflater.inflate(R.layout.viewholder_utilities_map, parent, false);
+                viewHolder = new UtilitiesViewHolder5(v5, parent.getContext());
+                break;
+
 
         }
         return viewHolder;
@@ -47,7 +52,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -58,6 +63,8 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return 1;
         else if (position == 2)
             return 2;
-        else return 3;
+        else if (position == 3)
+            return 3;
+        else return 4;
     }
 }

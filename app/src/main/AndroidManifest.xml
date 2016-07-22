@@ -188,6 +188,9 @@
             android:name=".PostDownloadService"
             android:exported="false">
         </service>
+
+        <activity android:name=".ContactsActivity">
+        </activity>
     </application>
 
 </manifest>

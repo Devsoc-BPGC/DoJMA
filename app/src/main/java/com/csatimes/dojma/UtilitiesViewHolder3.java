@@ -16,6 +16,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
     Button link2;
     Button link3;
     Button link4;
+    Button link5;
 
     Context context;
 
@@ -25,11 +26,14 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
         link2 = (Button) itemView.findViewById(R.id.viewholder_links_format_link2);
         link3 = (Button) itemView.findViewById(R.id.viewholder_links_format_link3);
         link4 = (Button) itemView.findViewById(R.id.viewholder_links_format_link4);
+        link5 = (Button) itemView.findViewById(R.id.viewholder_links_format_link5);
         this.context = context;
         link1.setOnClickListener(this);
         link2.setOnClickListener(this);
         link3.setOnClickListener(this);
         link4.setOnClickListener(this);
+        link5.setOnClickListener(this);
+
     }
 
     @Override
@@ -47,6 +51,10 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
 
         } else if (view.getId() == link4.getId()) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.bits-pilani.ac.in/Goa/"));
+            context.startActivity(intent);
+
+        } else if (view.getId() == link5.getId()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.bits-pilani.ac.in/goa/login"));
             context.startActivity(intent);
 
         }

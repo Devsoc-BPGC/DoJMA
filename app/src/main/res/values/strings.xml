@@ -113,4 +113,5 @@
     <string name="PREFERENCE_sync">pref_key_syncing_settings</string>
     <string name="PREFERENCE_general">pref_key_general</string>
     <string name="no_internet_msg">Not connected to the internet!</string>
+    <string name="title_activity_campus_map">BITS Goa Campus Map</string>
 </resources>

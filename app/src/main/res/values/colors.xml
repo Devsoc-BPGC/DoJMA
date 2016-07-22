@@ -69,9 +69,10 @@
     <color name="add_contact">@color/grey500</color>
 
     <!--utilities colors-->
-    <color name="utilities_contacts_background">@color/brown500</color>
-    <color name="utilities_mess_background">@color/colorPrimary</color>
+    <color name="utilities_contacts_background">@color/colorPrimary</color>
+    <color name="utilities_mess_background">@color/green800</color>
     <color name="utilities_links_background">@color/pink300</color>
     <color name="utilities_misc_background">@color/green700</color>
+    <color name="utilities_map_background">@color/teal500</color>
 
 </resources>

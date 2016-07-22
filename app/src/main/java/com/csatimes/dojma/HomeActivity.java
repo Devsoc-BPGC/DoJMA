@@ -161,6 +161,8 @@ public class HomeActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         if (savedInstanceState != null) {
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
@@ -413,7 +415,7 @@ public class HomeActivity extends AppCompatActivity
         private final List<Fragment> fragmentList = new ArrayList<>();
         private final List<String> fragmentListTitle = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -427,7 +429,7 @@ public class HomeActivity extends AppCompatActivity
             return fragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             fragmentList.add(fragment);
             fragmentListTitle.add(title);
         }

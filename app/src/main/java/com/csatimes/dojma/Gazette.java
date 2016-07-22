@@ -227,7 +227,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         String title = "";
         File checkFile;
         String link = "";
-        boolean failure = true;
+        boolean failure = false;
 
         DownloadPDF(String title) {
             this.title = title;
@@ -238,14 +238,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             super.onPreExecute();
             downloading = true;
             currentFileDownloading = title;
-            File pdfFolder = new File(directory + "/");
-            pdfFolder.mkdirs();
-            String pdfName = title + ".pdf";
 
-            checkFile = new File(pdfFolder, pdfName);
-            if (checkFile.exists()) {
-                checkFile.delete();
-            }
         }
 
         @Override
@@ -265,6 +258,14 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 snctetxt.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 snctetxt2.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 snackBar.show();
+                File pdfFolder = new File(directory + "/");
+                pdfFolder.mkdirs();
+                String pdfName = title + ".pdf";
+                failure = true;
+                checkFile = new File(pdfFolder, pdfName);
+                if (checkFile.exists()) {
+                    checkFile.delete();
+                }
             }
         }
 
@@ -273,6 +274,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             link = strings[0];
             try {
                 URL url = new URL(strings[0]);
+                Log.e("TAG", strings[0]);
                 HttpURLConnection c = (HttpURLConnection) url.openConnection();
                 c.setRequestMethod("GET");
                 c.setDoOutput(true);
@@ -286,14 +288,16 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                 byte[] buffer = new byte[1024];
                 int len1 = 0;
+                failure = true;
+
                 while ((len1 = in.read(buffer)) > 0) {
                     f.write(buffer, 0, len1);
                 }
-                failure = true;
                 f.close();
                 failure = false;
 
             } catch (Exception e) {
+                e.printStackTrace();
                 publishProgress(0);
             }
             return null;
@@ -303,17 +307,16 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         protected void onCancelled() {
             super.onCancelled();
             downloading = false;
+            failure = true;
 
             File pdfFolder = new File(directory + "/");
             pdfFolder.mkdirs();
             String pdfName = title + ".pdf";
 
             checkFile = new File(pdfFolder, pdfName);
-            try {
+            if (checkFile.exists()) {
                 checkFile.deleteOnExit();
                 checkFile.delete();
-            } catch (Exception e) {
-
             }
         }
 
@@ -344,7 +347,6 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     }
                 }
             } else {
-                Log.e("TAG", "failure");
                 File pdfFolder = new File(directory + "/");
                 boolean folder = pdfFolder.mkdirs();
                 String pdfName = currentFileDownloading + ".pdf";
@@ -453,6 +455,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                     if (num == 1)
                         Toast.makeText(getContext(), "List updated!", Toast.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
 
                     if (adapter != null) {
                         pdfsList = titles;
