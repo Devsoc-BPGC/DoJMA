@@ -1,22 +1,33 @@
 package com.csatimes.dojma;
 
 /**
- * Created by Vikramaditya Kukreja on 19-07-2016.
+ * Event data object that has a title,date,start time,end time,location,desc
+ *
  */
 
-public class EventItem {
+class EventItem {
     String title;
-    String desc;
-    String date;
-    String time;
-    String location;
+    private String desc;
+    private String date;
+    private String time;
+    private String endTime;
+    private String location;
 
-    public EventItem(String title, String date, String time, String location, String desc) {
+    public EventItem(String title, String date, String time, String endTime, String location, String desc) {
         this.title = title;
         this.desc = desc;
         this.date = date;
         this.time = time;
+        this.endTime = endTime;
         this.location = location;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getTitle() {

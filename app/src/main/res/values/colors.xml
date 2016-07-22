@@ -16,6 +16,7 @@
     <color name="blue500">#2196F3</color>
     <color name="lightblue500">#03A9F4</color>
     <color name="lightblue700">#0288D1</color>
+    <color name="cyan400">#26C6DA</color>
     <color name="cyan500">#00BCD4</color>
     <color name="teal500">#009688</color>
     <color name="green500">#4CAF50</color>
@@ -71,7 +72,7 @@
     <!--utilities colors-->
     <color name="utilities_contacts_background">@color/colorPrimary</color>
     <color name="utilities_mess_background">@color/green800</color>
-    <color name="utilities_links_background">@color/pink300</color>
+    <color name="utilities_links_background">@color/grey800</color>
     <color name="utilities_misc_background">@color/green700</color>
     <color name="utilities_map_background">@color/teal500</color>
 

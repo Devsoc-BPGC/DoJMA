@@ -26,6 +26,7 @@ public class DHC {
     public static final String eventsAddress = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
     public static final String startingJSONURL = "http://csatimes.co.in/dojma/?json=all";
     public static final String GazetteLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Gazette/data.txt";
+    public static final String miscLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Notification/urgent_notification.txt";
     static final String FILTER_SUFFIX = "filter_";
     static final String SORT_SUFFIX = "sort_";
     public static int NUMBEROFPAGES = 4;
