@@ -33,6 +33,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
         link3.setOnClickListener(this);
         link4.setOnClickListener(this);
         link5.setOnClickListener(this);
+        itemView.setOnClickListener(this);
 
     }
 
@@ -55,6 +56,12 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
 
         } else if (view.getId() == link5.getId()) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.bits-pilani.ac.in/goa/login"));
+            context.startActivity(intent);
+
+        }
+
+        else if (view.getId() == itemView.getId()) {
+            Intent intent = new Intent(context, LinkListView.class);
             context.startActivity(intent);
 
         }
