@@ -94,6 +94,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                 if (intent.getAction().equalsIgnoreCase(PostDownloadService.UPDATE_PROGRESS)) {
                     circularFillableLoaders.setProgress(intent.getIntExtra(PostDownloadService.UPDATE_PROGRESS, 5));
                 } else if (intent.getAction().equalsIgnoreCase(PostDownloadService.SUCCESS)) {
+                    circularFillableLoaders.setProgress(100);
                     editor.putBoolean(getString(R.string.SP_first_install), false);
                     editor.apply();
                     Intent i = new Intent(context, HomeActivity.class);

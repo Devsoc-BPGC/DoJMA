@@ -28,6 +28,7 @@ import com.facebook.imagepipeline.core.ImagePipeline;
 import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.turingtechnologies.materialscrollbar.IDateableAdapter;
 
 import java.text.ParseException;
@@ -75,7 +76,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         // Inflate the custom layout
         View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
         // Return a new holder instance
@@ -187,7 +188,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         public TextView title;
         public TextView author;
         public TextView date;
-        public TextView desc;
+        public ExpandableTextView desc;
         public LikeButton fav;
         public CardView card;
         public ImageButton share;
@@ -198,7 +199,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             author = (TextView) itemView.findViewById(R.id.herald_rv_item_author);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
-            desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
+            desc = (ExpandableTextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);

@@ -85,7 +85,10 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         //LeakCanary.install(getApplication());
+
+
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         //If app has been isGoogleChromeInstalled for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
@@ -96,7 +99,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(startFirstTimeDownloader);
             finish();
         }
-        Fresco.initialize(this);
+
         setContentView(R.layout.activity_home);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         //Check if analytics is allowed by user

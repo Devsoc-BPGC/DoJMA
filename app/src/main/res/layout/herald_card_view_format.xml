@@ -3,6 +3,7 @@
     android:id="@+id/herald_parent_card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,40 +29,51 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/herald_rv_item_title"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="Date"
             android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/herald_rv_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+        <FrameLayout
+            android:id="@+id/herald_rv_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/herald_rv_item_date"
             android:layout_toLeftOf="@+id/herald_rv_item_image"
             android:layout_toStartOf="@+id/herald_rv_item_image"
-            android:maxLines="3"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Desc"/>
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp">
 
-        <TextView
-            android:id="@+id/herald_rv_item_author"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/herald_rv_desc"
-            android:layout_toLeftOf="@+id/herald_rv_item_image"
-            android:maxLines="1"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:text="Article Author from Dojma"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            />
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/herald_rv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                expandableTextView:animDuration="200"
+                expandableTextView:maxCollapsedLines="1">
+
+                <TextView
+                    android:id="@id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:text="text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|bottom"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"/>
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/herald_rv_item_title"
@@ -71,8 +83,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/herald_rv_item_image"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingTop="24dp"
             android:text="Title"
             android:textColor="@color/black"
@@ -102,7 +114,7 @@
             android:layout_width="40dp"
             android:layout_height="42dp"
             android:layout_alignTop="@+id/herald_rv_item_author"
-            android:layout_below="@+id/herald_rv_desc"
+            android:layout_below="@+id/herald_rv_item_image"
             android:layout_toEndOf="@+id/herald_rv_item_author"
             android:layout_toRightOf="@+id/herald_rv_item_author"
             app:anim_scale_factor="3.5"
@@ -121,12 +133,29 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/herald_like_button"
             android:layout_alignTop="@+id/herald_like_button"
-            android:layout_below="@+id/herald_rv_desc"
+            android:layout_below="@+id/herald_rv_item_image"
             android:layout_toEndOf="@+id/herald_like_button"
             android:layout_toRightOf="@+id/herald_like_button"
             android:background="@color/white"
             app:srcCompat="@drawable/ic_share"
             />
+
+        <TextView
+            android:id="@+id/herald_rv_item_author"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/herald_rv_frame"
+            android:layout_toLeftOf="@+id/herald_rv_item_image"
+            android:layout_toStartOf="@+id/herald_rv_item_image"
+            android:maxLines="1"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:text="Article Author from Dojma"
+            android:textSize="16sp"
+            android:textStyle="italic"/>
 
     </RelativeLayout>
 

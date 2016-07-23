@@ -142,9 +142,7 @@ public class PostDownloadService extends IntentService {
             i.setAction(UPDATE_PROGRESS);
             i.putExtra(UPDATE_PROGRESS, progress);
             sendBroadcast(i);
-
             // downloadOthers(noOfPages);
-
         } catch (Exception e) {
             // downloadOthers(11);
         }
@@ -154,27 +152,16 @@ public class PostDownloadService extends IntentService {
         Realm.setDefaultConfiguration(realmConfiguration);
         Realm database = Realm.getDefaultInstance();
         if (database.where(HeraldNewsItemFormat.class).findAll().size() != 0) {
-
-            //Since image urls are linking to HD images, we need to start the Image handler
-            // service to get small sized image urls
-
-            //startService(new Intent(PostDownloadService.this, ImageUrlHandlerService.class));
-
             Intent i = new Intent();
             i.setAction(SUCCESS);
             sendBroadcast(i);
-
-            database.close();
-
         } else {
             Intent i = new Intent();
             i.setAction(ZERO_ARTICLES_DOWNLOADED);
             sendBroadcast(i);
-
             database.delete(HeraldNewsItemFormat.class);
-            database.close();
-
         }
+        database.close();
         stopSelf();
     }
 

@@ -15,7 +15,7 @@
 
     <item
         android:icon="@android:drawable/ic_partial_secure"
-        android:title="Others">
+        android:title="">
         <menu>
             <item
                 android:id="@+id/nav_fb"

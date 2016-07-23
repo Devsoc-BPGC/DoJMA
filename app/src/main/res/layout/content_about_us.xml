@@ -5,23 +5,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.csatimes.dojma.AboutUs"
     tools:showIn="@layout/activity_about_us">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/about_us_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/dojma"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="The official android app  of Department of Journalism and
-            Media Affairs (DoJMA), BITS Pilani, K.K.Birla Goa Campus. We report on-campus
-             events without fear or favor. If you don't
-             want it reported, don't let it happen! Stay tuned for regular updates."/>
-    </android.support.v4.widget.NestedScrollView>
+    <TextView
+        android:id="@+id/about_us_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about_us_icon"
+        android:layout_centerHorizontal="true"
+        android:text="DoJMA Android App"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/about_us_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about_us_app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Version 0.66"
+        android:textSize="12sp"
+
+        />
+
+    <TextView
+        android:id="@+id/about_us_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/about_us_app_version"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/about_us_main"/>
+
+    <TextView
+        android:id="@+id/about_us_made_by"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/about_us_main"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="developed by"/>
+
+    <ImageView
+        android:id="@+id/about_us_vik"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/about_us_made_by"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/vikramaditya_300x400"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/about_us_vik"
+        android:layout_alignTop="@+id/about_us_vik"
+        android:layout_toEndOf="@id/about_us_vik"
+        android:layout_toRightOf="@+id/about_us_vik"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Vikramaditya Kukreja"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:id="@+id/about_us_yash"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/about_us_vik"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/yash"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/about_us_yash"
+        android:layout_alignTop="@+id/about_us_yash"
+        android:layout_toEndOf="@id/about_us_yash"
+        android:layout_toRightOf="@+id/about_us_yash"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Yash Sharan"
+        android:textSize="14sp"/>
 
 </RelativeLayout>

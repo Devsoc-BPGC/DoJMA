@@ -14,7 +14,6 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -30,7 +29,6 @@ public class UpdateCheckerService extends IntentService {
     public static final String DOWNLOAD_SUCCESS_ACTION = "com.csatimes.dojma.intent.action.dns";
     public static final String UPDATE_CHECK_OVER = "com.csatimes.dojma.intent.action.uco";
     public static UpdateCheckerService instance;
-    public static volatile boolean stop = false;
     private boolean isUpdatePresent;
     private int noOfArticlesUpdatedByService = 0;
     private int noOfArticlesDownloadedByService = 0;
@@ -64,7 +62,6 @@ public class UpdateCheckerService extends IntentService {
         noOfArticlesDownloadedByService = 0;
         noOfArticlesUpdatedByService = 0;
         isUpdatePresent = false;
-        stop = false;
 
         sharedPreferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -111,120 +108,140 @@ public class UpdateCheckerService extends IntentService {
                     pages = page.getInt("pages");
                     editor.putInt("HERALD_PAGES", pages);
                     editor.apply();
-                    if (page.getInt("count") != 16)
-                        stop = true;
-                    else Log.e("TAG", "count is " + page.getInt("count"));
 
                     for (int i = 0; i < posts.length(); i++) {
                         JSONObject postss = posts.getJSONObject(i);
                         final JSONObject post = postss;
-                        database.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
+
+                        if (database.where(HeraldNewsItemFormat.class).contains
+                                ("postID", post.getInt("id") + "").findAll().size() != 0) {
+                            HeraldNewsItemFormat entry = database.where
+                                    (HeraldNewsItemFormat.class).contains("postID",
+                                    post.getInt("id") + "").findFirst();
+
+                            database.beginTransaction();
+                            entry.setType(post.getString("type"));
+                            entry.setSlug(post.getString("slug"));
+                            entry.setUrl(post.getString("url"));
+                            entry.setStatus(post.getString("status"));
+                            entry.setTitle(post.getString("title"));
+                            entry.setTitle_plain(post.getString("title_plain"));
+                            entry.setContent(post.getString("content"));
+                            entry.setExcerpt(post.getString("excerpt"));
+                            entry.setOriginalDate(post.getString("date").substring(0, 10));
+                            entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
+                            entry.setUpdateDate(post.getString("date").substring(0, 10));
+                            entry.setOriginalTime(post.getString("date").substring(11));
+                            entry.setUpdateTime(post.getString("date").substring(11));
+                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
+                            entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
+                            entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
+                            entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
+                            entry.setAuthorURL(post.getJSONObject("author").getString("url"));
+                            entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
+                            entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
+                            entry.setComment_count(post.getInt("comment_count"));
+                            entry.setComment_status(post.getString("comment_status"));
+                            //Save category information
+                            if (post.getJSONArray("categories").length() != 0) {
                                 try {
-                                    if (database.where(HeraldNewsItemFormat.class).equalTo
-                                            ("postID", post.getInt("id") + "").findAll().size()
-                                            != 0) {
-                                        HeraldNewsItemFormat entry = realm.where
-                                                (HeraldNewsItemFormat.class).equalTo("postID",
-                                                post.getInt("id") + "").findFirst();
-                                        if (entry != null) {
-                                            entry.setType(post.getString("type"));
-                                            entry.setSlug(post.getString("slug"));
-                                            entry.setUrl(post.getString("url"));
-                                            entry.setStatus(post.getString("status"));
-                                            entry.setTitle(post.getString("title"));
-                                            entry.setTitle_plain(post.getString("title_plain"));
-                                            entry.setContent(post.getString("content"));
-                                            entry.setExcerpt(post.getString("excerpt"));
-                                            entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                            entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
-                                            entry.setUpdateDate(post.getString("date").substring(0, 10));
-                                            entry.setOriginalTime(post.getString("date").substring(11));
-                                            entry.setUpdateTime(post.getString("date").substring(11));
-                                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                            entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
-                                            entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
-                                            entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
-                                            entry.setAuthorURL(post.getJSONObject("author").getString("url"));
-                                            entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
-                                            entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
-                                            entry.setComment_count(post.getInt("comment_count"));
-                                            entry.setComment_status(post.getString("comment_status"));
-                                        }
-                                    } else {
-                                        noOfArticlesDownloadedByService++;
-                                        int len = post.getJSONArray("attachments").length();
-                                        HeraldNewsItemFormat entry = realm.createObject
-                                                (HeraldNewsItemFormat.class);
-                                        entry.setPostID(post.getInt("id") + "");
-                                        entry.setType(post.getString("type"));
-                                        entry.setSlug(post.getString("slug"));
-                                        entry.setUrl(post.getString("url"));
-                                        entry.setStatus(post.getString("status"));
-                                        entry.setTitle(post.getString("title"));
-                                        entry.setTitle_plain(post.getString("title_plain"));
-                                        entry.setContent(post.getString("content"));
-                                        entry.setExcerpt(post.getString("excerpt"));
-                                        entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
-                                        entry.setUpdateDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalTime(post.getString("date").substring(11));
-                                        entry.setUpdateTime(post.getString("date").substring(11));
-                                        entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                        entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
-                                        entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
-                                        entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
-                                        entry.setAuthorURL(post.getJSONObject("author").getString("url"));
-                                        entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
-                                        entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
-                                        entry.setComment_count(post.getInt("comment_count"));
-                                        entry.setComment_status(post.getString("comment_status"));
-                                        //Save category information
-                                        if (post.getJSONArray("categories").length() != 0) {
-                                            try {
-                                                entry.setCategoryID(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("id") + "");
-                                                entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("title"));
-                                                entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("slug"));
-                                                entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("description"));
-                                                entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("post_count"));
-                                            } catch (Exception e) {
-                                                Log.e("TAG", "Exception raised in category for post " + post
-                                                        .getInt("id") + "");
-                                                entry.setCategoryID("");
-                                                entry.setCategoryCount(0);
-                                                entry.setCategoryDescription("");
-                                                entry.setCategorySlug("");
-                                                entry.setCategoryTitle("");
-                                            }
-                                        } else {
-                                            entry.setCategoryID("");
-                                            entry.setCategoryCount(0);
-                                            entry.setCategoryDescription("");
-                                            entry.setCategorySlug("");
-                                            entry.setCategoryTitle("");
-                                        }
-                                        if (len != 0)
-                                            entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
-                                        else entry.setImageURL("false");
-
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    entry.setCategoryID(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("id") + "");
+                                    entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("title"));
+                                    entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("slug"));
+                                    entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("description"));
+                                    entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("post_count"));
+                                } catch (Exception e) {
+                                    entry.setCategoryID("");
+                                    entry.setCategoryCount(0);
+                                    entry.setCategoryDescription("");
+                                    entry.setCategorySlug("");
+                                    entry.setCategoryTitle("");
                                 }
-
                             }
-                        });
+                            //Save image information
+                            if (post.getJSONArray("attachments").length() != 0) {
+                                entry.setImageURL(post.getJSONArray("attachments").getJSONObject(post.getJSONArray("attachments").length() - 1).getString("url"));
+                                entry.setBigImageUrl(post.getJSONArray("attachments").getJSONObject
+                                        (post.getJSONArray("attachments").length() - 1).getString("url"));
+                            } else {
+                                entry.setImageURL("false");
+                                entry.setBigImageUrl("false");
+                            }
+                            database.commitTransaction();
+                        } else {
+                            noOfArticlesDownloadedByService++;
+                            int len = post.getJSONArray("attachments").length();
+                            database.beginTransaction();
+                            HeraldNewsItemFormat entry = database.createObject
+                                    (HeraldNewsItemFormat.class);
+                            entry.setPostID(post.getInt("id") + "");
+                            entry.setType(post.getString("type"));
+                            entry.setSlug(post.getString("slug"));
+                            entry.setUrl(post.getString("url"));
+                            entry.setStatus(post.getString("status"));
+                            entry.setTitle(post.getString("title"));
+                            entry.setTitle_plain(post.getString("title_plain"));
+                            entry.setContent(post.getString("content"));
+                            entry.setExcerpt(post.getString("excerpt"));
+                            entry.setOriginalDate(post.getString("date").substring(0, 10));
+                            entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
+                            entry.setUpdateDate(post.getString("date").substring(0, 10));
+                            entry.setOriginalTime(post.getString("date").substring(11));
+                            entry.setUpdateTime(post.getString("date").substring(11));
+                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
+                            entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
+                            entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
+                            entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
+                            entry.setAuthorURL(post.getJSONObject("author").getString("url"));
+                            entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
+                            entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
+                            entry.setComment_count(post.getInt("comment_count"));
+                            entry.setComment_status(post.getString("comment_status"));
+                            //Save category information
+                            if (post.getJSONArray("categories").length() != 0) {
+                                try {
+                                    entry.setCategoryID(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("id") + "");
+                                    entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("title"));
+                                    entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("slug"));
+                                    entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
+                                            (0).getString("description"));
+                                    entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
+                                            (0).getInt("post_count"));
+                                } catch (Exception e) {
+                                    Log.e("TAG", "Exception raised in category for post " + post
+                                            .getInt("id") + "");
+                                    entry.setCategoryID("");
+                                    entry.setCategoryCount(0);
+                                    entry.setCategoryDescription("");
+                                    entry.setCategorySlug("");
+                                    entry.setCategoryTitle("");
+                                }
+                            } else {
+                                entry.setCategoryID("");
+                                entry.setCategoryCount(0);
+                                entry.setCategoryDescription("");
+                                entry.setCategorySlug("");
+                                entry.setCategoryTitle("");
+                            }
+                            if (len != 0)
+                                entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
+                            else entry.setImageURL("false");
+
+                            database.commitTransaction();
+                        }
 
                     }
 
 
-                } else stop = true;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -238,7 +255,7 @@ public class UpdateCheckerService extends IntentService {
             i.setAction(DOWNLOAD_SUCCESS_ACTION);
             sendBroadcast(i);
 
-            if (noOfArticlesDownloadedByService != 1)
+            if (noOfArticlesDownloadedByService == 1)
                 message = "1 new article was downlaoded";
             else message = noOfArticlesDownloadedByService + " articles downloaded";
             Intent openHerald = new Intent(this, HomeActivity.class);
