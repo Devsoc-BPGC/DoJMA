@@ -105,7 +105,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingStart="8dp"
-                android:text="Other Services"
+                android:text="Others"
 
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"

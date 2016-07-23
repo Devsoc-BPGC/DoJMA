@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Calendar;
 
 public class Events extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView eventsRV;
@@ -66,12 +67,13 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                 String title = preferences.getString("EVENTS_number_" + i + "_title", "");
                 String date = preferences.getString("EVENTS_number_" + i + "_date", "");
                 String time = preferences.getString("EVENTS_number_" + i + "_time", "");
+                String endtime = preferences.getString("EVENTS_number_" + i + "_endtime", "");
                 String location = preferences.getString("EVENTS_number_" + i + "_location", "");
                 String desc = preferences.getString("EVENTS_number_" + i + "_desc", "");
 
-                eventlist[i] = new EventItem(title, date, time, location, desc);
+                eventlist[i] = new EventItem(title, date, time, endtime, location, desc);
             }
-            adapter = new EventsRV(getContext(), eventlist);
+            adapter = new EventsRV(getContext(), eventlist, Calendar.getInstance().getTime());
             eventsRV.setAdapter(adapter);
         }
     }
@@ -191,9 +193,9 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                     int noOfEvents = Integer.parseInt(scanner.readLine());
                     EventItem[] events = new EventItem[noOfEvents];
                     for (int i = 0; i < noOfEvents; i++) {
-                        events[i] = new EventItem(scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine());
+                        events[i] = new EventItem(scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine());
                     }
-                    adapter = new EventsRV(getContext(), events);
+                    adapter = new EventsRV(getContext(), events, Calendar.getInstance().getTime());
                     eventsRV.setAdapter(adapter);
 
                     scanner.close();
@@ -205,6 +207,7 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                         editor.putString("EVENTS_number_" + i + "_title", events[i].getTitle());
                         editor.putString("EVENTS_number_" + i + "_date", events[i].getDate());
                         editor.putString("EVENTS_number_" + i + "_time", events[i].getTime());
+                        editor.putString("EVENTS_number_" + i + "_endtime", events[i].getEndTime());
                         editor.putString("EVENTS_number_" + i + "_location", events[i].getLocation());
                         editor.putString("EVENTS_number_" + i + "_desc", events[i].getDesc());
                     }

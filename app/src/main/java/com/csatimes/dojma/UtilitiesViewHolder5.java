@@ -3,6 +3,7 @@ package com.csatimes.dojma;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -12,7 +13,7 @@ import android.view.View;
 
 public class UtilitiesViewHolder5 extends RecyclerView.ViewHolder {
 
-    public UtilitiesViewHolder5(View itemView, final Context context) {
+    public UtilitiesViewHolder5(final View itemView, final Context context) {
         super(itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -21,6 +22,8 @@ public class UtilitiesViewHolder5 extends RecyclerView.ViewHolder {
                 intent.setPackage("com.google.android.apps.maps");
                 if (intent.resolveActivity(context.getPackageManager()) != null) {
                     context.startActivity(intent);
+                } else {
+                    Snackbar.make(itemView, "Google Maps is not installed!", Snackbar.LENGTH_LONG).show();
                 }
             }
         });

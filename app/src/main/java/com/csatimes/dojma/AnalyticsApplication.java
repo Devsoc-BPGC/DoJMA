@@ -30,6 +30,10 @@ import com.google.android.gms.analytics.Tracker;
 public class AnalyticsApplication extends Application {
     private Tracker mTracker;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Override
     protected void attachBaseContext(Context base) {

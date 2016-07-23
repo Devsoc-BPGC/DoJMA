@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -351,6 +352,9 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(HomeActivity.this, AboutUs.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_fb) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.facebook.com/DoJMABITSGoa/"));
             startActivity(intent);
         }
 

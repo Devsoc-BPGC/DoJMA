@@ -4,7 +4,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +27,21 @@ import java.util.Locale;
 class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
 
     Context context;
-    EventItem[] eventItems;
-    Date date, time;
+    private EventItem[] eventItems;
+    private Date date;
+    private Date end;
+    private Date currentDate;
 
-    public EventsRV(Context context, EventItem[] eventItems) {
+    public EventsRV(Context context, EventItem[] eventItems, Date currentDate) {
         this.context = context;
         this.eventItems = eventItems;
+        this.currentDate = currentDate;
     }
 
     @Override
     public EventsRV.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         // Inflate the custom layout
         View event_item_format = inflater.inflate(R.layout.event_item_format, parent, false);
         // Return a new holder instance
@@ -48,30 +52,75 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
     public void onBindViewHolder(EventsRV.ViewHolder holder, final int position) {
         holder.title.setText(eventItems[position].getTitle());
         holder.desc.setText(eventItems[position].getDesc());
-        DateFormat originalFormat = new SimpleDateFormat("ddMMyyyy", Locale.ENGLISH);
-        DateFormat targetFormat = new SimpleDateFormat("EEE, dd MMM", Locale.UK);
-        DateFormat originalTimeFormat = new SimpleDateFormat("HHmm", Locale.ENGLISH);
-        DateFormat targetTimeFormat = new SimpleDateFormat("h:mm a", Locale.UK);
+
+        String status;
+
+        DateFormat originalFormat = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("EEE, dd MMM h:mm a", Locale.UK);
+
 
         date = null;
-        time = null;
+        end = null;
         String one = "";
-        String two = "";
+
         try {
-            date = originalFormat.parse(eventItems[position].getDate());
-            String formattedDate = targetFormat.format(date);
-            one = formattedDate;
+
+            date = originalFormat.parse(eventItems[position].getDate() + eventItems[position].getTime());
+            end = originalFormat.parse(eventItems[position].getDate() + eventItems[position].getEndTime());
+
+            one = targetFormat.format(date);
+
+            long datesDiff = date.getTime() - currentDate.getTime();
+            long endDiff = end.getTime() - currentDate.getTime();
+            long days = datesDiff / (24 * 60 * 60 * 1000);
+            long hours = datesDiff / (60 * 60 * 1000) % 24;
+            long minutes = datesDiff / (60 * 1000) % 60;
+
+            Log.e("TAG", days + " days " + hours + " hours " + minutes + " min ");
+
+            if (days == 0) {
+                if (hours == 1) {
+                    holder.status.setText("STARTING SOON");
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.teal500));
+                } else if (hours > 1) {
+                    holder.status.setText("IN " + hours + " HOURS");
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.green700));
+                } else if (hours == 0 && endDiff > 0) {
+
+                    if (minutes != 1)
+                        holder.status.setText("IN " + minutes + " MINUTES ");
+                    else holder.status.setText("STARTING");
+
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.lightblue500));
+
+                    if (minutes < 0) {
+                        holder.status.setText("ONGOING");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.blue500));
+                    }
+                } else {
+                    holder.status.setText("EVENT OVER");
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.red500));
+                }
+
+
+            } else if (days > 0) {
+                if (days == 1) {
+                    holder.status.setText("TOMORROW");
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey900));
+                } else {
+                    holder.status.setText("AFTER " + days + " DAYS");
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey700));
+                }
+            } else if (currentDate.getTime() - end.getTime() > 0) {
+                holder.status.setText("EVENT IS OVER");
+                holder.status.setTextColor(ContextCompat.getColor(context, R.color.red500));
+            }
+
         } catch (ParseException e) {
-            one = "date_error";
+            one = "format";
+            holder.status.setText("");
         }
-        try {
-            time = originalTimeFormat.parse(eventItems[position].getTime());
-            String formattedTime = targetTimeFormat.format(time);
-            two = formattedTime;
-        } catch (ParseException e) {
-            two = "time_error";
-        }
-        holder.datetime.setText(one + " " + two);
+        holder.datetime.setText(one);
         holder.location.setText(eventItems[position].getLocation());
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +128,9 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 Intent intent = new Intent(Intent.ACTION_EDIT);
                 intent.setType("vnd.android.cursor.item/event");
                 intent.putExtra("beginTime", date.getTime());
-                intent.putExtra("allDay", true);
+                intent.putExtra("endTIme", end.getTime());
+                intent.putExtra("allDay", false);
+                intent.putExtra("duration", end.getTime() - date.getTime());
                 intent.putExtra("title", eventItems[position].getTitle());
                 intent.putExtra("description", eventItems[position].getDesc());
                 intent.putExtra("eventLocation", eventItems[position].getLocation());
@@ -104,6 +155,7 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
         TextView desc;
         TextView datetime;
         TextView location;
+        TextView status;
         ImageButton add;
 
         public ViewHolder(final View itemView) {
@@ -113,6 +165,8 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
             datetime = (TextView) itemView.findViewById(R.id.events_format_time);
             location = (TextView) itemView.findViewById(R.id.events_format_location);
             add = (ImageButton) itemView.findViewById(R.id.events_format_add);
+            status = (TextView) itemView.findViewById(R.id.events_format_status);
+
         }
 
     }
