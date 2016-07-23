@@ -140,6 +140,15 @@
                 android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
         <activity
+            android:name=".LinkListView"
+            android:label="Links"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
+        <activity
             android:name=".ArchiveListView"
             android:label="Archives"
             android:parentActivityName=".HomeActivity"
