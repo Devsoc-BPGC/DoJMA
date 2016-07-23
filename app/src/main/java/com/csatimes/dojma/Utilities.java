@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,13 +14,12 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 public class Utilities extends Fragment {
     private static final int REQUEST_CALL_PHONE = 112;
     RecyclerView utilitiesRecyclerView;
-
-
+    boolean hasPermission = false;
+    UtilitiesRV adapter;
     public Utilities() {
         // Required empty public constructor
     }
@@ -31,9 +31,11 @@ public class Utilities extends Fragment {
             case REQUEST_CALL_PHONE: {
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //reload my activity with permission granted or use the features what required the permission
+                    hasPermission = true;
+                    adapter.setHasWritePermission(hasPermission);
                 } else {
-                     Toast.makeText(getActivity(), "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
+                    Snackbar.make(utilitiesRecyclerView, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Snackbar.LENGTH_LONG)
+                            .show();
                 }
             }
         }
@@ -44,23 +46,24 @@ public class Utilities extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_utilities, container, false);
-//        ListView listView = (ListView) view.findViewById(R.id.utilities_medc_list);
-//        listView.setFooterDividersEnabled(true);
-//        listView.setAdapter(new ContactAdapter(getContext(), ContactAdapter.contactNames));
+
+
         utilitiesRecyclerView = (RecyclerView) view.findViewById(R.id.utilities_rv);
+
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+
         utilitiesRecyclerView.setLayoutManager(sglm);
-        UtilitiesRV adapter = new UtilitiesRV();
+
+        adapter = new UtilitiesRV();
+        adapter.setHasWritePermission(hasPermission);
         utilitiesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         utilitiesRecyclerView.setAdapter(adapter);
 
-        final boolean hasPermission = (ContextCompat.checkSelfPermission(getContext(),
+        hasPermission = (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED);
-        if (hasPermission == false) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.CALL_PHONE},
-                    REQUEST_CALL_PHONE);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PHONE);
         }
 
         return view;

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
+    boolean hasWritePermission = false;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -24,7 +24,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case 1:
                 View v2 = inflater.inflate(R.layout.viewholder_utilities_mess_menu, parent, false);
-                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext());
+                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext(), hasWritePermission);
                 break;
             case 2:
                 View v3 = inflater.inflate(R.layout.viewholder_utilities_links, parent, false);
@@ -53,6 +53,10 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return 5;
+    }
+
+    public void setHasWritePermission(boolean hasWritePermission) {
+        this.hasWritePermission = hasWritePermission;
     }
 
     @Override
