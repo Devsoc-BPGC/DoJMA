@@ -21,14 +21,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.core.ImagePipeline;
-import com.google.android.gms.analytics.Tracker;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.squareup.picasso.Picasso;
 import com.turingtechnologies.materialscrollbar.IDateableAdapter;
 
 import java.text.ParseException;
@@ -49,13 +48,11 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private RealmList<HeraldNewsItemFormat> resultsList;
     private Realm database;
     private int dismissPosition;
-    private Tracker mTracker;
     private boolean isGoogleChromeInstalled = false;
     private CustomTabsIntent customTabsIntent;
     private Activity activity;
     private RecyclerView recyclerView;
-    private ImagePipeline imagePipeline;
-
+    private boolean textState = false;
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
             database, Activity activity) {
         this.context = context;
@@ -77,9 +74,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        // Inflate the custom layout
         View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
-        // Return a new holder instance
         return new ViewHolder(herald_card_view_format);
     }
 
@@ -101,10 +96,12 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             holder.fav.setLiked(true);
         else holder.fav.setLiked(false);
 
-        if (foobar.isRead()) {
-            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
-            //       .cardview_shadow_end_color));
-        }
+
+//        if (foobar.isRead()) {
+//            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
+//            //       .cardview_shadow_end_color));
+//        }
+
         //since Html.fromHtml is deprecated from N onwards we add the special flag
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             holder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
@@ -113,12 +110,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             holder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
             holder.title.setText(Html.fromHtml(foobar.getTitle()));
         }
-        try {
-            holder.imageView.setImageURI(Uri.parse(foobar.getImageURL())
-            );
-        } catch (Exception e) {
-        }
-
+        Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(holder.imageView);
 
     }
 
@@ -138,7 +130,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                 temp.setDismissed(true);
             }
         });
-        Log.e("TAG", "dismissed at " + position);
         dismissPosition = position;
         this.resultsList.remove(position);
         this.notifyItemRemoved(position);
@@ -166,7 +157,6 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     }
 
     private boolean isNetworkAvailable(Context context) {
-        Log.e("TAG", "in isNetworkAvailable");
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -178,13 +168,13 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         return parseDate(resultsList.get(element).getOriginalDate());
     }
 
-    public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
+    void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public SimpleDraweeView imageView;
+        public ImageView imageView;
         public TextView title;
         public TextView author;
         public TextView date;
@@ -195,7 +185,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
+            imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
             author = (TextView) itemView.findViewById(R.id.herald_rv_item_author);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
@@ -203,7 +193,7 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
-            imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
+            // imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override

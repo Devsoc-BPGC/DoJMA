@@ -53,8 +53,8 @@ public class UpdateCheckerService extends IntentService {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         instance = null;
+        super.onDestroy();
     }
 
     @Override
@@ -82,7 +82,9 @@ public class UpdateCheckerService extends IntentService {
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
 
-        for (int j = 1; j <= sharedPreferences.getInt("HERALD_PAGES", 11); j++) {
+        Log.e("TAG", " saved pages  = " + sharedPreferences.getInt("HERALD_PAGES", 45));
+
+        for (int j = 1; j <= 11/*sharedPreferences.getInt("HERALD_PAGES", 11)*/; j++) {
             try {
                 URL url;
                 if (j != 1) url = new URL(urlPrefix + j + urlSuffix);
@@ -112,13 +114,10 @@ public class UpdateCheckerService extends IntentService {
                     for (int i = 0; i < posts.length(); i++) {
                         JSONObject postss = posts.getJSONObject(i);
                         final JSONObject post = postss;
-
-                        if (database.where(HeraldNewsItemFormat.class).contains
+                        if (database.where(HeraldNewsItemFormat.class).equalTo
                                 ("postID", post.getInt("id") + "").findAll().size() != 0) {
-                            HeraldNewsItemFormat entry = database.where
-                                    (HeraldNewsItemFormat.class).contains("postID",
-                                    post.getInt("id") + "").findFirst();
-
+                            HeraldNewsItemFormat entry = database.where(HeraldNewsItemFormat.class).equalTo("postID", post.getInt("id") + "").findFirst();
+                            Log.e("TAG", post.getString("title") + " existed! post id was " + post.getInt("id") + "");
                             database.beginTransaction();
                             entry.setType(post.getString("type"));
                             entry.setSlug(post.getString("slug"));
@@ -173,7 +172,14 @@ public class UpdateCheckerService extends IntentService {
                                 entry.setBigImageUrl("false");
                             }
                             database.commitTransaction();
+                            if (database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findAll().size() != 0)
+                                Log.e("TAG", database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findFirst().getTitle());
+                            else {
+                                Log.e("TAG", "it was deleted 1");
+                            }
+
                         } else {
+                            Log.e("TAG", post.getString("title") + " added with post id " + post.getInt("id"));
                             noOfArticlesDownloadedByService++;
                             int len = post.getJSONArray("attachments").length();
                             database.beginTransaction();
@@ -236,6 +242,12 @@ public class UpdateCheckerService extends IntentService {
                             else entry.setImageURL("false");
 
                             database.commitTransaction();
+                            if (database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findAll().size() != 0)
+                                Log.e("TAG", database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findFirst().getTitle());
+                            else {
+                                Log.e("TAG", "it was deleted 2");
+                            }
+
                         }
 
                     }
@@ -254,7 +266,9 @@ public class UpdateCheckerService extends IntentService {
             Intent i = new Intent();
             i.setAction(DOWNLOAD_SUCCESS_ACTION);
             sendBroadcast(i);
+            database.close();
 
+            Log.e("TAG", "download success broadcast");
             if (noOfArticlesDownloadedByService == 1)
                 message = "1 new article was downlaoded";
             else message = noOfArticlesDownloadedByService + " articles downloaded";
@@ -282,8 +296,10 @@ public class UpdateCheckerService extends IntentService {
             Intent i = new Intent();
             i.setAction(UPDATE_CHECK_OVER);
             sendBroadcast(i);
+            database.close();
+
+            Log.e("TAG", "update check over broadcast");
         }
-        database.close();
         startService(new Intent(UpdateCheckerService.this, ImageUrlHandlerService.class));
         stopSelf();
     }

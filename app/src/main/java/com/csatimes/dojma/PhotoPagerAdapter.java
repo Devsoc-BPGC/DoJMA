@@ -1,17 +1,17 @@
 package com.csatimes.dojma;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Picasso;
 
 import io.realm.RealmList;
 
@@ -34,7 +34,7 @@ public class PhotoPagerAdapter
         this.viewPager = viewPager;
     }
 
-    public static SimpleDraweeView getImage(RecyclePagerAdapter.ViewHolder holder) {
+    public static ImageView getImage(RecyclePagerAdapter.ViewHolder holder) {
         if (holder instanceof ViewHolder) {
             return ((ViewHolder) holder).image;
         } else {
@@ -84,7 +84,7 @@ public class PhotoPagerAdapter
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        holder.image.setImageURI(Uri.parse(realmList.get(position).getImageURL()));
+        Picasso.with(context).load(Uri.parse(realmList.get(position).getImageURL())).into(holder.image);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class PhotoPagerAdapter
     }
 
     static class ViewHolder extends RecyclePagerAdapter.ViewHolder {
-        final SimpleDraweeView image;
+        final ImageView image;
         final View progress;
         final GestureFrameLayout gestureFrameLayout;
         boolean gesturesDisabled;
@@ -108,10 +108,6 @@ public class PhotoPagerAdapter
             image = Views.find(itemView, R.id.photo_full_image);
             progress = Views.find(itemView, R.id.photo_full_progress);
             gestureFrameLayout = Views.find(itemView, R.id.gesture_frame);
-            CircleImageDrawable cid = new CircleImageDrawable();
-            cid.setColor(Color.WHITE);
-
-            image.getHierarchy().setProgressBarImage(cid);
             gestureFrameLayout.getController().getSettings().setOverscrollDistance(0, 0);
 
         }

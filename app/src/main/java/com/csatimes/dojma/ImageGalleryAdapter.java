@@ -6,8 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Picasso;
 
 import io.realm.RealmList;
 
@@ -27,9 +28,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         this.listener = listener;
     }
 
-    public static SimpleDraweeView getImage(RecyclerView.ViewHolder holder) {
+    public static ImageView getImage(RecyclerView.ViewHolder holder) {
         if (holder instanceof ViewHolder) {
-            return ((ViewHolder) holder).simpleDraweeView;
+            return ((ViewHolder) holder).imageView;
         } else {
             return null;
         }
@@ -48,12 +49,8 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final HeraldNewsItemFormat foobar = resultsList.get(position);
-        try {
-            holder.simpleDraweeView.setImageURI(Uri.parse(foobar.getImageURL()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        holder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+        Picasso.with(context).load(Uri.parse(foobar.getImageURL())).into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onPhotoClick(holder.getAdapterPosition());
@@ -77,14 +74,11 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView simpleDraweeView;
+        ImageView imageView;
 
         ViewHolder(final View itemView) {
             super(itemView);
-            simpleDraweeView = (SimpleDraweeView) itemView.findViewById(R.id.images_rv_imageview);
-            CircleImageDrawable cid = new CircleImageDrawable();
-            cid.setRadius(75);
-            simpleDraweeView.getHierarchy().setProgressBarImage(cid);
+            imageView = (ImageView) itemView.findViewById(R.id.images_rv_imageview);
         }
     }
 

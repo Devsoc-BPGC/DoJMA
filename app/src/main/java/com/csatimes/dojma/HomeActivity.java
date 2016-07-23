@@ -40,7 +40,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -77,7 +76,6 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        startService(new Intent(this, UpdateCheckerService.class));
         super.onDestroy();
     }
 
@@ -85,7 +83,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fresco.initialize(this);
         //LeakCanary.install(getApplication());
 
 
@@ -99,7 +96,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(startFirstTimeDownloader);
             finish();
         }
-
+        startService(new Intent(this, UpdateCheckerService.class));
         setContentView(R.layout.activity_home);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         //Check if analytics is allowed by user

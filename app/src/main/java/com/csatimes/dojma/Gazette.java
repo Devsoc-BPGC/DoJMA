@@ -43,18 +43,19 @@ import static com.csatimes.dojma.DHC.directory;
 
 public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     private static final int REQUEST_WRITE_STORAGE = 112;
-    ListView listView;
-    SwipeRefreshLayout swipe;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     ArrayAdapter<String> adapter;
-    String[] pdfsList = null;
-    boolean hasPermission;
-    GazetteItem[] gazetteItems;
-    String currentFileDownloading = "";
+    private ListView listView;
+    private SwipeRefreshLayout swipe;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private String[] pdfsList = null;
+    private boolean hasPermission;
+    private GazetteItem[] gazetteItems;
+    private String currentFileDownloading = "";
     private int flag = 0;
     private boolean downloading = false;
-
+    private String firstTime = "GAZETTE_FIRST_TIME";
+    private TextView emptyList;
 
     public Gazette() {
         // Required empty public constructor
@@ -78,13 +79,14 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.e("TAG", "onCreate gazettes");
         sharedPreferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         int pdfs = sharedPreferences.getInt("GAZETTE_number", 0);
         pdfsList = new String[0];
         gazetteItems = new GazetteItem[pdfs];
         if (pdfs != 0) {
+            adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
             pdfsList = new String[pdfs];
             for (int i = 0; i < pdfs; i++) {
                 pdfsList[i] = sharedPreferences.getString("GAZETTE_number_" + i + "_title", "null");
@@ -94,21 +96,21 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 }
             }
         } else {
+            Log.e("TAG", "gazettes zero!");
             editor.putInt("GAZETTE_number", 0);
             editor.apply();
+        }
+        downloading = false;
 
-        }
-        adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
-        if (isOnline()) {
-            new DownloadList(0).execute();
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("TAG", "onResum gazette");
         if (isOnline()) {
             new DownloadList(0).execute();
+
         }
     }
 
@@ -117,15 +119,13 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
+        downloading = false;
+
+        Log.e("TAG", "onCreateView of gazettes called");
 
         listView = (ListView) view.findViewById(R.id.gazette_listview);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.gazette_swipe);
 
-        if (isOnline()) {
-            new DownloadList(0).execute();
-        }
-
-        downloading = false;
         swipe.setColorSchemeResources(R.color.amber500, R.color.blue500, R.color
                 .brown500, R.color.cyan500, R.color.deeporange500, R.color.deepPurple500, R.color.green500, R
                 .color.grey500, R.color.indigo500, R.color.lightblue500, R.color.lime500, R.color
@@ -133,7 +133,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 .color.yellow500);
 
         swipe.setRefreshing(false);
-        listView.setAdapter(adapter);
+        if (adapter != null) listView.setAdapter(adapter);
 
         hasPermission = (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -142,7 +142,6 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_WRITE_STORAGE);
         }
-
 
         listView.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
@@ -455,13 +454,15 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                     if (num == 1)
                         Toast.makeText(getContext(), "List updated!", Toast.LENGTH_SHORT).show();
-                    adapter.notifyDataSetChanged();
 
                     if (adapter != null) {
+                        Log.e("TAG", "adapter not null! notified");
                         pdfsList = titles;
                         adapter.notifyDataSetChanged();
                     } else {
-                        adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, titles);
+                        Log.e("TAG", "adapter was null");
+                        pdfsList = titles;
+                        adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
                         listView.setAdapter(adapter);
                         Toast.makeText(getContext(), "Adapter set for first time", Toast.LENGTH_SHORT).show();
                     }

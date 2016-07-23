@@ -76,4 +76,9 @@
     <color name="utilities_misc_background">@color/green700</color>
     <color name="utilities_map_background">@color/teal500</color>
 
+    <color name="expandable_textview_down_color">@color/grey500</color>
+    <color name="expandable_textview_up_color">@color/colorAccent</color>
+    <color name="expandable_textview_up_fill_color">@color/white</color>
+    <color name="expandable_textview_down_fill_color">@color/white</color>
+
 </resources>

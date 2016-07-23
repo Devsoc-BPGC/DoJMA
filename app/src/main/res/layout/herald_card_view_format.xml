@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +11,7 @@
     android:layout_marginRight="2dp"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:padding="8dp"
+    android:padding="4dp"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
     app:contentPaddingBottom="16dp"
@@ -51,12 +50,13 @@
                 android:id="@+id/herald_rv_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:collapseDrawable="@drawable/ic_up_arrow"
                 expandableTextView:animDuration="200"
                 expandableTextView:maxCollapsedLines="1">
 
                 <TextView
                     android:id="@id/expandable_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="3"
                     android:text="text"
@@ -69,6 +69,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="right|bottom"
                     android:background="@android:color/transparent"
+                    android:onClick="onClick"
                     android:padding="8dp"/>
             </com.ms.square.android.expandabletextview.ExpandableTextView>
 
@@ -85,13 +86,12 @@
             android:layout_toLeftOf="@+id/herald_rv_item_image"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:paddingTop="24dp"
+            android:paddingTop="16dp"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="24sp"/>
 
-
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/herald_rv_item_image"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -101,14 +101,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="27dp"
-
-            fresco:roundBottomLeft="true"
-            fresco:roundBottomRight="true"
-            fresco:roundWithOverlayColor="@color/white"
-            fresco:roundedCornerRadius="50dp"
-            fresco:roundingBorderColor="@android:color/transparent"
-            fresco:roundingBorderWidth="1dp"/>
-
+            />
         <com.like.LikeButton
             android:id="@+id/herald_like_button"
             android:layout_width="40dp"
@@ -150,7 +143,9 @@
             android:layout_toLeftOf="@+id/herald_rv_item_image"
             android:layout_toStartOf="@+id/herald_rv_item_image"
             android:maxLines="1"
+            android:paddingEnd="8dp"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
             android:text="Article Author from Dojma"

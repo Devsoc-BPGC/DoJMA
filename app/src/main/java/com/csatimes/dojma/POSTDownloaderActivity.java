@@ -15,10 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
+import com.squareup.picasso.Picasso;
 
 import java.util.Random;
 
@@ -28,7 +28,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Window window;
     private CircularFillableLoaders circularFillableLoaders;
-    private SimpleDraweeView simpleDraweeView;
+    private ImageView imageView;
     private String[] images = {"https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/test-repo/master/1.jpg", "https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/test-repo/master/2.jpg", "https://raw.githubusercontent" +
@@ -42,15 +42,11 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        Fresco.initialize(this);
-
         setContentView(R.layout.activity_postdownloader);
         circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.loading_image);
-        simpleDraweeView = (SimpleDraweeView) findViewById(R.id.loading_dojma);
+        imageView = (ImageView) findViewById(R.id.loading_dojma);
         int random = new Random().nextInt(4);
-        simpleDraweeView.setImageURI(Uri.parse(images[random]));
-
+        Picasso.with(this).load(Uri.parse(images[random])).into(imageView);
 
         preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
@@ -88,6 +84,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         //Gave 5% progress to setting shared preference randomly
         initProgress = 5;
         circularFillableLoaders.setProgress(initProgress);
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -125,7 +122,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Fresco.shutDown();
         super.onDestroy();
     }
 

@@ -3,17 +3,12 @@ package com.csatimes.dojma;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +28,7 @@ public class LinkListView extends ListActivity {
 
 
         List<String> Linkname=new ArrayList<>();
-        Linkname.add("moodle");
+        Linkname.add("Moodle");
         Linkname.add("CSA");
         Linkname.add("SWD");
         Linkname.add("BITS GOA");

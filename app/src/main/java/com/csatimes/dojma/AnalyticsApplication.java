@@ -54,4 +54,5 @@ public class AnalyticsApplication extends Application {
         }
         return mTracker;
     }
+
 }
