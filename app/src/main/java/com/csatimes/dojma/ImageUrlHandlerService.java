@@ -19,10 +19,9 @@ public class ImageUrlHandlerService extends IntentService {
 
     public static final String IMAGE_SERVICE_SUCCESS = "com.csatimes.dojma.intent.action.iuhs" +
             ".success";
-    private Realm database;
-    private RealmConfiguration realmConfiguration;
-    private int i = 0;
-    private int updates = 0;
+
+    int updates = 0;
+
 
     public ImageUrlHandlerService() {
         super("ImageUrlHandlerService");
@@ -30,7 +29,8 @@ public class ImageUrlHandlerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        Realm database;
+        RealmConfiguration realmConfiguration;
         realmConfiguration = new RealmConfiguration.Builder(ImageUrlHandlerService.this)
                 .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
@@ -47,7 +47,7 @@ public class ImageUrlHandlerService extends IntentService {
                     document = Jsoup.connect(urlPrefix + i).get();
                 else document = Jsoup.connect(address).get();
                 if (document != null) {
-                    Log.e("TAG", "imagehandler service downloading " + document.location());
+                    Log.e("ImageUrlService", "imagehandler service downloading " + document.location());
                     Elements elements = document.getElementsByTag("article");
                     for (final Element element : elements) {
                         final String postID = element.attributes().get("id").substring(5);
@@ -57,13 +57,13 @@ public class ImageUrlHandlerService extends IntentService {
                                 if (realm.where(HeraldNewsItemFormat.class).equalTo("postID", postID).findAll().size() != 0) {
 
                                     HeraldNewsItemFormat temp = realm.where(HeraldNewsItemFormat.class).equalTo("postID", postID).findFirst();
-                                        try {
-                                            temp.setImageURL(element.child(0).child(0).child(0).attributes().get
-                                                    ("src"));
-                                            updates++;
-                                        } catch (Exception e) {
-                                            temp.setImageURL("false");
-                                        }
+                                    try {
+                                        temp.setImageURL(element.child(0).child(0).child(0).attributes().get
+                                                ("src"));
+                                        updates++;
+                                    } catch (Exception e) {
+                                        temp.setImageURL("false");
+                                    }
                                 }
                             }
                         });
@@ -71,14 +71,19 @@ public class ImageUrlHandlerService extends IntentService {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.e("ImageUrlService", "EXCEPTION");
             }
         if (updates != 0) {
-            Intent i = new Intent();
-            i.setAction(IMAGE_SERVICE_SUCCESS);
-            sendBroadcast(i);
+            Intent intent1 = new Intent();
+            intent1.setAction(IMAGE_SERVICE_SUCCESS);
+            sendBroadcast(intent1);
         }
+        Log.e("ImageUrlService", "closing database");
         database.close();
+        Log.e("ImageUrlService", "stopping self");
         stopSelf();
+
+
     }
 
 }

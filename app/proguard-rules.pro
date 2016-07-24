@@ -12,24 +12,17 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
--dontwarn com.squareup.picasso.**
-# Keep our interfaces so they can be used by other ProGuard rules.
-# See http://sourceforge.net/p/proguard/bugs/466/
--keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-
-# Do not strip any method/class that is annotated with @DoNotStrip
--keep @com.facebook.common.internal.DoNotStrip class *
--keepclassmembers class * {
-    @com.facebook.common.internal.DoNotStrip *;
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
 }
+
+-dontwarn com.squareup.picasso.**
 
 # Keep native methods
 -keepclassmembers class * {
     native <methods>;
 }
+-keeppackagenames org.jsoup.nodes
 
 -dontwarn okio.**
 -dontwarn com.squareup.okhttp.**
