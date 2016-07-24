@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     boolean hasWritePermission = false;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
@@ -54,6 +55,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return 5;
     }
+
 
     public void setHasWritePermission(boolean hasWritePermission) {
         this.hasWritePermission = hasWritePermission;

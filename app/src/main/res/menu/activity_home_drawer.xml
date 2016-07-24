@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -12,11 +14,9 @@
             android:title="Favourites"/>
 
     </group>
-
-    <item
-        android:icon="@android:drawable/ic_partial_secure"
-        android:title="">
-        <menu>
+    <group
+        android:id="@+id/menu_botton"
+        android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_fb"
                 android:icon="@drawable/fb"
@@ -38,7 +38,8 @@
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info"
                 android:title="About"/>
-        </menu>
-    </item>
+
+    </group>
+
 
 </menu>

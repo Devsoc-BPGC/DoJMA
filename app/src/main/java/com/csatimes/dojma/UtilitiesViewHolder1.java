@@ -16,7 +16,6 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
     private ImageButton call1, call2, call3, call4;
     private Context context;
     private String[] contactNumbers = {"123456", "131233", "3124124", "3244324"};
-
     public UtilitiesViewHolder1(View itemView, Context context) {
         super(itemView);
         call1 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call1);

@@ -37,8 +37,8 @@ public class AboutUs extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.mac2_color));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.mac2_color));
         }
 
         vik = (ImageView) findViewById(R.id.about_us_vik);

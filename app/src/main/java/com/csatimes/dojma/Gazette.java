@@ -79,39 +79,29 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("TAG", "onCreate gazettes");
         sharedPreferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         int pdfs = sharedPreferences.getInt("GAZETTE_number", 0);
-        pdfsList = new String[0];
+        pdfsList = new String[pdfs];
         gazetteItems = new GazetteItem[pdfs];
-        if (pdfs != 0) {
-            adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
-            pdfsList = new String[pdfs];
-            for (int i = 0; i < pdfs; i++) {
-                pdfsList[i] = sharedPreferences.getString("GAZETTE_number_" + i + "_title", "null");
-                gazetteItems[i] = new GazetteItem(pdfsList[i], sharedPreferences.getString("GAZETTE_number_" + i + "_url", "null"));
-                if (isOnline()) {
-                    new DownloadList(0).execute();
-                }
+
+        adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
+
+        for (int i = 0; i < pdfs; i++) {
+            pdfsList[i] = sharedPreferences.getString("GAZETTE_number_" + i + "_title", "null");
+            gazetteItems[i] = new GazetteItem(pdfsList[i], sharedPreferences.getString("GAZETTE_number_" + i + "_url", "null"));
+
+            if (isOnline()) {
+                new DownloadList(0).execute();
             }
-        } else {
-            Log.e("TAG", "gazettes zero!");
-            editor.putInt("GAZETTE_number", 0);
-            editor.apply();
         }
+//         else {
+//            Log.e("TAG", "gazettes zero!");
+//            editor.putInt("GAZETTE_number", 0);
+//            editor.apply();
+//        }
         downloading = false;
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.e("TAG", "onResum gazette");
-        if (isOnline()) {
-            new DownloadList(0).execute();
-
-        }
     }
 
     @Override
@@ -121,7 +111,6 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
         downloading = false;
 
-        Log.e("TAG", "onCreateView of gazettes called");
 
         listView = (ListView) view.findViewById(R.id.gazette_listview);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.gazette_swipe);
@@ -265,6 +254,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 if (checkFile.exists()) {
                     checkFile.delete();
                 }
+                swipe.setRefreshing(false);
             }
         }
 
@@ -273,7 +263,6 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             link = strings[0];
             try {
                 URL url = new URL(strings[0]);
-                Log.e("TAG", strings[0]);
                 HttpURLConnection c = (HttpURLConnection) url.openConnection();
                 c.setRequestMethod("GET");
                 c.setDoOutput(true);
@@ -317,12 +306,13 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 checkFile.deleteOnExit();
                 checkFile.delete();
             }
+            swipe.setRefreshing(false);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            swipe.setRefreshing(false);
             if (!failure) {
                 File pdfFolder = new File(directory + "/");
                 pdfFolder.mkdirs();
@@ -347,7 +337,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 }
             } else {
                 File pdfFolder = new File(directory + "/");
-                boolean folder = pdfFolder.mkdirs();
+                pdfFolder.mkdirs();
                 String pdfName = currentFileDownloading + ".pdf";
                 File deleteFile = new File(pdfFolder, pdfName);
                 if (deleteFile.exists()) {
@@ -417,18 +407,16 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     Toast.makeText(getContext(), "Nothing really something you can solve :P", Toast.LENGTH_SHORT).show();
                 }
             }
-            if (num == 1) {
-                swipe.setRefreshing(false);
-            }
+            swipe.setRefreshing(false);
+
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (num == 1) {
-                swipe.setRefreshing(false);
-            }
+            swipe.setRefreshing(false);
+
 
             if (response != null) {
                 try {
@@ -455,17 +443,9 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     if (num == 1)
                         Toast.makeText(getContext(), "List updated!", Toast.LENGTH_SHORT).show();
 
-                    if (adapter != null) {
-                        Log.e("TAG", "adapter not null! notified");
-                        pdfsList = titles;
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.e("TAG", "adapter was null");
-                        pdfsList = titles;
-                        adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
-                        listView.setAdapter(adapter);
-                        Toast.makeText(getContext(), "Adapter set for first time", Toast.LENGTH_SHORT).show();
-                    }
+                    pdfsList = titles;
+                    adapter = new ArrayAdapter<>(getContext(), R.layout.gazette_list_format, pdfsList);
+                    listView.setAdapter(adapter);
 
                 } catch (Exception e) {
                     if (num == 1) {

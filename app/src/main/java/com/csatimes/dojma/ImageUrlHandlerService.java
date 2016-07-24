@@ -54,9 +54,9 @@ public class ImageUrlHandlerService extends IntentService {
                         database.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                if (realm.where(HeraldNewsItemFormat.class).contains("postID", postID).findAll().size() != 0) {
+                                if (realm.where(HeraldNewsItemFormat.class).equalTo("postID", postID).findAll().size() != 0) {
 
-                                    HeraldNewsItemFormat temp = realm.where(HeraldNewsItemFormat.class).contains("postID", postID).findFirst();
+                                    HeraldNewsItemFormat temp = realm.where(HeraldNewsItemFormat.class).equalTo("postID", postID).findFirst();
                                         try {
                                             temp.setImageURL(element.child(0).child(0).child(0).attributes().get
                                                     ("src"));

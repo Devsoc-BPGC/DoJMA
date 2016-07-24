@@ -121,11 +121,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         IntentFilter intf = new IntentFilter();

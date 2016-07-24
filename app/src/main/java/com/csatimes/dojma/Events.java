@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,9 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -35,7 +32,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     private TextView errorText;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private ProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public Events() {
@@ -45,15 +41,13 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     @Override
     public void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.VISIBLE);
-        if (isOnline())
-            new DownloadList().execute();
-        else {
+        setOldValues();
+        if (!isOnline()) {
             errorText.setText("Stay connected for latest updates on events");
             errorText.setVisibility(View.VISIBLE);
-            setOldValues();
-            progressBar.setVisibility(View.GONE);
-
+        } else {
+            errorText.setVisibility(View.GONE);
+            new DownloadList().execute();
         }
     }
 
@@ -61,7 +55,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
         int events = preferences.getInt("EVENTS_number", 0);
         Log.e("TAG", "events number " + events);
         if (events != 0) {
-            progressBar.setVisibility(View.GONE);
             EventItem[] eventlist = new EventItem[events];
             for (int i = 0; i < events; i++) {
                 String title = preferences.getString("EVENTS_number_" + i + "_title", "");
@@ -79,23 +72,17 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        preferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
-        editor = preferences.edit();
-        if (preferences.getInt("EVENTS_number", 0) == 0) {
-            editor.putInt("EVENTS_number", 0);
-            editor.apply();
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_events, container, false);
+
+        preferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
+        editor = preferences.edit();
+
         eventsRV = (RecyclerView) view.findViewById(R.id.events_recycler_view);
+
         errorText = (TextView) view.findViewById(R.id.error_text_view);
-        progressBar = (ProgressBar) view.findViewById(R.id.events_progress);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.events_refresh);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.amber500, R.color.blue500, R.color
@@ -103,14 +90,10 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                 .color.grey500, R.color.indigo500, R.color.lightblue500, R.color.lime500, R.color
                 .orange500, R.color.pink500, R.color.red500, R.color.teal500, R.color.violet500, R
                 .color.yellow500);
+
         swipeRefreshLayout.setOnRefreshListener(this);
-        if (!isOnline()) {
-            errorText.setText("Stay connected for latest updates on events");
-            errorText.setVisibility(View.VISIBLE);
-        } else {
-            errorText.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+
+
         eventsRV.setHasFixedSize(true);
         eventsRV.setItemAnimator(new DefaultItemAnimator());
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -122,7 +105,7 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     @Override
     public void onClick(View view) {
         if (view.getId() == errorText.getId()) {
-            if (errorText.getVisibility() == View.VISIBLE) errorText.setVisibility(View.GONE);
+            errorText.setVisibility(View.GONE);
         }
     }
 
@@ -135,7 +118,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
 
     @Override
     public void onRefresh() {
-        progressBar.setVisibility(View.GONE);
         if (isOnline()) {
             new DownloadList().execute();
             errorText.setVisibility(View.GONE);
@@ -172,7 +154,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            progressBar.setVisibility(View.GONE);
             errorText.setText("Could not check for updates");
             errorText.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
@@ -182,10 +163,9 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
             if (response != null) {
                 try {
-                    Log.e("TAG", "response recd");
                     InputStream stream = new ByteArrayInputStream(response.getBytes("US-ASCII"));
                     InputStreamReader reader = new InputStreamReader(stream);
                     BufferedReader scanner = new BufferedReader(reader);
@@ -213,11 +193,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                     }
                     editor.putInt("EVENTS_number", noOfEvents);
                     editor.apply();
-                    if (swipeRefreshLayout.isRefreshing()) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    }
-                    Log.e("TAG", "succes in spref");
                 } catch (Exception e) {
                     errorText.setText("IO error Try again later");
                     errorText.setVisibility(View.VISIBLE);

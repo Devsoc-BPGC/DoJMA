@@ -117,7 +117,6 @@ public class UpdateCheckerService extends IntentService {
                         if (database.where(HeraldNewsItemFormat.class).equalTo
                                 ("postID", post.getInt("id") + "").findAll().size() != 0) {
                             HeraldNewsItemFormat entry = database.where(HeraldNewsItemFormat.class).equalTo("postID", post.getInt("id") + "").findFirst();
-                            Log.e("TAG", post.getString("title") + " existed! post id was " + post.getInt("id") + "");
                             database.beginTransaction();
                             entry.setType(post.getString("type"));
                             entry.setSlug(post.getString("slug"));
@@ -172,14 +171,8 @@ public class UpdateCheckerService extends IntentService {
                                 entry.setBigImageUrl("false");
                             }
                             database.commitTransaction();
-                            if (database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findAll().size() != 0)
-                                Log.e("TAG", database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findFirst().getTitle());
-                            else {
-                                Log.e("TAG", "it was deleted 1");
-                            }
 
                         } else {
-                            Log.e("TAG", post.getString("title") + " added with post id " + post.getInt("id"));
                             noOfArticlesDownloadedByService++;
                             int len = post.getJSONArray("attachments").length();
                             database.beginTransaction();
@@ -242,11 +235,6 @@ public class UpdateCheckerService extends IntentService {
                             else entry.setImageURL("false");
 
                             database.commitTransaction();
-                            if (database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findAll().size() != 0)
-                                Log.e("TAG", database.where(HeraldNewsItemFormat.class).endsWith("title", "Petrichor").findFirst().getTitle());
-                            else {
-                                Log.e("TAG", "it was deleted 2");
-                            }
 
                         }
 
@@ -268,7 +256,6 @@ public class UpdateCheckerService extends IntentService {
             sendBroadcast(i);
             database.close();
 
-            Log.e("TAG", "download success broadcast");
             if (noOfArticlesDownloadedByService == 1)
                 message = "1 new article was downlaoded";
             else message = noOfArticlesDownloadedByService + " articles downloaded";
@@ -298,7 +285,6 @@ public class UpdateCheckerService extends IntentService {
             sendBroadcast(i);
             database.close();
 
-            Log.e("TAG", "update check over broadcast");
         }
         startService(new Intent(UpdateCheckerService.this, ImageUrlHandlerService.class));
         stopSelf();

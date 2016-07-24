@@ -2,17 +2,12 @@ package com.csatimes.dojma;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import io.realm.Realm;
@@ -42,6 +37,12 @@ public class PostDownloadService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder
+                (PostDownloadService.this)
+                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+        Realm database = Realm.getDefaultInstance();
+
         try {
             URL url = new URL(urlString);
             // Read all the text returned by the server
@@ -57,13 +58,9 @@ public class PostDownloadService extends IntentService {
             JSONObject page = new JSONObject(response);
             final int noOfPages = page.getInt("pages");
             JSONArray posts = page.getJSONArray("posts");
-            if (posts != null) {
 
-                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder
-                        (PostDownloadService.this)
-                        .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-                Realm.setDefaultConfiguration(realmConfiguration);
-                Realm database = Realm.getDefaultInstance();
+
+            if (posts != null) {
 
                 for (int i = 0; i < posts.length(); i++) {
                     JSONObject post = posts.getJSONObject(i);
@@ -132,7 +129,6 @@ public class PostDownloadService extends IntentService {
                     }
                     database.commitTransaction();
                 }
-                database.close();
             } else {
 
             }
@@ -144,13 +140,10 @@ public class PostDownloadService extends IntentService {
             sendBroadcast(i);
             // downloadOthers(noOfPages);
         } catch (Exception e) {
-            // downloadOthers(11);
+
+            //Notify of failure
         }
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder
-                (PostDownloadService.this)
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        Realm database = Realm.getDefaultInstance();
+
         if (database.where(HeraldNewsItemFormat.class).findAll().size() != 0) {
             Intent i = new Intent();
             i.setAction(SUCCESS);
@@ -162,13 +155,14 @@ public class PostDownloadService extends IntentService {
             database.delete(HeraldNewsItemFormat.class);
         }
         database.close();
+
         stopSelf();
     }
 
-    private void downloadOthers(int pages) {
-        new DownloadTask().execute(pages);
-    }
-
+    //    private void downloadOthers(int pages) {
+//        new DownloadTask().execute(pages);
+//    }
+//
     @Override
     public void onCreate() {
         super.onCreate();
@@ -181,7 +175,7 @@ public class PostDownloadService extends IntentService {
         instance = null;
     }
 
-    public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
+   /* public class DownloadTask extends AsyncTask<Integer, Integer, Void> {
 
         @Override
         protected void onPostExecute(Void aVoid) {
@@ -341,4 +335,5 @@ public class PostDownloadService extends IntentService {
             return null;
         }
     }
+*/
 }
