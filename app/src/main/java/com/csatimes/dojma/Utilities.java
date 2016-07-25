@@ -47,11 +47,14 @@ public class Utilities extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        if (!writingPermission) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (!writingPermission) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+            }
+        } else writingPermission = true;
+        {
+            adapter.setHasWritePermission(true);
         }
-
     }
 
     @Override

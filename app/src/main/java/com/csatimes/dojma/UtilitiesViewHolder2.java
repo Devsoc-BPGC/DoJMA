@@ -35,7 +35,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
 
     Context context;
 
-    boolean hasWritePermission = false;
+    boolean hasWritePermission = true;
     File messFolder, file;
 
     public UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission) {
@@ -68,31 +68,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                 Toast.makeText(context, "No Internet! Can't download", Toast.LENGTH_SHORT).show();
             } else {
                 if (hasWritePermission) {
-                    RequestQueue queue = Volley.newRequestQueue(context);
-                    ImageRequest request = new ImageRequest(amessLink, new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap response) {
-
-                            try {
-                                FileOutputStream out = new FileOutputStream(file);
-                                response.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                                out.flush();
-                                out.close();
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(Uri.fromFile(file), "image/*");
-                                context.startActivity(intent);
-                            } catch (Exception e) {
-                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(amessLink)));
-                            }
-
-                        }
-                    }, 0, 0, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(amessLink)));
-                        }
-                    });
-                    queue.add(request);
+                    startDownloadAndDisplay(file, amessLink, "amess.jpg");
                 } else {
                     Toast.makeText(context, "Write denied!", Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
@@ -112,31 +88,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                 Toast.makeText(context, "No Internet! Can't download", Toast.LENGTH_SHORT).show();
             } else {
                 if (hasWritePermission) {
-                    RequestQueue queue = Volley.newRequestQueue(context);
-                    ImageRequest request = new ImageRequest(cmessLink, new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap response) {
-
-                            try {
-                                FileOutputStream out = new FileOutputStream(file);
-                                response.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                                out.flush();
-                                out.close();
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(Uri.fromFile(file), "image/*");
-                                context.startActivity(intent);
-                            } catch (Exception e) {
-                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
-                            }
-
-                        }
-                    }, 0, 0, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
-                        }
-                    });
-                    queue.add(request);
+                    startDownloadAndDisplay(file, cmessLink, "cmess.jpg");
                 } else {
                     Toast.makeText(context, "Write denied!", Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
@@ -145,6 +97,34 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
 
 
         }
+    }
+
+    private void startDownloadAndDisplay(final File file, final String link, String name) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        ImageRequest request = new ImageRequest(link, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    response.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.flush();
+                    out.close();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(file), "image/*");
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+                }
+
+            }
+        }, 0, 0, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            }
+        });
+        queue.add(request);
     }
 
     private boolean isOnline() {

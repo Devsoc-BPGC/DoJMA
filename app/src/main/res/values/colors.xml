@@ -71,9 +71,9 @@
 
     <!--utilities colors-->
     <color name="utilities_contacts_background">@color/colorPrimary</color>
-    <color name="utilities_mess_background">@color/green800</color>
-    <color name="utilities_links_background">@color/grey500</color>
-    <color name="utilities_misc_background">@color/green700</color>
+    <color name="utilities_mess_background">@color/grey700</color>
+    <color name="utilities_links_background">@color/green800</color>
+    <color name="utilities_misc_background">@color/grey800</color>
     <color name="utilities_map_background">@color/teal500</color>
 
     <color name="expandable_textview_down_color">@color/grey500</color>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -42,7 +43,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +70,10 @@ public class HomeActivity extends AppCompatActivity
     private ImageView nav_bar_background;
     private Tracker mTracker;
     private RealmResults<HeraldNewsItemFormat> results;
-    private MaterialSearchView searchView;
+    //private MaterialSearchView searchView;
     private ViewPagerAdapter adapter;
     private boolean isGoogleChromeInstalled;
+    private boolean landscape = false;
 
     @Override
     protected void onDestroy() {
@@ -97,6 +98,7 @@ public class HomeActivity extends AppCompatActivity
             finish();
         }
         startService(new Intent(this, UpdateCheckerService.class));
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         //Check if analytics is allowed by user
@@ -144,9 +146,9 @@ public class HomeActivity extends AppCompatActivity
             window.setNavigationBarColor(pageColors);
         }
 
-        searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
-        searchView.setCursorDrawable(R.drawable.cursor_material_search);
-        searchView.setVoiceSearch(true);
+        //searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
+        //searchView.setCursorDrawable(R.drawable.cursor_material_search);
+        //searchView.setVoiceSearch(true);
 
         // finally change the color
 
@@ -229,7 +231,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        searchView.clearFocus();
+        //searchview.clearFocus();
         viewPager.requestFocus();
     }
 
@@ -257,10 +259,12 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_event_note_white_24dp);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
+        if (!landscape) {
+            tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
+            tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
+            tabLayout.getTabAt(2).setIcon(R.drawable.ic_event_note_white_24dp);
+            tabLayout.getTabAt(3).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
+        }
     }
 
     //Setting up the View Pager with the fragments
@@ -280,9 +284,10 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
-        } else {
+        } //else if (searchView.isSearchOpen()) {
+        //  searchView.closeSearch();
+        //}
+        else {
             super.onBackPressed();
         }
 
@@ -293,8 +298,8 @@ public class HomeActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+        // MenuItem item = menu.findItem(R.id.action_search);
+        // searchView.setMenuItem(item);
 
         return true;
     }

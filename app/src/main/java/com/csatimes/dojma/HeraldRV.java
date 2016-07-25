@@ -11,9 +11,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -42,8 +40,8 @@ import io.realm.RealmList;
  * Created by Vikramaditya Kukreja on 19-06-2016.
  */
 
-public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implements
-        ItemTouchHelperAdapter, View.OnClickListener, IDateableAdapter {
+public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
+        IDateableAdapter {
     private Context context;
     private RealmList<HeraldNewsItemFormat> resultsList;
     private Realm database;
@@ -51,8 +49,9 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
     private boolean isGoogleChromeInstalled = false;
     private CustomTabsIntent customTabsIntent;
     private Activity activity;
-    private RecyclerView recyclerView;
     private boolean textState = false;
+    private boolean landscape = false;
+
     public HeraldRV(Context context, RealmList<HeraldNewsItemFormat> resultsList, Realm
             database, Activity activity) {
         this.context = context;
@@ -71,47 +70,86 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         }
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
-        return new ViewHolder(herald_card_view_format);
+    public void setLandscape(boolean landscape) {
+        this.landscape = landscape;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == 0) {
+            View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
+            return new HeraldPotraitViewHolder(herald_card_view_format);
+        } else {
+            View herald_card_view_format_landscape = inflater.inflate(R.layout.herald_card_view_format_landscape, parent, false);
+            return new HeraldLandscapeViewHolder(herald_card_view_format_landscape);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+
+        if (holder.getItemViewType() == 0) {
+            HeraldPotraitViewHolder viewHolder = (HeraldPotraitViewHolder) holder;
+            final HeraldNewsItemFormat foobar = resultsList.get(position);
 
 
-        final HeraldNewsItemFormat foobar = resultsList.get(position);
+            try {
+                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+                Date of = simpleDate.parse(foobar.getOriginalDate());
+                SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
+                viewHolder.date.setText(tf.format(of));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        holder.date.setText(foobar.getOriginalDate());
-        if (foobar.getAuthorName() != null)
-            holder.author.setText(foobar.getAuthorName());
-        else if (foobar.getAuthorSlug() != null)
-            holder.author.setText(foobar.getAuthorSlug());
-        else holder.author.setText("dojam_Admin");
-
-
-        if (foobar.isFav())
-            holder.fav.setLiked(true);
-        else holder.fav.setLiked(false);
-
-
+            if (foobar.isFav())
+                viewHolder.fav.setLiked(true);
+            else viewHolder.fav.setLiked(false);
 //        if (foobar.isRead()) {
 //            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
 //            //       .cardview_shadow_end_color));
 //        }
 
-        //since Html.fromHtml is deprecated from N onwards we add the special flag
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            holder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
-            holder.title.setText(Html.fromHtml(foobar.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            //since Html.fromHtml is deprecated from N onwards we add the special flag
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
+                viewHolder.title.setText(Html.fromHtml(foobar.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
+                viewHolder.title.setText(Html.fromHtml(foobar.getTitle()));
+            }
+            Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(viewHolder.imageView);
         } else {
-            holder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
-            holder.title.setText(Html.fromHtml(foobar.getTitle()));
-        }
-        Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(holder.imageView);
+            HeraldLandscapeViewHolder viewHolder = (HeraldLandscapeViewHolder) holder;
+            final HeraldNewsItemFormat foobar = resultsList.get(position);
+            try {
+                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+                Date of = simpleDate.parse(foobar.getOriginalDate());
+                SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
+                viewHolder.date.setText(tf.format(of));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (foobar.isFav())
+                viewHolder.fav.setLiked(true);
+            else viewHolder.fav.setLiked(false);
+//        if (foobar.isRead()) {
+//            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
+//            //       .cardview_shadow_end_color));
+//        }
 
+            //since Html.fromHtml is deprecated from N onwards we add the special flag
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
+                viewHolder.title.setText(Html.fromHtml(foobar.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
+                viewHolder.title.setText(Html.fromHtml(foobar.getTitle()));
+            }
+            Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(viewHolder.imageView);
+
+        }
     }
 
     @Override
@@ -119,41 +157,11 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         return resultsList.size();
     }
 
-    @Override
-    public void onItemDismiss(final int position, RecyclerView rv) {
-
-        database.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                HeraldNewsItemFormat temp = database.where(HeraldNewsItemFormat.class).equalTo
-                        ("postID", resultsList.get(position).getPostID()).findFirst();
-                temp.setDismissed(true);
-            }
-        });
-        dismissPosition = position;
-        this.resultsList.remove(position);
-        this.notifyItemRemoved(position);
-
-        Snackbar.make(rv, "Article dismissed", Snackbar.LENGTH_LONG).setAction("UNDO", this).show();
-
-    }
-
-    public void setRecyclerView(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
-    }
 
     @Override
-    public void onClick(View view) {
-        database.beginTransaction();
-        HeraldNewsItemFormat temp = database.where(HeraldNewsItemFormat.class).equalTo
-                ("dismissed", true).findAll().last();
-        temp.setDismissed(false);
-
-        database.commitTransaction();
-
-        resultsList.add(dismissPosition, temp);
-        this.notifyItemInserted(dismissPosition);
-        recyclerView.smoothScrollToPosition(dismissPosition);
+    public int getItemViewType(int position) {
+        if (landscape) return 1;
+        else return 0;
     }
 
     private boolean isNetworkAvailable(Context context) {
@@ -172,26 +180,22 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class HeraldPotraitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView imageView;
         public TextView title;
-        public TextView author;
         public TextView date;
-        public ExpandableTextView desc;
-        public LikeButton fav;
-        public CardView card;
-        public ImageButton share;
+        ImageView imageView;
+        ExpandableTextView desc;
+        LikeButton fav;
+        ImageButton share;
 
-        public ViewHolder(final View itemView) {
+        HeraldPotraitViewHolder(final View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
-            author = (TextView) itemView.findViewById(R.id.herald_rv_item_author);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
             desc = (ExpandableTextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
-            card = (CardView) itemView;
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             // imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
             itemView.setOnClickListener(this);
@@ -286,6 +290,130 @@ public class HeraldRV extends RecyclerView.Adapter<HeraldRV.ViewHolder> implemen
                         }
                     } else {
                         Log.e("TAG", "reached intent");
+                        Intent intent = new Intent(context, OfflineSimpleViewer.class);
+                        intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
+                                ());
+                        context.startActivity(intent);
+                    }
+                } else if (view.getId() == share.getId()) {
+                    Intent intent = new Intent((Intent.ACTION_SEND));
+                    intent.setType("text/plain");
+                    intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                            (getAdapterPosition()).getUrl());
+                    context.startActivity(Intent.createChooser(intent, "Share link via"));
+
+
+                }
+
+            }
+
+        }
+    }
+
+    private class HeraldLandscapeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView title;
+        public TextView date;
+        ImageView imageView;
+        TextView desc;
+        LikeButton fav;
+        ImageButton share;
+
+        public HeraldLandscapeViewHolder(final View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
+            date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
+            title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
+            desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
+            fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
+            share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
+            itemView.setOnClickListener(this);
+            fav.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    database.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            HeraldNewsItemFormat foo = realm.where(HeraldNewsItemFormat.class)
+                                    .equalTo("postID", resultsList.get(getAdapterPosition()).getPostID
+                                            ()).findFirst();
+                            foo.setFav(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    database.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            HeraldNewsItemFormat foo = realm.where(HeraldNewsItemFormat.class)
+                                    .equalTo("postID", resultsList.get(getAdapterPosition()).getPostID
+                                            ()).findFirst();
+                            foo.setFav(false);
+                        }
+                    });
+                }
+            });
+            share.setOnClickListener(this);
+        }
+
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+        @Override
+        public void onClick(View view) {
+            {
+                if (view.getId() == itemView.getId()) {
+                    if (isNetworkAvailable(context)) {
+                        if (isGoogleChromeInstalled) {
+                            Intent intent = new Intent((Intent.ACTION_SEND));
+                            intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                                    (getAdapterPosition()).getUrl());
+
+                            Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+                            PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            String copy_label = "Copy Link";
+
+                            customTabsIntent = new CustomTabsIntent.Builder()
+                                    .setShowTitle(true)
+                                    .setToolbarColor(ContextCompat.getColor(context, R.color
+                                            .blue500))
+                                    .setCloseButtonIcon(BitmapFactory.decodeResource(context
+                                            .getResources(), R.drawable.ic_arrow_back_white_24dp))
+                                    // .addDefaultShareMenuItem()
+                                    .addMenuItem(copy_label, copy_pendingIntent)
+                                    .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                                    .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
+                                    .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
+                                    .setActionButton(BitmapFactory.decodeResource(context
+                                                    .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                            PendingIntent.getActivity(context, 69,
+                                                    intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                    .addDefaultShareMenuItem()
+                                    .enableUrlBarHiding()
+                                    .build();
+
+                            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                                    Uri.parse(resultsList.get(getAdapterPosition()).getUrl()),
+                                    new CustomTabActivityHelper.CustomTabFallback() {
+                                        @Override
+                                        public void openUri(Activity activity, Uri uri) {
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                            intent.putExtra(Intent.EXTRA_REFERRER,
+                                                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                        } else {
+                            Intent openWebpage = new Intent(context, OpenWebpage.class);
+
+                            openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getUrl());
+                            openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
+                            openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
+
+                            context.startActivity(openWebpage);
+                        }
+                    } else {
                         Intent intent = new Intent(context, OfflineSimpleViewer.class);
                         intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
                                 ());

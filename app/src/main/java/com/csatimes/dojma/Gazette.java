@@ -91,9 +91,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             pdfsList[i] = sharedPreferences.getString("GAZETTE_number_" + i + "_title", "null");
             gazetteItems[i] = new GazetteItem(pdfsList[i], sharedPreferences.getString("GAZETTE_number_" + i + "_url", "null"));
 
-            if (isOnline()) {
-                new DownloadList(0).execute();
-            }
+
         }
 //         else {
 //            Log.e("TAG", "gazettes zero!");
@@ -111,6 +109,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
         downloading = false;
 
+        new DownloadList(0).execute();
 
         listView = (ListView) view.findViewById(R.id.gazette_listview);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.gazette_swipe);
@@ -209,6 +208,16 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 .CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isOnline() && sharedPreferences.getBoolean("FIRST_TIME_GAZETTES", true)) {
+            new DownloadList(0).execute();
+            editor.putBoolean("FIRST_TIME_GAZETTES", false);
+            editor.apply();
+        }
     }
 
     private class DownloadPDF extends AsyncTask<String, Integer, Void> {
@@ -414,7 +423,7 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            if (swipe != null)
             swipe.setRefreshing(false);
 
 
@@ -460,6 +469,5 @@ public class Gazette extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             }
         }
     }
-
 }
 
