@@ -12,8 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
-        android:layout_toLeftOf="@+id/herald_filter"
-        android:layout_toStartOf="@+id/herald_filter"
         android:background="@color/herald_searchview_background"
         app:closeIcon="@drawable/ic_clear_white_24dp"
         app:queryBackground="@color/herald_searchview_background"
@@ -24,31 +22,6 @@
         >
     </android.support.v7.widget.SearchView>
 
-    <ImageButton
-        android:id="@+id/herald_sort"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/herald_search_view"
-        android:layout_marginBottom="8dp"
-        android:background="@color/herald_searchview_background"
-        android:contentDescription="@string/sort_order"
-        app:srcCompat="@drawable/ic_sort"
-        />
-
-    <ImageButton
-        android:id="@+id/herald_filter"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignTop="@+id/herald_search_view"
-        android:layout_marginBottom="8dp"
-        android:layout_toLeftOf="@+id/herald_sort"
-        android:layout_toStartOf="@+id/herald_sort"
-        android:background="@color/herald_searchview_background"
-        android:contentDescription="@string/filter_articles"
-        app:srcCompat="@drawable/ic_filter"
-        />
 
     <Button
         android:id="@+id/herald_issues_button"

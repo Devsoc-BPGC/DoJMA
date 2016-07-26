@@ -17,27 +17,27 @@
     <group
         android:id="@+id/menu_botton"
         android:checkableBehavior="single">
-            <item
-                android:id="@+id/nav_fb"
-                android:icon="@drawable/fb"
-                android:title="Facebook Page"/>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share app"/>
-            <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_settings"
-                android:title="Settings"/>
-
-            <item
-                android:id="@+id/nav_idea"
-                android:icon="@drawable/ic_suggest_icon"
-                android:title="Suggest a feature"/>
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_info"
-                android:title="About"/>
+        <item
+            android:id="@+id/nav_fb"
+            android:icon="@drawable/fb"
+            android:title="Facebook Page"/>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Share app"/>
+        <!-- <item
+             android:id="@+id/nav_settings"
+             android:icon="@drawable/ic_settings"
+             android:title="Settings"/>
+-->
+        <item
+            android:id="@+id/nav_idea"
+            android:icon="@drawable/ic_suggest_icon"
+            android:title="Suggest a feature"/>
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info"
+            android:title="About"/>
 
     </group>
 

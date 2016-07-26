@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -34,13 +33,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -50,7 +43,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -184,7 +176,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void setLatestTopicAsNavBarTitle() {
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        /*navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView nav_sub_title = (TextView) headerView.findViewById(R.id.navigation_sub_title);
         nav_bar_background = (ImageView) headerView.findViewById(R.id.nav_bar_image);
@@ -220,6 +212,7 @@ public class HomeActivity extends AppCompatActivity
             nav_sub_title.setText(results.get(0).getTitle());
         }
         database.close();
+        */
     }
 
     private void setupColors() {
@@ -312,12 +305,13 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             Intent settings = new Intent(HomeActivity.this, Settings.class);
             settings.putExtra("pageColor", pageColors);
             startActivity(settings);
 
-        } else if (id == R.id.action_about_us) {
+        } else*/
+        if (id == R.id.action_about_us) {
             Intent aboutUs = new Intent(HomeActivity.this, AboutUs.class);
             startActivity(aboutUs);
         }
@@ -351,11 +345,11 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this, ImagesAndMedia.class);
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
+        } /*else if (id == R.id.nav_settings) {
             Intent intent = new Intent(HomeActivity.this, Settings.class);
             intent.putExtra("pageColor", pageColors);
             startActivity(intent);
-        } else if (id == R.id.nav_about) {
+        }*/ else if (id == R.id.nav_about) {
             Intent intent = new Intent(HomeActivity.this, AboutUs.class);
             startActivity(intent);
         } else if (id == R.id.nav_fb) {
@@ -369,11 +363,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    /*
-     * isOnline - Check if there is a NetworkConnection
-     * @return boolean
-     */
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());

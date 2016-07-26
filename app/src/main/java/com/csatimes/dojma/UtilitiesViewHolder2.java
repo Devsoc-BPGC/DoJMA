@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,8 +18,6 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.File;
 import java.io.FileOutputStream;
-
-import static com.csatimes.dojma.DHC.directory;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -55,6 +52,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
         int id = view.getId();
 
         if (id == a.getId()) {
+            /*
             messFolder = new File(directory + "/mess/");
             messFolder.mkdirs();
             final String imageName = "amess.jpg";
@@ -73,9 +71,11 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                     Toast.makeText(context, "Write denied!", Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
                 }
-            }
+            }*/
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(amessLink));
+            context.startActivity(intent);
         } else if (id == c.getId()) {
-            messFolder = new File(directory + "/mess/");
+            /*messFolder = new File(directory + "/mess/");
             messFolder.mkdirs();
             final String imageName = "cmess.jpg";
             file = new File(messFolder, imageName);
@@ -95,6 +95,9 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                 }
             }
 
+*/
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink));
+            context.startActivity(intent);
 
         }
     }
