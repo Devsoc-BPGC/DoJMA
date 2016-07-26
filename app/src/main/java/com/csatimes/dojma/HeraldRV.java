@@ -258,10 +258,10 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                                     .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
                                     .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
                                     .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
-                                    .setActionButton(BitmapFactory.decodeResource(context
-                                                    .getResources(), R.drawable.ic_share_white_24dp), "Share",
-                                            PendingIntent.getActivity(context, 69,
-                                                    intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                    //.setActionButton(BitmapFactory.decodeResource(context
+                                                   // .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                            //PendingIntent.getActivity(context, 69,
+                                                  //  intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
                                     .addDefaultShareMenuItem()
                                     .enableUrlBarHiding()
                                     .build();
