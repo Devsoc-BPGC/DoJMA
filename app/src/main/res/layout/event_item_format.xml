@@ -56,6 +56,7 @@
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/events_format_description"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

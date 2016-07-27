@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,54 +65,67 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
         try {
 
             date = originalFormat.parse(eventItems[position].getDate() + eventItems[position].getTime());
-            end = originalFormat.parse(eventItems[position].getDate() + eventItems[position].getEndTime());
+            if (eventItems[position].getEndTime().compareToIgnoreCase("null") != 0)
+                end = originalFormat.parse(eventItems[position].getDate() + eventItems[position].getEndTime());
 
             one = targetFormat.format(date);
 
             long datesDiff = date.getTime() - currentDate.getTime();
-            long endDiff = end.getTime() - currentDate.getTime();
+            long endDiff;
+            if (end != null)
+                endDiff = end.getTime() - currentDate.getTime();
+            else endDiff = date.getTime() - currentDate.getTime();
+
             long days = datesDiff / (24 * 60 * 60 * 1000);
             long hours = datesDiff / (60 * 60 * 1000) % 24;
             long minutes = datesDiff / (60 * 1000) % 60;
 
-            Log.e("TAG", days + " days " + hours + " hours " + minutes + " min ");
 
-            if (days == 0) {
-                if (hours == 1) {
-                    holder.status.setText("STARTING SOON");
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.teal500));
-                } else if (hours > 1) {
-                    holder.status.setText("IN " + hours + " HOURS");
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.green700));
-                } else if (hours == 0 && endDiff > 0) {
+            if (datesDiff >= 0) {
+                if (days == 0) {
+                    if (hours == 1) {
+                        holder.status.setText("STARTING IN THE NEXT HOUR");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.teal500));
+                    } else if (hours > 1) {
+                        holder.status.setText("IN " + hours + " HOURS");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.green700));
+                    } else if (hours == 0) {
 
-                    if (minutes != 1)
-                        holder.status.setText("IN " + minutes + " MINUTES ");
-                    else holder.status.setText("STARTING");
+                        if (minutes != 1 || minutes != 0) {
+                            holder.status.setText("IN " + minutes + " MINUTES ");
+                            holder.status.setTextColor(ContextCompat.getColor(context, R.color.green500));
 
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.lightblue500));
-
-                    if (minutes < 0) {
-                        holder.status.setText("ONGOING");
-                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.blue500));
+                        } else {
+                            holder.status.setText("STARTING");
+                            holder.status.setTextColor(ContextCompat.getColor(context, R.color.lightblue500));
+                        }
+                    } else {
+                        holder.status.setText("EVENT OVER");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.red500));
                     }
-                } else {
-                    holder.status.setText("EVENT OVER");
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.red500));
-                }
 
 
-            } else if (days > 0) {
-                if (days == 1) {
-                    holder.status.setText("TOMORROW");
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey900));
-                } else {
-                    holder.status.setText("AFTER " + days + " DAYS");
-                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey700));
+                } else if (days > 0) {
+                    if (days == 1) {
+                        holder.status.setText("TOMORROW");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey900));
+                    } else {
+                        holder.status.setText("AFTER " + days + " DAYS");
+                        holder.status.setTextColor(ContextCompat.getColor(context, R.color.grey500));
+                    }
                 }
-            } else if (currentDate.getTime() - end.getTime() > 0) {
-                holder.status.setText("EVENT IS OVER");
+
+            } else if (datesDiff < 0 && endDiff >= 0 && endDiff != 0) {
+                holder.status.setText("ONGOING");
+                holder.status.setTextColor(ContextCompat.getColor(context, R.color.lightblue500));
+
+            } else if (endDiff == datesDiff) {
+                holder.status.setText("");
+            } else {
+
+                holder.status.setText("EVENT OVER");
                 holder.status.setTextColor(ContextCompat.getColor(context, R.color.red500));
+
             }
 
         } catch (ParseException e) {

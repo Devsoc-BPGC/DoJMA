@@ -53,7 +53,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
 
     private void setOldValues() {
         int events = preferences.getInt("EVENTS_number", 0);
-        Log.e("TAG", "events number " + events);
         if (events != 0) {
             EventItem[] eventlist = new EventItem[events];
             for (int i = 0; i < events; i++) {
