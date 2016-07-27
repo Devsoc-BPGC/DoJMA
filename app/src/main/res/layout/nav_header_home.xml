@@ -19,40 +19,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@color/colorPrimary"
+            android:src="@drawable/rain"
             />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/navigation_sub_title"
+            android:layout_alignBottom="@+id/navigation_title"
             android:layout_alignTop="@+id/navigation_title"
             android:src="@color/colorPrimary"/>
-
-        <TextView
-            android:id="@+id/navigation_sub_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="0.17"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Latest news from campus"
-            android:textSize="14dp"/>
 
         <TextView
             android:id="@+id/navigation_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/navigation_sub_title"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="10dp"
-            android:text="Dojma"
+            android:text="DoJMA"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     </RelativeLayout>

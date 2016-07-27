@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +44,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.loading_image);
         imageView = (ImageView) findViewById(R.id.loading_dojma);
         int random = new Random().nextInt(4);
-        Picasso.with(this).load(Uri.parse(images[random])).into(imageView);
+        Picasso.with(this).load(R.drawable.screen).into(imageView);
 
         preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
@@ -64,22 +62,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
         }
 
-
-        //Set up filter options in sharedprefs
-        for (int i = 0; i < getResources().getStringArray(R.array.filter_options).length; i++) {
-            editor.putBoolean(DHC.FILTER_SUFFIX + getResources().getStringArray(R.array
-                    .filter_options)[i], false);
-        }
-        //Set up sort options in sharedprefs
-        for (int i = 0; i < getResources().getStringArray(R.array.sort_options).length; i++) {
-            editor.putBoolean(DHC.SORT_SUFFIX + getResources().getStringArray(R.array
-                    .sort_options)[i], false);
-        }
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
-        editor.putBoolean(DHC.SORT_SUFFIX + getResources().getStringArray(R.array
-                .sort_options)[1], true);
-        editor.apply();
 
         //Gave 5% progress to setting shared preference randomly
         initProgress = 5;

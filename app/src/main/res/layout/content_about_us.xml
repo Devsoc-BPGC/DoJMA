@@ -14,7 +14,7 @@
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/about_us_spl_thanks"/>
+        android:layout_below="@+id/about_us_yash"/>
 
     <View
         android:layout_width="match_parent"
@@ -63,11 +63,21 @@
         android:gravity="center"
         android:text="@string/about_us_main"/>
 
+    <Button
+        android:id="@+id/about_us_fb_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_us_main"
+        android:layout_marginTop="8dp"
+        android:background="@color/mac2_color"
+        android:text="Mobile Applications Club on Facebook"
+        android:textColor="@color/white"/>
+
     <ImageView
         android:id="@+id/about_us_club_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/about_us_main"
+        android:layout_below="@+id/about_us_fb_link"
         android:layout_marginTop="16dp"
         android:src="@drawable/mac2"/>
 
@@ -132,14 +142,5 @@
         android:textColor="@color/white"
         android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/about_us_spl_thanks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/about_us_yash"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Special thanks to \n\nDoJMA - Nissim Gore Datar\nDoJMA - Rohan Gajendragadkar "
-        android:textColor="@color/white"/>
 
 </RelativeLayout>

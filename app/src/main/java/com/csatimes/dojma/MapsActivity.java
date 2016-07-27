@@ -105,10 +105,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.addMarker(new MarkerOptions().position(marker).title("Ice n Spice"));
         marker = new LatLng(15.391435, 73.879045);
         map.addMarker(new MarkerOptions().position(marker).title("Monginis"));
-
-
-
-
+        marker = new LatLng(15.39191, 73.8764);
+        map.addMarker(new MarkerOptions().position(marker).title("Borkars Super Store"));
+        marker = new LatLng(15.39199, 73.87626);
+        map.addMarker(new MarkerOptions().position(marker).title("SBI Branch"));
+        marker = new LatLng(15.39202, 73.87619);
+        map.addMarker(new MarkerOptions().position(marker).title("SBI ATM"));
+        marker = new LatLng(15.39218, 73.87621);
+        map.addMarker(new MarkerOptions().position(marker).title("Persian Court"));
+        marker = new LatLng(15.39225, 73.87627);
+        map.addMarker(new MarkerOptions().position(marker).title("Men's Salon"));
+        marker = new LatLng(15.39223, 73.87637);
+        map.addMarker(new MarkerOptions().position(marker).title("Laxmi Laundry"));
+        marker = new LatLng(15.39221, 73.8764);
+        map.addMarker(new MarkerOptions().position(marker).title("Beauty Parlour"));
+        marker = new LatLng(15.39219, 73.87644);
+        map.addMarker(new MarkerOptions().position(marker).title("Vegetable Shop"));
+        marker = new LatLng(15.39216, 73.87647);
+        map.addMarker(new MarkerOptions().position(marker).title("Power Laundry"));
+        marker = new LatLng(15.39214, 73.87651);
+        map.addMarker(new MarkerOptions().position(marker).title("Book Shop"));
+        marker = new LatLng(15.39211, 73.87655);
+        map.addMarker(new MarkerOptions().position(marker).title("Vegetable Shop"));
+        marker = new LatLng(15.38701, 73.87329);
+        map.addMarker(new MarkerOptions().position(marker).title("Children's Park"));
+        marker = new LatLng(15.38743, 73.87574);
+        map.addMarker(new MarkerOptions().position(marker).title("Main gate"));
+        marker = new LatLng(15.39024, 73.87511);
+        map.addMarker(new MarkerOptions().position(marker).title("Children's Park"));
+        marker = new LatLng(15.38899, 73.87638);
+        map.addMarker(new MarkerOptions().position(marker).title("Crossroads"));
+        marker = new LatLng(15.3921, 73.87963);
+        map.addMarker(new MarkerOptions().position(marker).title("Flag Lawns"));
+        marker = new LatLng(15.39362, 73.87911);
+        map.addMarker(new MarkerOptions().position(marker).title("Workshop"));
+        marker = new LatLng(15.39304, 73.88051);
+        map.addMarker(new MarkerOptions().position(marker).title("Auditorium"));
 
 
         CameraPosition cameraPosition = new CameraPosition.Builder()

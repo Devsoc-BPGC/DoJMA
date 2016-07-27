@@ -341,15 +341,15 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_favourites) {
             Intent intent = new Intent(HomeActivity.this, Favourites.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+        } /*else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this, ImagesAndMedia.class);
             startActivity(intent);
-        } /*else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(HomeActivity.this, Settings.class);
             intent.putExtra("pageColor", pageColors);
             startActivity(intent);
         }*/ else if (id == R.id.nav_about) {
-            Intent intent = new Intent(HomeActivity.this, AboutUs.class);
+            Intent intent = new Intent(HomeActivity.this, AboutDojma.class);
             startActivity(intent);
         } else if (id == R.id.nav_fb) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.facebook.com/DoJMABITSGoa/"));
