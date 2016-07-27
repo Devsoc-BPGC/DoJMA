@@ -28,12 +28,14 @@ android {
 
     }
 
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/jsoup-1.9.1.jar')
     compile files('libs/fluffy-events-1.0.3-SNAPSHOT.jar')
+
 
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
@@ -58,6 +60,5 @@ dependencies {
     compile 'com.alexvasilkov:events:0.5.0-beta-1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.google.android.gms:play-services:9.2.1'
-
 }
 apply plugin: 'com.google.gms.google-services'

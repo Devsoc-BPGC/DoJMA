@@ -12,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +53,8 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     private void setOldValues() {
         int events = preferences.getInt("EVENTS_number", 0);
         if (events != 0) {
+            errorText.setVisibility(View.VISIBLE);
+            errorText.setText("Stay connected for latest updates");
             EventItem[] eventlist = new EventItem[events];
             for (int i = 0; i < events; i++) {
                 String title = preferences.getString("EVENTS_number_" + i + "_title", "");
@@ -67,6 +68,9 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
             }
             adapter = new EventsRV(getContext(), eventlist, Calendar.getInstance().getTime());
             eventsRV.setAdapter(adapter);
+        } else {
+            errorText.setVisibility(View.VISIBLE);
+            errorText.setText("No events are available");
         }
     }
 
@@ -168,7 +172,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                     InputStream stream = new ByteArrayInputStream(response.getBytes("US-ASCII"));
                     InputStreamReader reader = new InputStreamReader(stream);
                     BufferedReader scanner = new BufferedReader(reader);
-                    //errorText.setText(response);
                     int noOfEvents = Integer.parseInt(scanner.readLine());
                     EventItem[] events = new EventItem[noOfEvents];
                     for (int i = 0; i < noOfEvents; i++) {
@@ -180,7 +183,6 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                     scanner.close();
                     reader.close();
                     stream.close();
-                    Log.e("TAG", "events writing to spref");
 
                     for (int i = 0; i < noOfEvents; i++) {
                         editor.putString("EVENTS_number_" + i + "_title", events[i].getTitle());
@@ -193,13 +195,12 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
                     editor.putInt("EVENTS_number", noOfEvents);
                     editor.apply();
                 } catch (Exception e) {
-                    errorText.setText("IO error Try again later");
+                    errorText.setText("Error! Try again later");
                     errorText.setVisibility(View.VISIBLE);
                     setOldValues();
                 }
 
             } else {
-                Log.e("TAG", "failed download  , using old prefs if it exists");
                 errorText.setText("Could not check for latest updates");
                 errorText.setVisibility(View.VISIBLE);
                 setOldValues();

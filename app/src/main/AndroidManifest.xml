@@ -227,6 +227,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
+        <activity
+            android:name=".AboutDojma"
+            android:label="@string/title_activity_about_dojma"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
     </application>
 
 </manifest>

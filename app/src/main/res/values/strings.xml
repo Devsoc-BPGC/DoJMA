@@ -113,7 +113,8 @@
     <string name="PREFERENCE_sync">pref_key_syncing_settings</string>
     <string name="PREFERENCE_general">pref_key_general</string>
     <string name="no_internet_msg">Not connected to the internet!</string>
-    <string name="about_us_main">The official android app of Department of Journalism and Media Affairs (DoJMA), BITS Pilani, K.K.Birla Goa Campus. We report on-campus events without fear or favor. If you don\'t want it reported, don\'t let it happen! Stay tuned for regular updates.</string>
-    <string name="app_version">Version 0.79</string>
+    <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
+    <string name="app_version">Version 0.90</string>
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
+    <string name="title_activity_about_dojma">About DoJMA</string>
 </resources>

@@ -81,12 +81,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.addMarker(new MarkerOptions().position(marker).title("Nursery"));
         marker = new LatLng(15.3917, 73.87605);
         map.addMarker(new MarkerOptions().position(marker).title("Medical Centre"));
-        marker=new LatLng(15.392859, 73.876279);
-        map.addMarker(new MarkerOptions().position(marker).title("Cricket Ground"));
-        marker=new LatLng(15.392187, 73.875535);
-        map.addMarker(new MarkerOptions().position(marker).title("Student Activity center(SAC)"));
         marker=new LatLng(15.391248, 73.880643);
         map.addMarker(new MarkerOptions().position(marker).title("FoodKing"));
+        marker = new LatLng(15.39295, 73.87635);
+        map.addMarker(new MarkerOptions().position(marker).title("Cricket Ground"));
+        marker = new LatLng(15.39208, 73.8756);
+        map.addMarker(new MarkerOptions().position(marker).title("Student Activity Centre"));
+        marker = new LatLng(15.39266, 73.87725);
+        map.addMarker(new MarkerOptions().position(marker).title("Volleyball Courts"));
+        marker = new LatLng(15.39336, 73.87732);
+        map.addMarker(new MarkerOptions().position(marker).title("Football Field"));
+        marker = new LatLng(15.39408, 73.8768);
+        map.addMarker(new MarkerOptions().position(marker).title("Tennis Courts"));
+        marker = new LatLng(15.39293, 73.87557);
+        map.addMarker(new MarkerOptions().position(marker).title("Cricket Nets"));
+        marker = new LatLng(15.39258, 73.87533);
+        map.addMarker(new MarkerOptions().position(marker).title("Basketball Courts"));
+        marker = new LatLng(15.39209, 73.87531);
+        map.addMarker(new MarkerOptions().position(marker).title("Badminton Court"));
+        marker = new LatLng(15.39233, 73.87557);
+        map.addMarker(new MarkerOptions().position(marker).title("Squash Court"));
+        marker = new LatLng(15.392558, 73.878976);
+        map.addMarker(new MarkerOptions().position(marker).title("Ice n Spice"));
+        marker = new LatLng(15.391435, 73.879045);
+        map.addMarker(new MarkerOptions().position(marker).title("Monginis"));
+
+
+
+
+
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(centre)      // Sets the center of the map to Mountain View

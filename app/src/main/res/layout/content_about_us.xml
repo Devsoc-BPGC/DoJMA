@@ -63,20 +63,11 @@
         android:gravity="center"
         android:text="@string/about_us_main"/>
 
-    <TextView
-        android:id="@+id/about_us_club"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/about_us_main"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="in association with the"/>
-
     <ImageView
         android:id="@+id/about_us_club_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/about_us_club"
+        android:layout_below="@+id/about_us_main"
         android:layout_marginTop="16dp"
         android:src="@drawable/mac2"/>
 
@@ -97,7 +88,7 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/about_us_made_by"
+        android:layout_below="@+id/about_us_club_image"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
