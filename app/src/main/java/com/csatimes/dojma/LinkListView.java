@@ -42,7 +42,7 @@ public class LinkListView extends ListActivity {
         LinkUrl.add("https://swd.bits-goa.ac.in/");
         LinkUrl.add("http://www.bits-pilani.ac.in/Goa/");
         LinkUrl.add("http://www.bits-pilani.ac.in/goa/login");
-        LinkUrl.add("http://10.1.1.242/moodle/");
+        LinkUrl.add("ftp://10.1.9.224");
         LinkUrl.add("https://10.1.0.10:8090/httpclient.html");
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, Linkname);

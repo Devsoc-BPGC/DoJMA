@@ -58,6 +58,6 @@ dependencies {
     compile 'com.alexvasilkov:events:0.5.0-beta-1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.google.android.gms:play-services:9.2.1'
-
+    compile 'io.reactivex:rxjava:1.0.10'
 }
 apply plugin: 'com.google.gms.google-services'
