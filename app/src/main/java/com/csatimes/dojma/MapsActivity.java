@@ -81,6 +81,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.addMarker(new MarkerOptions().position(marker).title("Nursery"));
         marker = new LatLng(15.3917, 73.87605);
         map.addMarker(new MarkerOptions().position(marker).title("Medical Centre"));
+        marker=new LatLng(15.392859, 73.876279);
+        map.addMarker(new MarkerOptions().position(marker).title("Cricket Ground"));
+        marker=new LatLng(15.392187, 73.875535);
+        map.addMarker(new MarkerOptions().position(marker).title("Student Activity center(SAC)"));
+        marker=new LatLng(15.391248, 73.880643);
+        map.addMarker(new MarkerOptions().position(marker).title("FoodKing"));
+
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(centre)      // Sets the center of the map to Mountain View
                 .zoom(16f)                   // Sets the zoom
