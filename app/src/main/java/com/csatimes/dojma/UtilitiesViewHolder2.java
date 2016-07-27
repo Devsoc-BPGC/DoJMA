@@ -1,11 +1,15 @@
 package com.csatimes.dojma;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -27,21 +31,24 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
     Button a;
     Button c;
 
-    String amessLink = "https://cdn.rawgit.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Images/Mess%20Menu/amess.jpg";
-    String cmessLink = "https://cdn.rawgit.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Images/Mess%20Menu/cmess.jpg";
+    String amessLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Images/Mess%20Menu/amess.jpg";
+    String cmessLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Images/Mess%20Menu/cmess.jpg";
 
     Context context;
 
     boolean hasWritePermission = true;
     File messFolder, file;
 
-    public UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission) {
+    Activity activity;
+
+    public UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission, Activity activity) {
         super(itemView);
         a = (Button) itemView.findViewById(R.id.viewholder_mess_format_a);
         c = (Button) itemView.findViewById(R.id.viewholder_mess_format_c);
 
         this.context = context;
         this.hasWritePermission = hasWritePermission;
+        this.activity = activity;
 
         a.setOnClickListener(this);
         c.setOnClickListener(this);
@@ -72,8 +79,26 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                     context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink)));
                 }
             }*/
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(amessLink));
-            context.startActivity(intent);
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                    .setShowTitle(true)
+                    .setToolbarColor(ContextCompat.getColor(context, R.color
+                            .colorPrimary))
+                    .setCloseButtonIcon(BitmapFactory.decodeResource(context
+                            .getResources(), R.drawable.ic_arrow_back_white_24dp))
+                    .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                    .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
+                    .addDefaultShareMenuItem()
+                    .enableUrlBarHiding()
+                    .build();
+            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                    Uri.parse(amessLink),
+                    new CustomTabActivityHelper.CustomTabFallback() {
+                        @Override
+                        public void openUri(Activity activity, Uri uri) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            context.startActivity(intent);
+                        }
+                    });
         } else if (id == c.getId()) {
             /*messFolder = new File(directory + "/mess/");
             messFolder.mkdirs();
@@ -96,9 +121,26 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
             }
 
 */
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(cmessLink));
-            context.startActivity(intent);
-
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                    .setShowTitle(true)
+                    .setToolbarColor(ContextCompat.getColor(context, R.color
+                            .colorPrimary))
+                    .setCloseButtonIcon(BitmapFactory.decodeResource(context
+                            .getResources(), R.drawable.ic_arrow_back_white_24dp))
+                    .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                    .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
+                    .addDefaultShareMenuItem()
+                    .enableUrlBarHiding()
+                    .build();
+            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                    Uri.parse(cmessLink),
+                    new CustomTabActivityHelper.CustomTabFallback() {
+                        @Override
+                        public void openUri(Activity activity, Uri uri) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            context.startActivity(intent);
+                        }
+                    });
         }
     }
 

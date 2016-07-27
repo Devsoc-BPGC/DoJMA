@@ -1,5 +1,6 @@
 package com.csatimes.dojma;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     boolean hasWritePermission = false;
+    Activity activity;
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,7 +28,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case 1:
                 View v2 = inflater.inflate(R.layout.viewholder_utilities_mess_menu, parent, false);
-                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext(), hasWritePermission);
+                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext(), hasWritePermission, activity);
                 break;
             case 2:
                 View v3 = inflater.inflate(R.layout.viewholder_utilities_links, parent, false);
@@ -59,6 +62,10 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setHasWritePermission(boolean hasWritePermission) {
         this.hasWritePermission = hasWritePermission;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @Override

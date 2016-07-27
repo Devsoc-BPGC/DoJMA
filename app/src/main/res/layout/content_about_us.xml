@@ -148,7 +148,7 @@
         android:layout_below="@+id/about_us_yash"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="Special thanks to \n\nDoJMA - Nissim Datar Gore\nDoJMA - Rohan Gajendragadkar "
+        android:text="Special thanks to \n\nDoJMA - Nissim Gore Datar\nDoJMA - Rohan Gajendragadkar "
         android:textColor="@color/white"/>
 
 </RelativeLayout>

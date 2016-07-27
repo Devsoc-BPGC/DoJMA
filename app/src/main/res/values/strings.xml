@@ -115,5 +115,5 @@
     <string name="no_internet_msg">Not connected to the internet!</string>
     <string name="about_us_main">The official android app of Department of Journalism and Media Affairs (DoJMA), BITS Pilani, K.K.Birla Goa Campus. We report on-campus events without fear or favor. If you don\'t want it reported, don\'t let it happen! Stay tuned for regular updates.</string>
     <string name="app_version">Version 0.79</string>
-    <string name="title_activity_campus_map">BITS Pilani K K Birla Goa Campus</string>
+    <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
 </resources>

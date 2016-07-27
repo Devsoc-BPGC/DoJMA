@@ -76,7 +76,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //LeakCanary.install(getApplication());
 
 
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);

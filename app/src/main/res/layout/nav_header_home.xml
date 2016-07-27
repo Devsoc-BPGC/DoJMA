@@ -39,7 +39,7 @@
             android:layout_weight="0.17"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Latest Topic"
+            android:text="Latest news from campus"
             android:textSize="14dp"/>
 
         <TextView

@@ -1,0 +1,32 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:uiCompass="true"
+        map:uiZoomControls="false"
+        tools:context="com.csatimes.dojma.MapsActivity">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/utilities_map_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/marker_512x512"
+            app:backgroundTint="@color/white"
+            app:elevation="8dp"
+            app:fabSize="normal"/>
+    </fragment>
+
+
+</RelativeLayout>
