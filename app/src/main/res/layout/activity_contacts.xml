@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/contacts_categories_academic"/>
 
+
             <TextView
                 android:id="@+id/contacts_categories_hostel"
                 android:layout_width="match_parent"
@@ -84,7 +85,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingStart="8dp"
-                android:text="Hostel"
+                android:text="Hostel Wardens"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 />

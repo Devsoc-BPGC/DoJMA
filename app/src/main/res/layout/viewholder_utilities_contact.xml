@@ -135,7 +135,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:srcCompat="@drawable/ic_call_white"/>
 
         <TextView
@@ -172,7 +172,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:srcCompat="@drawable/ic_call_white"/>
 
         <TextView
