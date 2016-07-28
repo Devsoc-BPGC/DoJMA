@@ -68,53 +68,44 @@ public class Favourites extends AppCompatActivity {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                realmResults = database
-                        .where(HeraldNewsItemFormat.class)
-                        .beginGroup()
-                        .equalTo("fav", true)
-                        .endGroup()
-                        .contains
-                                ("title", query, Case.INSENSITIVE)
-                        .findAll();
-                realmList.clear();
-                realmList.addAll(realmResults);
-                heraldRVAdapter.notifyDataSetChanged();
-
+                if (heraldRVAdapter != null)
+                    if (heraldRVAdapter.getItemCount() != 0) {
+                        realmResults = database
+                                .where(HeraldNewsItemFormat.class)
+                                .beginGroup()
+                                .equalTo("fav", true)
+                                .endGroup()
+                                .contains
+                                        ("title", query, Case.INSENSITIVE)
+                                .findAll();
+                        realmList.clear();
+                        realmList.addAll(realmResults);
+                        heraldRVAdapter.notifyDataSetChanged();
+                    }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (heraldRVAdapter != null)
+                    if (heraldRVAdapter.getItemCount() != 0) {
 
-                realmResults = database
-                        .where(HeraldNewsItemFormat.class)
-                        .beginGroup()
-                        .equalTo("fav", true)
-                        .endGroup()
-                        .contains("title", newText, Case.INSENSITIVE)
-                        .findAll();
-                realmList.clear();
-                realmList.addAll(realmResults);
-                heraldRVAdapter.notifyDataSetChanged();
-                if (heraldRVAdapter.getItemCount() == 0) {
-
+                        realmResults = database
+                                .where(HeraldNewsItemFormat.class)
+                                .beginGroup()
+                                .equalTo("fav", true)
+                                .endGroup()
+                                .contains("title", newText, Case.INSENSITIVE)
+                                .findAll();
+                        realmList.clear();
+                        realmList.addAll(realmResults);
+                        heraldRVAdapter.notifyDataSetChanged();
                 }
                 return true;
             }
         });
 
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                //Do some magic
-            }
 
-            @Override
-            public void onSearchViewClosed() {
-                //Do some magic
-            }
-        });
     }
 
     @Override

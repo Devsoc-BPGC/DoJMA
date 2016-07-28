@@ -52,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/herald_rv_item_date"
+        android:layout_marginBottom="8dp"
         android:layout_toLeftOf="@+id/herald_rv_item_image"
         android:layout_toStartOf="@+id/herald_rv_item_image"
         android:maxLines="2"
