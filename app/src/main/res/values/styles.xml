@@ -45,7 +45,7 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="MaterialSearchViewStyle">
+    <style name="MaterialSearchViewStyleCustom">
         <!-- Background for the search bar -->
         <item name="searchBackground">@color/materialSearchBackground</item>
 

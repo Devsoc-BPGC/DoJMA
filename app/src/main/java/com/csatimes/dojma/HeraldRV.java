@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 import com.turingtechnologies.materialscrollbar.IDateableAdapter;
 
@@ -185,7 +184,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
         public TextView title;
         public TextView date;
         ImageView imageView;
-        ExpandableTextView desc;
+        TextView desc;
         LikeButton fav;
         ImageButton share;
 
@@ -194,7 +193,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
             imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
-            desc = (ExpandableTextView) itemView.findViewById(R.id.herald_rv_desc);
+            desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             // imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
@@ -259,9 +258,9 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                                     .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
                                     .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
                                     //.setActionButton(BitmapFactory.decodeResource(context
-                                                   // .getResources(), R.drawable.ic_share_white_24dp), "Share",
-                                            //PendingIntent.getActivity(context, 69,
-                                                  //  intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                    // .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                    //PendingIntent.getActivity(context, 69,
+                                    //  intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
                                     .addDefaultShareMenuItem()
                                     .enableUrlBarHiding()
                                     .build();

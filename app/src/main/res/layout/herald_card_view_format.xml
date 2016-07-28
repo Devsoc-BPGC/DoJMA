@@ -3,7 +3,6 @@
     android:id="@+id/herald_parent_card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -47,47 +46,21 @@
         android:text="Date"
         android:textSize="14sp"/>
 
-    <FrameLayout
-        android:id="@+id/herald_rv_frame"
+
+    <TextView
+        android:id="@+id/herald_rv_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/herald_rv_item_date"
         android:layout_toLeftOf="@+id/herald_rv_item_image"
         android:layout_toStartOf="@+id/herald_rv_item_image"
+        android:maxLines="2"
         android:paddingEnd="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingStart="8dp">
-
-        <com.ms.square.android.expandabletextview.ExpandableTextView
-            android:id="@+id/herald_rv_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:collapseDrawable="@drawable/ic_up_arrow"
-            expandableTextView:animDuration="200"
-            expandableTextView:maxCollapsedLines="1">
-
-            <TextView
-                android:id="@id/expandable_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="3"
-                android:text="text"
-                android:textColor="@color/black"
-                android:textSize="16sp"/>
-
-            <ImageButton
-                android:id="@id/expand_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right|bottom"
-                android:background="@android:color/transparent"
-                android:onClick="onClick"
-                android:padding="8dp"/>
-        </com.ms.square.android.expandabletextview.ExpandableTextView>
-
-
-    </FrameLayout>
+        android:paddingStart="8dp"
+        android:text=""
+        android:textColor="@color/black"/>
 
 
     <ImageView

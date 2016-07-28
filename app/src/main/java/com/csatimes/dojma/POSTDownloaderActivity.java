@@ -11,12 +11,10 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.squareup.picasso.Picasso;
 
 import java.util.Random;
@@ -26,7 +24,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Window window;
-    private CircularFillableLoaders circularFillableLoaders;
     private ImageView imageView;
     private String[] images = {"https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/test-repo/master/1.jpg", "https://raw.githubusercontent" +
@@ -42,8 +39,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_postdownloader);
-        circularFillableLoaders = (CircularFillableLoaders) findViewById(R.id.loading_image);
-        circularFillableLoaders.setVisibility(View.INVISIBLE);
         imageView = (ImageView) findViewById(R.id.loading_dojma);
         int random = new Random().nextInt(4);
         Picasso.with(this).load(R.drawable.screen).into(imageView);
@@ -67,22 +62,19 @@ public class POSTDownloaderActivity extends AppCompatActivity {
 
         //Gave 5% progress to setting shared preference randomly
         initProgress = 5;
-        circularFillableLoaders.setProgress(initProgress);
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equalsIgnoreCase(PostDownloadService.UPDATE_PROGRESS)) {
-                    circularFillableLoaders.setProgress(intent.getIntExtra(PostDownloadService.UPDATE_PROGRESS, 5));
                 } else if (intent.getAction().equalsIgnoreCase(PostDownloadService.SUCCESS)) {
-                    circularFillableLoaders.setProgress(100);
                     editor.putBoolean(getString(R.string.SP_first_install), false);
                     editor.apply();
                     Intent i = new Intent(context, HomeActivity.class);
                     startActivity(i);
                     finishDownloaderActivity();
                 } else if (intent.getAction().equalsIgnoreCase(PostDownloadService.ZERO_ARTICLES_DOWNLOADED)) {
-                    Snackbar snackbar = Snackbar.make(circularFillableLoaders, "Failed to download " +
+                    Snackbar snackbar = Snackbar.make(imageView, "Failed to download " +
                             "even a single article. Please try " +
                             "again later", Snackbar.LENGTH_LONG);
                     snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
