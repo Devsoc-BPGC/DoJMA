@@ -1,11 +1,9 @@
 package com.csatimes.dojma;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -16,13 +14,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 public class SuggestFeature extends AppCompatActivity {
     private EditText suggestion;
     private Intent emailIntent;
-    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +25,6 @@ public class SuggestFeature extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //Check if analytics is allowed by user
-        boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
-
-        if (sharedPrefAnalytics) {
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-            mTracker.setScreenName("Suggest");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;

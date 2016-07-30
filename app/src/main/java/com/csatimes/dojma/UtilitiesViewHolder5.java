@@ -13,7 +13,6 @@ public class UtilitiesViewHolder5 extends RecyclerView.ViewHolder {
 
     public UtilitiesViewHolder5(final View itemView, final Context context) {
         super(itemView);
-
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

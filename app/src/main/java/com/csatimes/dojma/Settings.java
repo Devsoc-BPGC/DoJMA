@@ -1,16 +1,13 @@
 package com.csatimes.dojma;
 
 import android.annotation.TargetApi;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 public class Settings extends AppCompatActivity {
@@ -26,16 +23,6 @@ public class Settings extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbar);
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //Check if analytics is allowed by user
-        boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
-
-        if (sharedPrefAnalytics) {
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-            mTracker.setScreenName("Settings");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //These flags are for system bar on top
         //Don't bother yourself with this code

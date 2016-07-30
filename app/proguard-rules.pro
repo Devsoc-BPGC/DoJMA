@@ -15,7 +15,11 @@
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;
 }
+-keepattributes Signature
 
+-keepclassmembers class com.csatimes.dojma.EventItem {
+  *;
+}
 -dontwarn com.squareup.picasso.**
 
 # Keep native methods

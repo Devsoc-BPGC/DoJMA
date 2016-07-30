@@ -140,7 +140,6 @@ public class PostDownloadService extends IntentService {
             sendBroadcast(i);
             // downloadOthers(noOfPages);
         } catch (Exception e) {
-
             //Notify of failure
         }
 
@@ -152,7 +151,9 @@ public class PostDownloadService extends IntentService {
             Intent i = new Intent();
             i.setAction(ZERO_ARTICLES_DOWNLOADED);
             sendBroadcast(i);
+            database.beginTransaction();
             database.delete(HeraldNewsItemFormat.class);
+            database.commitTransaction();
         }
         database.close();
 

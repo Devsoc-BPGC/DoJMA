@@ -34,7 +34,7 @@
             android:key="@string/PREFERENCE_sync_interval"
             android:negativeButtonText="CANCEL"
             android:positiveButtonText="OK"
-            android:summary="Specify regular time interval to check for updates"
+            android:summary="Specify regular startTime interval to check for updates"
             android:title="Select sync interval"/>
 
     </PreferenceCategory>

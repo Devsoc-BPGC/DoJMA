@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,21 +14,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Calendar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class Events extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+import java.util.Calendar;
+import java.util.Vector;
+
+public class Events extends Fragment implements View.OnClickListener {
+    DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference().child("events");
     private RecyclerView eventsRV;
     private EventsRV adapter;
-    private String response = null;
     private TextView errorText;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private Vector<EventItem> eventItems = new Vector<>(5, 5);
+    private String sprefPreFix = "EVENTS_number_";
+    private String sprefTitlePostFix = "_title";
+    private String sprefDescPostFix = "_desc";
+    private String sprefLocationPostFix = "_location";
+    private String sprefSTPostFix = "_start_time";
+    private String sprefSDPostFix = "_start_date";
+    private String sprefETPostFix = "_end_time";
+    private String sprefEDPostFix = "_end_date";
+    private String sprefEventNumber = "EVENTS_number";
 
     public Events() {
         // Required empty public constructor
@@ -40,34 +48,68 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
     @Override
     public void onResume() {
         super.onResume();
-        setOldValues();
         if (!isOnline()) {
             errorText.setText("Stay connected for latest updates on events");
             errorText.setVisibility(View.VISIBLE);
+            setOldValues();
+            adapter.notifyDataSetChanged();
         } else {
-            errorText.setVisibility(View.GONE);
-            new DownloadList().execute();
+            eventsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    errorText.setVisibility(View.GONE);
+                    int i = 0;
+                    eventItems.clear();
+                    for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                        try {
+                            eventItems.add(i, childDataSnapshot.getValue(EventItem.class));
+                            i++;
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    for (i = 0; i < eventItems.size(); i++) {
+                        editor.putString(sprefPreFix + i + sprefTitlePostFix, eventItems.get(i).getTitle());
+                        editor.putString(sprefPreFix + i + sprefSDPostFix, eventItems.get(i).getStartDate());
+                        editor.putString(sprefPreFix + i + sprefSTPostFix, eventItems.get(i).getStartTime());
+                        editor.putString(sprefPreFix + i + sprefETPostFix, eventItems.get(i).getEndTime());
+                        editor.putString(sprefPreFix + i + sprefLocationPostFix, eventItems.get(i).getLocation());
+                        editor.putString(sprefPreFix + i + sprefEDPostFix, eventItems.get(i).getEndDate());
+                        editor.putString(sprefPreFix + i + sprefDescPostFix, eventItems.get(i).getDesc());
+                    }
+                    editor.putInt(sprefEventNumber, eventItems.size());
+                    editor.apply();
+                    adapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    setOldValues();
+                    adapter.notifyDataSetChanged();
+                }
+            });
         }
     }
 
     private void setOldValues() {
         int events = preferences.getInt("EVENTS_number", 0);
+        eventItems.clear();
         if (events != 0) {
             errorText.setVisibility(View.VISIBLE);
             errorText.setText("Stay connected for latest updates");
-            EventItem[] eventlist = new EventItem[events];
+            eventItems.clear();
             for (int i = 0; i < events; i++) {
-                String title = preferences.getString("EVENTS_number_" + i + "_title", "");
-                String date = preferences.getString("EVENTS_number_" + i + "_date", "");
-                String time = preferences.getString("EVENTS_number_" + i + "_time", "");
-                String endtime = preferences.getString("EVENTS_number_" + i + "_endtime", "");
-                String location = preferences.getString("EVENTS_number_" + i + "_location", "");
-                String desc = preferences.getString("EVENTS_number_" + i + "_desc", "");
+                String title = preferences.getString(sprefPreFix + i + sprefTitlePostFix, "");
+                String date = preferences.getString(sprefPreFix + i + sprefSDPostFix, "");
+                String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
+                String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
+                String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
+                String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
+                String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
 
-                eventlist[i] = new EventItem(title, date, time, endtime, location, desc);
+                eventItems.add(i, new EventItem(title, date, time, endtime, location, desc, endDate));
             }
-            adapter = new EventsRV(getContext(), eventlist, Calendar.getInstance().getTime());
-            eventsRV.setAdapter(adapter);
         } else {
             errorText.setVisibility(View.VISIBLE);
             errorText.setText("No events are available");
@@ -86,20 +128,13 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
         eventsRV = (RecyclerView) view.findViewById(R.id.events_recycler_view);
 
         errorText = (TextView) view.findViewById(R.id.error_text_view);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.events_refresh);
-
-        swipeRefreshLayout.setColorSchemeResources(R.color.amber500, R.color.blue500, R.color
-                .brown500, R.color.cyan500, R.color.deeporange500, R.color.deepPurple500, R.color.green500, R
-                .color.grey500, R.color.indigo500, R.color.lightblue500, R.color.lime500, R.color
-                .orange500, R.color.pink500, R.color.red500, R.color.teal500, R.color.violet500, R
-                .color.yellow500);
-
-        swipeRefreshLayout.setOnRefreshListener(this);
-
 
         eventsRV.setHasFixedSize(true);
         eventsRV.setItemAnimator(new DefaultItemAnimator());
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        setOldValues();
+        adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
+        eventsRV.setAdapter(adapter);
 
         errorText.setOnClickListener(this);
         return view;
@@ -119,92 +154,5 @@ public class Events extends Fragment implements View.OnClickListener, SwipeRefre
         return (netInfo != null && netInfo.isConnected());
     }
 
-    @Override
-    public void onRefresh() {
-        if (isOnline()) {
-            new DownloadList().execute();
-            errorText.setVisibility(View.GONE);
-        } else {
-            Snackbar.make(swipeRefreshLayout, R.string.no_internet_msg, Snackbar.LENGTH_LONG).show();
-            setOldValues();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
 
-    private class DownloadList extends AsyncTask<Void, Void, Void> {
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                URL url = new URL(DHC.eventsAddress);
-                // Read all the text returned by the server
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String str;
-                StringBuilder sb = new StringBuilder();
-                while ((str = in.readLine()) != null) {
-                    sb.append(str);
-                    sb.append("\n");
-                }
-                response = sb.toString();
-                in.close();
-            } catch (Exception e) {
-                response = null;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            errorText.setText("Could not check for updates");
-            errorText.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setRefreshing(false);
-            setOldValues();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            swipeRefreshLayout.setRefreshing(false);
-            if (response != null) {
-                try {
-                    InputStream stream = new ByteArrayInputStream(response.getBytes("US-ASCII"));
-                    InputStreamReader reader = new InputStreamReader(stream);
-                    BufferedReader scanner = new BufferedReader(reader);
-                    int noOfEvents = Integer.parseInt(scanner.readLine());
-                    EventItem[] events = new EventItem[noOfEvents];
-                    for (int i = 0; i < noOfEvents; i++) {
-                        events[i] = new EventItem(scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine(), scanner.readLine());
-                    }
-                    adapter = new EventsRV(getContext(), events, Calendar.getInstance().getTime());
-                    eventsRV.setAdapter(adapter);
-
-                    scanner.close();
-                    reader.close();
-                    stream.close();
-
-                    for (int i = 0; i < noOfEvents; i++) {
-                        editor.putString("EVENTS_number_" + i + "_title", events[i].getTitle());
-                        editor.putString("EVENTS_number_" + i + "_date", events[i].getDate());
-                        editor.putString("EVENTS_number_" + i + "_time", events[i].getTime());
-                        editor.putString("EVENTS_number_" + i + "_endtime", events[i].getEndTime());
-                        editor.putString("EVENTS_number_" + i + "_location", events[i].getLocation());
-                        editor.putString("EVENTS_number_" + i + "_desc", events[i].getDesc());
-                    }
-                    editor.putInt("EVENTS_number", noOfEvents);
-                    editor.apply();
-                } catch (Exception e) {
-                    errorText.setText("Error! Try again later");
-                    errorText.setVisibility(View.VISIBLE);
-                    setOldValues();
-                }
-
-            } else {
-                errorText.setText("Could not check for latest updates");
-                errorText.setVisibility(View.VISIBLE);
-                setOldValues();
-            }
-        }
-    }
 }

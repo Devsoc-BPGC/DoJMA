@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +26,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Window window;
     private ImageView imageView;
+    private TextView textView;
     private String[] images = {"https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/test-repo/master/1.jpg", "https://raw.githubusercontent" +
             ".com/MobileApplicationsClub/test-repo/master/2.jpg", "https://raw.githubusercontent" +
@@ -40,6 +42,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_postdownloader);
         imageView = (ImageView) findViewById(R.id.loading_dojma);
+        textView = (TextView) findViewById(R.id.post_text);
         int random = new Random().nextInt(4);
         Picasso.with(this).load(R.drawable.screen).into(imageView);
 
@@ -77,8 +80,9 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                     Snackbar snackbar = Snackbar.make(imageView, "Failed to download " +
                             "even a single article. Please try " +
                             "again later", Snackbar.LENGTH_LONG);
-                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                     snackbar.show();
+                    textView.setText("NO ARTICLES DOWNLOADED. TRY AGAIN LATER");
                 }
             }
         };

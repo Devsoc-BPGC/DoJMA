@@ -25,14 +25,9 @@ public class DHC {
     public static final String REALM_DOJMA_LINKS_DATABASE = "DOJMA_LINKS_DATABASE";
     public static final String linksAdrress="https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Links/link.txt";
     public static final String eventsAddress = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
-    public static final String startingJSONURL = "http://csatimes.co.in/dojma/?json=all";
     public static final String GazetteLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Gazette/data.txt";
     public static final String miscLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Notification/urgent_notification.txt";
-    static final String FILTER_SUFFIX = "filter_";
-    static final String SORT_SUFFIX = "sort_";
-    public static int NUMBEROFPAGES = 4;
-    public static String address = "http://csatimes.co.in/dojma/";
-    public static int noOfArticlesPerPage = 16;
+    public static final String FIREBASE_STORAGE_URL = "gs://dojma-app.appspot.com";
     public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
 

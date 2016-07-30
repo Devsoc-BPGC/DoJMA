@@ -13,11 +13,13 @@
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
+
     tools:ignore="UnusedAttribute">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <TextView
             android:id="@+id/viewholder_misc_format_title"
@@ -30,11 +32,12 @@
             android:textSize="22sp"/>
 
         <TextView
+            android:id="@+id/viewholder_misc_format_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewholder_misc_format_title"
             android:padding="16dp"
-            android:text="Click here to get all important notifications! Updating needs an active internet connection"
+            android:text="@string/UTILITIES_MISC_text"
             android:textColor="@color/white"
             android:textSize="14sp"/>
     </RelativeLayout>

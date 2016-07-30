@@ -1,48 +1,47 @@
 {
   "project_info": {
-    "project_number": "908212665720",
-    "project_id": "dojma-a274"
+    "project_number": "1011197336662",
+    "firebase_url": "https://dojma-app.firebaseio.com",
+    "project_id": "dojma-app",
+    "storage_bucket": "dojma-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:908212665720:android:ee9da348e85359d0",
+        "mobilesdk_app_id": "1:1011197336662:android:ee9da348e85359d0",
         "android_client_info": {
           "package_name": "com.csatimes.dojma"
         }
       },
       "oauth_client": [
         {
-          "client_id": "908212665720-6n9ah9c0mf0mlou0p4ltordiu7itug0c.apps.googleusercontent.com",
+          "client_id": "1011197336662-qi8oogls95s7mpmk10r8ndgb25plahag.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.csatimes.dojma",
-            "certificate_hash": "2BD02212E89C68BFD9391AE21CF34D587C966794"
+            "certificate_hash": "B18D1771FAB5AC87B8AB9B7938D882CCCE886098"
           }
         },
         {
-          "client_id": "908212665720-o38n1g980sj7vbi3mbkt4qh3mdlrmor0.apps.googleusercontent.com",
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXgey8_vSswb12iebi-XxsBrzbdl3qvSc"
+          "current_key": "AIzaSyAtMrho7B--hAj1UTT7qIAfkcIcDikh4yU"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-80084283-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

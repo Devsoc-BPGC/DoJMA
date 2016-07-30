@@ -1,23 +1,34 @@
 package com.csatimes.dojma;
 
 /**
- * Event data object that has a title,date,start time,end time,location,desc
- *
+ * Event data object that has a title,startDate,start startTime,end startTime,location,desc
  */
 
 class EventItem {
     String title;
     private String desc;
-    private String date;
-    private String time;
+    private String startDate;
+    private String startTime;
     private String endTime;
+    private String endDate;
     private String location;
 
-    public EventItem(String title, String date, String time, String endTime, String location, String desc) {
+    public EventItem() {
+        desc = null;
+        startDate = null;
+        startTime = null;
+        endTime = null;
+        endDate = null;
+        location = null;
+        title = null;
+    }
+
+    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate) {
         this.title = title;
         this.desc = desc;
-        this.date = date;
-        this.time = time;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
     }
@@ -28,6 +39,14 @@ class EventItem {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getTitle() {
@@ -46,20 +65,20 @@ class EventItem {
         this.desc = desc;
     }
 
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public String getLocation() {

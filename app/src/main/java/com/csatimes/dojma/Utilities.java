@@ -71,7 +71,7 @@ public class Utilities extends Fragment {
 
         utilitiesRecyclerView.setLayoutManager(sglm);
 
-        adapter = new UtilitiesRV();
+        adapter = new UtilitiesRV(getContext());
         utilitiesRecyclerView.setItemAnimator(new DefaultItemAnimator());
         utilitiesRecyclerView.setAdapter(adapter);
 

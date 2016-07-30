@@ -13,7 +13,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -33,9 +32,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +56,6 @@ public class HomeActivity extends AppCompatActivity
     private Realm database;
     private RealmConfiguration realmConfiguration;
     private ImageView nav_bar_background;
-    private Tracker mTracker;
     private RealmResults<HeraldNewsItemFormat> results;
     //private MaterialSearchView searchView;
     private ViewPagerAdapter adapter;
@@ -91,16 +86,6 @@ public class HomeActivity extends AppCompatActivity
         startService(new Intent(this, UpdateCheckerService.class));
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //Check if analytics is allowed by user
-        boolean sharedPrefAnalytics = sharedPref.getBoolean("pref_other_analytics", true);
-
-        if (sharedPrefAnalytics) {
-            AnalyticsApplication application = (AnalyticsApplication) getApplication();
-            mTracker = application.getDefaultTracker();
-            mTracker.setScreenName("Home Activity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
 
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
