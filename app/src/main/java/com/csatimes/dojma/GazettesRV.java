@@ -51,8 +51,6 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.ViewHolder> {
             @Override
             public void onClick(View view) {
                 //download
-
-
                 if (writePermission) {
                     {
                         final File pdfFolder = new File(directory + "/gazettes/");

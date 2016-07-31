@@ -9,7 +9,7 @@ import android.content.Intent;
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static final int REQUEST_CODE = 123;
+    static final int REQUEST_CODE = 1283;
 
 
     @Override

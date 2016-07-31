@@ -13,27 +13,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.Random;
 
 public class POSTDownloaderActivity extends AppCompatActivity {
     int initProgress = 0;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Window window;
-    private ImageView imageView;
     private TextView textView;
-    private String[] images = {"https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/test-repo/master/1.jpg", "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/test-repo/master/2.jpg", "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/test-repo/master/3.jpg", "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/test-repo/master/4.jpg", "https://raw.githubusercontent" +
-            ".com/MobileApplicationsClub/test-repo/master/5.jpg"};
-
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -41,10 +28,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_postdownloader);
-        imageView = (ImageView) findViewById(R.id.loading_dojma);
         textView = (TextView) findViewById(R.id.post_text);
-        int random = new Random().nextInt(4);
-        Picasso.with(this).load(R.drawable.screen).into(imageView);
 
         preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
@@ -62,10 +46,6 @@ public class POSTDownloaderActivity extends AppCompatActivity {
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
         }
 
-
-        //Gave 5% progress to setting shared preference randomly
-        initProgress = 5;
-
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -76,18 +56,23 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                     Intent i = new Intent(context, HomeActivity.class);
                     startActivity(i);
                     finishDownloaderActivity();
+
                 } else if (intent.getAction().equalsIgnoreCase(PostDownloadService.ZERO_ARTICLES_DOWNLOADED)) {
-                    Snackbar snackbar = Snackbar.make(imageView, "Failed to download " +
+
+                    Snackbar snackbar = Snackbar.make(textView, "Failed to download " +
                             "even a single article. Please try " +
                             "again later", Snackbar.LENGTH_LONG);
                     snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                    TextView snackText = (TextView) snackbar.getView().findViewById(android
+                            .support.design.R.id.snackbar_text);
+                    snackText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
                     snackbar.show();
+
                     textView.setText("NO ARTICLES DOWNLOADED. TRY AGAIN LATER");
                 }
             }
         };
-        if (PostDownloadService.instance == null)
-            startService(new Intent(this, PostDownloadService.class));
+
     }
 
     private void finishDownloaderActivity() {
@@ -103,6 +88,10 @@ public class POSTDownloaderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (PostDownloadService.instance == null)
+            startService(new Intent(this, PostDownloadService.class));
+
         IntentFilter intf = new IntentFilter();
         intf.addAction(PostDownloadService.ZERO_ARTICLES_DOWNLOADED);
         intf.addAction(PostDownloadService.UPDATE_PROGRESS);

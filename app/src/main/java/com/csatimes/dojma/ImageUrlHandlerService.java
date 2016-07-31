@@ -19,12 +19,27 @@ public class ImageUrlHandlerService extends IntentService {
 
     public static final String IMAGE_SERVICE_SUCCESS = "com.csatimes.dojma.intent.action.iuhs" +
             ".success";
-
+    public static ImageUrlHandlerService instance = null;
     int updates = 0;
-
 
     public ImageUrlHandlerService() {
         super("ImageUrlHandlerService");
+    }
+
+    public static boolean isInstanceCreated() {
+        return instance != null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
+
+    @Override
+    public void onDestroy() {
+        instance = null;
+        super.onDestroy();
     }
 
     @Override

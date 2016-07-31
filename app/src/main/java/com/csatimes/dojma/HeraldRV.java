@@ -14,7 +14,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,11 +104,6 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
             if (foobar.isFav())
                 viewHolder.fav.setLiked(true);
             else viewHolder.fav.setLiked(false);
-//        if (foobar.isRead()) {
-//            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
-//            //       .cardview_shadow_end_color));
-//        }
-
             //since Html.fromHtml is deprecated from N onwards we add the special flag
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
@@ -196,7 +190,6 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
-            // imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
             itemView.setOnClickListener(this);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override
@@ -235,50 +228,58 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
             {
                 if (view.getId() == itemView.getId()) {
                     if (isNetworkAvailable(context)) {
-                        Log.e("TAG", "internet is there");
                         if (isGoogleChromeInstalled) {
-                            Log.e("TAG", "gc installed");
-                            Intent intent = new Intent((Intent.ACTION_SEND));
-                            intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
-                                    (getAdapterPosition()).getUrl());
+                            try {
+                                Intent intent = new Intent((Intent.ACTION_SEND));
+                                intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
+                                        (getAdapterPosition()).getUrl());
 
-                            Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-                            PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            String copy_label = "Copy Link";
+                                Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+                                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                String copy_label = "Copy Link";
 
-                            customTabsIntent = new CustomTabsIntent.Builder()
-                                    .setShowTitle(true)
-                                    .setToolbarColor(ContextCompat.getColor(context, R.color
-                                            .blue500))
-                                    .setCloseButtonIcon(BitmapFactory.decodeResource(context
-                                            .getResources(), R.drawable.ic_arrow_back_white_24dp))
-                                    // .addDefaultShareMenuItem()
-                                    .addMenuItem(copy_label, copy_pendingIntent)
-                                    .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
-                                    .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
-                                    .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
-                                    //.setActionButton(BitmapFactory.decodeResource(context
-                                    // .getResources(), R.drawable.ic_share_white_24dp), "Share",
-                                    //PendingIntent.getActivity(context, 69,
-                                    //  intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
-                                    .addDefaultShareMenuItem()
-                                    .enableUrlBarHiding()
-                                    .build();
+                                customTabsIntent = new CustomTabsIntent.Builder()
+                                        .setShowTitle(true)
+                                        .setToolbarColor(ContextCompat.getColor(context, R.color
+                                                .blue500))
+                                        .setCloseButtonIcon(BitmapFactory.decodeResource(context
+                                                .getResources(), R.drawable.ic_arrow_back_white_24dp))
+                                        // .addDefaultShareMenuItem()
+                                        .addMenuItem(copy_label, copy_pendingIntent)
+                                        .setStartAnimations(context, R.anim.slide_in_right, R.anim.fade_out)
+                                        .setExitAnimations(context, R.anim.fade_in, R.anim.slide_out_right)
+                                        .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.amber500))
+                                        //.setActionButton(BitmapFactory.decodeResource(context
+                                        // .getResources(), R.drawable.ic_share_white_24dp), "Share",
+                                        //PendingIntent.getActivity(context, 69,
+                                        //  intent, PendingIntent.FLAG_UPDATE_CURRENT), true)
+                                        .addDefaultShareMenuItem()
+                                        .enableUrlBarHiding()
+                                        .build();
 
-                            CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
-                                    Uri.parse(resultsList.get(getAdapterPosition()).getUrl()),
-                                    new CustomTabActivityHelper.CustomTabFallback() {
-                                        @Override
-                                        public void openUri(Activity activity, Uri uri) {
-                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                            intent.putExtra(Intent.EXTRA_REFERRER,
-                                                    Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
+                                CustomTabActivityHelper.openCustomTab(activity, customTabsIntent,
+                                        Uri.parse(resultsList.get(getAdapterPosition()).getUrl()),
+                                        new CustomTabActivityHelper.CustomTabFallback() {
+                                            @Override
+                                            public void openUri(Activity activity, Uri uri) {
+                                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                                intent.putExtra(Intent.EXTRA_REFERRER,
+                                                        Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + context.getPackageName()));
 
-                                            context.startActivity(intent);
-                                        }
-                                    });
+                                                context.startActivity(intent);
+                                            }
+                                        });
+                            } catch (Exception e) {
+                                Intent openWebpage = new Intent(context, OpenWebpage.class);
+
+                                openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getUrl());
+                                openWebpage.putExtra("TITLE", resultsList.get(getAdapterPosition()).getTitle());
+                                openWebpage.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
+
+                                context.startActivity(openWebpage);
+
+                            }
                         } else {
-                            Log.e("TAG", "openWebpage");
                             Intent openWebpage = new Intent(context, OpenWebpage.class);
 
                             openWebpage.putExtra("URL", resultsList.get(getAdapterPosition()).getUrl());
@@ -288,10 +289,8 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                             context.startActivity(openWebpage);
                         }
                     } else {
-                        Log.e("TAG", "reached intent");
                         Intent intent = new Intent(context, OfflineSimpleViewer.class);
-                        intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID
-                                ());
+                        intent.putExtra("POSTID", resultsList.get(getAdapterPosition()).getPostID());
                         context.startActivity(intent);
                     }
                 } else if (view.getId() == share.getId()) {

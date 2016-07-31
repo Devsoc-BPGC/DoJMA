@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,11 +120,13 @@ public class Gazette extends Fragment {
                     gazetteRecyclerView.setVisibility(View.VISIBLE);
                     gazetteList.clear();
                     for (DataSnapshot shot : dataSnapshot.getChildren()) {
-                        gazetteList.add(shot.getValue(GazetteItem.class));
+                        try {
+                            gazetteList.add(shot.getValue(GazetteItem.class));
+                        } catch (Exception ignore) {
+                        }
                     }
                     for (int i = 0; i < gazetteList.size(); i++) {
                         editor.putString(sprefPreFix + i + sprefTitlePostFix, gazetteList.get(i).getTitle());
-                        Log.e("TAG", gazetteList.get(i).getTitle());
                         editor.putString(sprefPreFix + i + sprefUrlPostFix, gazetteList.get(i).getUrl());
                     }
                     editor.putInt(sprefGazetteNumber, gazetteList.size());
