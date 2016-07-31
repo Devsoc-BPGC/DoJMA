@@ -299,7 +299,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                     intent.setType("text/plain");
                     intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                             (getAdapterPosition()).getUrl());
-                    context.startActivity(Intent.createChooser(intent, "Share link via"));
+                    context.startActivity(Intent.createChooser(intent, "Share url via"));
 
 
                 }
@@ -423,7 +423,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                     intent.setType("text/plain");
                     intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                             (getAdapterPosition()).getUrl());
-                    context.startActivity(Intent.createChooser(intent, "Share link via"));
+                    context.startActivity(Intent.createChooser(intent, "Share url via"));
 
 
                 }

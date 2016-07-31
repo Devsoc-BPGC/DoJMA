@@ -318,7 +318,7 @@ public class HomeActivity extends AppCompatActivity
                     ".com/store/apps/details?id=com.csatimes.dojma and get all the latest " +
                     "updates\n");
             intent.setType("text/plain");
-            startActivity(Intent.createChooser(intent, "Share app link via ... "));
+            startActivity(Intent.createChooser(intent, "Share app url via ... "));
 
         } else if (id == R.id.nav_idea) {
             Intent intent = new Intent(HomeActivity.this, SuggestFeature.class);

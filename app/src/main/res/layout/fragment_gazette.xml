@@ -1,27 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.csatimes.dojma.Gazette">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.csatimes.dojma.Gazette">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/gazette_swipe"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gazette_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"/>
 
-        <ListView
-            android:id="@+id/gazette_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </ListView>
+    <TextView
+        android:id="@+id/gazette_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="No Gazettes Found!"
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="No Gazettes Found!"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-</FrameLayout>
+</RelativeLayout>

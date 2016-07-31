@@ -4,14 +4,19 @@ package com.csatimes.dojma;
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
 
-public class GazetteItem {
+class GazetteItem {
 
     String title;
-    String link;
+    String url;
 
-    public GazetteItem(String title, String link) {
+    GazetteItem() {
+        this.title = "";
+        this.url = "";
+    }
+
+    GazetteItem(String title, String url) {
         this.title = title;
-        this.link = link;
+        this.url = url;
     }
 
     public String getTitle() {
@@ -22,11 +27,11 @@ public class GazetteItem {
         this.title = title;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

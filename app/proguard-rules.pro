@@ -16,18 +16,25 @@
    public *;
 }
 -keepattributes Signature
+-keepattributes *Annotation*
+
+-keeppackagenames org.jsoup.nodes
 
 -keepclassmembers class com.csatimes.dojma.EventItem {
   *;
 }
--dontwarn com.squareup.picasso.**
+-keepclassmembers class com.csatimes.dojma.GazetteItem {
+  *;
+}
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-keep class com.firebase.** { *; }
+-keepnames class com.fasterxml.jackson.** { *; }
+-dontwarn org.w3c.dom.**
 
 # Keep native methods
 -keepclassmembers class * {
     native <methods>;
 }
--keeppackagenames org.jsoup.nodes
-
 -dontwarn okio.**
 -dontwarn com.squareup.okhttp.**
 -dontwarn javax.annotation.**
