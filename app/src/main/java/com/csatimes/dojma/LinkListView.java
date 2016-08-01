@@ -77,32 +77,4 @@ public class LinkListView extends ListActivity {
 
     }
 
-
-   /* private class DownloadList extends AsyncTask<Void,Void,Void>{
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            try {
-                URL url = new URL(DHC.linksAdrress);
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String str;
-                StringBuilder sb = new StringBuilder();
-                while ((str = in.readLine()) != null) {
-                    sb.append(str);
-                    sb.append("\n");
-                }
-                response = sb.toString();
-                in.close();
-
-            } catch (Exception e) {
-                response = null;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }*/
 }

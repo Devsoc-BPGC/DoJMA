@@ -98,7 +98,8 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                 SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
                 viewHolder.date.setText(tf.format(of));
             } catch (Exception e) {
-                e.printStackTrace();
+                viewHolder.date.setText(foobar.getOriginalDate());
+
             }
 
             if (foobar.isFav())
@@ -122,7 +123,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                 SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
                 viewHolder.date.setText(tf.format(of));
             } catch (Exception e) {
-                e.printStackTrace();
+                viewHolder.date.setText(foobar.getOriginalDate());
             }
             if (foobar.isFav())
                 viewHolder.fav.setLiked(true);

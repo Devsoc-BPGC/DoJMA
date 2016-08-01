@@ -97,7 +97,7 @@ public class ArchiveListView extends ListActivity {
             } catch (ParseException e) {
                 //Handle exception here, most of the time you will just log it.
                 Log.e("TAG", "exception found in date format");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
 

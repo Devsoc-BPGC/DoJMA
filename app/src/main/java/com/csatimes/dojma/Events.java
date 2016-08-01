@@ -64,7 +64,7 @@ public class Events extends Fragment implements View.OnClickListener {
                         try {
                             eventItems.add(i, childDataSnapshot.getValue(EventItem.class));
                             i++;
-                        } catch (Exception e) {
+                        } catch (Exception ignore) {
                         }
                     }
 

@@ -242,8 +242,7 @@ public class UpdateCheckerService extends IntentService {
 
 
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignore) {
             }
         }
         String message = null;

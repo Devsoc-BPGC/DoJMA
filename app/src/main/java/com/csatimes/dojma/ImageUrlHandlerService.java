@@ -85,7 +85,6 @@ public class ImageUrlHandlerService extends IntentService {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
                 Log.e("ImageUrlService", "EXCEPTION");
             }
         if (updates != 0) {
