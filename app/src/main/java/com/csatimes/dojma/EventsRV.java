@@ -215,7 +215,7 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
 
             } catch (ParseException e) {
                 startDateText = eventItems.get(position).getStartDate() + eventItems.get(position).getStartTime();
-                holder.status.setText("check json");
+                holder.status.setText("EVENT STATUS");
             }
             holder.datetime.setText(startDateText);
 

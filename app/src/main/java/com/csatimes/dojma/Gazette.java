@@ -26,6 +26,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Vector;
 
 
@@ -44,6 +50,7 @@ public class Gazette extends Fragment {
     private String sprefPreFix = "GAZETTE_number_";
     private String sprefTitlePostFix = "_title";
     private String sprefUrlPostFix = "_url";
+    private String sprefDatePostFix = "_date";
 
     public Gazette() {
         // Required empty public constructor
@@ -87,7 +94,6 @@ public class Gazette extends Fragment {
         adapter = new GazettesRV(getContext(), gazetteList);
         gazetteRecyclerView.setAdapter(adapter);
 
-
         return view;
     }
 
@@ -128,9 +134,31 @@ public class Gazette extends Fragment {
                     for (int i = 0; i < gazetteList.size(); i++) {
                         editor.putString(sprefPreFix + i + sprefTitlePostFix, gazetteList.get(i).getTitle());
                         editor.putString(sprefPreFix + i + sprefUrlPostFix, gazetteList.get(i).getUrl());
+                        editor.putString(sprefPreFix + i + sprefDatePostFix, gazetteList.get(i)
+                                .getDate());
                     }
                     editor.putInt(sprefGazetteNumber, gazetteList.size());
                     editor.apply();
+
+                    Collections.sort(gazetteList, new Comparator<GazetteItem>() {
+                        @Override
+                        public int compare(GazetteItem o1, GazetteItem o2) {
+                            try {
+                                Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o1.getDate());
+                                Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o2.getDate());
+                                if (one.getTime() - two.getTime() < 0) {
+                                    return 1;
+                                } else if (one.getTime() == two.getTime()) {
+                                    return 0;
+                                } else {
+                                    return -1;
+                                }
+                            } catch (ParseException ignore) {
+                            }
+                            return 0;
+                        }
+                    });
+
                     adapter.notifyDataSetChanged();
                 }
 
@@ -157,9 +185,28 @@ public class Gazette extends Fragment {
             for (int i = 0; i < pdfs; i++) {
                 gazetteList.add(new GazetteItem(sharedPreferences.getString(sprefPreFix + i +
                         sprefTitlePostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
-                        sprefUrlPostFix, "-")));
+                        sprefUrlPostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
+                        sprefDatePostFix, "-")));
             }
 
+            Collections.sort(gazetteList, new Comparator<GazetteItem>() {
+                @Override
+                public int compare(GazetteItem o1, GazetteItem o2) {
+                    try {
+                        Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o1.getDate());
+                        Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o2.getDate());
+                        if (one.getTime() - two.getTime() < 0) {
+                            return -1;
+                        } else if (one.getTime() == two.getTime()) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    } catch (ParseException ignore) {
+                    }
+                    return 0;
+                }
+            });
         } else {
             //Since number of gazettes can't go down :P , it will be always >=0
             //if it is zero then it means that the app has never been connected to

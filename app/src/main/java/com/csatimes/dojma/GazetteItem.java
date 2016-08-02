@@ -8,15 +8,18 @@ class GazetteItem {
 
     String title;
     String url;
+    String date;
 
     GazetteItem() {
         this.title = "";
         this.url = "";
+        this.date = "";
     }
 
-    GazetteItem(String title, String url) {
+    GazetteItem(String title, String url, String date) {
         this.title = title;
         this.url = url;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -33,5 +36,13 @@ class GazetteItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

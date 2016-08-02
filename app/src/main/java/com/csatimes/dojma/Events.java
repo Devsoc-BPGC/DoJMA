@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Vector;
 
 public class Events extends Fragment implements View.OnClickListener {
@@ -62,8 +69,13 @@ public class Events extends Fragment implements View.OnClickListener {
                     eventItems.clear();
                     for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                         try {
-                            eventItems.add(i, childDataSnapshot.getValue(EventItem.class));
-                            i++;
+                            EventItem item = childDataSnapshot.getValue(EventItem.class);
+                            Date eventDate = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse
+                                    (item.getStartDate());
+                            if (Calendar.getInstance().getTime().getTime() - eventDate.getTime()
+                                    <= 24 * 60 * 60 * 1000) {
+                                eventItems.add(childDataSnapshot.getValue(EventItem.class));
+                            }
                         } catch (Exception ignore) {
                         }
                     }
@@ -79,6 +91,7 @@ public class Events extends Fragment implements View.OnClickListener {
                     }
                     editor.putInt(sprefEventNumber, eventItems.size());
                     editor.apply();
+                    sortThisShit();
                     adapter.notifyDataSetChanged();
 
                 }
@@ -102,18 +115,75 @@ public class Events extends Fragment implements View.OnClickListener {
             for (int i = 0; i < events; i++) {
                 String title = preferences.getString(sprefPreFix + i + sprefTitlePostFix, "");
                 String date = preferences.getString(sprefPreFix + i + sprefSDPostFix, "");
-                String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
-                String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
-                String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
-                String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
-                String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
-
-                eventItems.add(i, new EventItem(title, date, time, endtime, location, desc, endDate));
+                try {
+                    Date eventDate = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(date);
+                    if (Calendar.getInstance().getTime().getTime() - eventDate.getTime()
+                            <= 24 * 60 * 60 * 1000) {
+                        String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
+                        String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
+                        String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
+                        String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
+                        String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
+                        eventItems.add(new EventItem(title, date, time, endtime, location, desc, endDate));
+                    }
+                } catch (ParseException ignore) {
+                }
             }
+            sortThisShit();
         } else {
             errorText.setVisibility(View.VISIBLE);
             errorText.setText("No events are available");
         }
+    }
+
+    private void sortThisShit() {
+        Collections.sort(eventItems, new Comparator<EventItem>() {
+
+            @Override
+            public int compare(EventItem e1, EventItem e2) {
+                try {
+                    Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(e1.getStartDate());
+                    Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(e2.getStartDate());
+                    if (one.getTime() - two.getTime() < 0) {
+                        return -1;
+                    } else if (one.getTime() == two.getTime()) {
+                        if (!e1.getStartTime().equalsIgnoreCase("-") && e2.getStartTime()
+                                .equalsIgnoreCase("-")) {
+                            Log.e("TAG", "same day e1 -1 " + e1.getStartTime());
+                            return -1;
+                        } else if (e1.getStartTime().equalsIgnoreCase("-") && !e2.getStartTime()
+                                .equalsIgnoreCase("-")) {
+                            Log.e("TAG", "same day e2 1 " + e2.getStartTime());
+                            return 1;
+                        } else if (e1.getStartTime().equalsIgnoreCase("-") && e2.getStartTime()
+                                .equalsIgnoreCase("-")) {
+                            // can further diff between location maybe?
+                            return 0;
+                        } else {
+                            Date onee = new SimpleDateFormat("HHmm", Locale.UK).parse(e1
+                                    .getStartTime());
+                            Date twoo = new SimpleDateFormat("HHmm", Locale.UK).parse(e2
+                                    .getStartTime());
+
+                            if (onee.getTime() - twoo.getTime() < 0) {
+                                return -1;
+                            } else if (onee.getTime() == twoo.getTime()) {
+                                return 0;
+                                //further diff here
+                            } else {
+                                return 1;
+                            }
+                        }
+                    } else {
+                        return 1;
+                    }
+                } catch (Exception ignore) {
+                    Log.e("TAG", "Events compare exception ");
+                }
+
+                return 0;
+            }
+        });
     }
 
     @Override

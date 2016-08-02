@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -84,9 +85,12 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
             context.startActivity(intent);
 
         } else if (id == itemView.getId()) {
-            Intent intent = new Intent(context, ContactsActivity.class);
-            context.startActivity(intent);
-
+            try {
+                Intent intent = new Intent(context, ContactsActivity.class);
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
