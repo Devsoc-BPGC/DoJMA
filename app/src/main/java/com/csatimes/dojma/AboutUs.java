@@ -1,6 +1,8 @@
 package com.csatimes.dojma;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 public class AboutUs extends AppCompatActivity {
+    public static String FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
+    public static String FACEBOOK_PAGE_ID = "MACBITSGoa";
     Window window;
     ImageView vik;
     ImageView yash;
@@ -32,12 +36,22 @@ public class AboutUs extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("About DoJMA Android App");
         getSupportActionBar().setSubtitle("Mobile Applications Club");
+
         fb = (Button) findViewById(R.id.about_us_fb_link);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/MACBITSGoa"));
-                startActivity(intent);
+                try {
+                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                    String facebookUrl = getFacebookPageURL(AboutUs.this);
+                    facebookIntent.setData(Uri.parse(facebookUrl));
+                    startActivity(facebookIntent);
+
+                } catch (Exception e) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook" +
+                            ".com/MACBITSGoa/"));
+                    startActivity(intent);
+                }
             }
         });
         //These flags are for system bar on top
@@ -61,4 +75,18 @@ public class AboutUs extends AppCompatActivity {
 
     }
 
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return FACEBOOK_URL; //normal web url
+        }
+    }
 }

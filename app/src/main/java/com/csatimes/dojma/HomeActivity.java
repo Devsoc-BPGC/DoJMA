@@ -40,6 +40,8 @@ public class HomeActivity extends AppCompatActivity
 
 
     public static boolean appStarted = true;
+    public static String FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
+    public static String FACEBOOK_PAGE_ID = "DoJMABITSGoa";
     private static int pageColors = 0;
     private Toolbar toolbarObject;
     private TabLayout tabLayout;
@@ -76,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         if (isOnline() && UpdateCheckerService.instance != null && ImageUrlHandlerService.instance == null)
-        startService(new Intent(this, UpdateCheckerService.class));
+            startService(new Intent(this, UpdateCheckerService.class));
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
@@ -153,7 +155,6 @@ public class HomeActivity extends AppCompatActivity
         //setup pagecolors
         pageColors = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
     }
-
 
     @Override
     protected void onResume() {
@@ -243,7 +244,6 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -277,8 +277,17 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(HomeActivity.this, AboutDojma.class);
             startActivity(intent);
         } else if (id == R.id.nav_fb) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.facebook.com/DoJMABITSGoa/"));
-            startActivity(intent);
+
+            try {
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                String facebookUrl = getFacebookPageURL(this);
+                facebookIntent.setData(Uri.parse(facebookUrl));
+                startActivity(facebookIntent);
+
+            } catch (Exception e) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/DoJMABITSGoa/"));
+                startActivity(intent);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -332,6 +341,21 @@ public class HomeActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("currenItem", viewPager.getCurrentItem());
+    }
+
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return FACEBOOK_URL; //normal web url
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
