@@ -1,16 +1,15 @@
 package com.csatimes.dojma;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
-import io.realm.RealmList;
+import java.util.Vector;
 
 /**
  * Created by Vikramaditya Kukreja on 19-06-2016.
@@ -18,13 +17,13 @@ import io.realm.RealmList;
 
 public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
     private final OnPhotoListener listener;
+    Vector<PosterItem> posterItems;
     private Context context;
-    private RealmList<HeraldNewsItemFormat> resultsList;
 
-    public ImageGalleryAdapter(Context context, RealmList<HeraldNewsItemFormat> resultsList, OnPhotoListener listener) {
+    public ImageGalleryAdapter(Context context, Vector<PosterItem> posterItems, OnPhotoListener listener) {
 
         this.context = context;
-        this.resultsList = resultsList;
+        this.posterItems = posterItems;
         this.listener = listener;
     }
 
@@ -48,8 +47,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final HeraldNewsItemFormat foobar = resultsList.get(position);
-        Picasso.with(context).load(Uri.parse(foobar.getImageURL())).into(holder.imageView);
+        holder.imageView.setImageURI(posterItems.get(position).url);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +58,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     @Override
     public int getItemCount() {
-        return resultsList.size();
+        return posterItems.size();
     }
 
     //This method is used when more than one kind of ViewHolders are required in RecyclerView
@@ -74,11 +72,11 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        SimpleDraweeView imageView;
 
         ViewHolder(final View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.images_rv_imageview);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.images_rv_imageview);
         }
     }
 

@@ -20,31 +20,25 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
 
-public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
+class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
     Button a;
-    Button c;
-
     Context context;
-
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference amessRef = storage.getReference().child("images").child("mess").child("amess" +
-            ".jpg");
-    StorageReference cmessRef = storage.getReference().child("images").child("mess").child("cmess" +
-            ".jpg");
-
-
-    boolean hasWritePermission = true;
-    File messFolder, file;
-
     Activity activity;
+    private Button c;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference amessRef = storage.getReference().child("images").child("mess").child
+            ("amess" +
+                    ".jpg");
+    private StorageReference cmessRef = storage.getReference().child("images").child("mess").child
+            ("cmess" +
+                    ".jpg");
+    private boolean hasWritePermission = true;
 
-    public UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission, Activity activity) {
+    UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission, Activity activity) {
         super(itemView);
         a = (Button) itemView.findViewById(R.id.viewholder_mess_format_a);
         c = (Button) itemView.findViewById(R.id.viewholder_mess_format_c);
@@ -55,6 +49,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
 
         a.setOnClickListener(this);
         c.setOnClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +58,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
 
         if (id == a.getId()) {
             if (isOnline()) {
+                Toast.makeText(context, "Loading please wait", Toast.LENGTH_SHORT).show();
                 amessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -96,10 +92,14 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                     }
                 });
             } else {
-                Toast.makeText(context, "Please stay online", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Offline feature will be added soon. Please keep saving " +
+                        "the weekly mess menu for now", Toast
+                        .LENGTH_LONG)
+                        .show();
             }
         } else if (id == c.getId()) {
-            if (isOnline())
+            if (isOnline()) {
+                Toast.makeText(context, "Loading please wait", Toast.LENGTH_SHORT).show();
                 cmessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
@@ -132,8 +132,13 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                         Toast.makeText(context, "Link is invalid!", Toast.LENGTH_SHORT).show();
                     }
                 });
-        } else {
-            Toast.makeText(context, "Please stay online", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Offline feature will be added soon. Please keep saving " +
+                        "the weekly mess menu for now", Toast
+                        .LENGTH_LONG)
+                        .show();
+
+            }
         }
     }
 

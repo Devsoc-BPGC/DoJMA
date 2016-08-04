@@ -245,6 +245,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".LiveLCDNews"
+            android:label="@string/title_activity_live_lcdnews"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -1,19 +1,17 @@
 package com.csatimes.dojma;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
-import io.realm.RealmList;
+import java.util.Vector;
 
 public class PhotoPagerAdapter
         extends RecyclePagerAdapter<PhotoPagerAdapter.ViewHolder> {
@@ -21,20 +19,16 @@ public class PhotoPagerAdapter
     private static final long PROGRESS_DELAY = 300L;
 
     private final ViewPager viewPager;
-    private RealmList<HeraldNewsItemFormat> realmList;
+    Vector<PosterItem> posterItems;
     private GestureSettingsSetupListener setupListener;
-    private Context context;
-
     private boolean activated;
 
-    public PhotoPagerAdapter(Context context, ViewPager viewPager, RealmList<HeraldNewsItemFormat>
-            realmList) {
-        this.context = context;
-        this.realmList = realmList;
+    public PhotoPagerAdapter(ViewPager viewPager, Vector<PosterItem> posterItems) {
+        this.posterItems = posterItems;
         this.viewPager = viewPager;
     }
 
-    public static ImageView getImage(RecyclePagerAdapter.ViewHolder holder) {
+    public static SimpleDraweeView getImage(RecyclePagerAdapter.ViewHolder holder) {
         if (holder instanceof ViewHolder) {
             return ((ViewHolder) holder).image;
         } else {
@@ -42,14 +36,6 @@ public class PhotoPagerAdapter
         }
     }
 
-    public void setRealmList(RealmList<HeraldNewsItemFormat> realmList) {
-        this.realmList = realmList;
-        notifyDataSetChanged();
-    }
-
-    public HeraldNewsItemFormat getRealmList(int pos) {
-        return realmList == null || pos < 0 || pos >= realmList.size() ? null : realmList.get(pos);
-    }
 
     public void setSetupListener(GestureSettingsSetupListener listener) {
         setupListener = listener;
@@ -70,21 +56,20 @@ public class PhotoPagerAdapter
 
     @Override
     public int getCount() {
-        return !activated || realmList == null ? 0 : realmList.size();
+        return !activated || posterItems == null ? 0 : posterItems.size();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup container) {
         final ViewHolder holder = new ViewHolder(container);
-        holder.gestureFrameLayout.getController().getSettings().setFillViewport(true).setMaxZoom
-                (3f).setOverzoomFactor(1.5f);
+        holder.gestureFrameLayout.getController().getSettings().setFillViewport(true).setMaxZoom(3f).setOverzoomFactor(1.5f);
         holder.gestureFrameLayout.getController().enableScrollInViewPager(viewPager);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Picasso.with(context).load(Uri.parse(realmList.get(position).getImageURL())).into(holder.image);
+        holder.image.setImageURI(Uri.parse(posterItems.get(position).getUrl()));
     }
 
     @Override
@@ -98,7 +83,7 @@ public class PhotoPagerAdapter
     }
 
     static class ViewHolder extends RecyclePagerAdapter.ViewHolder {
-        final ImageView image;
+        final SimpleDraweeView image;
         final View progress;
         final GestureFrameLayout gestureFrameLayout;
         boolean gesturesDisabled;

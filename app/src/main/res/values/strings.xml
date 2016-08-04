@@ -118,4 +118,5 @@
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
     <string name="title_activity_about_dojma">About DoJMA</string>
     <string name="UTILITIES_MISC_text">Click here to get all important notifications! Updating needs an active internet connection</string>
+    <string name="title_activity_live_lcdnews">Live LCD News</string>
 </resources>

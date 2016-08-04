@@ -76,38 +76,42 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.ViewHolder> {
                             if (isOnline()) {
                                 Toast.makeText(context, "Starting Download", Toast.LENGTH_LONG)
                                         .show();
-                                StorageReference pdfRef = storage.getReferenceFromUrl
-                                        (gazetteItems.get(pos).getUrl());
-                                pdfRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        Toast.makeText(context, "Downloaded!", Toast.LENGTH_SHORT).show();
-                                        Uri path = Uri.fromFile(new File(pdfFolder, pdfName));
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setDataAndType(path, "application/pdf");
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                try {
+                                    StorageReference pdfRef = storage.getReferenceFromUrl
+                                            (gazetteItems.get(pos).getUrl());
+                                    pdfRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            Toast.makeText(context, "Downloaded!", Toast.LENGTH_SHORT).show();
+                                            Uri path = Uri.fromFile(new File(pdfFolder, pdfName));
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.setDataAndType(path, "application/pdf");
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                                        try {
-                                            context.startActivity(intent);
-                                        } catch (ActivityNotFoundException e) {
-                                            Toast.makeText(context, "No application to load PDF", Toast
+                                            try {
+                                                context.startActivity(intent);
+                                            } catch (ActivityNotFoundException e) {
+                                                Toast.makeText(context, "No application to load PDF", Toast
+                                                        .LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(context, "Download Failed!", Toast
                                                     .LENGTH_LONG).show();
                                         }
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(context, "Download Failed!", Toast
-                                                .LENGTH_LONG).show();
-                                    }
-                                }).addOnPausedListener(new OnPausedListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onPaused(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        Toast.makeText(context, "Download was paused! why?", Toast
-                                                .LENGTH_LONG).show();
-                                    }
-                                });
+                                    }).addOnPausedListener(new OnPausedListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onPaused(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            Toast.makeText(context, "Download was paused! why?", Toast
+                                                    .LENGTH_LONG).show();
+                                        }
+                                    });
 
+                                } catch (Exception e) {
+                                    Toast.makeText(context, "Please stay online as new links are downloaded and try again later", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 Toast.makeText(context, R.string.no_internet_msg, Toast.LENGTH_LONG).show();
                             }

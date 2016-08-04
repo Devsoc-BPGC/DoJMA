@@ -1,6 +1,7 @@
 package com.csatimes.dojma;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,11 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -231,7 +235,6 @@ public class HomeActivity extends AppCompatActivity
             Intent settings = new Intent(HomeActivity.this, Settings.class);
             settings.putExtra("pageColor", pageColors);
             startActivity(settings);
-
         } else*/
         if (id == R.id.action_about_us) {
             Intent aboutUs = new Intent(HomeActivity.this, AboutUs.class);
@@ -266,10 +269,10 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_favourites) {
             Intent intent = new Intent(HomeActivity.this, Favourites.class);
             startActivity(intent);
-        } /*else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery) {
             Intent intent = new Intent(this, ImagesAndMedia.class);
             startActivity(intent);
-        } else if (id == R.id.nav_settings) {
+        } /*else if (id == R.id.nav_settings) {
             Intent intent = new Intent(HomeActivity.this, Settings.class);
             intent.putExtra("pageColor", pageColors);
             startActivity(intent);
@@ -288,6 +291,38 @@ public class HomeActivity extends AppCompatActivity
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/DoJMABITSGoa/"));
                 startActivity(intent);
             }
+        } else if (id == R.id.nav_lcd) {
+            Intent intent = new Intent((Intent.ACTION_SEND));
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, "http://cc.bits-goa.ac.in/enotice/Lcd.php");
+
+            Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
+            PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            String copy_label = "Copy Link";
+
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                    .setShowTitle(true)
+                    .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                    .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp))
+                    .addMenuItem(copy_label, copy_pendingIntent)
+                    //.setStartAnimations(this, R.anim.slide_in_right, R.anim.fade_out)
+                    //.setExitAnimations(this, R.anim.fade_in, R.anim.slide_out_right)
+                    .setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.amber500))
+                    .addDefaultShareMenuItem()
+                    .enableUrlBarHiding()
+                    .build();
+
+            CustomTabActivityHelper.openCustomTab(this, customTabsIntent,
+                    Uri.parse("http://cc.bits-goa.ac.in/enotice/Lcd.php"),
+                    new CustomTabActivityHelper.CustomTabFallback() {
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+                        @Override
+                        public void openUri(Activity activity, Uri uri) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + getPackageName()));
+                            startActivity(intent);
+                        }
+                    });
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

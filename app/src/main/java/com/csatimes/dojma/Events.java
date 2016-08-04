@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -69,13 +68,7 @@ public class Events extends Fragment implements View.OnClickListener {
                     eventItems.clear();
                     for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                         try {
-                            EventItem item = childDataSnapshot.getValue(EventItem.class);
-                            Date eventDate = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse
-                                    (item.getStartDate());
-                            if (Calendar.getInstance().getTime().getTime() - eventDate.getTime()
-                                    <= 24 * 60 * 60 * 1000) {
-                                eventItems.add(childDataSnapshot.getValue(EventItem.class));
-                            }
+                            eventItems.add(childDataSnapshot.getValue(EventItem.class));
                         } catch (Exception ignore) {
                         }
                     }
@@ -115,21 +108,16 @@ public class Events extends Fragment implements View.OnClickListener {
             for (int i = 0; i < events; i++) {
                 String title = preferences.getString(sprefPreFix + i + sprefTitlePostFix, "");
                 String date = preferences.getString(sprefPreFix + i + sprefSDPostFix, "");
-                try {
-                    Date eventDate = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(date);
-                    if (Calendar.getInstance().getTime().getTime() - eventDate.getTime()
-                            <= 24 * 60 * 60 * 1000) {
-                        String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
-                        String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
-                        String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
-                        String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
-                        String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
-                        eventItems.add(new EventItem(title, date, time, endtime, location, desc, endDate));
-                    }
-                } catch (ParseException ignore) {
-                }
+                String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
+                String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
+                String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
+                String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
+                String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
+                eventItems.add(new EventItem(title, date, time, endtime, location, desc, endDate));
+
             }
             sortThisShit();
+
         } else {
             errorText.setVisibility(View.VISIBLE);
             errorText.setText("No events are available");

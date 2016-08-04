@@ -1,6 +1,10 @@
 package com.csatimes.dojma;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -12,42 +16,43 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.TextView;
 
-import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.DepthPageTransformer;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-import io.realm.Sort;
+import java.util.Vector;
 
 public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAdapter.OnPhotoListener {
     private static final int NO_POSITION = -1;
-    RealmList<HeraldNewsItemFormat> realmList;
-    RealmResults<HeraldNewsItemFormat> realmResults;
-    Realm database;
-    RealmConfiguration realmConfiguration;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child
+            ("posters");
     private ImageGalleryAdapter gridAdapter;
     private PhotoPagerAdapter pagerAdapter;
     private ViewPager.OnPageChangeListener pagerListener;
     private GestureSettingsMenu settingsMenu;
     private ViewHolder views;
-    @InstanceState
-    private int savedPagerPosition = NO_POSITION;
-    @InstanceState
-    private int savedGridPosition = NO_POSITION;
-    @InstanceState
-    private int savedGridPositionFromTop;
-    @InstanceState
-    private int savedPhotoCount;
+    private Vector<PosterItem> posterItems = new Vector<>(5, 5);
     private boolean isViewPagerVisible = false;
+    private String sprefPostersNumber = "POSTERS_number";
+    private String sprefPreFix = "POSTERS_number_";
+    private String sprefTitlePostFix = "_title";
+    private String sprefUrlPostFix = "_url";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images_and_media);
+
+        sharedPreferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         views = new ViewHolder(this);
 
@@ -58,23 +63,62 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
         settingsMenu = new GestureSettingsMenu();
         settingsMenu.onRestoreInstanceState(savedInstanceState);
 
-
-        //realm setup
-        realmConfiguration = new RealmConfiguration.Builder(this)
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        database = Realm.getDefaultInstance();
-
-        realmResults = database.where(HeraldNewsItemFormat.class).notEqualTo("url", "false")
-                .notEqualTo("bigImageUrl", "false")
-                .findAllSorted("originalDate", Sort.DESCENDING);
-        realmList = new RealmList<>();
-        realmList.addAll(realmResults);
-
-
         initGrid();
         initPager();
 
+        setOldValues();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                posterItems.clear();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    posterItems.add(child.getValue(PosterItem.class));
+
+                }
+                if (posterItems.size() == 0) {
+                    views.noPostersText.setVisibility(View.VISIBLE);
+                } else {
+                    views.noPostersText.setVisibility(View.GONE);
+                }
+                for (int i = 0; i < posterItems.size(); i++) {
+                    editor.putString(sprefPreFix + i + sprefTitlePostFix, posterItems.get(i).getTitle());
+                    editor.putString(sprefPreFix + i + sprefUrlPostFix, posterItems.get(i).getUrl());
+                }
+                editor.putInt(sprefPostersNumber, posterItems.size());
+                editor.apply();
+                gridAdapter.notifyDataSetChanged();
+                pagerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                setOldValues();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isOnline()) {
+            setOldValues();
+        }
+    }
+
+    private void setOldValues() {
+        int posters = sharedPreferences.getInt(sprefPostersNumber, 0);
+        if (posters != 0) {
+            posterItems.clear();
+            for (int i = 0; i < posters; i++) {
+                posterItems.add(new PosterItem(sharedPreferences.getString
+                        (sprefPreFix + i + sprefTitlePostFix, ""), sharedPreferences.getString
+                        (sprefPreFix + i + sprefUrlPostFix, "")));
+            }
+            pagerAdapter.notifyDataSetChanged();
+            gridAdapter.notifyDataSetChanged();
+        } else {
+            views.noPostersText.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initGrid() {
@@ -96,14 +140,14 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
         views.grid.setLayoutManager(new GridLayoutManager(this, cols));
         views.grid.setItemAnimator(new DefaultItemAnimator());
 
-        gridAdapter = new ImageGalleryAdapter(this, realmList, this);
+        gridAdapter = new ImageGalleryAdapter(this, posterItems, this);
 
         views.grid.setAdapter(gridAdapter);
     }
 
     private void initPager() {
         // Setting up pager views
-        pagerAdapter = new PhotoPagerAdapter(this, views.pager, realmList);
+        pagerAdapter = new PhotoPagerAdapter(views.pager, posterItems);
         pagerAdapter.setSetupListener(settingsMenu);
 
         pagerListener = new ViewPager.SimpleOnPageChangeListener() {
@@ -142,14 +186,13 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
         views.appBarLayout.setVisibility(View.INVISIBLE);
         views.pagerBackground.setVisibility(View.VISIBLE);
         views.pager.setVisibility(View.VISIBLE);
+        views.noPostersText.setVisibility(View.INVISIBLE);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         settingsMenu.onSaveInstanceState(outState);
-        saveScreenState();
         super.onSaveInstanceState(outState);
-        clearScreenState(); // We don't want to restore state if activity instance is not destroyed
     }
 
     @Override
@@ -169,30 +212,12 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
         }
     }
 
-    private void saveScreenState() {
-        clearScreenState();
-
-        savedPhotoCount = gridAdapter.getItemCount();
-
-        savedPagerPosition = pagerAdapter.getCount() == 0
-                ? NO_POSITION : views.pager.getCurrentItem();
-
-        if (views.grid.getChildCount() > 0) {
-            View child = views.grid.getChildAt(0);
-            savedGridPosition = views.grid.getChildAdapterPosition(child);
-            savedGridPositionFromTop = child.getTop()
-                    - Views.getMarginParams(child).topMargin
-                    - views.grid.getPaddingTop();
-        }
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnected());
     }
-
-    private void clearScreenState() {
-        savedPhotoCount = 0;
-        savedPagerPosition = NO_POSITION;
-        savedGridPosition = NO_POSITION;
-        savedGridPositionFromTop = 0;
-    }
-
 
     private class ViewHolder {
         final Toolbar toolbar;
@@ -203,6 +228,7 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
         final Toolbar pagerToolbar;
         // final TextView pagerTitle;
         final View pagerBackground;
+        final TextView noPostersText;
 
         ViewHolder(Activity activity) {
             toolbar = Views.find(activity, R.id.images_toolbar);
@@ -212,7 +238,9 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
             pager = Views.find(activity, R.id.advanced_view_pager);
             pagerToolbar = Views.find(activity, R.id.advanced_full_toolbar);
             // pagerTitle = Views.find(activity, R.id.advanced_full_title);
+            noPostersText = Views.find(activity, R.id.noPostersText);
             pagerBackground = Views.find(activity, R.id.advanced_full_background);
         }
     }
+
 }
