@@ -51,10 +51,11 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(EventsRV.ViewHolder holder, final int position) {
+    public void onBindViewHolder(EventsRV.ViewHolder holder, int position) {
+        final int pos = position;
         try {
-            holder.title.setText(eventItems.get(position).getTitle());
-            holder.desc.setText(eventItems.get(position).getDesc());
+            holder.title.setText(eventItems.get(pos).getTitle());
+            holder.desc.setText(eventItems.get(pos).getDesc());
 
             DateFormat originalFormat = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
             DateFormat targetFormat = new SimpleDateFormat("EEE, dd MMM h:mm a", Locale.UK);
@@ -68,23 +69,23 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
             String startDateText = "";
             try {
                 //Check if start time exists
-                if (!eventItems.get(position).getStartTime().equalsIgnoreCase("-")) {
-                    date = originalFormat.parse(eventItems.get(position).getStartDate() +
-                            eventItems.get(position).getStartTime());
+                if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
+                    date = originalFormat.parse(eventItems.get(pos).getStartDate() +
+                            eventItems.get(pos).getStartTime());
                     startDateText = targetFormat.format(date);
-                    Log.e("TAG", eventItems.get(position).getEndTime() + " end time");
+                    Log.e("TAG", eventItems.get(pos).getEndTime() + " end time");
                     //check if there is an end time
-                    if (!eventItems.get(position).getEndTime().equalsIgnoreCase("-")) {
+                    if (!eventItems.get(pos).getEndTime().equalsIgnoreCase("-")) {
                         //check if there is an end date otherwise set it to startdate
-                        if (!eventItems.get(position).getEndDate().equalsIgnoreCase("-")) {
+                        if (!eventItems.get(pos).getEndDate().equalsIgnoreCase("-")) {
                             Log.e("TAG", "end date is not -");
-                            end = originalFormat.parse(eventItems.get(position).getEndDate() +
-                                    eventItems.get(position).getEndTime());
+                            end = originalFormat.parse(eventItems.get(pos).getEndDate() +
+                                    eventItems.get(pos).getEndTime());
                         } else {
                             Log.e("TAG", "end date is - using start");
 
-                            end = originalFormat.parse(eventItems.get(position).getStartDate() +
-                                    eventItems.get(position).getEndTime());
+                            end = originalFormat.parse(eventItems.get(pos).getStartDate() +
+                                    eventItems.get(pos).getEndTime());
                         }
 
                     } else {
@@ -96,13 +97,13 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                     Log.e("TAG", "start time lo1");
                     //start time does not exist . only use day
                     //don't bother for end time or date then
-                    date = editedFormat.parse(eventItems.get(position).getStartDate());
+                    date = editedFormat.parse(eventItems.get(pos).getStartDate());
                     startDateText = editedTargetFormat.format(date);
                     end = null;
                 }
 
                 //If start time is known, only then we can consider time calculation
-                if (!eventItems.get(position).getStartTime().equalsIgnoreCase("-")) {
+                if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
                     long datesDiff = date.getTime() - currentDate.getTime();
                     if (end != null) {
                         long endDiff = end.getTime() - currentDate.getTime();
@@ -214,29 +215,32 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 }
 
             } catch (ParseException e) {
-                startDateText = eventItems.get(position).getStartDate() + eventItems.get(position).getStartTime();
+                startDateText = eventItems.get(pos).getStartDate() + eventItems.get(pos).getStartTime();
                 holder.status.setText("EVENT STATUS");
             }
             holder.datetime.setText(startDateText);
 
-            holder.location.setText(eventItems.get(position).getLocation());
-            if (!eventItems.get(position).getStartTime().equalsIgnoreCase("-")) {
+            holder.location.setText(eventItems.get(pos).getLocation());
+            if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
+                eventItems.get(pos).setsDate(date);
+
+
                 holder.add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
                             Intent intent = new Intent(Intent.ACTION_EDIT);
                             intent.setType("vnd.android.cursor.item/event");
-                            intent.putExtra("beginTime", date.getTime());
+                            intent.putExtra("beginTime", eventItems.get(pos).getsDate());
                             if (end != null)
                                 if (end.getTime() >= date.getTime())
                                     intent.putExtra("endTime", end
                                             .getTime());
                             if (end != null && end.getTime() - date.getTime() >= 0)
                                 intent.putExtra("duration", end.getTime() - date.getTime());
-                            intent.putExtra("title", eventItems.get(position).getTitle());
-                            intent.putExtra("description", eventItems.get(position).getDesc());
-                            intent.putExtra("eventLocation", eventItems.get(position).getLocation());
+                            intent.putExtra("title", eventItems.get(pos).getTitle());
+                            intent.putExtra("description", eventItems.get(pos).getDesc());
+                            intent.putExtra("eventLocation", eventItems.get(pos).getLocation());
                             context.startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             Snackbar.make(view, "No calendar found", Snackbar.LENGTH_LONG).show();
@@ -256,7 +260,6 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 });
             }
         } catch (Exception e) {
-            Toast.makeText(context, "LOL", Toast.LENGTH_LONG).show();
             holder.status.setText("check json");
         }
     }

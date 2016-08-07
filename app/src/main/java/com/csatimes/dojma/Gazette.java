@@ -1,13 +1,10 @@
 package com.csatimes.dojma;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -39,18 +36,11 @@ public class Gazette extends Fragment {
     private static final int REQUEST_WRITE_STORAGE = 112;
     GazettesRV adapter;
     private RecyclerView gazetteRecyclerView;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private Vector<GazetteItem> gazetteList = new Vector<>(5, 1);
+
     private boolean hasPermission = false;
     private TextView emptyList;
-    private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child
-            ("gazettes");
-    private String sprefGazetteNumber = "GAZETTE_number";
-    private String sprefPreFix = "GAZETTE_number_";
-    private String sprefTitlePostFix = "_title";
-    private String sprefUrlPostFix = "_url";
-    private String sprefDatePostFix = "_date";
+
 
     public Gazette() {
         // Required empty public constructor
@@ -74,6 +64,16 @@ public class Gazette extends Fragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        } catch (Exception ignore) {
+
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,50 +81,26 @@ public class Gazette extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
 
-        sharedPreferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
         emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
         gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
         gazetteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         gazetteRecyclerView.setHasFixedSize(true);
         gazetteRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        setOldValues();
-        adapter = new GazettesRV(getContext(), gazetteList);
-        gazetteRecyclerView.setAdapter(adapter);
-
-        return view;
-    }
 
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        hasPermission = (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_STORAGE);
-        }
+        emptyList.setVisibility(View.VISIBLE);
 
 
+        final DatabaseReference gazettes;
 
-        if (isOnline()) {
-            gazettes.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+        gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes");
+        gazettes.keepSynced(true);
+        gazettes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() != 0) {
                     emptyList.setVisibility(View.GONE);
-                    gazetteRecyclerView.setVisibility(View.VISIBLE);
                     gazetteList.clear();
                     for (DataSnapshot shot : dataSnapshot.getChildren()) {
                         try {
@@ -132,14 +108,6 @@ public class Gazette extends Fragment {
                         } catch (Exception ignore) {
                         }
                     }
-                    for (int i = 0; i < gazetteList.size(); i++) {
-                        editor.putString(sprefPreFix + i + sprefTitlePostFix, gazetteList.get(i).getTitle());
-                        editor.putString(sprefPreFix + i + sprefUrlPostFix, gazetteList.get(i).getUrl());
-                        editor.putString(sprefPreFix + i + sprefDatePostFix, gazetteList.get(i)
-                                .getDate());
-                    }
-                    editor.putInt(sprefGazetteNumber, gazetteList.size());
-                    editor.apply();
 
                     Collections.sort(gazetteList, new Comparator<GazetteItem>() {
                         @Override
@@ -159,64 +127,36 @@ public class Gazette extends Fragment {
                             return 0;
                         }
                     });
-
                     adapter.notifyDataSetChanged();
+                } else {
+                    emptyList.setVisibility(View.VISIBLE);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    setOldValues();
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        } else {
-            setOldValues();
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    private void setOldValues() {
-
-        int pdfs = sharedPreferences.getInt(sprefGazetteNumber, 0);
-        if (pdfs != 0) {
-
-            emptyList.setVisibility(View.GONE);
-            gazetteRecyclerView.setVisibility(View.VISIBLE);
-            gazetteList.clear();
-            for (int i = 0; i < pdfs; i++) {
-                gazetteList.add(new GazetteItem(sharedPreferences.getString(sprefPreFix + i +
-                        sprefTitlePostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
-                        sprefUrlPostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
-                        sprefDatePostFix, "-")));
             }
 
-            Collections.sort(gazetteList, new Comparator<GazetteItem>() {
-                @Override
-                public int compare(GazetteItem o1, GazetteItem o2) {
-                    try {
-                        Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o1.getDate());
-                        Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o2.getDate());
-                        if (one.getTime() - two.getTime() < 0) {
-                            return -1;
-                        } else if (one.getTime() == two.getTime()) {
-                            return 0;
-                        } else {
-                            return 1;
-                        }
-                    } catch (ParseException ignore) {
-                    }
-                    return 0;
-                }
-            });
-        } else {
-            //Since number of gazettes can't go down :P , it will be always >=0
-            //if it is zero then it means that the app has never been connected to
-            // the internet before while checking
-            //Just set everything as empty
-            emptyList.setVisibility(View.VISIBLE);
-            gazetteRecyclerView.setVisibility(View.GONE);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
-        }
+        adapter = new GazettesRV(getContext(), gazetteList);
+        gazetteRecyclerView.setAdapter(adapter);
+        return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hasPermission = (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_STORAGE);
+        }
+
+
+    }
+
+
 }
 

@@ -16,7 +16,7 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.dojma))
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.dojma))
                         .setSmallIcon(R.drawable.dojma)
                         .setContentTitle(remoteMessage.getNotification().getTitle())
                         .setContentText(remoteMessage.getNotification().getBody());
@@ -28,9 +28,15 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
+        try {
+            mBuilder.setStyle(new NotificationCompat.InboxStyle().setSummaryText(remoteMessage
+                    .getData().get
+                            ("extra")).setSummaryText("DoJMA"));
+        } catch (Exception e) {
+            mBuilder.setStyle(new NotificationCompat.InboxStyle().setSummaryText(remoteMessage
+                    .getNotification().getBody()));
 
-        // mBuilder.setStyle(new NotificationCompat.InboxStyle());
-
+        }
         mNotificationManager.notify(6969, mBuilder.build());
     }
 }

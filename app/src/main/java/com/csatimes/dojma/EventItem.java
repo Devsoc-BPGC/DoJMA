@@ -1,5 +1,7 @@
 package com.csatimes.dojma;
 
+import java.util.Date;
+
 /**
  * Event data object that has a title,startDate,start startTime,end startTime,location,desc
  */
@@ -12,6 +14,11 @@ class EventItem {
     private String endTime;
     private String endDate;
     private String location;
+    private Date sDate;
+    private Date sTime;
+    private Date eDate;
+    private Date eTime;
+
 
     public EventItem() {
         desc = null;
@@ -21,6 +28,10 @@ class EventItem {
         endDate = null;
         location = null;
         title = null;
+        sDate = null;
+        sTime = null;
+        eDate = null;
+        eTime = null;
     }
 
     public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate) {
@@ -31,6 +42,38 @@ class EventItem {
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
+    }
+
+    public Date getsDate() {
+        return sDate;
+    }
+
+    public void setsDate(Date sDate) {
+        this.sDate = sDate;
+    }
+
+    public Date getsTime() {
+        return sTime;
+    }
+
+    public void setsTime(Date sTime) {
+        this.sTime = sTime;
+    }
+
+    public Date geteDate() {
+        return eDate;
+    }
+
+    public void seteDate(Date eDate) {
+        this.eDate = eDate;
+    }
+
+    public Date geteTime() {
+        return eTime;
+    }
+
+    public void seteTime(Date eTime) {
+        this.eTime = eTime;
     }
 
     public String getEndTime() {

@@ -17,6 +17,4 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, UpdateCheckerService.class);
         context.startService(i);
     }
-
-
 }

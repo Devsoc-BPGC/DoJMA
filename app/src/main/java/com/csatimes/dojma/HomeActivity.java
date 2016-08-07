@@ -68,9 +68,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+
         //If app has been isGoogleChromeInstalled for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
         //This key is saved in strings.xml to avoid confusion
@@ -80,7 +79,6 @@ public class HomeActivity extends AppCompatActivity
             startActivity(startFirstTimeDownloader);
             finish();
         }
-
         if (isOnline() && UpdateCheckerService.instance != null && ImageUrlHandlerService.instance == null)
             startService(new Intent(this, UpdateCheckerService.class));
 

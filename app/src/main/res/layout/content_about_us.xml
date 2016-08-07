@@ -92,7 +92,7 @@
         android:text="developed by"
         android:textColor="@color/white"/>
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/about_us_vik"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -102,7 +102,8 @@
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/vikramaditya_300x400"/>
+        app:roundAsCircle="true"
+        app:roundingBorderColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -117,7 +118,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"/>
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/about_us_yash"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -127,7 +128,9 @@
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/yash"/>
+        android:src="@drawable/yash"
+        app:roundAsCircle="true"
+        app:roundingBorderColor="@color/white"/>
 
     <TextView
         android:layout_width="match_parent"

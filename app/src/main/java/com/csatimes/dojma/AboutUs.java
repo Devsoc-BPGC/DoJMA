@@ -13,16 +13,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AboutUs extends AppCompatActivity {
     public static String FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
     public static String FACEBOOK_PAGE_ID = "MACBITSGoa";
     Window window;
-    ImageView vik;
-    ImageView yash;
+    SimpleDraweeView vik;
+    SimpleDraweeView yash;
     Button fb;
 
     @Override
@@ -67,11 +66,13 @@ public class AboutUs extends AppCompatActivity {
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.mac2_color));
         }
 
-        vik = (ImageView) findViewById(R.id.about_us_vik);
-        yash = (ImageView) findViewById(R.id.about_us_yash);
+        vik = (SimpleDraweeView) findViewById(R.id.about_us_vik);
+        yash = (SimpleDraweeView) findViewById(R.id.about_us_yash);
 
-        Picasso.with(this).load(R.drawable.vikramaditya_300x400).transform(new CircleCropTransformation()).into(vik);
-        Picasso.with(this).load(R.drawable.yash).transform(new CircleCropTransformation()).into(yash);
+        vik.setImageURI(Uri.parse("res://" + getPackageName()
+                + "/" + R.drawable.vik));
+        yash.setImageURI(Uri.parse("res://" + getPackageName()
+                + "/" + R.drawable.yash));
 
     }
 

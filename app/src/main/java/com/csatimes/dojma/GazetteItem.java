@@ -1,9 +1,11 @@
 package com.csatimes.dojma;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
-
+@IgnoreExtraProperties
 class GazetteItem {
 
     String title;

@@ -18,12 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.squareup.picasso.Picasso;
 import com.turingtechnologies.materialscrollbar.IDateableAdapter;
 
 import java.text.ParseException;
@@ -113,7 +112,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                 viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
                 viewHolder.title.setText(Html.fromHtml(foobar.getTitle()));
             }
-            Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(viewHolder.imageView);
+            viewHolder.imageView.setImageURI(Uri.parse(foobar.getImageURL()));
         } else {
             HeraldLandscapeViewHolder viewHolder = (HeraldLandscapeViewHolder) holder;
             final HeraldNewsItemFormat foobar = resultsList.get(position);
@@ -128,11 +127,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
             if (foobar.isFav())
                 viewHolder.fav.setLiked(true);
             else viewHolder.fav.setLiked(false);
-//        if (foobar.isRead()) {
-//            // holder.card.setCardBackgroundC(ContextCompat.getColor(context,R.color
-//            //       .cardview_shadow_end_color));
-//        }
-
+//
             //since Html.fromHtml is deprecated from N onwards we add the special flag
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
@@ -141,8 +136,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                 viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
                 viewHolder.title.setText(Html.fromHtml(foobar.getTitle()));
             }
-            Picasso.with(context).load(Uri.parse(foobar.getImageURL())).transform(new CircleCropTransformation()).into(viewHolder.imageView);
-
+            viewHolder.imageView.setImageURI(Uri.parse(foobar.getImageURL()));
         }
     }
 
@@ -178,20 +172,21 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
 
         public TextView title;
         public TextView date;
-        ImageView imageView;
+        SimpleDraweeView imageView;
         TextView desc;
         LikeButton fav;
         ImageButton share;
 
         HeraldPotraitViewHolder(final View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             itemView.setOnClickListener(this);
+            imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
@@ -300,8 +295,6 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                     intent.putExtra(android.content.Intent.EXTRA_TEXT, resultsList.get
                             (getAdapterPosition()).getUrl());
                     context.startActivity(Intent.createChooser(intent, "Share url via"));
-
-
                 }
 
             }
@@ -312,20 +305,23 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
     private class HeraldLandscapeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
         public TextView date;
-        ImageView imageView;
+        SimpleDraweeView imageView;
         TextView desc;
         LikeButton fav;
         ImageButton share;
 
         public HeraldLandscapeViewHolder(final View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.herald_rv_item_image);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
             date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
             title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
             itemView.setOnClickListener(this);
+            CircleImageDrawable cid = new CircleImageDrawable();
+            cid.setColor(ContextCompat.getColor(context, R.color.colorAccent));
+            imageView.getHierarchy().setProgressBarImage(cid);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {

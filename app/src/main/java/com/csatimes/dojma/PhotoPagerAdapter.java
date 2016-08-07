@@ -94,7 +94,7 @@ public class PhotoPagerAdapter
             progress = Views.find(itemView, R.id.photo_full_progress);
             gestureFrameLayout = Views.find(itemView, R.id.gesture_frame);
             gestureFrameLayout.getController().getSettings().setOverscrollDistance(0, 0);
-
+            image.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         }
     }
 

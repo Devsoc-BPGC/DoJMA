@@ -64,7 +64,7 @@
         android:textColor="@color/black"/>
 
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/herald_rv_item_image"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -73,7 +73,10 @@
         android:layout_alignTop="@+id/herald_rv_item_title"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="16dp"/>
+        android:paddingTop="16dp"
+        app:roundAsCircle="true"
+        app:roundedCornerRadius="1dp"
+        app:roundingBorderColor="@color/white"/>
 
     <com.like.LikeButton
         android:id="@+id/herald_like_button"

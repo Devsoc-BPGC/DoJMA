@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Vector;
 
@@ -34,6 +36,8 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
     SharedPreferences.Editor editor;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child
             ("posters");
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child
+            ("images/posters");
     private ImageGalleryAdapter gridAdapter;
     private PhotoPagerAdapter pagerAdapter;
     private ViewPager.OnPageChangeListener pagerListener;
@@ -73,7 +77,6 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
                 posterItems.clear();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     posterItems.add(child.getValue(PosterItem.class));
-
                 }
                 if (posterItems.size() == 0) {
                     views.noPostersText.setVisibility(View.VISIBLE);
