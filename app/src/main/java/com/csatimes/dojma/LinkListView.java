@@ -152,8 +152,8 @@ public class LinkListView extends AppCompatActivity{
 
                     for(int i=0;i<linkItems.size();i++){
 
-                        editor.putString(sprefTitlePostFix,linkItems.get(i).getTitle());
-                        editor.putString(sprefUrlPostFix,linkItems.get(i).getUrl());
+                        editor.putString(sprefTitlePostFix+i,linkItems.get(i).getTitle());
+                        editor.putString(sprefUrlPostFix+i,linkItems.get(i).getUrl());
                     }
 
                     editor.putInt(sprefLinkNumber,linkItems.size());
@@ -193,7 +193,7 @@ public class LinkListView extends AppCompatActivity{
 
         for(int i=0;i<linkNumbers;i++){
 
-            linkItems.add(new LinkItem(sharedPreferences.getString(sprefTitlePostFix,"-"),sharedPreferences.getString(sprefUrlPostFix,"-")));
+            linkItems.add(new LinkItem(sharedPreferences.getString(sprefTitlePostFix+i,"-"),sharedPreferences.getString(sprefUrlPostFix+i,"-")));
 
         }
 
