@@ -1,35 +1,83 @@
 package com.csatimes.dojma;
 
-import android.app.ListActivity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by yash on 21/7/16.
  */
 
-public class LinkListView extends ListActivity {
-    private String response = null;
+public class LinkListView extends AppCompatActivity{
 
+
+    private String response = null;
+    LinkRv adapter;
+    private DatabaseReference links = FirebaseDatabase.getInstance().getReference().child
+            ("links");
+    private Vector<LinkItem> linkItems = new Vector<>(10,2);
+    private String LinkTitle = "_title";
+    private RecyclerView linkRecyclerView;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private TextView emptyList;
+    private String sprefLinkNumber = "LINK_number";
+    //private String sprefPreFix = "GAZETTE_number_";
+    private String sprefTitlePostFix = "_title";
+    private String sprefUrlPostFix = "_url";
+
+    public LinkListView(){
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(
+                             Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_gazette);
+        sharedPreferences=getSharedPreferences(DHC.USER_PREFERENCES,Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        emptyList = (TextView) findViewById(R.id.gazette_empty_text);
+        linkRecyclerView = (RecyclerView) findViewById(R.id.gazette_listview);
+
+        linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        linkRecyclerView.setHasFixedSize(true);
+        linkRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        setOldValues();
+        adapter=new LinkRv(this, linkItems);
+        linkRecyclerView.setAdapter(adapter);
+
+
+    }
+
+
         //Toolbar toolbar = (Toolbar) findViewById(R.id.offline_category_toolbar);
 
 
-        List<String> Linkname = new ArrayList<>();
+
+        /*List<String> Linkname = new ArrayList<>();
         Linkname.add("Moodle");
         Linkname.add("CSA");
         Linkname.add("SWD");
@@ -37,9 +85,9 @@ public class LinkListView extends ListActivity {
         Linkname.add("BITS ERP");
         Linkname.add("FTP");
         Linkname.add("CyberRoam");
-        Linkname.add("Computer Centre");
+        Linkname.add("Computer Centre");*/
 
-        final List<String> LinkUrl = new ArrayList<>();
+       /* final List<String> LinkUrl = new ArrayList<>();
         LinkUrl.add("http://10.1.1.242/moodle/");
         LinkUrl.add("http://csatimes.co.in");
         LinkUrl.add("https://swd.bits-goa.ac.in/");
@@ -50,10 +98,10 @@ public class LinkListView extends ListActivity {
         LinkUrl.add("http://10.1.1.54");
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, Linkname);
         this.setListAdapter(adapter);
-        ListView lv = getListView();
+        ListView lv = getListView();*/
 
         // listening to single list item on click
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
@@ -72,7 +120,83 @@ public class LinkListView extends ListActivity {
 
 
             }
-        });
+        });*/
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnected());
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(isOnline()) {
+
+            links.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    emptyList.setVisibility(View.GONE);
+                    linkRecyclerView.setVisibility(View.VISIBLE);
+                    linkItems.clear();
+                    for (DataSnapshot shot : dataSnapshot.getChildren()) {
+                        try {
+                            linkItems.add(shot.getValue(LinkItem.class));
+                        }catch(Exception ignore){
+
+                        }
+                    }
+
+                    for(int i=0;i<linkItems.size();i++){
+
+                        editor.putString(sprefTitlePostFix,linkItems.get(i).getTitle());
+                        editor.putString(sprefUrlPostFix,linkItems.get(i).getUrl());
+                    }
+
+                    editor.putInt(sprefLinkNumber,linkItems.size());
+                    editor.apply();
+                    adapter.notifyDataSetChanged();
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    setOldValues();
+                    adapter.notifyDataSetChanged();
+
+                }
+            });
+
+
+        }
+        else
+        {
+            setOldValues();
+            adapter.notifyDataSetChanged();
+
+
+        }
+
+
+    }
+
+    private void setOldValues(){
+        int linkNumbers=sharedPreferences.getInt(sprefLinkNumber,0);
+
+        emptyList.setVisibility(View.GONE);
+        linkRecyclerView.setVisibility(View.VISIBLE);
+        linkItems.clear();
+
+        for(int i=0;i<linkNumbers;i++){
+
+            linkItems.add(new LinkItem(sharedPreferences.getString(sprefTitlePostFix,"-"),sharedPreferences.getString(sprefUrlPostFix,"-")));
+
+        }
+
 
 
     }

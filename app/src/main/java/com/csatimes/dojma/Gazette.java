@@ -118,6 +118,7 @@ public class Gazette extends Fragment {
         }
 
 
+
         if (isOnline()) {
             gazettes.addValueEventListener(new ValueEventListener() {
                 @Override
