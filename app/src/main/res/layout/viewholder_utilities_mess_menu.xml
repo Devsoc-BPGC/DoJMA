@@ -74,7 +74,7 @@
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/viewholder_mess_format_c"
             android:padding="16dp"
-            android:text="Checkout the weekly updated mess menu!"
+            android:text="@string/viewholder_mess_msg"
             android:textColor="@color/white"
             android:textSize="14sp"/>
     </RelativeLayout>

@@ -29,6 +29,7 @@ import java.util.Vector;
 class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
 
     Context context;
+    int pos;
     private Vector<EventItem> eventItems;
     private Date date;
     private Date end;
@@ -52,14 +53,15 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
 
     @Override
     public void onBindViewHolder(EventsRV.ViewHolder holder, int position) {
-        final int pos = position;
+        pos = holder.getAdapterPosition();
         try {
             holder.title.setText(eventItems.get(pos).getTitle());
             holder.desc.setText(eventItems.get(pos).getDesc());
+            holder.location.setText(eventItems.get(pos).getLocation());
 
             DateFormat originalFormat = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
             DateFormat targetFormat = new SimpleDateFormat("EEE, dd MMM h:mm a", Locale.UK);
-            DateFormat editedFormat = new SimpleDateFormat("ddMMyyyy", Locale.ENGLISH);
+            DateFormat editedOriginalFormat = new SimpleDateFormat("ddMMyyyy", Locale.ENGLISH);
             DateFormat editedTargetFormat = new SimpleDateFormat("EEE, dd MMM", Locale.ENGLISH);
 
 
@@ -97,7 +99,7 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                     Log.e("TAG", "start time lo1");
                     //start time does not exist . only use day
                     //don't bother for end time or date then
-                    date = editedFormat.parse(eventItems.get(pos).getStartDate());
+                    date = editedOriginalFormat.parse(eventItems.get(pos).getStartDate());
                     startDateText = editedTargetFormat.format(date);
                     end = null;
                 }
@@ -210,17 +212,17 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 } else {
                     //calculate only for date changes due to unavailability of start time
                     //needs work
-                    holder.status.setText("EVENT STATUS");
+                    holder.status.setText("TIME NOT SET");
 
                 }
 
             } catch (ParseException e) {
-                startDateText = eventItems.get(pos).getStartDate() + eventItems.get(pos).getStartTime();
+                startDateText = eventItems.get(pos).getStartDate() + " " + eventItems.get(pos)
+                        .getStartTime();
                 holder.status.setText("EVENT STATUS");
             }
             holder.datetime.setText(startDateText);
-
-            holder.location.setText(eventItems.get(pos).getLocation());
+//This is wrong...cant use setDate method...instead try to re convert date inside onclicklistener
             if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
                 eventItems.get(pos).setsDate(date);
 
@@ -260,7 +262,7 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 });
             }
         } catch (Exception e) {
-            holder.status.setText("check json");
+            holder.status.setText("REPORT TO ADMIN/DOJMA");
         }
     }
 

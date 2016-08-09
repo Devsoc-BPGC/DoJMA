@@ -16,7 +16,7 @@ import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
 public class GestureSettingsMenu implements GestureSettingsSetupListener {
 
-    private static final float OVERSCROLL = 16f;
+    private static final float OVERSCROLL = 5f;
     @InstanceState
     private boolean isPanEnabled = true;
     @InstanceState

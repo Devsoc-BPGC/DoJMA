@@ -137,8 +137,10 @@ class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnCli
                         "the weekly mess menu for now", Toast
                         .LENGTH_LONG)
                         .show();
-
             }
+        } else {
+            Intent intent = new Intent(context, MessMenus.class);
+            context.startActivity(intent);
         }
     }
 

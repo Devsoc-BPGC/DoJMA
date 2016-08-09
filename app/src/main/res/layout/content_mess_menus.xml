@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/content_mess_menus"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:paddingBottom="16dp"
+                tools:context="com.csatimes.dojma.MessMenus"
+                tools:showIn="@layout/activity_mess_menus">
+
+    <TextView
+        android:id="@+id/mess_a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:text="A Mess Menu"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_a_mess"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_a"
+        app:actualImageScaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/mess_c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_a_mess"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="C Mess Menu"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_c_mess"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_c"
+        app:actualImageScaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/mess_persian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_c_mess"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="Persian Court Menu"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_persian_menu"
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_persian"
+        app:actualImageScaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/mess_foodking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_persian_menu"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="FoodKing Menu"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_foodking_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_foodking"
+        app:actualImageScaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/mess_icespice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_foodking_menu"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="Ice and Spice"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_icespice_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_icespice"
+        app:actualImageScaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/mess_gaja"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_icespice_menu"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="Gaja Lakshmi Menu"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_gaja_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_gaja"
+        android:layout_marginBottom="24dp"
+        app:actualImageScaleType="fitCenter"/>
+
+
+</RelativeLayout>

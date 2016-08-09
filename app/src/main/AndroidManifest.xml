@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-        android:name="DoJMA"
+        android:name=".DoJMA"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -87,8 +87,7 @@
             android:exported="false">
         </service>
 
-        <receiver
-            android:name=".AlarmReceiver">
+        <receiver android:name=".AlarmReceiver">
         </receiver>
         <receiver
             android:name=".CopyLinkBroadcastReceiver"
@@ -119,15 +118,6 @@
                 android:value="com.csatimes.dojma.CategoryListView"/>
         </activity>
         <activity
-            android:name=".OpenArchiveListView"
-            android:label="Archives"
-            android:parentActivityName=".ArchiveListView"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.ArchiveListView"/>
-        </activity>
-        <activity
             android:name=".ImagesAndMedia"
             android:label="@string/title_activity_images_and_media"
             android:parentActivityName=".HomeActivity"
@@ -150,31 +140,6 @@
             android:label="Links"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.HomeActivity"/>
-        </activity>
-        <activity
-            android:name=".ArchiveListView"
-            android:label="Archives"
-            android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.HomeActivity"/>
-        </activity>
-        <activity
-            android:name=".Searchable"
-            android:label="@string/title_activity_searchable"
-            android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.HomeActivity"/>
@@ -245,6 +210,15 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".MessMenus"
+            android:label="@string/title_activity_mess_menus"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.HomeActivity"/>
+        </activity>
     </application>
 
 </manifest>

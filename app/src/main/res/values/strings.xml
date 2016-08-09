@@ -120,4 +120,6 @@
     <string name="UTILITIES_MISC_text">Click here to get all important notifications! Updating needs an active internet connection</string>
     <string name="title_activity_live_lcdnews">Live LCD News</string>
     <string name="no_gazettes">No gazettes available right now</string>
+    <string name="title_activity_mess_menus">MessMenus</string>
+    <string name="viewholder_mess_msg">Click here for more menus</string>
 </resources>

@@ -82,9 +82,9 @@ public class UpdateCheckerService extends IntentService {
         Realm.setDefaultConfiguration(realmConfiguration);
         database = Realm.getDefaultInstance();
 
-        Log.e("TAG", " saved pages  = " + sharedPreferences.getInt("HERALD_PAGES", 45));
+        Log.e("TAG", " saved pages  = " + sharedPreferences.getInt("HERALD_PAGES", 11));
 
-        for (int j = 1; j <= 11/*sharedPreferences.getInt("HERALD_PAGES", 11)*/; j++) {
+        for (int j = 1; j <= sharedPreferences.getInt("HERALD_PAGES", 11); j++) {
             try {
                 URL url;
                 if (j != 1) url = new URL(urlPrefix + j + urlSuffix);
