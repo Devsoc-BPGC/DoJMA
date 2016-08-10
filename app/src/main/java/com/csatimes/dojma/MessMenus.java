@@ -1,5 +1,6 @@
 package com.csatimes.dojma;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -43,23 +44,23 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
     SimpleDraweeView large;
     GestureFrameLayout frame;
 
-    Uri amessURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
-    Uri cmessURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
-    Uri foodKingURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
-    Uri persianCourtURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
-    Uri gajaURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
-    Uri icespiceURI = Uri.parse("res://com.csatimes.dojma"
-            + "/" + R.drawable.calm);
+    String sprefamessName = "amess";
+    String sprefcmessName = "cmess";
+    String spreffoodkingName = "foodking";
+    String sprefpersianName = "persian";
+    String spreficespiceName = "icespice";
+    String sprefgajaName = "gaja";
 
+
+    String keepCalm = "res://com.csatimes.dojma"
+            + "/" + R.drawable.calm;
     GestureSettingsMenu settingsMenu;
     Toolbar fake_toolbar;
     AppBarLayout fake_app_bar;
     boolean zoom = false;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         fake_app_bar = (AppBarLayout) findViewById(R.id.mess_fake_appbar);
         setSupportActionBar(toolbar);
 
+        sharedPreferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         amessSDV = (SimpleDraweeView) findViewById(R.id.mess_a_mess);
         cmessSDV = (SimpleDraweeView) findViewById(R.id.mess_c_mess);
@@ -107,15 +110,15 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                MessMenus.super.onBackPressed();
             }
         });
-        amessSDV.setImageURI(amessURI);
-        cmessSDV.setImageURI(cmessURI);
-        foodKingSDV.setImageURI(foodKingURI);
-        persianCourtSDV.setImageURI(persianCourtURI);
-        gajaSDV.setImageURI(gajaURI);
-        icespiceSDV.setImageURI(icespiceURI);
+        amessSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefamessName, keepCalm)));
+        cmessSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefcmessName, keepCalm)));
+        foodKingSDV.setImageURI(Uri.parse(sharedPreferences.getString(spreffoodkingName, keepCalm)));
+        persianCourtSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefpersianName, keepCalm)));
+        gajaSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefgajaName, keepCalm)));
+        icespiceSDV.setImageURI(Uri.parse(sharedPreferences.getString(spreficespiceName, keepCalm)));
     }
 
     @Override
@@ -126,7 +129,8 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onSuccess(Uri uri) {
                 amessSDV.setImageURI(uri);
-                MessMenus.this.amessURI = uri;
+                editor.putString(sprefamessName, uri.toString());
+                editor.apply();
                 Toast.makeText(MessMenus.this, "Downloading all menus", Toast.LENGTH_SHORT)
                         .show();
             }
@@ -135,8 +139,9 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         cmess.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                editor.putString(sprefcmessName, uri.toString());
+                editor.apply();
                 cmessSDV.setImageURI(uri);
-                MessMenus.this.cmessURI = uri;
             }
         });
 
@@ -144,7 +149,8 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onSuccess(Uri uri) {
                 foodKingSDV.setImageURI(uri);
-                MessMenus.this.foodKingURI = uri;
+                editor.putString(spreffoodkingName, uri.toString());
+                editor.apply();
             }
         });
 
@@ -152,7 +158,8 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onSuccess(Uri uri) {
                 persianCourtSDV.setImageURI(uri);
-                MessMenus.this.persianCourtURI = uri;
+                editor.putString(sprefpersianName, uri.toString());
+                editor.apply();
             }
         });
 
@@ -160,7 +167,9 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onSuccess(Uri uri) {
                 icespiceSDV.setImageURI(uri);
-                MessMenus.this.icespiceURI = uri;
+
+                editor.putString(spreficespiceName, uri.toString());
+                editor.apply();
             }
         });
 
@@ -168,7 +177,9 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onSuccess(Uri uri) {
                 gajaSDV.setImageURI(uri);
-                MessMenus.this.gajaURI = uri;
+
+                editor.putString(sprefgajaName, uri.toString());
+                editor.apply();
             }
         });
 
@@ -205,7 +216,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             zoom = true;
             background.setVisibility(View.VISIBLE);
             frame.setVisibility(View.VISIBLE);
-            large.setImageURI(amessURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(sprefamessName, keepCalm)));
             fake_toolbar.setVisibility(View.VISIBLE);
             fake_app_bar.setVisibility(View.VISIBLE);
 
@@ -214,7 +225,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             background.setVisibility(View.VISIBLE);
             frame.setVisibility(View.VISIBLE);
             fake_toolbar.setVisibility(View.VISIBLE);
-            large.setImageURI(cmessURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(sprefcmessName, keepCalm)));
             fake_app_bar.setVisibility(View.VISIBLE);
 
 
@@ -222,7 +233,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             zoom = true;
             background.setVisibility(View.VISIBLE);
             frame.setVisibility(View.VISIBLE);
-            large.setImageURI(foodKingURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(spreffoodkingName, keepCalm)));
             fake_app_bar.setVisibility(View.VISIBLE);
             fake_toolbar.setVisibility(View.VISIBLE);
 
@@ -230,7 +241,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             zoom = true;
             background.setVisibility(View.VISIBLE);
             frame.setVisibility(View.VISIBLE);
-            large.setImageURI(persianCourtURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(sprefpersianName, keepCalm)));
             fake_toolbar.setVisibility(View.VISIBLE);
             fake_app_bar.setVisibility(View.VISIBLE);
 
@@ -239,7 +250,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             background.setVisibility(View.VISIBLE);
             frame.setVisibility(View.VISIBLE);
             fake_toolbar.setVisibility(View.VISIBLE);
-            large.setImageURI(icespiceURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(spreficespiceName, keepCalm)));
             fake_app_bar.setVisibility(View.VISIBLE);
 
 
@@ -250,7 +261,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             fake_toolbar.setVisibility(View.VISIBLE);
             fake_app_bar.setVisibility(View.VISIBLE);
 
-            large.setImageURI(gajaURI);
+            large.setImageURI(Uri.parse(sharedPreferences.getString(sprefgajaName, keepCalm)));
 
         }
     }
