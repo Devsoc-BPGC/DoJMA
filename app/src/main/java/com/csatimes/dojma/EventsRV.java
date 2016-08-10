@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.provider.CalendarContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -222,28 +223,38 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 holder.status.setText("EVENT STATUS");
             }
             holder.datetime.setText(startDateText);
+            final String temptitle=eventItems.get(pos).getTitle();
+            final long tempStartTime=date.getTime();
+            final long tempEndTime;
+            if(eventItems.get(pos).getEndTime().equalsIgnoreCase("-"))
+            tempEndTime=date.getTime()+1*60*60*1000;
+            else
+            tempEndTime=end.getTime();
+            final String tempDesc=eventItems.get(pos).getDesc();
+            final String tempLocation=eventItems.get(pos).getLocation();
+
 //This is wrong...cant use setDate method...instead try to re convert date inside onclicklistener
             if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
-                eventItems.get(pos).setsDate(date);
+
 
 
                 holder.add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
-                            Intent intent = new Intent(Intent.ACTION_EDIT);
-                            intent.setType("vnd.android.cursor.item/event");
-                            intent.putExtra("beginTime", eventItems.get(pos).getsDate());
-                            if (end != null)
-                                if (end.getTime() >= date.getTime())
-                                    intent.putExtra("endTime", end
-                                            .getTime());
-                            if (end != null && end.getTime() - date.getTime() >= 0)
-                                intent.putExtra("duration", end.getTime() - date.getTime());
-                            intent.putExtra("title", eventItems.get(pos).getTitle());
-                            intent.putExtra("description", eventItems.get(pos).getDesc());
-                            intent.putExtra("eventLocation", eventItems.get(pos).getLocation());
+
+
+                            Intent intent=new Intent(Intent.ACTION_INSERT);
+                                    intent.setData(CalendarContract.Events.CONTENT_URI);
+                            if(tempStartTime>=currentDate.getTime())
+                                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, tempStartTime);
+                            if (tempEndTime>=currentDate.getTime())
+                                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,tempEndTime);
+                                    intent.putExtra(CalendarContract.Events.TITLE,temptitle);
+                                    intent.putExtra(CalendarContract.Events.DESCRIPTION,tempDesc);
+                                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION,tempLocation);
                             context.startActivity(intent);
+
                         } catch (ActivityNotFoundException e) {
                             Snackbar.make(view, "No calendar found", Snackbar.LENGTH_LONG).show();
                         } catch (Exception e) {
@@ -262,6 +273,7 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 });
             }
         } catch (Exception e) {
+            e.printStackTrace();
             holder.status.setText("REPORT TO ADMIN/DOJMA");
         }
     }
