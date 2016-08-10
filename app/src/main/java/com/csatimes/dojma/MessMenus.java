@@ -54,7 +54,6 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
 
     String keepCalm = "res://com.csatimes.dojma"
             + "/" + R.drawable.calm;
-    GestureSettingsMenu settingsMenu;
     Toolbar fake_toolbar;
     AppBarLayout fake_app_bar;
     boolean zoom = false;
@@ -90,7 +89,6 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         persianCourtSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         gajaSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         icespiceSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
-        settingsMenu = new GestureSettingsMenu();
 
         amessSDV.setOnClickListener(this);
         cmessSDV.setOnClickListener(this);
@@ -113,6 +111,16 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
                 MessMenus.super.onBackPressed();
             }
         });
+        com.alexvasilkov.gestures.Settings settingsMenu = frame.getController().getSettings();
+
+        settingsMenu.setZoomEnabled(true);
+        settingsMenu.setOverzoomFactor(2f);
+        settingsMenu.setMaxZoom(5f);
+        settingsMenu.setOverscrollDistance(this, 0, 0);
+        settingsMenu.setRestrictBounds(true);
+        settingsMenu.setRestrictRotation(true);
+
+
         amessSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefamessName, keepCalm)));
         cmessSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefcmessName, keepCalm)));
         foodKingSDV.setImageURI(Uri.parse(sharedPreferences.getString(spreffoodkingName, keepCalm)));
@@ -131,7 +139,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
                 amessSDV.setImageURI(uri);
                 editor.putString(sprefamessName, uri.toString());
                 editor.apply();
-                Toast.makeText(MessMenus.this, "Downloading all menus", Toast.LENGTH_SHORT)
+                Toast.makeText(MessMenus.this, "Checking for updates", Toast.LENGTH_SHORT)
                         .show();
             }
         });

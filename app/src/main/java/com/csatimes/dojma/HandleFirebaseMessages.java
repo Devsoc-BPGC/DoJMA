@@ -31,7 +31,7 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
         try {
             mBuilder.setStyle(new NotificationCompat.InboxStyle().setSummaryText(remoteMessage
                     .getData().get
-                            ("extra")).setSummaryText("DoJMA"));
+                            ("extra")));
         } catch (Exception e) {
             mBuilder.setStyle(new NotificationCompat.InboxStyle().setSummaryText(remoteMessage
                     .getNotification().getBody()));
