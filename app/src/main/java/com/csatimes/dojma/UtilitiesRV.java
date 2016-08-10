@@ -2,6 +2,7 @@ package com.csatimes.dojma;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean hasWritePermission = false;
     Activity activity;
     Context context;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public UtilitiesRV(Context context) {
         this.context = context;
@@ -29,6 +32,8 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        sharedPreferences=context.getSharedPreferences(DHC.USER_PREFERENCES,Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         switch (viewType) {
             case 0:
@@ -62,19 +67,26 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == 3) {
             final UtilitiesViewHolder4 vh = (UtilitiesViewHolder4) holder;
             DatabaseReference miscRef = FirebaseDatabase.getInstance().getReference().child("miscCard");
+            vh.text.setText(sharedPreferences.getString("misc",context.getString(R.string.UTILITIES_MISC_text)));
+
             miscRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
                 @Override
                 public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                     vh.text.setText(dataSnapshot.getValue(String.class));
+
+                    editor.putString("misc",vh.text.getText().toString());
+                    editor.apply();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    vh.text.setText(context.getString(R.string.UTILITIES_MISC_text));
+                    vh.text.setText(sharedPreferences.getString("misc","-"));
                 }
             });
         }
     }
+
+
 
 
     @Override

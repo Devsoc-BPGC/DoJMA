@@ -13,6 +13,7 @@ public class DoJMA extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
+
     }
 
     @Override

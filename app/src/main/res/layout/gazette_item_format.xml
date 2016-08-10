@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="?attr/selectableItemBackground"
-              android:orientation="horizontal">
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+
+    card_view:contentPadding="2dp"
+    android:layout_margin="1dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+
+
+    >
 
     <TextView
         android:id="@+id/gazette_item_format_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-
         android:text="title"
         android:textSize="16sp"/>
-</LinearLayout>
+</android.support.v7.widget.CardView>
