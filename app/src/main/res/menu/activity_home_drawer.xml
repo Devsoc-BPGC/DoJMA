@@ -6,7 +6,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic__menu_gallery"
             android:title="Poster Gallery"/>
 
         <item
@@ -29,7 +29,7 @@
             android:title="Facebook Page"/>
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_share_white_24dp"
             android:title="Share app"/>
         <!-- <item
              android:id="@+id/nav_settings"
