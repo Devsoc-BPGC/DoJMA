@@ -16,8 +16,6 @@
 
     <string name="title_activity_open_webpage">OpenWebpage</string>
     <string name="title_activity_chrome_custom_tab">ChromseCustomTab</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_download_for_first_time">First Time Setup</string>
     <string name="title_activity_about_us">About</string>
@@ -114,12 +112,13 @@
     <string name="PREFERENCE_general">pref_key_general</string>
     <string name="no_internet_msg">Not connected to the internet!</string>
     <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
-    <string name="app_version">Version 1.02</string>
+    <string name="app_version">Version 1.03</string>
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
     <string name="title_activity_about_dojma">About DoJMA</string>
     <string name="UTILITIES_MISC_text">Click here to get all important notifications! Updating needs an active internet connection</string>
     <string name="title_activity_live_lcdnews">Live LCD News</string>
     <string name="no_gazettes">No gazettes available right now</string>
     <string name="title_activity_mess_menus">MessMenus</string>
-    <string name="viewholder_mess_msg">Click here for more menus</string>
+    <string name="viewholder_mess_msg">Or click here for other menus like foodking, gaja,
+        icespice etc.</string>
 </resources>
