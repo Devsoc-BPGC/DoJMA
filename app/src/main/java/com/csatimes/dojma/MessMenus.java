@@ -34,12 +34,16 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
 
     StorageReference gaja = firebaseStorage.getReference().child("images").child("mess").child
             ("gaja.jpg");
+    StorageReference mongi = firebaseStorage.getReference().child("images").child("mess").child
+            ("mongi.jpg");
+
     SimpleDraweeView amessSDV;
     SimpleDraweeView cmessSDV;
     SimpleDraweeView foodKingSDV;
     SimpleDraweeView persianCourtSDV;
     SimpleDraweeView gajaSDV;
     SimpleDraweeView icespiceSDV;
+    SimpleDraweeView mongiSDV;
     View background;
     SimpleDraweeView large;
     GestureFrameLayout frame;
@@ -50,6 +54,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
     String sprefpersianName = "persian";
     String spreficespiceName = "icespice";
     String sprefgajaName = "gaja";
+    String sprefmongi = "mongi";
 
 
     String keepCalm = "res://com.csatimes.dojma"
@@ -79,6 +84,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         persianCourtSDV = (SimpleDraweeView) findViewById(R.id.mess_persian_menu);
         gajaSDV = (SimpleDraweeView) findViewById(R.id.mess_gaja_menu);
         icespiceSDV = (SimpleDraweeView) findViewById(R.id.mess_icespice_menu);
+        mongiSDV = (SimpleDraweeView) findViewById(R.id.mess_mongi_menu);
         background = findViewById(R.id.mess_black_background);
         large = (SimpleDraweeView) findViewById(R.id.mess_large_image);
         frame = (GestureFrameLayout) findViewById(R.id.mess_gesture_frame);
@@ -89,6 +95,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         persianCourtSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         gajaSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         icespiceSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
+        mongiSDV.getHierarchy().setProgressBarImage(new CircleImageDrawable());
 
         amessSDV.setOnClickListener(this);
         cmessSDV.setOnClickListener(this);
@@ -96,7 +103,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         persianCourtSDV.setOnClickListener(this);
         gajaSDV.setOnClickListener(this);
         icespiceSDV.setOnClickListener(this);
-
+        mongiSDV.setOnClickListener(this);
         fake_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         fake_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +134,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
         persianCourtSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefpersianName, keepCalm)));
         gajaSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefgajaName, keepCalm)));
         icespiceSDV.setImageURI(Uri.parse(sharedPreferences.getString(spreficespiceName, keepCalm)));
+        mongiSDV.setImageURI(Uri.parse(sharedPreferences.getString(sprefmongi, keepCalm)));
     }
 
     @Override
@@ -191,6 +199,16 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+        mongi.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                mongiSDV.setImageURI(uri);
+
+                editor.putString(sprefmongi, uri.toString());
+                editor.apply();
+            }
+        });
+
 
     }
 
@@ -211,6 +229,7 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             frame.setVisibility(View.GONE);
             fake_app_bar.setVisibility(View.GONE);
             fake_toolbar.setVisibility(View.GONE);
+            zoom = false;
         } else {
             super.onBackPressed();
         }
@@ -270,6 +289,15 @@ public class MessMenus extends AppCompatActivity implements View.OnClickListener
             fake_app_bar.setVisibility(View.VISIBLE);
 
             large.setImageURI(Uri.parse(sharedPreferences.getString(sprefgajaName, keepCalm)));
+
+        } else if (id == mongiSDV.getId()) {
+            zoom = true;
+            background.setVisibility(View.VISIBLE);
+            frame.setVisibility(View.VISIBLE);
+            fake_toolbar.setVisibility(View.VISIBLE);
+            fake_app_bar.setVisibility(View.VISIBLE);
+
+            large.setImageURI(Uri.parse(sharedPreferences.getString(sprefmongi, keepCalm)));
 
         }
     }
