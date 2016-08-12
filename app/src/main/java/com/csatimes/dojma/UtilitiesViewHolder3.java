@@ -40,7 +40,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
     @Override
     public void onClick(View view) {
         if (view.getId() == link1.getId()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://10.1.1.242/moodle/"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://10.1.1.242/lms/"));
             context.startActivity(intent);
         } else if (view.getId() == link2.getId()) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://swd.bits-goa.ac.in/"));
