@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.turingtechnologies.materialscrollbar.IDateableAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,12 +36,10 @@ import io.realm.RealmList;
  * Created by Vikramaditya Kukreja on 19-06-2016.
  */
 
-public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        IDateableAdapter {
+public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private RealmList<HeraldNewsItemFormat> resultsList;
     private Realm database;
-    private int dismissPosition;
     private boolean isGoogleChromeInstalled = false;
     private CustomTabsIntent customTabsIntent;
     private Activity activity;
@@ -159,10 +156,6 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
-    @Override
-    public Date getDateForElement(int element) {
-        return parseDate(resultsList.get(element).getOriginalDate());
-    }
 
     void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;

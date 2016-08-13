@@ -65,7 +65,7 @@ class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnCli
         if (id == a.getId()) {
             if (isOnline() && hasWritePermission) {
                 Toast.makeText(context, "Downloading will start soon", Toast.LENGTH_LONG).show();
-                cmessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                amessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         DownloadManager.Request request = new DownloadManager.Request(uri)

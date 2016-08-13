@@ -8,8 +8,8 @@ android {
         applicationId "com.csatimes.dojma"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 5
-        versionName "1.03"
+        versionCode 6
+        versionName "1.03-debug"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }

@@ -69,6 +69,32 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                     snackbar.show();
 
                     textView.setText("NO ARTICLES DOWNLOADED. TRY AGAIN LATER");
+
+                    SimpleAlertDialog sad = new SimpleAlertDialog();
+                    sad.showDialog(POSTDownloaderActivity.this, "Download Status", "Articles could " +
+                            "not be downloaded from" +
+                            " " +
+                            "csatimes.co.in/dojma OR internet is currently not available. If " +
+                            "internet is working fine please check that the website is not down. " +
+                            "If that is the case please bear with us as it is not in the control " +
+                            "of" +
+                            " MAC " +
+                            "or DoJMA", "Continue", "Cancel", true, true);
+                    sad.setClickListener(new SimpleAlertDialog.ClickListener() {
+                        @Override
+                        public void onPosButtonClick() {
+                            editor.putBoolean(getString(R.string.SP_first_install), false);
+                            editor.apply();
+                            Intent i = new Intent(POSTDownloaderActivity.this, HomeActivity.class);
+                            startActivity(i);
+                            finishDownloaderActivity();
+                        }
+
+                        @Override
+                        public void onNegButtonClick() {
+
+                        }
+                    });
                 }
             }
         };

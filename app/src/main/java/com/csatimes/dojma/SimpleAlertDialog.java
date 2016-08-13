@@ -12,6 +12,16 @@ public class SimpleAlertDialog {
     Context context;
     String title;
     String message;
+    private ClickListener listener;
+
+    public SimpleAlertDialog() {
+        listener = null;
+    }
+
+    // Assign the listener implementing events interface that will receive the events
+    public void setClickListener(ClickListener listener) {
+        this.listener = listener;
+    }
 
     public void showDialog(Context context, String title, String message, String positiveButtonText, String negativeButtonText, boolean POSDisplay, boolean NEGDisplay) {
         this.context = context;
@@ -25,17 +35,27 @@ public class SimpleAlertDialog {
             ad.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    if (listener != null)
+                        listener.onPosButtonClick();
                 }
             });
         if (NEGDisplay)
             ad.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    listener.onNegButtonClick();
                 }
             });
         ad.show();
 
+    }
+
+    public interface ClickListener {
+        // These methods are the different events and
+        // need to pass relevant arguments related to the event triggered
+        void onPosButtonClick();
+
+        // or when data has been loaded
+        void onNegButtonClick();
     }
 }
