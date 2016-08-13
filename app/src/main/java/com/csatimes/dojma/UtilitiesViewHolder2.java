@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -68,13 +69,20 @@ class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnCli
                 amessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+
+                        File file = new File(directory + "/mess/", "amess.jpg");
+                        if (file.exists()) {
+                            boolean delete = file.delete();
+                            if (!delete) {
+                                Log.e("TAG", "Delete old image manually");
+                            }
+                        }
                         DownloadManager.Request request = new DownloadManager.Request(uri)
                                 .setTitle("A mess menu").setNotificationVisibility
                                         (DownloadManager.Request
                                                 .VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                                 .setMimeType
-                                        ("image/*").setDestinationUri(Uri.fromFile(new File(directory +
-                                        "/mess/", "amess.jpg")));
+                                        ("image/*").setDestinationUri(Uri.fromFile(file));
                         downloadManager.enqueue(request);
 
 
@@ -104,13 +112,19 @@ class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnCli
                 cmessRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        File file = new File(directory + "/mess/", "cmess.jpg");
+                        if (file.exists()) {
+                            boolean delete = file.delete();
+                            if (!delete) {
+                                Log.e("TAG", "Delete old image manually");
+                            }
+                        }
                         DownloadManager.Request request = new DownloadManager.Request(uri)
                                 .setTitle("C mess menu").setNotificationVisibility
                                         (DownloadManager.Request
                                                 .VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                                 .setMimeType
-                                        ("image/*").setDestinationUri(Uri.fromFile(new File(directory +
-                                        "/mess/", "cmess.jpg")));
+                                        ("image/*").setDestinationUri(Uri.fromFile(file));
                         downloadManager.enqueue(request);
 
 
