@@ -157,5 +157,27 @@
         android:layout_marginBottom="24dp"
         app:actualImageScaleType="fitCenter"/>
 
+    <TextView
+        android:id="@+id/mess_ccd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mess_mongi_menu"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="@dimen/mess_text_padding"
+        android:paddingLeft="@dimen/mess_text_padding"
+        android:paddingRight="@dimen/mess_text_padding"
+        android:paddingStart="@dimen/mess_text_padding"
+        android:text="Cafe Coffee Day"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mess_ccd_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mess_images_height"
+        android:layout_below="@+id/mess_ccd"
+        android:layout_marginBottom="24dp"
+        app:actualImageScaleType="fitCenter"/>
+
 
 </RelativeLayout>
