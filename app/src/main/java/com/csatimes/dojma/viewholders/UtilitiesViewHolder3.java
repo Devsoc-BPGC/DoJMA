@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+
+import com.csatimes.dojma.LinkListView;
+import com.csatimes.dojma.R;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.

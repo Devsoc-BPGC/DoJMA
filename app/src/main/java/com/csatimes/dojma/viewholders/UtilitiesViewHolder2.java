@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.viewholders;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.csatimes.dojma.MessMenus;
+import com.csatimes.dojma.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,7 +29,7 @@ import static com.csatimes.dojma.DHC.directory;
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
 
-class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
     Button a;
     Context context;
     Activity activity;
@@ -42,7 +44,7 @@ class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements View.OnCli
                     ".jpg");
     private boolean hasWritePermission = true;
 
-    UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission, Activity activity) {
+    public UtilitiesViewHolder2(View itemView, Context context, boolean hasWritePermission, Activity activity) {
         super(itemView);
         a = (Button) itemView.findViewById(R.id.viewholder_mess_format_a);
         c = (Button) itemView.findViewById(R.id.viewholder_mess_format_c);

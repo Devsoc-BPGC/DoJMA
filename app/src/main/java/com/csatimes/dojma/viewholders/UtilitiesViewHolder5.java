@@ -1,9 +1,11 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.csatimes.dojma.MapsActivity;
 
 /**
  * Created by Vikramaditya Kukreja on 22-07-2016.
