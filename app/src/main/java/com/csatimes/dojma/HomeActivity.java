@@ -42,11 +42,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
 
     public static boolean appStarted = true;
@@ -63,6 +60,7 @@ public class HomeActivity extends AppCompatActivity
     private ViewPagerAdapter adapter;
     private boolean isGoogleChromeInstalled;
     private boolean landscape = false;
+    private String issuu = "https://issuu.com/bitsherald";
 
     @Override
     protected void onDestroy() {
@@ -74,7 +72,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("TAG", FirebaseInstanceId.getInstance().getToken()+" ");
+        Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
         preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
         //If app has been isGoogleChromeInstalled for the first time download the articles and their data
@@ -258,33 +256,64 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_share) {
+        if (id == R.id.nav_main_issues) {
+            Intent intent = new Intent(this, CategoryListView.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_main_archives) {
+            {
+                Intent intent = new Intent((Intent.ACTION_SEND));
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, "https://issuu.com/bitsherald");
+
+                Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
+                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                String copy_label = "Copy Link";
+
+                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                        .setShowTitle(true)
+                        .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(),
+                                R.drawable.ic_arrow_back_white_24dp))
+                        .addMenuItem(copy_label, copy_pendingIntent)
+                        .setStartAnimations(this, R.anim.slide_in_right, R.anim.fade_out)
+                        .setExitAnimations(this, R.anim.fade_in, R.anim.slide_out_right)
+                        .setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.amber500))
+                        .addDefaultShareMenuItem()
+                        .enableUrlBarHiding()
+                        .build();
+
+                CustomTabActivityHelper.openCustomTab(this, customTabsIntent,
+                        Uri.parse(issuu),
+                        new CustomTabActivityHelper.CustomTabFallback() {
+                            @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+                            @Override
+                            public void openUri(Activity activity, Uri uri) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + getPackageName()));
+                                startActivity(intent);
+                            }
+                        });
+            }
+        } else if (id == R.id.nav_main_share) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, "Hey checkout DoJMA's android app on http://play" +
-                    ".google" +
-                    ".com/store/apps/details?id=com.csatimes.dojma and get all the latest " +
-                    "updates\n");
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.message_app_share));
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Share app url via ... "));
 
-        } else if (id == R.id.nav_idea) {
+        } else if (id == R.id.nav_main_idea) {
             Intent intent = new Intent(HomeActivity.this, SuggestFeature.class);
             startActivity(intent);
-        } else if (id == R.id.nav_favourites) {
+        } else if (id == R.id.nav_main_favourites) {
             Intent intent = new Intent(HomeActivity.this, Favourites.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_main_gallery) {
             Intent intent = new Intent(this, ImagesAndMedia.class);
             startActivity(intent);
-        } /*else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(HomeActivity.this, Settings.class);
-            intent.putExtra("pageColor", pageColors);
-            startActivity(intent);
-        }*/ else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_main_about) {
             Intent intent = new Intent(HomeActivity.this, AboutDojma.class);
             startActivity(intent);
-        } else if (id == R.id.nav_fb) {
+        } else if (id == R.id.nav_main_fb) {
 
             try {
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
@@ -296,7 +325,7 @@ public class HomeActivity extends AppCompatActivity
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/DoJMABITSGoa/"));
                 startActivity(intent);
             }
-        } else if (id == R.id.nav_lcd) {
+        } else if (id == R.id.nav_main_lcd) {
             Intent intent = new Intent((Intent.ACTION_SEND));
             intent.putExtra(android.content.Intent.EXTRA_TEXT, "http://cc.bits-goa.ac.in/enotice/Lcd.php");
 

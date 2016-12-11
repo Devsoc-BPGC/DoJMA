@@ -23,39 +23,12 @@
         >
     </android.support.v7.widget.SearchView>
 
-
-    <Button
-        android:id="@+id/herald_issues_button"
-        style="@style/ColoredButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/herald_search_view"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:text="Issues"/>
-
-    <Button
-        android:id="@+id/herald_archives_button"
-        style="@style/ColoredButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/herald_issues_button"
-        android:layout_toEndOf="@+id/herald_issues_button"
-        android:layout_toRightOf="@+id/herald_issues_button"
-        android:paddingEnd="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingStart="8dp"
-        android:text="Archives"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_container"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/herald_issues_button">
+        android:layout_below="@+id/herald_search_view">
 
         <RelativeLayout
             android:layout_width="match_parent"
