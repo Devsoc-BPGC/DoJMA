@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
+import com.csatimes.dojma.models.PosterItem;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Vector;

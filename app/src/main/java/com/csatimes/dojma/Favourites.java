@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;

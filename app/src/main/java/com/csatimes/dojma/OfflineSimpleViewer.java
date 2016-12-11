@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 

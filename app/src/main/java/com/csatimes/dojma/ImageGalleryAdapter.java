@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.csatimes.dojma.models.PosterItem;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Vector;
@@ -47,7 +48,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.imageView.setImageURI(posterItems.get(position).url);
+        holder.imageView.setImageURI(posterItems.get(position).getUrl());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,12 +1,12 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
 /**
- * Created by Vikramaditya Kukreja on 22-07-2016.
+ * ContactItem has name and number
  */
 
 public class ContactItem {
-    String name;
-    String number;
+    private String name;
+    private String number;
 
     public ContactItem() {
         this.name = "No name";

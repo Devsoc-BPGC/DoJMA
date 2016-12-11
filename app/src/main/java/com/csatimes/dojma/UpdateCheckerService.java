@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

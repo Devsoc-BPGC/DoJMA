@@ -1,21 +1,18 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
-class LinkItem{
+public class LinkItem {
 
-    String title;
-    String url;
+    private String title;
+    private String url;
 
-
-   LinkItem() {
+    public LinkItem() {
         this.title = "";
         this.url = "";
-
     }
 
-    LinkItem(String title, String url) {
+    public LinkItem(String title, String url) {
         this.title = title;
         this.url = url;
-
     }
 
     public String getTitle() {

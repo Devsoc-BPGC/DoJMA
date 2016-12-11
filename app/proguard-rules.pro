@@ -30,19 +30,10 @@
 
 -keeppackagenames org.jsoup.nodes
 
--keepclassmembers class com.csatimes.dojma.EventItem {
-  *;
-}
--keepclassmembers class com.csatimes.dojma.GazetteItem {
-  *;
-}
--keepclassmembers class com.csatimes.dojma.PosterItem {
+-keepclassmembers class com.csatimes.dojma.models.** {
   *;
 }
 
--keepclassmembers class com.csatimes.dojma.LinkItem {
-  *;
-}
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 -keep class com.firebase.** { *; }
 -keepnames class com.fasterxml.jackson.** { *; }

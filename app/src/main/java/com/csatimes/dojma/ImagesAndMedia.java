@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.DepthPageTransformer;
+import com.csatimes.dojma.models.PosterItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

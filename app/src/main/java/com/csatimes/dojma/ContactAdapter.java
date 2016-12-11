@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.csatimes.dojma.models.ContactItem;
+
 /**
  * Created by Vikramaditya Kukreja on 20-07-2016.
  */

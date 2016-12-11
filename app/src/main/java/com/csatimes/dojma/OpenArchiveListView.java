@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;

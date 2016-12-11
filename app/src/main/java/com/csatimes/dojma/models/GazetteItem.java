@@ -1,24 +1,24 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
- * Created by Vikramaditya Kukreja on 21-07-2016.
+ * GazetteItem contains title,url,date
  */
 @IgnoreExtraProperties
-class GazetteItem {
+public class GazetteItem {
 
-    String title;
-    String url;
-    String date;
+    private String title;
+    private String url;
+    private String date;
 
-    GazetteItem() {
+    public GazetteItem() {
         this.title = "";
         this.url = "";
         this.date = "";
     }
 
-    GazetteItem(String title, String url, String date) {
+    public GazetteItem(String title, String url, String date) {
         this.title = title;
         this.url = url;
         this.date = date;

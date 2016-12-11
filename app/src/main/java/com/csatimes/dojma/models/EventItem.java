@@ -1,12 +1,10 @@
-package com.csatimes.dojma;
-
-import java.util.Date;
+package com.csatimes.dojma.models;
 
 /**
  * Event data object that has a title,startDate,start startTime,end startTime,location,desc
  */
 
-class EventItem {
+public class EventItem {
     String title;
     private String desc;
     private String startDate;

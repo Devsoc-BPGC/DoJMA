@@ -1,12 +1,12 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
 /**
- * Created by Vikramaditya Kukreja on 04-08-2016.
+ * PosterItem containing title and url field
  */
 
 public class PosterItem {
-    String title;
-    String url;
+    private String title;
+    private String url;
 
     public PosterItem(String title, String url) {
         this.title = title;

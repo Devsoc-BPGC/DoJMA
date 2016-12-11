@@ -1,10 +1,10 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Vikramaditya Kukreja on 19-06-2016.
+ * HeraldItemFormat
  */
 
 public class HeraldNewsItemFormat extends RealmObject {

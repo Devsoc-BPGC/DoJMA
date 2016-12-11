@@ -1,20 +1,20 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Vikramaditya Kukreja on 05-07-2016.
+ * HeraldLinkItem contains only address field
  */
 
-public class HeraldLinks extends RealmObject {
+public class HeraldLinkItem extends RealmObject {
     @PrimaryKey
-    String address;
+    private String address;
 
-    public HeraldLinks() {
+    public HeraldLinkItem() {
     }
 
-    public HeraldLinks(String address) {
+    public HeraldLinkItem(String address) {
         this.address = address;
     }
 

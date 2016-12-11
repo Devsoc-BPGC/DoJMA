@@ -14,6 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;

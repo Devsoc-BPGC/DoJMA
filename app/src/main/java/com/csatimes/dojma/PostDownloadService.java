@@ -3,6 +3,8 @@ package com.csatimes.dojma;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

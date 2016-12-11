@@ -27,6 +27,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.csatimes.dojma.models.HeraldNewsItemFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 

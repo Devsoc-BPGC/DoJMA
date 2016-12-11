@@ -17,8 +17,8 @@ import android.widget.Button;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AboutUs extends AppCompatActivity {
-    public static String FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
-    public static String FACEBOOK_PAGE_ID = "MACBITSGoa";
+    public static String ABOUT_US_FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
+    public static String ABOUT_US_FACEBOOK_PAGE_ID = "MACBITSGoa";
     Window window;
     SimpleDraweeView vik;
     SimpleDraweeView yash;
@@ -82,12 +82,12 @@ public class AboutUs extends AppCompatActivity {
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+                return "fb://facewebmodal/f?href=" + ABOUT_US_FACEBOOK_URL;
             } else { //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
+                return "fb://page/" + ABOUT_US_FACEBOOK_PAGE_ID;
             }
         } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
+            return ABOUT_US_FACEBOOK_URL; //normal web url
         }
     }
 }
