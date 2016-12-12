@@ -81,5 +81,5 @@
     <color name="expandable_textview_up_fill_color">@color/white</color>
     <color name="expandable_textview_down_fill_color">@color/white</color>
 
-    <color name="mac2_color">#1a97e9</color>
+    <color name="mac_color">@color/green700</color>
 </resources>

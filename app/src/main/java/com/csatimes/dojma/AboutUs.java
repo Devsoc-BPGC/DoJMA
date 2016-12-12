@@ -12,17 +12,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AboutUs extends AppCompatActivity {
+
     public static String ABOUT_US_FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
     public static String ABOUT_US_FACEBOOK_PAGE_ID = "MACBITSGoa";
+
     Window window;
     SimpleDraweeView vik;
     SimpleDraweeView yash;
-    Button fb;
+    ImageButton facebookLink;
+    ImageButton googlePlayLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,12 @@ public class AboutUs extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("About DoJMA Android App");
-        getSupportActionBar().setSubtitle("Mobile Applications Club");
+        getSupportActionBar().setSubtitle("by MAC");
 
-        fb = (Button) findViewById(R.id.about_us_fb_link);
-        fb.setOnClickListener(new View.OnClickListener() {
+        facebookLink = (ImageButton) findViewById(R.id.about_us_fb_link);
+        googlePlayLink = (ImageButton) findViewById(R.id.about_us_play_link) ;
+
+        facebookLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -47,23 +52,32 @@ public class AboutUs extends AppCompatActivity {
                     startActivity(facebookIntent);
 
                 } catch (Exception e) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook" +
-                            ".com/MACBITSGoa/"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_FACEBOOK_URL));
                     startActivity(intent);
                 }
+            }
+        });
+
+        googlePlayLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent googlePlayIntent = new Intent(Intent.ACTION_VIEW);
+                googlePlayIntent.setData(Uri.parse("market://search?q=pub:Mobile App Club - BITS Goa"));
+                startActivity(googlePlayIntent);
             }
         });
         //These flags are for system bar on top
         //Don't bother yourself with this code
         window = this.getWindow();
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (Build.VERSION.SDK_INT >= 21) {  // clear FLAG_TRANSLUCENT_STATUS flag:
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.mac2_color));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.mac2_color));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.mac_color));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.mac_color));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
         vik = (SimpleDraweeView) findViewById(R.id.about_us_vik);

@@ -112,7 +112,7 @@
     <string name="PREFERENCE_general">pref_key_general</string>
     <string name="no_internet_msg">Not connected to the internet!</string>
     <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
-    <string name="app_version">Version 1.03</string>
+    <string name="app_version">Version 2</string>
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
     <string name="title_activity_about_dojma">About DoJMA</string>
     <string name="UTILITIES_MISC_text">Click here to get all important notifications! Updating needs an active internet connection</string>
