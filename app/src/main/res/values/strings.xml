@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DoJMA BITS Goa</string>
-    <string name="search_dojma">Search DoJMA </string>
+    <string name="search_dojma">Search articles,events,numbers </string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -11,12 +11,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_suggest_feature">SuggestFeature</string>
-    <string name="title_activity_settings">Settings</string>
 
+    <string name="title_activity_settings">Settings</string>
     <string name="title_activity_open_webpage">OpenWebpage</string>
     <string name="title_activity_chrome_custom_tab">ChromseCustomTab</string>
-
     <string name="title_activity_download_for_first_time">First Time Setup</string>
     <string name="title_activity_about_us">About</string>
     <string name="title_share_this_article">Share article</string>
@@ -24,6 +22,7 @@
     <string name="title_activity_favourites">Favourites</string>
     <string name="title_activity_images_and_media">Images And Media</string>
     <string name="title_activity_categories">Categories</string>
+    <string name="title_activity_searchable">Search DoJMA</string>
 
 
     <string name="menu_enable_pan">Pan</string>
@@ -40,7 +39,6 @@
     <string name="menu_crop_rect">Rectangle</string>
     <string name="menu_crop_square">Square</string>
     <string name="menu_crop_circle">Circle</string>
-    <string name="title_activity_searchable">Search DoJMA</string>
     <string name="filter_articles">Filter articles</string>
     <string name="sort_order">Sort Order</string>
     \

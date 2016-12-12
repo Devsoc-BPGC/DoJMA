@@ -38,7 +38,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,6 @@ public class HomeActivity extends AppCompatActivity
     private ViewPager viewPager;
     private SharedPreferences.Editor editor;
     private boolean landscape = false;
-    private MaterialSearchView searchView;
 
     @Override
     protected void onDestroy() {
@@ -93,7 +91,6 @@ public class HomeActivity extends AppCompatActivity
         else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
         editor.apply();
 
-        searchView = (MaterialSearchView) findViewById(R.id.home_activity_search_view);
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -106,11 +103,13 @@ public class HomeActivity extends AppCompatActivity
         //Don't bother yourself with this code
         Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= 19){
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (Build.VERSION.SDK_INT >= 21) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(pageColors);
             window.setNavigationBarColor(pageColors);
         }
@@ -136,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
         // accordingly the viewpager position is set to open Events tab for example
         if (getString(R.string.shortcut_events).equals(getIntent().getAction())) {
             viewPager.setCurrentItem(2);
-        }else if(getString(R.string.shortcut_utilities).equals(getIntent().getAction())){
+        } else if (getString(R.string.shortcut_utilities).equals(getIntent().getAction())) {
             viewPager.setCurrentItem(3);
         }
 
@@ -205,10 +204,7 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } //else if (searchView.isSearchOpen()) {
-        //  searchView.closeSearch();
-        //}
-        else {
+        } else {
             super.onBackPressed();
         }
 
@@ -218,10 +214,6 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-
         return true;
     }
 
@@ -229,17 +221,14 @@ public class HomeActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {
-            Intent settings = new Intent(HomeActivity.this, Settings.class);
-            settings.putExtra("pageColor", pageColors);
-            startActivity(settings);
-        } else*/
-        if (id == R.id.action_about_us) {
-            Intent aboutUs = new Intent(HomeActivity.this, AboutUs.class);
+        if (id == R.id.action_search) {
+            Intent intent = new Intent(this, Searchable.class);
+            startActivity(intent);
+        } else if (id == R.id.action_about_us) {
+            Intent aboutUs = new Intent(this, AboutUs.class);
             startActivity(aboutUs);
         } else if (id == R.id.action_about_dojma) {
-            Intent intent = new Intent(HomeActivity.this, AboutDojma.class);
+            Intent intent = new Intent(this, AboutDojma.class);
             startActivity(intent);
         }
 
