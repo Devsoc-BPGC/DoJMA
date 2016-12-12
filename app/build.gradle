@@ -3,7 +3,7 @@ apply plugin: 'realm-android'
 
 android {
      compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.csatimes.dojma"
         minSdkVersion 16

@@ -126,4 +126,15 @@
     <string name="menu_main_search_title">Search articles</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
     <string name="menu_main_about_app">About app</string>
+
+    <string name="shortcut_events">com.csatimes.dojma.HomeActivity.Events</string>
+    <string name="shortcut_events_short_label">Events</string>
+    <string name="shortcut_events_long_label">Events</string>
+    <string name="shortcut_events_disabled_label">Events</string>
+
+    <string name="shortcut_utilities">com.csatimes.dojma.HomeActivity.Utilities</string>
+    <string name="shortcut_utilities_short_label">Utilities</string>
+    <string name="shortcut_utilities_long_label">Utilities</string>
+    <string name="shortcut_utilities_disabled_label">Utilities</string>
+
 </resources>

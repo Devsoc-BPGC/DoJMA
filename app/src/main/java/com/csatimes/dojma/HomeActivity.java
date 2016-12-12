@@ -115,12 +115,6 @@ public class HomeActivity extends AppCompatActivity
             window.setNavigationBarColor(pageColors);
         }
 
-        //searchView = (MaterialSearchView) findViewById(R.id.material_search_view);
-        //searchView.setCursorDrawable(R.drawable.cursor_material_search);
-        //searchView.setVoiceSearch(true);
-
-        // finally change the color
-
         //If on starting the app, no internet connection is available, error Snackbar is
         // shown.
         if (!isOnline()) {
@@ -133,11 +127,19 @@ public class HomeActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
         if (savedInstanceState != null) {
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
+
+        //Of the Home Activity was started using the app shortcut with the intent action then it is detected here and
+        // accordingly the viewpager position is set to open Events tab for example
+        if (getString(R.string.shortcut_events).equals(getIntent().getAction())) {
+            viewPager.setCurrentItem(2);
+        }else if(getString(R.string.shortcut_utilities).equals(getIntent().getAction())){
+            viewPager.setCurrentItem(3);
+        }
+
         //Custom method to set icons for the tabs
         setupTabIcons();
 
@@ -217,8 +219,8 @@ public class HomeActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
-         MenuItem item = menu.findItem(R.id.action_search);
-         searchView.setMenuItem(item);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
 
         return true;
     }
