@@ -12,14 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Vector;
-
+import com.csatimes.dojma.adapters.LinkRv;
 import com.csatimes.dojma.models.LinkItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Vector;
 
 /**
  * Created by yash on 21/7/16.
@@ -28,8 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 public class LinkListView extends AppCompatActivity{
 
 
-    private String response = null;
     LinkRv adapter;
+    private String response = null;
     private DatabaseReference links = FirebaseDatabase.getInstance().getReference().child
             ("links");
     private Vector<LinkItem> linkItems = new Vector<>(10,2);

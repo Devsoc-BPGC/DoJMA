@@ -1,18 +1,13 @@
 package com.csatimes.dojma;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.csatimes.dojma.adapters.GazettesRV;
 import com.csatimes.dojma.models.GazetteItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,31 +23,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Vector;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public class Gazette extends Fragment {
-    private static final int REQUEST_WRITE_STORAGE = 112;
+
+    //Random number to address write permission
+    public static final int REQUEST_WRITE_STORAGE = 112;
     GazettesRV adapter;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private RecyclerView gazetteRecyclerView;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private Vector<GazetteItem> gazetteList = new Vector<>(5, 1);
+    private RealmResults<GazetteItem> gazetteList;
     private boolean hasPermission = false;
     private TextView emptyList;
-    private DatabaseReference gazettes = firebaseDatabase.getReference().child("gazettes");
-    private String sprefGazetteNumber = "GAZETTE_number";
-    private String sprefPreFix = "GAZETTE_number_";
-    private String sprefTitlePostFix = "_title";
-    private String sprefUrlPostFix = "_url";
-    private String sprefDatePostFix = "_date";
+    private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes");
+    private Realm database;
 
     public Gazette() {
         // Required empty public constructor
@@ -82,28 +68,74 @@ public class Gazette extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
 
-        sharedPreferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
         emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
         gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
         gazetteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         gazetteRecyclerView.setHasFixedSize(true);
-        gazetteRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        setOldValues();
-        adapter = new GazettesRV(getContext(), gazetteList);
-        gazetteRecyclerView.setAdapter(adapter);
+
 
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        database = Realm.getDefaultInstance();
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
+        gazetteList = database.where(GazetteItem.class).findAll();
+        adapter = new GazettesRV(getContext(), gazetteList);
+        gazetteRecyclerView.setAdapter(adapter);
+
+        if (adapter.getItemCount() != 0) {
+            emptyList.setVisibility(View.GONE);
+        }
+
+        gazettes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Delete old values in the database
+                database.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        database.delete(GazetteItem.class);
+                    }
+                });
+
+                for (DataSnapshot shot : dataSnapshot.getChildren()) {
+
+                    try {
+                        final GazetteItem foo = shot.getValue(GazetteItem.class);
+                        database.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                GazetteItem bar = realm.createObject(GazetteItem.class);
+                                bar.setTitle(foo.getTitle());
+                                bar.setDate(foo.getDate());
+                                bar.setUrl(foo.getUrl());
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        DHC.log("child shot get value parse error in gazettes. check firebase");
+                    }
+
+                }
+
+                //TODO: sort gazettes later
+                gazetteList = database.where(GazetteItem.class).findAll();
+                adapter.notifyDataSetChanged();
+                if (adapter.getItemCount() != 0) {
+                    emptyList.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                DHC.log("gazettes firebase database error " + databaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -118,105 +150,17 @@ public class Gazette extends Fragment {
                     REQUEST_WRITE_STORAGE);
         }
 
-
-        if (isOnline()) {
-            gazettes.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    emptyList.setVisibility(View.GONE);
-                    gazetteRecyclerView.setVisibility(View.VISIBLE);
-                    gazetteList.clear();
-                    for (DataSnapshot shot : dataSnapshot.getChildren()) {
-                        try {
-                            gazetteList.add(shot.getValue(GazetteItem.class));
-                        } catch (Exception ignore) {
-                        }
-                    }
-                    for (int i = 0; i < gazetteList.size(); i++) {
-                        editor.putString(sprefPreFix + i + sprefTitlePostFix, gazetteList.get(i).getTitle());
-                        editor.putString(sprefPreFix + i + sprefUrlPostFix, gazetteList.get(i).getUrl());
-                        editor.putString(sprefPreFix + i + sprefDatePostFix, gazetteList.get(i)
-                                .getDate());
-                    }
-                    editor.putInt(sprefGazetteNumber, gazetteList.size());
-                    editor.apply();
-
-                    Collections.sort(gazetteList, new Comparator<GazetteItem>() {
-                        @Override
-                        public int compare(GazetteItem o1, GazetteItem o2) {
-                            try {
-                                Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o1.getDate());
-                                Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o2.getDate());
-                                if (one.getTime() - two.getTime() < 0) {
-                                    return 1;
-                                } else if (one.getTime() == two.getTime()) {
-                                    return 0;
-                                } else {
-                                    return -1;
-                                }
-                            } catch (ParseException ignore) {
-                            }
-                            return 0;
-                        }
-                    });
-
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    setOldValues();
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        } else {
-            setOldValues();
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    private void setOldValues() {
-
-        int pdfs = sharedPreferences.getInt(sprefGazetteNumber, 0);
-        if (pdfs != 0) {
-
+        if (adapter.getItemCount() != 0) {
             emptyList.setVisibility(View.GONE);
-            gazetteRecyclerView.setVisibility(View.VISIBLE);
-            gazetteList.clear();
-            for (int i = 0; i < pdfs; i++) {
-                gazetteList.add(new GazetteItem(sharedPreferences.getString(sprefPreFix + i +
-                        sprefTitlePostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
-                        sprefUrlPostFix, "-"), sharedPreferences.getString(sprefPreFix + i +
-                        sprefDatePostFix, "-")));
-            }
-
-            Collections.sort(gazetteList, new Comparator<GazetteItem>() {
-                @Override
-                public int compare(GazetteItem o1, GazetteItem o2) {
-                    try {
-                        Date one = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o1.getDate());
-                        Date two = new SimpleDateFormat("ddMMyyyy", Locale.UK).parse(o2.getDate());
-                        if (one.getTime() - two.getTime() < 0) {
-                            return -1;
-                        } else if (one.getTime() == two.getTime()) {
-                            return 0;
-                        } else {
-                            return 1;
-                        }
-                    } catch (ParseException ignore) {
-                    }
-                    return 0;
-                }
-            });
-        } else {
-            //Since number of gazettes can't go down :P , it will be always >=0
-            //if it is zero then it means that the app has never been connected to
-            // the internet before while checking
-            //Just set everything as empty
-            emptyList.setVisibility(View.VISIBLE);
-            gazetteRecyclerView.setVisibility(View.GONE);
-
         }
+
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        database.close();
+    }
+
 }
 

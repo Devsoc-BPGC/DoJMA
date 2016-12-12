@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.csatimes.dojma"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.csatimes.dojma">
 
     <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
 
@@ -42,15 +42,6 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".Searchable"/>
-        </activity>
-        <activity
-            android:name=".SuggestFeature"
-            android:label="@string/title_activity_suggest_feature"
-            android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.HomeActivity"/>
         </activity>
         <activity
             android:name=".Settings"

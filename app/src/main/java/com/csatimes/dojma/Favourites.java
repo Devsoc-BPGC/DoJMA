@@ -11,12 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
@@ -44,9 +44,7 @@ public class Favourites extends AppCompatActivity {
 
         searchView.setHint("Search favourites");
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        database = Realm.getDefaultInstance();
+         database = Realm.getDefaultInstance();
 
         realmResults = database.where(HeraldNewsItemFormat.class).equalTo("fav", true).findAll();
         realmList = new RealmList();

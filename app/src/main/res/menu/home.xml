@@ -2,25 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
     <item
-        android:id="@+id/action_about_us"
-        android:orderInCategory="101"
-        android:title="About app"/>
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_action_search"
+        android:orderInCategory="0"
+        android:title="@string/menu_main_search_title"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_about_dojma"
         android:icon="@drawable/ic_info_outline_white_24dp"
-        android:title="About DoJMA"
-        app:showAsAction="always"/>
+        android:orderInCategory="1"
+        android:title="@string/menu_main_about_dojma"
+        />
+    <item
+        android:id="@+id/action_about_us"
+        android:orderInCategory="2"
+        android:title="@string/menu_main_about_app"
+        app:showAsAction="never"/>
     <!--
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
-    <item
-         android:id="@+id/action_search"
-         android:icon="@drawable/ic_search_white_24dp"
-         android:orderInCategory="100"
-         android:title="Search articles"
-         app:showAsAction="always"/> -->
+    -->
 </menu>

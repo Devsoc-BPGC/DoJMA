@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +32,9 @@ public class DHC {
     public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
 
+    public static void log(String message){
+        Log.e("TAG",message);
+    }
     // DP <-> PX static converter method
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);

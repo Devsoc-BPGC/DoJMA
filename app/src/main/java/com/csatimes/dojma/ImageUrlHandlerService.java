@@ -15,7 +15,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class ImageUrlHandlerService extends IntentService {
 
@@ -47,11 +46,7 @@ public class ImageUrlHandlerService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Realm database;
-        RealmConfiguration realmConfiguration;
-        realmConfiguration = new RealmConfiguration.Builder(ImageUrlHandlerService.this)
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        database = Realm.getDefaultInstance();
+         database = Realm.getDefaultInstance();
 
         String address = "http://csatimes.co.in/dojma/";
         String urlPrefix = "http://csatimes.co.in/dojma/page/";

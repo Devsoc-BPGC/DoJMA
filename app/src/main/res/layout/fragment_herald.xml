@@ -1,74 +1,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusableInTouchMode="true"
-                tools:context="com.csatimes.dojma.Herald">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context="com.csatimes.dojma.Herald">
 
-
-    <android.support.v7.widget.SearchView
-
-        android:id="@+id/herald_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/herald_searchview_background"
-        app:closeIcon="@drawable/ic_clear_white_24dp"
-        app:queryBackground="@color/herald_searchview_background"
-        app:queryHint="Search Herald articles"
-        app:searchHintIcon="@drawable/ic_search_white_24dp"
-        app:searchIcon="@drawable/ic_search_white_24dp"
-
-        >
-    </android.support.v7.widget.SearchView>
-
-
-    <Button
-        android:id="@+id/herald_issues_button"
-        style="@style/ColoredButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/herald_search_view"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:text="Issues"/>
-
-    <Button
-        android:id="@+id/herald_archives_button"
-        style="@style/ColoredButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/herald_issues_button"
-        android:layout_toEndOf="@+id/herald_issues_button"
-        android:layout_toRightOf="@+id/herald_issues_button"
-        android:paddingEnd="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingStart="8dp"
-        android:text="Archives"/>
-
-    <android.support.v4.widget.SwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_container"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/herald_issues_button">
+        android:layout_height="match_parent">
 
+        <!-- Do not delete this relative layout as it is required by the DragScrollBar library-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/herald_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:contextClickable="true"
-                tools:targetApi="m"/>
+                tools:targetApi="n" />
+
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

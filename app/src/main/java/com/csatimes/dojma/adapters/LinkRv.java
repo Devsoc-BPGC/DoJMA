@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.LinkItem;
 
 import java.util.Vector;
@@ -59,6 +59,13 @@ public class LinkRv extends RecyclerView.Adapter<LinkRv.ViewHolder> {
         return linkItems.size();
     }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .gazette_item_format, parent, false));
+
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
@@ -66,12 +73,5 @@ public class LinkRv extends RecyclerView.Adapter<LinkRv.ViewHolder> {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.gazette_item_format_text);
         }
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .gazette_item_format, parent, false));
-
     }
 }

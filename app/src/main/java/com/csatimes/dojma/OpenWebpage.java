@@ -153,8 +153,6 @@ public class OpenWebpage extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 downloadProgressBar.setVisibility(View.GONE);
-                realmConfiguration = new RealmConfiguration.Builder(OpenWebpage.this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-                Realm.setDefaultConfiguration(realmConfiguration);
                 database = Realm.getDefaultInstance();
                 database.executeTransaction(new Realm.Transaction() {
                     @Override

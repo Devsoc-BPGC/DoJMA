@@ -1,12 +1,10 @@
 package com.csatimes.dojma;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.csatimes.dojma.adapters.EventsRV;
 import com.csatimes.dojma.models.EventItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,101 +27,125 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Vector;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class Events extends Fragment implements View.OnClickListener {
-    DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference().child("events");
-    private RecyclerView eventsRV;
+
+    private DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference().child("events");
     private EventsRV adapter;
     private TextView errorText;
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-    private Vector<EventItem> eventItems = new Vector<>(5, 5);
-    private String sprefPreFix = "EVENTS_number_";
-    private String sprefTitlePostFix = "_title";
-    private String sprefDescPostFix = "_desc";
-    private String sprefLocationPostFix = "_location";
-    private String sprefSTPostFix = "_start_time";
-    private String sprefSDPostFix = "_start_date";
-    private String sprefETPostFix = "_end_time";
-    private String sprefEDPostFix = "_end_date";
-    private String sprefEventNumber = "EVENTS_number";
+    private RealmResults<EventItem> eventItems;
+    private Realm database;
+    private RecyclerView eventsRV;
 
     public Events() {
         // Required empty public constructor
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
+
+        eventsRV = (RecyclerView) view.findViewById(R.id.events_recycler_view);
+        errorText = (TextView) view.findViewById(R.id.error_text_view);
+
+        eventsRV.setHasFixedSize(true);
+        eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        errorText.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //As mentioned in Realm Docs, the realm should be instantiated in the onStart method
+        //Because of the late initialising of the realm, adapter is placed after it so that adapter.notifyDataSetChanged() works
+        database = Realm.getDefaultInstance();
+
+        eventItems = database.where(EventItem.class).findAll();
+
+        adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
+        eventsRV.setAdapter(adapter);
+
+        eventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                errorText.setVisibility(View.GONE);
+
+                database.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.delete(EventItem.class);
+                    }
+                });
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    try {
+
+                        final EventItem foo = childDataSnapshot.getValue(EventItem.class);
+                        database.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                EventItem bar = realm.createObject(EventItem.class);
+                                bar.setDesc(foo.getDesc());
+                                bar.setEndDate(foo.getEndDate());
+                                bar.setEndTime(foo.getEndTime());
+                                bar.setLocation(foo.getLocation());
+                                bar.setStartDate(foo.getStartDate());
+                                bar.setStartTime(foo.getStartTime());
+                                bar.setTitle(foo.getTitle());
+                            }
+                        });
+                    } catch (Exception ignore) {
+                    }
+                }
+
+                eventItems = database.where(EventItem.class).findAll();
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                sortThisShit();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (!isOnline()) {
-            errorText.setText("Stay connected for latest updates on events");
+            errorText.setText(R.string.message_events_stay_connected);
             errorText.setVisibility(View.VISIBLE);
-            setOldValues();
-            adapter.notifyDataSetChanged();
-        } else {
-            eventsRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    errorText.setVisibility(View.GONE);
-                    int i = 0;
-                    eventItems.clear();
-                    for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                        try {
-                            eventItems.add(childDataSnapshot.getValue(EventItem.class));
-                        } catch (Exception ignore) {
-                        }
-                    }
-
-                    for (i = 0; i < eventItems.size(); i++) {
-                        editor.putString(sprefPreFix + i + sprefTitlePostFix, eventItems.get(i).getTitle());
-                        editor.putString(sprefPreFix + i + sprefSDPostFix, eventItems.get(i).getStartDate());
-                        editor.putString(sprefPreFix + i + sprefSTPostFix, eventItems.get(i).getStartTime());
-                        editor.putString(sprefPreFix + i + sprefETPostFix, eventItems.get(i).getEndTime());
-                        editor.putString(sprefPreFix + i + sprefLocationPostFix, eventItems.get(i).getLocation());
-                        editor.putString(sprefPreFix + i + sprefEDPostFix, eventItems.get(i).getEndDate());
-                        editor.putString(sprefPreFix + i + sprefDescPostFix, eventItems.get(i).getDesc());
-                    }
-                    editor.putInt(sprefEventNumber, eventItems.size());
-                    editor.apply();
-                    sortThisShit();
-                    adapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    setOldValues();
-                    adapter.notifyDataSetChanged();
-                }
-            });
         }
     }
 
-    private void setOldValues() {
-        int events = preferences.getInt("EVENTS_number", 0);
-        eventItems.clear();
-        if (events != 0) {
-            errorText.setVisibility(View.VISIBLE);
-            errorText.setText("Stay connected for latest updates");
-            eventItems.clear();
-            for (int i = 0; i < events; i++) {
-                String title = preferences.getString(sprefPreFix + i + sprefTitlePostFix, "");
-                String date = preferences.getString(sprefPreFix + i + sprefSDPostFix, "");
-                String endDate = preferences.getString(sprefPreFix + i + sprefEDPostFix, "");
-                String time = preferences.getString(sprefPreFix + i + sprefSTPostFix, "");
-                String endtime = preferences.getString(sprefPreFix + i + sprefETPostFix, "");
-                String location = preferences.getString(sprefPreFix + i + sprefLocationPostFix, "");
-                String desc = preferences.getString(sprefPreFix + i + sprefDescPostFix, "");
-                eventItems.add(new EventItem(title, date, time, endtime, location, desc, endDate));
+    @Override
+    public void onStop() {
+        super.onStop();
+        database.close();
+    }
 
-            }
-            sortThisShit();
-
-        } else {
-            errorText.setVisibility(View.VISIBLE);
-            errorText.setText("No events are available");
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == errorText.getId()) {
+            errorText.setVisibility(View.GONE);
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnected());
     }
 
     private void sortThisShit() {
@@ -174,44 +197,5 @@ public class Events extends Fragment implements View.OnClickListener {
             }
         });
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
-
-        preferences = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
-        editor = preferences.edit();
-
-        eventsRV = (RecyclerView) view.findViewById(R.id.events_recycler_view);
-
-        errorText = (TextView) view.findViewById(R.id.error_text_view);
-
-        eventsRV.setHasFixedSize(true);
-        eventsRV.setItemAnimator(new DefaultItemAnimator());
-        eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        setOldValues();
-        adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
-        eventsRV.setAdapter(adapter);
-
-        errorText.setOnClickListener(this);
-        return view;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == errorText.getId()) {
-            errorText.setVisibility(View.GONE);
-        }
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
-    }
-
 
 }

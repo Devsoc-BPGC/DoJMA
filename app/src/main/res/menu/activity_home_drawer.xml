@@ -4,46 +4,48 @@
     <group
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_main_issues"
             android:icon="@drawable/ic__menu_gallery"
-            android:title="Poster Gallery"/>
+            android:title="Issues" />
 
         <item
-            android:id="@+id/nav_favourites"
+            android:id="@+id/nav_main_archives"
+            android:icon="@drawable/ic__menu_gallery"
+            android:title="Archives" />
+
+        <item
+            android:id="@+id/nav_main_gallery"
+            android:icon="@drawable/ic__menu_gallery"
+            android:title="Poster Gallery" />
+
+        <item
+            android:id="@+id/nav_main_favourites"
             android:icon="@drawable/ic_heart"
-            android:title="Favourites"/>
+            android:title="Favourites" />
 
         <item
-            android:id="@+id/nav_lcd"
+            android:id="@+id/nav_main_lcd"
             android:icon="@drawable/ic_live_tv"
-            android:title="Live LCD News"/>
+            android:title="Live LCD News" />
 
     </group>
     <group
         android:id="@+id/menu_botton"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_fb"
+            android:id="@+id/nav_main_fb"
             android:icon="@drawable/fb"
-            android:title="Facebook Page"/>
+            android:title="Facebook Page" />
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_main_share"
             android:icon="@drawable/ic_share_white_24dp"
-            android:title="Share app"/>
-        <!-- <item
-             android:id="@+id/nav_settings"
-             android:icon="@drawable/ic_settings"
-             android:title="Settings"/>
--->
+            android:title="Share app" />
         <item
-            android:id="@+id/nav_idea"
-            android:icon="@drawable/ic_suggest_icon"
-            android:title="Suggest a feature"/>
-        <item
-            android:id="@+id/nav_about"
+            android:id="@+id/nav_main_about"
             android:icon="@drawable/ic_info"
-            android:title="About DoJMA"/>
+            android:title="About DoJMA" />
 
 
     </group>
