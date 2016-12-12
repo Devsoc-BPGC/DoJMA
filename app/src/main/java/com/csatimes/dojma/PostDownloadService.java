@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
+import com.csatimes.dojma.utilities.DHC;
 
 import org.json.JSONArray;
 import org.json.JSONException;

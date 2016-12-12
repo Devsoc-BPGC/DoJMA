@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
+import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;

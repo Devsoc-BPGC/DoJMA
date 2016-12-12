@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
+import com.csatimes.dojma.utilities.DHC;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -23,7 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
-import static com.csatimes.dojma.DHC.directory;
+import static com.csatimes.dojma.utilities.DHC.directory;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.

@@ -22,6 +22,7 @@ import com.alexvasilkov.android.commons.utils.Views;
 import com.alexvasilkov.gestures.commons.DepthPageTransformer;
 import com.csatimes.dojma.adapters.ImageGalleryAdapter;
 import com.csatimes.dojma.models.PosterItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

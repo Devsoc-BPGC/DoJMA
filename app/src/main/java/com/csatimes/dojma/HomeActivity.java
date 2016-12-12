@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
@@ -46,14 +47,11 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    public static boolean appStarted = true;
-    public static String FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
-    public static String FACEBOOK_PAGE_ID = "DoJMABITSGoa";
-    private static int pageColors = 0;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SharedPreferences.Editor editor;
     private boolean landscape = false;
+    private DrawerLayout drawer;
 
     @Override
     protected void onDestroy() {
@@ -93,25 +91,23 @@ public class HomeActivity extends AppCompatActivity
 
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
-        setSupportActionBar(toolbarObject);
 
-        setupColors();
+        setSupportActionBar(toolbarObject);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
         Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
-        if (Build.VERSION.SDK_INT >= 19){
+        if (Build.VERSION.SDK_INT >= 19) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(pageColors);
-            window.setNavigationBarColor(pageColors);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
 
         //If on starting the app, no internet connection is available, error Snackbar is
@@ -153,15 +149,9 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void setupColors() {
-        //setup pagecolors
-        pageColors = ContextCompat.getColor(HomeActivity.this, R.color.colorPrimary);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        //searchview.clearFocus();
         viewPager.requestFocus();
     }
 
@@ -201,7 +191,6 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -240,6 +229,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
 
         if (id == R.id.nav_main_issues) {
             Intent intent = new Intent(this, CategoryListView.class);
@@ -305,12 +295,12 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(facebookIntent);
 
             } catch (Exception e) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://facebook.com/DoJMABITSGoa/"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DHC.DoJMA_FACEBOOK_URL));
                 startActivity(intent);
             }
         } else if (id == R.id.nav_main_lcd) {
             Intent intent = new Intent((Intent.ACTION_SEND));
-            intent.putExtra(android.content.Intent.EXTRA_TEXT, "http://cc.bits-goa.ac.in/enotice/Lcd.php");
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, DHC.BITS_GOA_LCD_LINK);
 
             Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
             PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent,
@@ -330,7 +320,7 @@ public class HomeActivity extends AppCompatActivity
                     .build();
 
             CustomTabActivityHelper.openCustomTab(this, customTabsIntent,
-                    Uri.parse("http://cc.bits-goa.ac.in/enotice/Lcd.php"),
+                    Uri.parse(DHC.BITS_GOA_LCD_LINK),
                     new CustomTabActivityHelper.CustomTabFallback() {
                         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
                         @Override
@@ -401,12 +391,12 @@ public class HomeActivity extends AppCompatActivity
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+                return "fb://facewebmodal/f?href=" + DHC.DoJMA_FACEBOOK_URL;
             } else { //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
+                return "fb://page/" + DHC.DoJMA_FACEBOOK_PAGE_ID;
             }
         } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
+            return DHC.DoJMA_FACEBOOK_URL; //normal web url
         }
     }
 

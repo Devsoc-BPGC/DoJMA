@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.adapters.GazettesRV;
 import com.csatimes.dojma.models.GazetteItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

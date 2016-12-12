@@ -15,6 +15,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.csatimes.dojma.utilities.DHC;
+import com.csatimes.dojma.utilities.SimpleAlertDialog;
+
 public class POSTDownloaderActivity extends AppCompatActivity {
     int initProgress = 0;
     private SharedPreferences.Editor editor;

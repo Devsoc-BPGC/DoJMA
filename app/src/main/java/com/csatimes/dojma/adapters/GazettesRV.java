@@ -27,7 +27,7 @@ import java.io.File;
 
 import io.realm.RealmResults;
 
-import static com.csatimes.dojma.DHC.directory;
+import static com.csatimes.dojma.utilities.DHC.directory;
 
 /**
  * Adapter to handle the data in the rv

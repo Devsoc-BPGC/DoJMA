@@ -1,12 +1,9 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.utilities;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.Log;
 
@@ -19,21 +16,21 @@ import java.io.FileOutputStream;
  */
 public class DHC {
 
+    public static final String USER_PREFERENCES = "USER_PREFS";
+
+    public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
+    public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
+    public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
+    public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
+    public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
+    public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
+
     public static final String dojmaFolderName = "dojma";
     public static final String ROOT_DIRECTORY = Environment.getExternalStorageDirectory()
             .toString();
     public static final String defaultImageURL = "-1";
     public static final String directory = ROOT_DIRECTORY + "/" + dojmaFolderName;
-    public static final String USER_PREFERENCES = "USER_PREFS";
-    public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
     public static final String REALM_DOJMA_LINKS_DATABASE = "DOJMA_LINKS_DATABASE";
-    public static final String linksAdrress = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Links/url.txt";
-    public static final String eventsAddress = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Events/events.txt";
-    public static final String GazetteLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Gazette/data.txt";
-    public static final String miscLink = "https://raw.githubusercontent.com/MobileApplicationsClub/DoJMA-Assets-Repo/master/Notification/urgent_notification.txt";
-    public static final String FIREBASE_STORAGE_URL = "gs://dojma-app.appspot.com";
-    public static int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
-    public static int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
 
     public static void log(String message){
         Log.e("TAG",message);

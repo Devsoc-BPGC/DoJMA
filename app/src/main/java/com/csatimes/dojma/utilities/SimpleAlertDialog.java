@@ -1,9 +1,11 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.utilities;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.view.ContextThemeWrapper;
+
+import com.csatimes.dojma.R;
 
 /**
  * Created by Android on 21-01-2016.

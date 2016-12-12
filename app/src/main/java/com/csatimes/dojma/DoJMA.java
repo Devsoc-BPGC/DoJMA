@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import io.realm.Realm;

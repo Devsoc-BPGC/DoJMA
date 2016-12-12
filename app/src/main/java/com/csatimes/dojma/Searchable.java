@@ -2,7 +2,9 @@ package com.csatimes.dojma;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -11,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class Searchable extends AppCompatActivity {
@@ -28,6 +32,20 @@ public class Searchable extends AppCompatActivity {
         emptyQuery = (TextView) findViewById(R.id.content_searchable_empty_text);
 
         handleIntent(getIntent());
+
+        //These flags are for system bar on top
+        //Don't bother yourself with this code
+        Window window = this.getWindow();
+        if (Build.VERSION.SDK_INT >= 19){
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            window.setNavigationBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        }
+
+
     }
 
     @Override

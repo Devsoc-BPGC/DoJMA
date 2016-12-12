@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.csatimes.dojma.DHC;
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder1;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder2;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder3;

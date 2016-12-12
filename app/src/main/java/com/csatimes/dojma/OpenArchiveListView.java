@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
+import com.csatimes.dojma.utilities.DHC;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.adapters.LinkRv;
 import com.csatimes.dojma.models.LinkItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
