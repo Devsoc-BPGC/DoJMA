@@ -51,27 +51,114 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/about_us_club_image"
+        android:layout_marginBottom="8dp"
         android:background="@color/mac_color"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/about_us_fb_link"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@color/mac_color"
-            android:textColor="@color/white"
-            app:srcCompat="@drawable/ic_facebook_white" />
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/about_us_play_link"
-            android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/about_us_fb_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/mac_color"
+                android:textColor="@color/white"
+                app:srcCompat="@drawable/ic_facebook_white" />
+
+            <ImageButton
+                android:id="@+id/about_us_play_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/mac_color"
+                android:textColor="@color/white"
+                app:srcCompat="@drawable/ic_google_play" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@color/mac_color"
-            android:textColor="@color/white"
-            app:srcCompat="@drawable/ic_google_play" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:paddingEnd="24dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingStart="24dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_bpgclogin" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_inter" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_dojma" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_bitsapp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_quark" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_waves" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mac_icon_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/mac_bitsapp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+        </LinearLayout>
 
     </LinearLayout>
 

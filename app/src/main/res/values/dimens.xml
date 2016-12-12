@@ -11,4 +11,5 @@
     <dimen name="mess_images_height">400dp</dimen>
     <dimen name="mess_text_padding">16dp</dimen>
     <dimen name="viewholder_small_text">14sp</dimen>
+    <dimen name="mac_icon_height">24dp</dimen>
 </resources>
