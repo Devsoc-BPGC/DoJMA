@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.csatimes.dojma.DHC;
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder1;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder2;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder3;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder4;
 import com.csatimes.dojma.viewholders.UtilitiesViewHolder5;
-
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

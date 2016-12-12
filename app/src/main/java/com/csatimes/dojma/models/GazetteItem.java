@@ -2,11 +2,13 @@ package com.csatimes.dojma.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import io.realm.RealmObject;
+
 /**
  * GazetteItem contains title,url,date
  */
 @IgnoreExtraProperties
-public class GazetteItem {
+public class GazetteItem extends RealmObject {
 
     private String title;
     private String url;

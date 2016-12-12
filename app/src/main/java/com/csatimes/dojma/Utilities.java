@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.csatimes.dojma.adapters.UtilitiesRV;
+
 public class Utilities extends Fragment {
     private static final int REQUEST_CALL_PHONE = 112;
     private static final int REQUEST_WRITE_STORAGE = 113;

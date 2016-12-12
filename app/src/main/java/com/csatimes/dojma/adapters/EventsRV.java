@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -12,50 +12,49 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.EventItem;
+import com.csatimes.dojma.viewholders.EventItemViewHolder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Vector;
+
+import io.realm.RealmResults;
 
 /**
  * Created by Vikramaditya Kukreja on 19-07-2016.
  */
 
-class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
+public class EventsRV extends RecyclerView.Adapter<EventItemViewHolder> {
 
-    Context context;
-    int pos;
-    private Vector<EventItem> eventItems;
-    private Date date;
-    private Date end;
+    private Context context;
+    private int pos;
+    private RealmResults<EventItem> eventItems;
     private Date currentDate;
 
-    public EventsRV(Context context, Vector<EventItem> eventItems, Date currentDate) {
+    public EventsRV(Context context, RealmResults<EventItem> eventItems, Date currentDate) {
         this.context = context;
         this.eventItems = eventItems;
         this.currentDate = currentDate;
     }
 
     @Override
-    public EventsRV.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the custom layout
         View event_item_format = inflater.inflate(R.layout.event_item_format, parent, false);
         // Return a new holder instance
-        return new ViewHolder(event_item_format);
+        return new EventItemViewHolder(event_item_format);
     }
 
     @Override
-    public void onBindViewHolder(EventsRV.ViewHolder holder, int position) {
+    public void onBindViewHolder(EventItemViewHolder holder, int position) {
         pos = holder.getAdapterPosition();
         try {
             holder.title.setText(eventItems.get(pos).getTitle());
@@ -68,8 +67,8 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
             DateFormat editedTargetFormat = new SimpleDateFormat("EEE, dd MMM", Locale.ENGLISH);
 
 
-            date = null;
-            end = null;
+            Date date = null;
+            Date end = null;
 
             String startDateText = "";
             try {
@@ -225,19 +224,18 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                 holder.status.setText("EVENT STATUS");
             }
             holder.datetime.setText(startDateText);
-            final String temptitle=eventItems.get(pos).getTitle();
-            final long tempStartTime=date.getTime();
+            final String temptitle = eventItems.get(pos).getTitle();
+            final long tempStartTime = date.getTime();
             final long tempEndTime;
-            if(eventItems.get(pos).getEndTime().equalsIgnoreCase("-"))
-            tempEndTime=date.getTime()+1*60*60*1000;
+            if (eventItems.get(pos).getEndTime().equalsIgnoreCase("-"))
+                tempEndTime = date.getTime() + 1 * 60 * 60 * 1000;
             else
-            tempEndTime=end.getTime();
-            final String tempDesc=eventItems.get(pos).getDesc();
-            final String tempLocation=eventItems.get(pos).getLocation();
+                tempEndTime = end.getTime();
+            final String tempDesc = eventItems.get(pos).getDesc();
+            final String tempLocation = eventItems.get(pos).getLocation();
 
 //This is wrong...cant use setDate method...instead try to re convert date inside onclicklistener
             if (!eventItems.get(pos).getStartTime().equalsIgnoreCase("-")) {
-
 
 
                 holder.add.setOnClickListener(new View.OnClickListener() {
@@ -246,15 +244,15 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
                         try {
 
 
-                            Intent intent=new Intent(Intent.ACTION_INSERT);
-                                    intent.setData(CalendarContract.Events.CONTENT_URI);
-                            if(tempStartTime>=currentDate.getTime())
-                                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, tempStartTime);
-                            if (tempEndTime>=currentDate.getTime())
-                                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,tempEndTime);
-                                    intent.putExtra(CalendarContract.Events.TITLE,temptitle);
-                                    intent.putExtra(CalendarContract.Events.DESCRIPTION,tempDesc);
-                                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION,tempLocation);
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setData(CalendarContract.Events.CONTENT_URI);
+                            if (tempStartTime >= currentDate.getTime())
+                                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, tempStartTime);
+                            if (tempEndTime >= currentDate.getTime())
+                                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, tempEndTime);
+                            intent.putExtra(CalendarContract.Events.TITLE, temptitle);
+                            intent.putExtra(CalendarContract.Events.DESCRIPTION, tempDesc);
+                            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, tempLocation);
                             context.startActivity(intent);
 
                         } catch (ActivityNotFoundException e) {
@@ -282,27 +280,11 @@ class EventsRV extends RecyclerView.Adapter<EventsRV.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return eventItems.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView desc;
-        TextView datetime;
-        TextView location;
-        TextView status;
-        ImageButton add;
-
-        public ViewHolder(final View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.events_format_title);
-            desc = (TextView) itemView.findViewById(R.id.events_format_description);
-            datetime = (TextView) itemView.findViewById(R.id.events_format_time);
-            location = (TextView) itemView.findViewById(R.id.events_format_location);
-            add = (ImageButton) itemView.findViewById(R.id.events_format_add);
-            status = (TextView) itemView.findViewById(R.id.events_format_status);
-
+        if (eventItems != null) {
+            return eventItems.size();
+        } else {
+            return 0;
         }
-
     }
+
 }

@@ -6,7 +6,6 @@ package com.csatimes.dojma;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,14 +22,11 @@ import java.util.List;
 import java.util.Set;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class CategoryListView extends ListActivity {
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
     private Realm database;
     private RealmResults<HeraldNewsItemFormat> categories;
     private RealmList<HeraldNewsItemFormat> resultsList;
@@ -40,10 +36,7 @@ public class CategoryListView extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder
-                (CategoryListView.this)
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+
         database = Realm.getDefaultInstance();
         categories = database.where(HeraldNewsItemFormat.class).findAllSorted("categoryTitle", Sort.ASCENDING);
         resultsList = new RealmList<>();
