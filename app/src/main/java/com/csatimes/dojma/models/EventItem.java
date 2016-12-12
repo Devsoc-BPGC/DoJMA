@@ -1,11 +1,14 @@
 package com.csatimes.dojma.models;
 
+import io.realm.RealmObject;
+
 /**
  * Event data object that has a title,startDate,start startTime,end startTime,location,desc
  */
 
-public class EventItem {
-    String title;
+public class EventItem extends RealmObject{
+
+    private String title;
     private String desc;
     private String startDate;
     private String startTime;

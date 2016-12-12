@@ -38,6 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,17 +51,11 @@ public class HomeActivity extends AppCompatActivity
     public static String FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
     public static String FACEBOOK_PAGE_ID = "DoJMABITSGoa";
     private static int pageColors = 0;
-    private Toolbar toolbarObject;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private Window window;
-    private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    //private MaterialSearchView searchView;
-    private ViewPagerAdapter adapter;
-    private boolean isGoogleChromeInstalled;
     private boolean landscape = false;
-    private String issuu = "https://issuu.com/bitsherald";
+    private MaterialSearchView searchView;
 
     @Override
     protected void onDestroy() {
@@ -68,12 +63,11 @@ public class HomeActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
-        preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
         //If app has been isGoogleChromeInstalled for the first time download the articles and their data
         //and then change shared preferences key "FIRST_TIME_INSTALL"
@@ -84,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
             startActivity(startFirstTimeDownloader);
             finish();
         }
-        if (isOnline() && UpdateCheckerService.instance != null && ImageUrlHandlerService.instance == null)
+        if (isOnline() && UpdateCheckerService.instance == null && ImageUrlHandlerService.instance == null)
             startService(new Intent(this, UpdateCheckerService.class));
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
@@ -93,24 +87,24 @@ public class HomeActivity extends AppCompatActivity
         editor = preferences.edit();
         editor.putBoolean("APP_STARTED", true);
 
-        isGoogleChromeInstalled = appInstalledOrNot("com.android.chrome");
+        boolean isGoogleChromeInstalled = appInstalledOrNot("com.android.chrome");
         if (isGoogleChromeInstalled)
             editor.putBoolean(getString(R.string.SP_chrome_install_status), true);
         else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
         editor.apply();
 
-
+        searchView = (MaterialSearchView) findViewById(R.id.home_activity_search_view);
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
+        Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
         setSupportActionBar(toolbarObject);
 
         setupColors();
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
-        window = this.getWindow();
+        Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
@@ -140,7 +134,7 @@ public class HomeActivity extends AppCompatActivity
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         if (savedInstanceState != null) {
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
@@ -194,7 +188,7 @@ public class HomeActivity extends AppCompatActivity
 
     //Setting up the View Pager with the fragments
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(new Herald(), "Herald");
         adapter.addFragment(new Gazette(), "Gazette");
@@ -223,8 +217,8 @@ public class HomeActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
-        // MenuItem item = menu.findItem(R.id.action_search);
-        // searchView.setMenuItem(item);
+         MenuItem item = menu.findItem(R.id.action_search);
+         searchView.setMenuItem(item);
 
         return true;
     }
@@ -281,6 +275,7 @@ public class HomeActivity extends AppCompatActivity
                         .enableUrlBarHiding()
                         .build();
 
+                String issuu = "https://issuu.com/bitsherald";
                 CustomTabActivityHelper.openCustomTab(this, customTabsIntent,
                         Uri.parse(issuu),
                         new CustomTabActivityHelper.CustomTabFallback() {
@@ -301,9 +296,6 @@ public class HomeActivity extends AppCompatActivity
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, "Share app url via ... "));
 
-        } else if (id == R.id.nav_main_idea) {
-            Intent intent = new Intent(HomeActivity.this, SuggestFeature.class);
-            startActivity(intent);
         } else if (id == R.id.nav_main_favourites) {
             Intent intent = new Intent(HomeActivity.this, Favourites.class);
             startActivity(intent);

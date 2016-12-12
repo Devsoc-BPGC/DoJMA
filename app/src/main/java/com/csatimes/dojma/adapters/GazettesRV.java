@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,10 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.GazetteItem;
+import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -23,29 +24,38 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.util.Vector;
+
+import io.realm.RealmResults;
 
 import static com.csatimes.dojma.DHC.directory;
 
 /**
- * Created by Vikramaditya Kukreja on 31-07-2016.
+ * Adapter to handle the data in the rv
  */
 
-public class GazettesRV extends RecyclerView.Adapter<GazettesRV.ViewHolder> {
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    Context context;
-    Vector<GazetteItem> gazetteItems;
-    boolean writePermission = true;
+public class GazettesRV extends RecyclerView.Adapter<GazetteItemViewHolder> {
+
+    private boolean writePermission = true;
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private Context context;
+    private RealmResults<GazetteItem> gazetteItems;
     private StorageReference storageRef = storage.getReference().child
             ("documents").child("gazettes");
 
-    public GazettesRV(Context context, Vector<GazetteItem> gazetteItems) {
+    public GazettesRV(Context context, RealmResults<GazetteItem> gazetteItems) {
         this.context = context;
         this.gazetteItems = gazetteItems;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public GazetteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new GazetteItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .gazette_item_format, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(GazetteItemViewHolder holder, int position) {
         final int pos = position;
         holder.title.setText(gazetteItems.get(position).getTitle());
         holder.title.setOnClickListener(new View.OnClickListener() {
@@ -133,13 +143,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.ViewHolder> {
         return gazetteItems.size();
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .gazette_item_format, parent, false));
-    }
-
-    void setHasWritePermission(boolean hasPermission) {
+    public void setHasWritePermission(boolean hasPermission) {
         this.writePermission = hasPermission;
     }
 
@@ -148,15 +152,6 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.ViewHolder> {
                 .CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.gazette_item_format_text);
-        }
     }
 
 }

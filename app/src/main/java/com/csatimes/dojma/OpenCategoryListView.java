@@ -9,12 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
@@ -46,9 +46,7 @@ public class OpenCategoryListView extends AppCompatActivity {
 
         searchView.setHint("Search post");
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        database = Realm.getDefaultInstance();
+          database = Realm.getDefaultInstance();
         realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag")).findAll();
         realmList = new RealmList();
         realmList.addAll(realmResults);

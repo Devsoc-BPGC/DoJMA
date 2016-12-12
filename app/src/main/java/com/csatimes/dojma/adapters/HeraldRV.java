@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,6 +20,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.csatimes.dojma.CircleImageDrawable;
+import com.csatimes.dojma.CopyLinkBroadcastReceiver;
+import com.csatimes.dojma.CustomTabActivityHelper;
+import com.csatimes.dojma.OfflineSimpleViewer;
+import com.csatimes.dojma.OpenWebpage;
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
@@ -158,7 +164,7 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
+    public void setGoogleChromeInstalled(boolean isGoogleChromeInstalled) {
         this.isGoogleChromeInstalled = isGoogleChromeInstalled;
     }
 

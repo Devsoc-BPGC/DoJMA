@@ -1,4 +1,4 @@
-package com.csatimes.dojma;
+package com.csatimes.dojma.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.csatimes.dojma.CircleImageDrawable;
+import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.PosterItem;
 import com.facebook.drawee.view.SimpleDraweeView;
 

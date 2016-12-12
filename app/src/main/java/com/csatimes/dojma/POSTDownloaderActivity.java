@@ -17,9 +17,7 @@ import android.widget.TextView;
 
 public class POSTDownloaderActivity extends AppCompatActivity {
     int initProgress = 0;
-    private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private Window window;
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
 
@@ -30,13 +28,13 @@ public class POSTDownloaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_postdownloader);
         textView = (TextView) findViewById(R.id.post_text);
 
-        preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
 
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
-        window = this.getWindow();
+        Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }

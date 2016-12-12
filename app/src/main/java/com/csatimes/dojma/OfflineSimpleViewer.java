@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class OfflineSimpleViewer extends AppCompatActivity {
     private HeraldNewsItemFormat article;
@@ -31,10 +30,7 @@ public class OfflineSimpleViewer extends AppCompatActivity {
 
         Intent intent = getIntent();
         String postID = intent.getStringExtra("POSTID");
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-        Realm database = Realm.getDefaultInstance();
+         Realm database = Realm.getDefaultInstance();
 
         if (postID != null) {
             article = database.where(HeraldNewsItemFormat.class)
