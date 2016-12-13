@@ -18,4 +18,11 @@
         android:gravity="center"
         android:text="Get important numbers, articles, favourites, pictures, gazettes, issues and more"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_searchable_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        />
+
 </RelativeLayout>

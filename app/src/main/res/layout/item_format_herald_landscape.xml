@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
-    android:id="@+id/herald_parent_card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/herald_parent_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="2dp"
@@ -21,12 +21,12 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/herald_rv_item_date"
+            android:id="@+id/search_herald_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/herald_rv_item_title"
+            android:layout_below="@+id/search_herald_title"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
@@ -37,9 +37,9 @@
             android:id="@+id/herald_rv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/herald_rv_item_date"
-            android:layout_toLeftOf="@+id/herald_rv_item_image"
-            android:layout_toStartOf="@+id/herald_rv_item_image"
+            android:layout_below="@id/search_herald_date"
+            android:layout_toLeftOf="@+id/search_herald_image"
+            android:layout_toStartOf="@+id/search_herald_image"
             android:maxLines="3"
             android:paddingEnd="8dp"
             android:paddingLeft="8dp"
@@ -51,14 +51,14 @@
 
 
         <TextView
-            android:id="@+id/herald_rv_item_title"
+            android:id="@+id/search_herald_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/herald_rv_item_image"
-            android:layout_toStartOf="@+id/herald_rv_item_image"
+            android:layout_toLeftOf="@+id/search_herald_image"
+            android:layout_toStartOf="@+id/search_herald_image"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="16dp"
@@ -67,12 +67,12 @@
             android:textSize="24sp"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/herald_rv_item_image"
+            android:id="@+id/search_herald_image"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/herald_rv_item_title"
+            android:layout_alignTop="@+id/search_herald_title"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="16dp"
@@ -83,9 +83,9 @@
             android:id="@+id/herald_like_button"
             android:layout_width="40dp"
             android:layout_height="42dp"
-            android:layout_alignLeft="@+id/herald_rv_item_image"
+            android:layout_alignLeft="@+id/search_herald_image"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/herald_rv_item_image"
+            android:layout_alignStart="@+id/search_herald_image"
             app:anim_scale_factor="3.5"
             app:circle_end_color="@color/likeCircleEnd"
             app:circle_start_color="@color/likeCircleStart"

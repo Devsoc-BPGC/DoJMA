@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 
 import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -16,10 +17,19 @@ public class DoJMA extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         Fresco.initialize(this);
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .name(DHC.REALM_DOJMA_DATABASE).deleteRealmIfMigrationNeeded().build();
+                .name(DHC.REALM_DOJMA_DATABASE)
+                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(2)
+                .build();
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 

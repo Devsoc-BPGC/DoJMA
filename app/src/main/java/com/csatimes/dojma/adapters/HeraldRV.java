@@ -79,10 +79,10 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == 0) {
-            View herald_card_view_format = inflater.inflate(R.layout.herald_card_view_format, parent, false);
+            View herald_card_view_format = inflater.inflate(R.layout.item_format_herald, parent, false);
             return new HeraldPotraitViewHolder(herald_card_view_format);
         } else {
-            View herald_card_view_format_landscape = inflater.inflate(R.layout.herald_card_view_format_landscape, parent, false);
+            View herald_card_view_format_landscape = inflater.inflate(R.layout.item_format_herald_landscape, parent, false);
             return new HeraldLandscapeViewHolder(herald_card_view_format_landscape);
         }
     }
@@ -312,9 +312,9 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public HeraldLandscapeViewHolder(final View itemView) {
             super(itemView);
-            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
-            date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
-            title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.search_herald_image);
+            date = (TextView) itemView.findViewById(R.id.search_herald_date);
+            title = (TextView) itemView.findViewById(R.id.search_herald_title);
             desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
             fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
             share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
