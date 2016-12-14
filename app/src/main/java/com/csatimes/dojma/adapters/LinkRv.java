@@ -1,57 +1,36 @@
 package com.csatimes.dojma.adapters;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.LinkItem;
 
-import java.util.Vector;
+import io.realm.RealmList;
 
-/**
- * Created by yash on 4/8/16.
- */
+public class LinkRv extends RecyclerView.Adapter<LinkRv.LinkItemViewHolder> {
+    private RealmList<LinkItem> linkItems;
+    private OnLinkClickedListener onLinkClickedListener;
 
-public class LinkRv extends RecyclerView.Adapter<LinkRv.ViewHolder> {
-    Context context;
-    Vector<LinkItem> linkItems;
-
-
-    public LinkRv(Context context, Vector<LinkItem> linkItems){
-        this.context = context;
+    public LinkRv(RealmList<LinkItem> linkItems) {
         this.linkItems = linkItems;
+        this.onLinkClickedListener = null;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final int pos=position;
+    public LinkRv.LinkItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new LinkRv.LinkItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .item_format_links, parent, false));
+
+    }
+
+    @Override
+    public void onBindViewHolder(LinkRv.LinkItemViewHolder holder, int position) {
         holder.title.setText(linkItems.get(position).getTitle());
-        holder.title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkItems.get(pos).getUrl()));
-
-                try {
-                    context.startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(context, "No application to load link! " + linkItems
-                                    .get(pos).getUrl(),
-                            Toast.LENGTH_LONG).show();
-                }
-
-            }
-        }
-
-        );
-
+        holder.url.setText(linkItems.get(position).getUrl());
     }
 
     @Override
@@ -59,19 +38,30 @@ public class LinkRv extends RecyclerView.Adapter<LinkRv.ViewHolder> {
         return linkItems.size();
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .gazette_item_format, parent, false));
-
+    public void setOnLinkClickedListener(OnLinkClickedListener onLinkClickedListener) {
+        this.onLinkClickedListener = onLinkClickedListener;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+    public interface OnLinkClickedListener {
+        void onClick(String url);
+    }
 
-        public ViewHolder(View itemView) {
+    class LinkItemViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+        public TextView url;
+
+        LinkItemViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.gazette_item_format_text);
+            title = (TextView) itemView.findViewById(R.id.item_format_links_title);
+            url = (TextView) itemView.findViewById(R.id.item_format_links_url);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onLinkClickedListener != null)
+                        onLinkClickedListener.onClick(linkItems.get(getAdapterPosition()).getUrl());
+                }
+            });
         }
     }
 }

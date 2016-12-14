@@ -12,6 +12,7 @@
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:padding="4dp"
+    android:stateListAnimator="@animator/lift_on_touch"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
     app:contentPaddingBottom="16dp"

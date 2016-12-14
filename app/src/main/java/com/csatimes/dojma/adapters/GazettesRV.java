@@ -1,141 +1,39 @@
 package com.csatimes.dojma.adapters;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.GazetteItem;
-import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnPausedListener;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-
-import io.realm.RealmResults;
-
-import static com.csatimes.dojma.utilities.DHC.directory;
+import io.realm.RealmList;
 
 /**
  * Adapter to handle the data in the rv
  */
 
-public class GazettesRV extends RecyclerView.Adapter<GazetteItemViewHolder> {
+public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewHolder> {
 
-    private boolean writePermission = true;
+    private RealmList<GazetteItem> gazetteItems;
+    private onGazetteItemClickedListener onGazetteItemClickedListener;
 
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private Context context;
-    private RealmResults<GazetteItem> gazetteItems;
-    private StorageReference storageRef = storage.getReference().child
-            ("documents").child("gazettes");
-
-    public GazettesRV(Context context, RealmResults<GazetteItem> gazetteItems) {
-        this.context = context;
+    public GazettesRV(RealmList<GazetteItem> gazetteItems) {
         this.gazetteItems = gazetteItems;
+        this.onGazetteItemClickedListener = null;
     }
 
     @Override
-    public GazetteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GazettesRV.GazetteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new GazetteItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .gazette_item_format, parent, false));
+                .item_format_gazette, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(GazetteItemViewHolder holder, int position) {
-        final int pos = position;
+    public void onBindViewHolder(GazettesRV.GazetteItemViewHolder holder, int position) {
         holder.title.setText(gazetteItems.get(position).getTitle());
-        holder.title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //download
-                if (writePermission) {
-                    {
-                        final File pdfFolder = new File(directory + "/gazettes/");
-                        pdfFolder.mkdirs();
-                        final String pdfName = gazetteItems.get(pos).getTitle() + ".pdf";
-                        File file = new File(pdfFolder, pdfName);
-
-
-                        if (file.exists()) {
-                            Uri path = Uri.fromFile(file);
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(path, "application/pdf");
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                            try {
-                                context.startActivity(intent);
-                            } catch (ActivityNotFoundException e) {
-                                Toast.makeText(context, "No application to load PDF", Toast
-                                        .LENGTH_LONG).show();
-                            }
-                        } else {
-                            //download file using firebase
-                            if (isOnline()) {
-                                Toast.makeText(context, "Starting Download", Toast.LENGTH_LONG)
-                                        .show();
-                                try {
-                                    StorageReference pdfRef = storage.getReferenceFromUrl
-                                            (gazetteItems.get(pos).getUrl());
-                                    pdfRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                            Toast.makeText(context, "Downloaded!", Toast.LENGTH_SHORT).show();
-                                            Uri path = Uri.fromFile(new File(pdfFolder, pdfName));
-                                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                                            intent.setDataAndType(path, "application/pdf");
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                                            try {
-                                                context.startActivity(intent);
-                                            } catch (ActivityNotFoundException e) {
-                                                Toast.makeText(context, "No application to load PDF", Toast
-                                                        .LENGTH_LONG).show();
-                                            }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(context, "Download Failed!", Toast
-                                                    .LENGTH_LONG).show();
-                                        }
-                                    }).addOnPausedListener(new OnPausedListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onPaused(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                            Toast.makeText(context, "Download was paused! why?", Toast
-                                                    .LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                } catch (Exception e) {
-                                    Toast.makeText(context, "Please stay online as new links are downloaded and try again later", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(context, R.string.no_internet_msg, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-                } else if (!writePermission) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(gazetteItems.get(pos).getUrl()));
-                    context.startActivity(intent);
-                }
-
-
-            }
-        });
     }
 
     @Override
@@ -143,15 +41,29 @@ public class GazettesRV extends RecyclerView.Adapter<GazetteItemViewHolder> {
         return gazetteItems.size();
     }
 
-    public void setHasWritePermission(boolean hasPermission) {
-        this.writePermission = hasPermission;
+    public void setOnGazetteItemClickedListener(GazettesRV.onGazetteItemClickedListener onGazetteItemClickedListener) {
+        this.onGazetteItemClickedListener = onGazetteItemClickedListener;
     }
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
+    public interface onGazetteItemClickedListener {
+        void onClicked(String url, String title);
+    }
+
+    class GazetteItemViewHolder extends RecyclerView.ViewHolder {
+        public TextView title;
+
+        GazetteItemViewHolder(View itemView) {
+            super(itemView);
+            title = (TextView) itemView.findViewById(R.id.gazette_item_format_text);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onGazetteItemClickedListener != null) {
+                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()).getUrl(), gazetteItems.get(getAdapterPosition()).getTitle());
+                    }
+                }
+            });
+        }
     }
 
 }

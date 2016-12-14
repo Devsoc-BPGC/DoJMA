@@ -60,11 +60,11 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder = new HeraldSearchViewHolder(v2);
                 break;
             case GAZETTES_ITEM_TYPE:
-                View v3 = inflater.inflate(R.layout.gazette_item_format, parent, false);
+                View v3 = inflater.inflate(R.layout.item_format_gazette, parent, false);
                 viewHolder = new GazetteItemViewHolder(v3);
                 break;
             case EVENTS_ITEM_TYPE:
-                View v4 = inflater.inflate(R.layout.event_item_format, parent, false);
+                View v4 = inflater.inflate(R.layout.item_format_event, parent, false);
                 viewHolder = new EventItemViewHolder(v4);
                 break;
 

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
-import com.csatimes.dojma.utilities.DHC;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;
@@ -47,15 +46,12 @@ public class OpenCategoryListView extends AppCompatActivity {
 
         searchView.setHint("Search post");
 
-          database = Realm.getDefaultInstance();
+        database = Realm.getDefaultInstance();
         realmResults = database.where(HeraldNewsItemFormat.class).equalTo("categoryTitle", getIntent().getStringExtra("myCategoryTag")).findAll();
         realmList = new RealmList();
         realmList.addAll(realmResults);
         getSupportActionBar().setTitle(getIntent().getStringExtra("myCategoryTag"));
-        heraldRVAdapter = new HeraldRV(this, realmList, database, OpenCategoryListView.this);
-        heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
-                .getBoolean(getString(R.string.SP_chrome_install_status), false));
-
+        heraldRVAdapter = new HeraldRV(realmList);
         catHeraldRV.setHasFixedSize(true);
         catHeraldRV.setLayoutManager(new LinearLayoutManager(this));
         catHeraldRV.setItemAnimator(new DefaultItemAnimator());

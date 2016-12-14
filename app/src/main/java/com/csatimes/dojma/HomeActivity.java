@@ -20,9 +20,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -38,10 +35,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.csatimes.dojma.utilities.DHC;
+import com.csatimes.dojma.utilities.ViewPagerAdapter;
 import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,12 +47,6 @@ public class HomeActivity extends AppCompatActivity
     private SharedPreferences.Editor editor;
     private boolean landscape = false;
     private DrawerLayout drawer;
-
-    @Override
-    protected void onDestroy() {
-        scheduleAlarmForUpdateService();
-        super.onDestroy();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +176,12 @@ public class HomeActivity extends AppCompatActivity
         adapter.addFragment(new Utilities(), "Utilities");
 
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        scheduleAlarmForUpdateService();
+        super.onDestroy();
     }
 
     @Override
@@ -400,32 +395,5 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> fragmentList = new ArrayList<>();
-        private final List<String> fragmentListTitle = new ArrayList<>();
 
-        ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        void addFragment(Fragment fragment, String title) {
-            fragmentList.add(fragment);
-            fragmentListTitle.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return fragmentListTitle.get(position);
-        }
-    }
 }

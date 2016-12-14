@@ -48,7 +48,7 @@ public class EventsRV extends RecyclerView.Adapter<EventItemViewHolder> {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the custom layout
-        View event_item_format = inflater.inflate(R.layout.event_item_format, parent, false);
+        View event_item_format = inflater.inflate(R.layout.item_format_event, parent, false);
         // Return a new holder instance
         return new EventItemViewHolder(event_item_format);
     }

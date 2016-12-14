@@ -39,6 +39,7 @@ public class Events extends Fragment implements View.OnClickListener {
     private RealmResults<EventItem> eventItems;
     private Realm database;
     private RecyclerView eventsRV;
+    private ValueEventListener eventListener;
 
     public Events() {
         // Required empty public constructor
@@ -64,6 +65,12 @@ public class Events extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+
+        if (!isOnline()) {
+            errorText.setVisibility(View.VISIBLE);
+        } else {
+            errorText.setVisibility(View.GONE);
+        }
         //As mentioned in Realm Docs, the realm should be instantiated in the onStart method
         //Because of the late initialising of the realm, adapter is placed after it so that adapter.notifyDataSetChanged() works
         database = Realm.getDefaultInstance();
@@ -73,7 +80,13 @@ public class Events extends Fragment implements View.OnClickListener {
         adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
         eventsRV.setAdapter(adapter);
 
-        eventsRef.addValueEventListener(new ValueEventListener() {
+        eventListener = returnListener();
+        eventsRef.addValueEventListener(eventListener);
+
+    }
+
+    private ValueEventListener returnListener() {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 errorText.setVisibility(View.GONE);
@@ -115,22 +128,19 @@ public class Events extends Fragment implements View.OnClickListener {
                 sortThisShit();
                 adapter.notifyDataSetChanged();
             }
-        });
-
+        };
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isOnline()) {
-            errorText.setText(R.string.message_events_stay_connected);
-            errorText.setVisibility(View.VISIBLE);
-        }
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        eventsRef.removeEventListener(eventListener);
         database.close();
     }
 

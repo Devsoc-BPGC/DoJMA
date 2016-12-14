@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
-import com.csatimes.dojma.utilities.DHC;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;
@@ -54,9 +53,7 @@ public class OpenArchiveListView extends AppCompatActivity {
         realmList = new RealmList();
         realmList.addAll(realmResults);
 
-        heraldRVAdapter = new HeraldRV(this, realmList, database, OpenArchiveListView.this);
-        heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
-                .getBoolean(getString(R.string.SP_chrome_install_status), false));
+        heraldRVAdapter = new HeraldRV(realmList);
 
         arcHeraldRV.setHasFixedSize(true);
         arcHeraldRV.setLayoutManager(new LinearLayoutManager(this));

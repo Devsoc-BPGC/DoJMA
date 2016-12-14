@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.csatimes.dojma.LinkListView;
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.UtilitiesLinksActivity;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -64,7 +64,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
         }
 
         else if (view.getId() == itemView.getId()) {
-            Intent intent = new Intent(context, LinkListView.class);
+            Intent intent = new Intent(context, UtilitiesLinksActivity.class);
             context.startActivity(intent);
 
         }

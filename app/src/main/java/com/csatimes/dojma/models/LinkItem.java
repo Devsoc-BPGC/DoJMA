@@ -1,6 +1,8 @@
 package com.csatimes.dojma.models;
 
-public class LinkItem {
+import io.realm.RealmObject;
+
+public class LinkItem extends RealmObject {
 
     private String title;
     private String url;

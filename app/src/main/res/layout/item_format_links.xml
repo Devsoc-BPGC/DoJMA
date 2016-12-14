@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:stateListAnimator="@animator/lift_on_touch">
+
+    <TextView
+        android:id="@+id/item_format_links_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Link title"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_format_links_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="2dp"
+        android:text="Link url"
+        android:textSize="14sp" />
+</LinearLayout>

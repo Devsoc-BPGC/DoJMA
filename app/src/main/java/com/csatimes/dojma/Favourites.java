@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.adapters.HeraldRV;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
-import com.csatimes.dojma.utilities.DHC;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import io.realm.Case;
@@ -53,10 +52,7 @@ public class Favourites extends AppCompatActivity {
         if (realmList.size() == 0)
             textView.setVisibility(View.VISIBLE);
         else {
-            heraldRVAdapter = new HeraldRV(this, realmList, database, Favourites.this);
-            heraldRVAdapter.setGoogleChromeInstalled(getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE)
-                    .getBoolean(getString(R.string.SP_chrome_install_status), false));
-
+            heraldRVAdapter = new HeraldRV(realmList);
             favHeraldRV.setHasFixedSize(true);
             favHeraldRV.setLayoutManager(new LinearLayoutManager(this));
             favHeraldRV.setItemAnimator(new DefaultItemAnimator());

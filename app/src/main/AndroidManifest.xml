@@ -127,7 +127,7 @@
                 android:value="com.csatimes.dojma.HomeActivity" />
         </activity>
         <activity
-            android:name=".LinkListView"
+            android:name=".UtilitiesLinksActivity"
             android:label="Links"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme">

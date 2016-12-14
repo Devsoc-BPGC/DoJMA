@@ -1,13 +1,10 @@
 package com.csatimes.dojma;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,41 +22,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
 
-public class Gazette extends Fragment {
+public class Gazette extends Fragment implements GazettesRV.onGazetteItemClickedListener {
 
     //Random number to address write permission
     public static final int REQUEST_WRITE_STORAGE = 112;
-    GazettesRV adapter;
-    private RecyclerView gazetteRecyclerView;
-    private RealmResults<GazetteItem> gazetteList;
-    private boolean hasPermission = false;
+
+    private GazettesRV adapter;
+    private RealmList<GazetteItem> gazetteResults;
     private TextView emptyList;
     private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes");
     private Realm database;
+    private ValueEventListener gazetteListener;
 
     public Gazette() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    hasPermission = true;
-                    if (adapter != null) adapter.setHasWritePermission(hasPermission);
-                } else {
-                    Snackbar.make(gazetteRecyclerView, "Write permission denied, pdfs will be handled by browser", Snackbar.LENGTH_LONG).show();
-                    hasPermission = false;
-                    if (adapter != null) adapter.setHasWritePermission(hasPermission);
-                }
-            }
-        }
     }
 
 
@@ -70,29 +49,38 @@ public class Gazette extends Fragment {
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
 
         emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
-        gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
+        RecyclerView gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
         gazetteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         gazetteRecyclerView.setHasFixedSize(true);
 
+        database = Realm.getDefaultInstance();
 
+        gazetteResults = new RealmList<>();
+        gazetteResults.addAll(database.where(GazetteItem.class).findAll());
+
+        adapter = new GazettesRV(gazetteResults);
+        gazetteRecyclerView.setAdapter(adapter);
+
+        adapter.setOnGazetteItemClickedListener(this);
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        database = Realm.getDefaultInstance();
-
-        gazetteList = database.where(GazetteItem.class).findAll();
-        adapter = new GazettesRV(getContext(), gazetteList);
-        gazetteRecyclerView.setAdapter(adapter);
 
         if (adapter.getItemCount() != 0) {
             emptyList.setVisibility(View.GONE);
         }
 
-        gazettes.addValueEventListener(new ValueEventListener() {
+        gazetteListener = returnEventListener();
+
+        gazettes.addValueEventListener(gazetteListener);
+    }
+
+    private ValueEventListener returnEventListener() {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -100,7 +88,7 @@ public class Gazette extends Fragment {
                 database.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        database.delete(GazetteItem.class);
+                        realm.delete(GazetteItem.class);
                     }
                 });
 
@@ -118,17 +106,19 @@ public class Gazette extends Fragment {
                             }
                         });
                     } catch (Exception e) {
-                        e.printStackTrace();
                         DHC.log("child shot get value parse error in gazettes. check firebase");
                     }
 
                 }
 
                 //TODO: sort gazettes later
-                gazetteList = database.where(GazetteItem.class).findAll();
+                gazetteResults.clear();
+                gazetteResults.addAll(database.where(GazetteItem.class).findAll());
                 adapter.notifyDataSetChanged();
                 if (adapter.getItemCount() != 0) {
                     emptyList.setVisibility(View.GONE);
+                } else {
+                    emptyList.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -136,32 +126,21 @@ public class Gazette extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
                 DHC.log("gazettes firebase database error " + databaseError.getMessage());
             }
-        });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        hasPermission = (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_STORAGE);
-        }
-
-        if (adapter.getItemCount() != 0) {
-            emptyList.setVisibility(View.GONE);
-        }
-
+        };
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        gazettes.removeEventListener(gazetteListener);
         database.close();
     }
 
+    @Override
+    public void onClicked(String url, String title) {
+        //TODO Download file to destination uri and check if file exists
+        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(new DownloadManager.Request(Uri.parse(url)).setTitle(title).setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE).setMimeType("text/pdf"));
+    }
 }
 
