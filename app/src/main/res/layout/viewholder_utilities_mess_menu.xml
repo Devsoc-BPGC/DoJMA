@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -26,66 +25,17 @@
             android:padding="12dp"
             android:text="Mess Menu"
             android:textColor="@color/white"
-            android:textSize="22sp"/>
+            android:textSize="22sp" />
 
         <TextView
-            android:id="@+id/viewholder_mess_format_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/viewholder_mess_format_title"
-            android:padding="10dp"
-            android:text="Quick download mess menus"
-            android:textColor="@color/white"
-            android:textSize="@dimen/viewholder_small_text"/>
-
-        <Button
-            android:id="@+id/viewholder_mess_format_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_mess_format_text1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingStart="16dp"
-            android:text="A-Mess"
-            android:textColor="@color/utilities_mess_background"
-            android:textSize="@dimen/viewholder_small_text"
-            android:translationZ="0dp"
-            />
-
-        <Button
-            android:id="@+id/viewholder_mess_format_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_mess_format_a"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingStart="16dp"
-            android:text="C-Mess"
-            android:textColor="@color/utilities_mess_background"
-            android:textSize="@dimen/viewholder_small_text"
-            android:translationZ="0dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/viewholder_mess_format_c"
             android:padding="16dp"
             android:text="@string/viewholder_mess_msg"
             android:textColor="@color/white"
-            android:textSize="@dimen/viewholder_small_text"/>
+            android:textSize="@dimen/viewholder_small_text" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

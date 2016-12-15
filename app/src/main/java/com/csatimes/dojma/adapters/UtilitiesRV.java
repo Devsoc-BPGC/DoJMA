@@ -39,7 +39,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        sharedPreferences=context.getSharedPreferences(DHC.USER_PREFERENCES,Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         switch (viewType) {
@@ -49,7 +49,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case 1:
                 View v2 = inflater.inflate(R.layout.viewholder_utilities_mess_menu, parent, false);
-                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext(), hasWritePermission, activity);
+                viewHolder = new UtilitiesViewHolder2(v2, parent.getContext());
                 break;
             case 2:
                 View v3 = inflater.inflate(R.layout.viewholder_utilities_links, parent, false);
@@ -74,26 +74,24 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder.getItemViewType() == 3) {
             final UtilitiesViewHolder4 vh = (UtilitiesViewHolder4) holder;
             DatabaseReference miscRef = FirebaseDatabase.getInstance().getReference().child("miscCard");
-            vh.text.setText(sharedPreferences.getString("misc",context.getString(R.string.UTILITIES_MISC_text)));
+            vh.text.setText(sharedPreferences.getString("misc", context.getString(R.string.UTILITIES_MISC_text)));
 
             miscRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
                 @Override
                 public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                     vh.text.setText(dataSnapshot.getValue(String.class));
 
-                    editor.putString("misc",vh.text.getText().toString());
+                    editor.putString("misc", vh.text.getText().toString());
                     editor.apply();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    vh.text.setText(sharedPreferences.getString("misc","-"));
+                    vh.text.setText(sharedPreferences.getString("misc", "-"));
                 }
             });
         }
     }
-
-
 
 
     @Override

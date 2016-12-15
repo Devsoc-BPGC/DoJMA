@@ -117,7 +117,7 @@
     <string name="title_activity_live_lcdnews">Live LCD News</string>
     <string name="no_gazettes">No gazettes available right now</string>
     <string name="title_activity_mess_menus">MessMenus</string>
-    <string name="viewholder_mess_msg">Or click here for other menus like foodking, gaja,
+    <string name="viewholder_mess_msg">Click here for all menus like A mess, C mess, foodking, gaja,
         icespice etc.</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
