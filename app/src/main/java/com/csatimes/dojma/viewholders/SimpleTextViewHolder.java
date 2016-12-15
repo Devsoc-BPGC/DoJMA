@@ -10,10 +10,10 @@ import com.csatimes.dojma.R;
  * A simple text viewholder used in Searchable activity
  */
 
-public class SimpleTextViewholder extends RecyclerView.ViewHolder {
+public class SimpleTextViewHolder extends RecyclerView.ViewHolder {
 
     public TextView text;
-    public SimpleTextViewholder(View itemView) {
+    public SimpleTextViewHolder(View itemView) {
         super(itemView);
         text = (TextView) itemView.findViewById(R.id.viewholder_simple_text_textview);
     }

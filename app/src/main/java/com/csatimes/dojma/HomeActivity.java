@@ -54,11 +54,7 @@ public class HomeActivity extends AppCompatActivity
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
         SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
-        //If app has been isGoogleChromeInstalled for the first time download the articles and their data
-        //and then change shared preferences key "FIRST_TIME_INSTALL"
-        //This key is saved in strings.xml to avoid confusion
-        //It is called using android method getString(resID)
-        if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
+          if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
             Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
             startActivity(startFirstTimeDownloader);
             finish();
@@ -244,9 +240,6 @@ public class HomeActivity extends AppCompatActivity
                         .setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(),
                                 R.drawable.ic_arrow_back_white_24dp))
                         .addMenuItem(copy_label, copy_pendingIntent)
-                        .setStartAnimations(this, R.anim.slide_in_right, R.anim.fade_out)
-                        .setExitAnimations(this, R.anim.fade_in, R.anim.slide_out_right)
-                        .setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.amber500))
                         .addDefaultShareMenuItem()
                         .enableUrlBarHiding()
                         .build();
@@ -307,9 +300,6 @@ public class HomeActivity extends AppCompatActivity
                     .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                     .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp))
                     .addMenuItem(copy_label, copy_pendingIntent)
-                    //.setStartAnimations(this, R.anim.slide_in_right, R.anim.fade_out)
-                    //.setExitAnimations(this, R.anim.fade_in, R.anim.slide_out_right)
-                    .setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.amber500))
                     .addDefaultShareMenuItem()
                     .enableUrlBarHiding()
                     .build();

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:stateListAnimator="@animator/lift_on_touch"
+    app:cardElevation="0dp">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_format_contact_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="start|center_vertical"
+            android:padding="8dp"
+            android:text="Name"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/item_format_contact_call"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Call Button"
+            app:srcCompat="@drawable/call_button_color_state_list"
+            app:theme="@style/CallButtonColorControlHighlight" />
+
+        <ImageButton
+            android:id="@+id/item_format_contact_email"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Email Button"
+            app:srcCompat="@drawable/email_button_color_state"
+            app:theme="@style/EmailButtonColorControlHighlight" />
+
+        <ImageButton
+            android:id="@+id/item_format_contact_add"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Add Contact Button"
+            app:srcCompat="@drawable/ic_add_contact" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
