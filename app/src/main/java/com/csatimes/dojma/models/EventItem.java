@@ -1,12 +1,20 @@
 package com.csatimes.dojma.models;
 
+import com.csatimes.dojma.utilities.DHC;
+import com.google.firebase.database.Exclude;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
  * Event data object that has a title,startDate,start startTime,end startTime,location,desc
  */
 
-public class EventItem extends RealmObject{
+public class EventItem extends RealmObject {
 
     private String title;
     private String desc;
@@ -15,6 +23,13 @@ public class EventItem extends RealmObject{
     private String endTime;
     private String endDate;
     private String location;
+
+    @Exclude
+    @Ignore
+    private Date startDateObj;
+    @Exclude
+    @Ignore
+    private Date endDateObj;
 
     public EventItem() {
         desc = null;
@@ -35,7 +50,6 @@ public class EventItem extends RealmObject{
         this.endTime = endTime;
         this.location = location;
     }
-
 
 
     public String getEndTime() {
@@ -92,5 +106,65 @@ public class EventItem extends RealmObject{
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Exclude
+    public Date getStartDateObj() {
+        String dtStart = getStartDate() + getStartTime();
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
+        try {
+            date = format.parse(dtStart);
+        } catch (Exception e) {
+            DHC.log("Date parse error");
+        }
+        return date;
+    }
+
+    @Exclude
+    public Date getEndDateObj() {
+        Date date = null;
+        if (getEndDate() != null && getEndTime() != null) {
+            String foo = getEndDate() + getEndTime();
+            SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
+            try {
+                date = format.parse(foo);
+            } catch (Exception e) {
+                DHC.log("Date parse error");
+            }
+        }
+        return date;
+    }
+
+    @Exclude
+    public String getStartDateFormatted() {
+        String dateString;
+        Date date = getStartDateObj();
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            try {
+                dateString = sdf.format(date);
+                return dateString;
+            } catch (Exception e) {
+                DHC.log("Date parse error in getStartDateFormatted" );
+            }
+        }
+        return getStartDate();
+    }
+
+    @Exclude
+    public String getStartTimeFormatted() {
+        String timeString;
+        Date date = getStartDateObj();
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+            try {
+                timeString = sdf.format(date);
+                return timeString;
+            } catch (Exception e) {
+                DHC.log("Date parse error in getStartTimeFormatted" );
+            }
+        }
+        return getStartTime();
     }
 }

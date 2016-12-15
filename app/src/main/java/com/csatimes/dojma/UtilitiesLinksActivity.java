@@ -58,9 +58,9 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Useful Links");
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //These flags are for system bar on top
         //Don't bother yourself with this code
         Window window = this.getWindow();

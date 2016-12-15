@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.csatimes.dojma.MessMenus;
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.UtilitiesMessMenu;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -149,7 +149,7 @@ public class UtilitiesViewHolder2 extends RecyclerView.ViewHolder implements Vie
                 }
             }
         } else {
-            Intent intent = new Intent(context, MessMenus.class);
+            Intent intent = new Intent(context, UtilitiesMessMenu.class);
             context.startActivity(intent);
         }
     }

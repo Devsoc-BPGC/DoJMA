@@ -78,12 +78,12 @@
 
         <service
             android:name=".UpdateCheckerService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <receiver android:name=".AlarmReceiver"></receiver>
+        <receiver android:name=".AlarmReceiver" />
         <receiver
             android:name=".CopyLinkBroadcastReceiver"
-            android:enabled="true"></receiver>
+            android:enabled="true" />
         <receiver android:name=".BootBroadcastService">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -148,14 +148,14 @@
             android:name=".POSTDownloaderActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_postdownloader"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".ImageUrlHandlerService"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name=".PostDownloadService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity android:name=".ContactsActivity"></activity>
 
@@ -198,7 +198,7 @@
         </service>
 
         <activity
-            android:name=".MessMenus"
+            android:name=".UtilitiesMessMenu"
             android:label="@string/title_activity_mess_menus"
             android:parentActivityName=".HomeActivity"
             android:theme="@style/AppTheme">
@@ -215,11 +215,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.HomeActivity" />
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 

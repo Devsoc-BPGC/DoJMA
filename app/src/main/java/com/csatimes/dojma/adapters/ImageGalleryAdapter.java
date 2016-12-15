@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.csatimes.dojma.CircleImageDrawable;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.PosterItem;
+import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Vector;

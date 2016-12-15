@@ -74,7 +74,7 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (results != null && results.size()!=0) {
+        if (results != null && results.size() != 0) {
             if (holder.getItemViewType() == TITLE_ITEM_TYPE) {
                 DHC.log("title type");
                 SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
@@ -99,7 +99,8 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 EventItem foo = (EventItem) results.get(Searchable.SEARCHABLE_EVENTS).get(position - 3 - articlesSize - gazettesSize);
                 eivh.title.setText(foo.getTitle());
                 eivh.location.setText(foo.getLocation());
-                eivh.datetime.setText(foo.getStartDate() + " " + foo.getStartTime());
+                eivh.time.setText(foo.getStartTime());
+                eivh.date.setText(foo.getStartDate());
                 eivh.desc.setText(foo.getDesc());
             }
         }
@@ -109,7 +110,7 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
 
-        if (results != null && results.size()!=0) {
+        if (results != null && results.size() != 0) {
             int total = 0;
             //This is for the titles of each type inflated using SimpleTextViewHolder
             total += results.size();

@@ -8,7 +8,7 @@
             <objectAnimator
                 android:duration="@android:integer/config_longAnimTime"
                 android:propertyName="translationZ"
-                android:valueTo="4dp"
+                android:valueTo="6dp"
                 android:valueType="floatType"/>
         </set>
     </item>

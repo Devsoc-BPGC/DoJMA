@@ -5,8 +5,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     private GazettesRV adapter;
     private RealmList<GazetteItem> gazetteResults;
     private TextView emptyList;
-    private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes");
+    private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes2");
     private Realm database;
     private ValueEventListener gazetteListener;
 
@@ -51,7 +52,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
         RecyclerView gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
-        gazetteRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        gazetteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), span()));
         gazetteRecyclerView.setHasFixedSize(true);
 
         database = Realm.getDefaultInstance();
@@ -79,6 +80,24 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         gazettes.addValueEventListener(gazetteListener);
     }
 
+    private int span() {
+
+        //Setup columns according to device screen
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up grid
+        int num = 175;
+        float t = dpWidth / num;
+        float r = dpWidth % num;
+        int cols;
+        if (r > 0.8 * num)
+            cols = (int) Math.ceil(dpWidth / num);
+        else
+            cols = (int) t;
+
+        return cols;
+    }
+
     private ValueEventListener returnEventListener() {
         return new ValueEventListener() {
             @Override
@@ -103,6 +122,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
                                 bar.setTitle(foo.getTitle());
                                 bar.setDate(foo.getDate());
                                 bar.setUrl(foo.getUrl());
+                                bar.setImageUrl(foo.getImageUrl());
                             }
                         });
                     } catch (Exception e) {

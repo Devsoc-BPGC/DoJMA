@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.csatimes.dojma.Events">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.csatimes.dojma.Events">
 
     <TextView
         android:id="@+id/error_text_view"
@@ -10,15 +11,14 @@
         android:layout_height="wrap_content"
         android:text="@string/message_events_stay_connected"
         android:textSize="16sp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/error_text_view"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
 
 </RelativeLayout>

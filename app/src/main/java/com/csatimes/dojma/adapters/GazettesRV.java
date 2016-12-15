@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.GazetteItem;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import io.realm.RealmList;
 
@@ -34,6 +35,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
     @Override
     public void onBindViewHolder(GazettesRV.GazetteItemViewHolder holder, int position) {
         holder.title.setText(gazetteItems.get(position).getTitle());
+        holder.image.setImageURI(gazetteItems.get(position).getImageUrl());
     }
 
     @Override
@@ -51,10 +53,12 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
 
     class GazetteItemViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
+        public SimpleDraweeView image;
 
         GazetteItemViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.gazette_item_format_text);
+            title = (TextView) itemView.findViewById(R.id.item_format_gazette_title);
+            image = (SimpleDraweeView) itemView.findViewById(R.id.item_format_gazette_image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

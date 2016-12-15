@@ -13,17 +13,20 @@ public class GazetteItem extends RealmObject {
     private String title;
     private String url;
     private String date;
+    private String imageUrl;
 
     public GazetteItem() {
         this.title = "";
         this.url = "";
         this.date = "";
+        this.imageUrl = "";
     }
 
-    public GazetteItem(String title, String url, String date) {
+    public GazetteItem(String title, String url, String date,String imageUrl) {
         this.title = title;
         this.url = url;
         this.date = date;
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
@@ -48,5 +51,13 @@ public class GazetteItem extends RealmObject {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

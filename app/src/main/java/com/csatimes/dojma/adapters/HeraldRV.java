@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.csatimes.dojma.CircleImageDrawable;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
+import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
