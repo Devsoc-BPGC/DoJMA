@@ -70,7 +70,7 @@
     <color name="filter_dialog_accent_color_light">@color/blue500</color>
     <color name="filter_dialog_bg_color_light">@color/white</color>
 
-    <color name="call_button">@color/blue500</color>
+    <color name="call_button_color">@color/blue500</color>
     <color name="mail_button_color">@color/red700</color>
     <color name="add_contact">@color/grey500</color>
 

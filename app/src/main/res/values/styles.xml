@@ -84,17 +84,23 @@
         <item name="android:windowShowAnimation">@anim/commons_slide_up_to_bottom</item>
     </style>
 
-    <style name="ColoredButton" parent="Base.Widget.AppCompat.Button.Borderless.Colored"></style>
-
     <style name="ColoredButton2" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/yellowA400</item>
     </style>
 
     <style name="CallButtonColorControlHighlight" parent="AppTheme">
-        <item name="colorControlHighlight">@color/blueA200</item>
+        <item name="colorControlHighlight">@color/call_button_color</item>
     </style>
     <style name="EmailButtonColorControlHighlight" parent="AppTheme">
-        <item name="colorControlHighlight">@color/redA200</item>
+        <item name="colorControlHighlight">@color/mail_button_color</item>
     </style>
+
+    <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/white</item>
+    </style>
+
+
+
+
 
 </resources>
