@@ -90,5 +90,11 @@
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/yellowA400</item>
     </style>
 
+    <style name="CallButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/blueA200</item>
+    </style>
+    <style name="EmailButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/redA200</item>
+    </style>
 
 </resources>

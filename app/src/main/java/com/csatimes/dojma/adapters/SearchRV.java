@@ -16,7 +16,7 @@ import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.viewholders.EventItemViewHolder;
 import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
 import com.csatimes.dojma.viewholders.HeraldSearchViewHolder;
-import com.csatimes.dojma.viewholders.SimpleTextViewholder;
+import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (viewType) {
             case TITLE_ITEM_TYPE:
                 View v1 = inflater.inflate(R.layout.viewholder_simple_text, parent, false);
-                viewHolder = new SimpleTextViewholder(v1);
+                viewHolder = new SimpleTextViewHolder(v1);
                 break;
             case ARTICLES_ITEM_TYPE:
                 View v2 = inflater.inflate(R.layout.item_format_search_herald, parent, false);
@@ -77,7 +77,7 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (results != null && results.size()!=0) {
             if (holder.getItemViewType() == TITLE_ITEM_TYPE) {
                 DHC.log("title type");
-                SimpleTextViewholder stvh = (SimpleTextViewholder) holder;
+                SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
                 stvh.text.setText(titles.get(position));
 
             } else if (holder.getItemViewType() == ARTICLES_ITEM_TYPE) {
