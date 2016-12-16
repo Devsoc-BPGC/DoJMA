@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:stateListAnimator="@animator/lift_on_touch"
-        card_view:cardElevation="16dp"
+        card_view:cardElevation="8dp"
         card_view:theme="@style/AlertDialog.AppCompat">
 
         <com.facebook.drawee.view.SimpleDraweeView

@@ -44,7 +44,6 @@ public class HomeActivity extends AppCompatActivity
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private SharedPreferences.Editor editor;
     private boolean landscape = false;
     private DrawerLayout drawer;
 
@@ -54,25 +53,14 @@ public class HomeActivity extends AppCompatActivity
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
         SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
-          if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
+        if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
             Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
             startActivity(startFirstTimeDownloader);
             finish();
         }
-        if (isOnline() && UpdateCheckerService.instance == null && ImageUrlHandlerService.instance == null)
-            startService(new Intent(this, UpdateCheckerService.class));
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
-
-        editor = preferences.edit();
-        editor.putBoolean("APP_STARTED", true);
-
-        boolean isGoogleChromeInstalled = appInstalledOrNot("com.android.chrome");
-        if (isGoogleChromeInstalled)
-            editor.putBoolean(getString(R.string.SP_chrome_install_status), true);
-        else editor.putBoolean(getString(R.string.SP_chrome_install_status), false);
-        editor.apply();
 
         View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -108,6 +96,9 @@ public class HomeActivity extends AppCompatActivity
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        //Custom method to set icons for the tabs
+        setupTabIcons();
+
         if (savedInstanceState != null) {
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
@@ -119,9 +110,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (getString(R.string.shortcut_utilities).equals(getIntent().getAction())) {
             viewPager.setCurrentItem(3);
         }
-
-        //Custom method to set icons for the tabs
-        setupTabIcons();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -138,19 +126,6 @@ public class HomeActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         viewPager.requestFocus();
-    }
-
-    @Override
-    protected void onPause() {
-        editor.apply();
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        editor.putBoolean(getString(R.string.SP_app_started), false);
-        editor.apply();
-        super.onStop();
     }
 
     private void setupTabIcons() {
@@ -342,26 +317,6 @@ public class HomeActivity extends AppCompatActivity
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
                 AlarmManager.INTERVAL_DAY, pIntent);
-    }
-
-    public void cancelAlarm() {
-        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
-    }
-
-    private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
-        boolean app_installed;
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed;
     }
 
     @Override

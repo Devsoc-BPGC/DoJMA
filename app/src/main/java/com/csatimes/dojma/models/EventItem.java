@@ -9,13 +9,18 @@ import java.util.Locale;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
- * Event data object that has a title,startDate,start startTime,end startTime,location,desc
+ * Event data object that has a title,startDate,start startTime,end startTime,location,desc,id and some more useful methods and variables
  */
 
 public class EventItem extends RealmObject {
 
+    @Exclude
+    private boolean alarm = false;
+    @PrimaryKey
+    private String key;
     private String title;
     private String desc;
     private String startDate;
@@ -32,16 +37,17 @@ public class EventItem extends RealmObject {
     private Date endDateObj;
 
     public EventItem() {
-        desc = null;
-        startDate = null;
-        startTime = null;
-        endTime = null;
-        endDate = null;
-        location = null;
-        title = null;
+        desc = "";
+        startDate = "";
+        startTime = "";
+        endTime = "";
+        endDate = "";
+        location = "";
+        title = "";
+        key = "";
     }
 
-    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate) {
+    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate, String key) {
         this.title = title;
         this.desc = desc;
         this.startDate = startDate;
@@ -49,6 +55,7 @@ public class EventItem extends RealmObject {
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
+        this.key = key;
     }
 
 
@@ -108,6 +115,14 @@ public class EventItem extends RealmObject {
         this.location = location;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     @Exclude
     public Date getStartDateObj() {
         String dtStart = getStartDate() + getStartTime();
@@ -146,7 +161,7 @@ public class EventItem extends RealmObject {
                 dateString = sdf.format(date);
                 return dateString;
             } catch (Exception e) {
-                DHC.log("Date parse error in getStartDateFormatted" );
+                DHC.log("Date parse error in getStartDateFormatted");
             }
         }
         return getStartDate();
@@ -162,9 +177,18 @@ public class EventItem extends RealmObject {
                 timeString = sdf.format(date);
                 return timeString;
             } catch (Exception e) {
-                DHC.log("Date parse error in getStartTimeFormatted" );
+                DHC.log("Date parse error in getStartTimeFormatted");
             }
         }
         return getStartTime();
     }
+
+    public boolean isAlarmSet() {
+        return alarm;
+    }
+
+    public void setAlarm(boolean alarm) {
+        this.alarm = alarm;
+    }
+
 }
