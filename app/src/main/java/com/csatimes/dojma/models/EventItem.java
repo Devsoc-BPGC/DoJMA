@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Event data object that has a title,startDate,start startTime,end startTime,location,desc,id and some more useful methods and variables
@@ -17,24 +17,25 @@ import io.realm.annotations.PrimaryKey;
 
 public class EventItem extends RealmObject {
 
+
+    //TODO Add @Index annotation for fields that will be use in searching
+
     @Exclude
     private boolean alarm = false;
     @PrimaryKey
     private String key;
+    @Required
     private String title;
-    private String desc;
+    @Required
     private String startDate;
+    @Required
+    private String desc;
     private String startTime;
     private String endTime;
     private String endDate;
     private String location;
-
     @Exclude
-    @Ignore
-    private Date startDateObj;
-    @Exclude
-    @Ignore
-    private Date endDateObj;
+    private long time = 0;
 
     public EventItem() {
         desc = "";
@@ -45,9 +46,10 @@ public class EventItem extends RealmObject {
         location = "";
         title = "";
         key = "";
+        time = 0;
     }
 
-    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate, String key) {
+    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate, String key, long time) {
         this.title = title;
         this.desc = desc;
         this.startDate = startDate;
@@ -56,6 +58,7 @@ public class EventItem extends RealmObject {
         this.endTime = endTime;
         this.location = location;
         this.key = key;
+        this.time = time;
     }
 
 
@@ -123,6 +126,16 @@ public class EventItem extends RealmObject {
         this.key = key;
     }
 
+    public long getTime() {
+        if (getStartDateObj() != null)
+            return getStartDateObj().getTime();
+        else return 0;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     @Exclude
     public Date getStartDateObj() {
         String dtStart = getStartDate() + getStartTime();
@@ -131,7 +144,7 @@ public class EventItem extends RealmObject {
         try {
             date = format.parse(dtStart);
         } catch (Exception e) {
-            DHC.log("Date parse error");
+            DHC.log("Date parse error in start date " + dtStart + e.getMessage());
         }
         return date;
     }
@@ -145,7 +158,7 @@ public class EventItem extends RealmObject {
             try {
                 date = format.parse(foo);
             } catch (Exception e) {
-                DHC.log("Date parse error");
+                DHC.log("Date parse error in endDate");
             }
         }
         return date;
@@ -156,7 +169,7 @@ public class EventItem extends RealmObject {
         String dateString;
         Date date = getStartDateObj();
         if (date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd\nMMM", Locale.ENGLISH);
             try {
                 dateString = sdf.format(date);
                 return dateString;
@@ -182,6 +195,7 @@ public class EventItem extends RealmObject {
         }
         return getStartTime();
     }
+
 
     public boolean isAlarmSet() {
         return alarm;

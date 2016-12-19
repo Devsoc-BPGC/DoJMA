@@ -27,7 +27,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class Events extends Fragment implements View.OnClickListener,EventsRV.OnAlarmSetListener {
+public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
 
     private DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference().child("events2");
     private EventsRV adapter;
@@ -53,100 +53,125 @@ public class Events extends Fragment implements View.OnClickListener,EventsRV.On
         eventsRV.setHasFixedSize(true);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        errorText.setOnClickListener(this);
-
         return view;
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
+
+        //As mentioned in Realm Docs, the realm should be instantiated in the onStart method.
+        //and because of the late initialising of the realm, adapter is placed after it so that adapter.notifyDataSetChanged() works
+        database = Realm.getDefaultInstance();
+
+        eventItems = database.where(EventItem.class).findAllSorted("time", Sort.ASCENDING);
+
+        adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
+        eventsRV.setAdapter(adapter);
+
+        adapter.setOnAlarmSetListener(this);
+        eventChildListener = returnChildrenListener();
+        eventsRef.addChildEventListener(eventChildListener);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         if (!isOnline()) {
             errorText.setVisibility(View.VISIBLE);
         } else {
             errorText.setVisibility(View.GONE);
         }
-        //As mentioned in Realm Docs, the realm should be instantiated in the onStart method
-        //Because of the late initialising of the realm, adapter is placed after it so that adapter.notifyDataSetChanged() works
-        database = Realm.getDefaultInstance();
 
-        eventItems = database.where(EventItem.class).findAllSorted("key", Sort.ASCENDING);
-
-        adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
-        eventsRV.setAdapter(adapter);
-
-        eventChildListener = returnChildrenListener();
-        eventsRef.addChildEventListener(eventChildListener);
-        adapter.setOnAlarmSetListener(this);
     }
 
     private ChildEventListener returnChildrenListener() {
         return new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, final String s) {
-                DHC.log("added " + s);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 try {
+                    final String key = s;
                     final EventItem foo = dataSnapshot.getValue(EventItem.class);
-                    database.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            EventItem bar = realm.createObject(EventItem.class, s);
-                            bar.setTitle(foo.getTitle());
-                            bar.setLocation(foo.getLocation());
-                            bar.setDesc(foo.getDesc());
-                            bar.setStartDate(foo.getStartDate());
-                            bar.setStartTime(foo.getStartTime());
-                            bar.setAlarm(false);
-                            bar.setEndDate(foo.getEndDate());
-                            bar.setEndTime(foo.getEndTime());
-                        }
-                    });
-                    adapter.notifyItemInserted(eventItems.indexOf(database.where(EventItem.class).equalTo("key", foo.getKey()).findFirst()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    database.executeTransaction(
+                            new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
+                                    if (bar == null) {
+                                        {
+                                            bar = realm.createObject(EventItem.class, key);
+                                            bar.setAlarm(false);
+                                        }
+                                    }
+                                    bar.setTitle(foo.getTitle());
+                                    bar.setLocation(foo.getLocation());
+                                    bar.setDesc(foo.getDesc());
+                                    bar.setStartDate(foo.getStartDate());
+                                    bar.setStartTime(foo.getStartTime());
+                                    bar.setEndDate(foo.getEndDate());
+                                    bar.setEndTime(foo.getEndTime());
+                                    bar.setTime(bar.getTime());
 
+
+                                }
+                            }
+                    );
+
+                    adapter.notifyDataSetChanged();
+
+                } catch (Exception e) {
+                    DHC.log("parse error of event in Events");
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, final String s) {
-                try {
 
-                    int position = eventItems.indexOf(database.where(EventItem.class).equalTo("key", s).findFirst());
-                    final EventItem foo = dataSnapshot.getValue(EventItem.class);
-                    database.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            EventItem bar = realm.where(EventItem.class).equalTo("key", s).findFirst();
-                            if (bar.isAlarmSet()) DHC.log("true at " + s);
-                            bar.setDesc(foo.getDesc());
-                            bar.setEndDate(foo.getEndDate());
-                            bar.setEndTime(foo.getEndTime());
-                            bar.setLocation(foo.getLocation());
-                            bar.setStartDate(foo.getStartDate());
-                            bar.setStartTime(foo.getStartTime());
-                            bar.setTitle(foo.getTitle());
-                        }
-                    });
-                    adapter.notifyItemChanged(position);
+                EventItem baz = database.where(EventItem.class).equalTo("key", s).findFirst();
+                if (baz == null)
+                    onChildAdded(dataSnapshot, s);
+                else
+                    //Parse error could occur
+                    try {
+                        final EventItem foo = dataSnapshot.getValue(EventItem.class);
+                        database.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                EventItem bar = realm.where(EventItem.class).equalTo("key", s).findFirst();
+                                bar.setDesc(foo.getDesc());
+                                bar.setEndDate(foo.getEndDate());
+                                bar.setEndTime(foo.getEndTime());
+                                bar.setLocation(foo.getLocation());
+                                bar.setStartDate(foo.getStartDate());
+                                bar.setStartTime(foo.getStartTime());
+                                bar.setTitle(foo.getTitle());
+                                bar.setTime(bar.getTime());
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        DHC.log("parse error while trying to update event data at key " + s);
+                    }
             }
 
             @Override
             public void onChildRemoved(final DataSnapshot dataSnapshot) {
-                int pos = eventItems.indexOf(database.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst());
-                adapter.notifyItemRemoved(pos);
-                database.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst().deleteFromRealm();
-                    }
-                });
+                EventItem foo = database.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst();
+
+                if (foo != null) {
+                    int position = eventItems.indexOf(foo);
+                    database.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst().deleteFromRealm();
+                        }
+                    });
+                    adapter.notifyItemRemoved(position);
+                } else DHC.log("Deleted item was not in database ");
             }
 
             @Override
@@ -162,17 +187,15 @@ public class Events extends Fragment implements View.OnClickListener,EventsRV.On
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         eventsRef.removeEventListener(eventChildListener);
-        database.close();
     }
 
     @Override
-    public void onClick(View view) {
-        if (view.getId() == errorText.getId()) {
-            errorText.setVisibility(View.GONE);
-        }
+    public void onStop() {
+        super.onStop();
+        database.close();
     }
 
     @Override
@@ -180,9 +203,11 @@ public class Events extends Fragment implements View.OnClickListener,EventsRV.On
         database.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                EventItem foo = realm.where(EventItem.class).equalTo("key",key).findFirst();
-                if (foo.isAlarmSet())foo.setAlarm(false);
-                else foo.setAlarm(true);
+                EventItem foo = realm.where(EventItem.class).equalTo("key", key).findFirst();
+                if (foo != null) {
+                    if (foo.isAlarmSet()) foo.setAlarm(false);
+                    else foo.setAlarm(true);
+                }
             }
         });
     }

@@ -118,7 +118,6 @@ public class EventsRV extends RecyclerView.Adapter<EventItemViewHolder> {
             public void onClick(View view) {
                 if (onAlarmSetListener != null) {
                     onAlarmSetListener.onItemClicked(eventItems.get(holder.getAdapterPosition()).getKey());
-                    holder.aSwitch.toggle();
                 }
             }
         });
