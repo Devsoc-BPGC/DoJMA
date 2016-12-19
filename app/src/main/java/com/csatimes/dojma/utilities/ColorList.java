@@ -15,6 +15,6 @@ public class ColorList {
     public static final int LOW_PRIORITY = R.color.blueA400;
     public static final int LOWER_PRIORITY = R.color.deeppurpleA400;
     public static final int LOWEST_PRIORITY = R.color.purpleA400;
-    public static final int NO_PRIORITY = R.color.black;
+    public static final int NO_PRIORITY = R.color.grey500;
 
 }

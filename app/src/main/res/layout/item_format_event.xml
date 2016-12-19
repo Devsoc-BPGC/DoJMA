@@ -7,6 +7,8 @@
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
+    android:stateListAnimator="@animator/lift_on_touch"
+    app:cardElevation="0dp"
     app:theme="@style/AlertDialog.AppCompat">
 
 
@@ -14,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
+        android:elevation="0dp"
         android:orientation="horizontal">
 
         <LinearLayout

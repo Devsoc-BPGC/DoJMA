@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.csatimes.dojma.adapters.EventsRV;
 import com.csatimes.dojma.models.EventItem;
@@ -65,7 +66,9 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
         //and because of the late initialising of the realm, adapter is placed after it so that adapter.notifyDataSetChanged() works
         database = Realm.getDefaultInstance();
 
-        eventItems = database.where(EventItem.class).findAllSorted("time", Sort.ASCENDING);
+        eventItems = database.where(EventItem.class).
+                findAllSorted(new String[]{"time", "title", "location", "desc"},
+                        new Sort[]{Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING});
 
         adapter = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
         eventsRV.setAdapter(adapter);
@@ -93,7 +96,7 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 try {
-                    final String key = s;
+                    final String key = dataSnapshot.getKey();
                     final EventItem foo = dataSnapshot.getValue(EventItem.class);
                     database.executeTransaction(
                             new Realm.Transaction() {
@@ -114,33 +117,31 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                                     bar.setEndDate(foo.getEndDate());
                                     bar.setEndTime(foo.getEndTime());
                                     bar.setTime(bar.getTime());
-
-
                                 }
                             }
                     );
-
                     adapter.notifyDataSetChanged();
-
                 } catch (Exception e) {
                     DHC.log("parse error of event in Events");
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, final String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                EventItem baz = database.where(EventItem.class).equalTo("key", s).findFirst();
+                final String key = dataSnapshot.getKey();
+                EventItem baz = database.where(EventItem.class).equalTo("key", key).findFirst();
                 if (baz == null)
                     onChildAdded(dataSnapshot, s);
                 else
                     //Parse error could occur
                     try {
                         final EventItem foo = dataSnapshot.getValue(EventItem.class);
+                        final int pos = eventItems.indexOf(baz);
                         database.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                EventItem bar = realm.where(EventItem.class).equalTo("key", s).findFirst();
+                                EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
                                 bar.setDesc(foo.getDesc());
                                 bar.setEndDate(foo.getEndDate());
                                 bar.setEndTime(foo.getEndTime());
@@ -152,7 +153,10 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
 
                             }
                         });
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(pos);
+                        adapter.notifyItemChanged(0);
+                        adapter.notifyItemChanged(adapter.getItemCount() - 1);
+
                     } catch (Exception e) {
                         DHC.log("parse error while trying to update event data at key " + s);
                     }
@@ -160,7 +164,10 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
 
             @Override
             public void onChildRemoved(final DataSnapshot dataSnapshot) {
+
                 EventItem foo = database.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst();
+
+                DHC.log("data key " + dataSnapshot.getKey());
 
                 if (foo != null) {
                     int position = eventItems.indexOf(foo);
@@ -172,11 +179,17 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                     });
                     adapter.notifyItemRemoved(position);
                 } else DHC.log("Deleted item was not in database ");
+                try {
+                    adapter.notifyItemChanged(0);
+                    adapter.notifyItemChanged(adapter.getItemCount() - 1);
+                } catch (Exception e) {
+                    DHC.log("expected error in deleting event");
+                }
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                DHC.log(dataSnapshot.getKey() + " " + s);
             }
 
             @Override
@@ -205,8 +218,15 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
             public void execute(Realm realm) {
                 EventItem foo = realm.where(EventItem.class).equalTo("key", key).findFirst();
                 if (foo != null) {
-                    if (foo.isAlarmSet()) foo.setAlarm(false);
-                    else foo.setAlarm(true);
+                    if (foo.isAlarmSet()) {
+                        foo.setAlarm(false);
+                        Toast.makeText(getContext(), "Alarm removed", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        foo.setAlarm(true);
+                        Toast.makeText(getContext(), "Alarm set", Toast.LENGTH_SHORT).show();
+                        //TODO Set alarm
+                    }
                 }
             }
         });

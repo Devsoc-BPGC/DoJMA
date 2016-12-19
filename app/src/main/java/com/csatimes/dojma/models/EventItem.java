@@ -4,6 +4,7 @@ import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.Exclude;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -127,9 +128,12 @@ public class EventItem extends RealmObject {
     }
 
     public long getTime() {
-        if (getStartDateObj() != null)
-            return getStartDateObj().getTime();
-        else return 0;
+        if (getStartDateObj() != null) {
+            if (Calendar.getInstance(Locale.ENGLISH).getTime().getTime() < getStartDateObj().getTime())
+                return getStartDateObj().getTime();
+            else return Long.MAX_VALUE;
+
+        } else return 0;
     }
 
     public void setTime(long time) {
