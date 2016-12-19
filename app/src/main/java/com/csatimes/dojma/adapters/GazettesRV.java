@@ -11,7 +11,7 @@ import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Adapter to handle the data in the rv
@@ -19,10 +19,13 @@ import io.realm.RealmList;
 
 public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewHolder> {
 
-    private RealmList<GazetteItem> gazetteItems;
+    public static final int SINGLE_CLICK = 0;
+    public static final int LONG_CLICK = 1;
+
+    private RealmResults<GazetteItem> gazetteItems;
     private onGazetteItemClickedListener onGazetteItemClickedListener;
 
-    public GazettesRV(RealmList<GazetteItem> gazetteItems) {
+    public GazettesRV(RealmResults<GazetteItem> gazetteItems) {
         this.gazetteItems = gazetteItems;
         this.onGazetteItemClickedListener = null;
     }
@@ -35,7 +38,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
 
     @Override
     public void onBindViewHolder(GazettesRV.GazetteItemViewHolder holder, int position) {
-        holder.title.setText(gazetteItems.get(position).getTitle());
+        holder.title.setText(gazetteItems.get(position).getReleaseDateFormatted());
         holder.image.setImageURI(gazetteItems.get(position).getImageUrl());
     }
 
@@ -49,7 +52,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
     }
 
     public interface onGazetteItemClickedListener {
-        void onClicked(String url, String title);
+        void onClicked(GazetteItem gi, int clickType);
     }
 
     class GazetteItemViewHolder extends RecyclerView.ViewHolder {
@@ -65,12 +68,22 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
                 @Override
                 public void onClick(View view) {
                     if (onGazetteItemClickedListener != null) {
-                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()).getUrl(), gazetteItems.get(getAdapterPosition()).getTitle());
+                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()), SINGLE_CLICK);
                     }
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onGazetteItemClickedListener != null) {
+                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()), LONG_CLICK);
+                    }
+                    return false;
                 }
             });
         }
     }
+
 
 }
 

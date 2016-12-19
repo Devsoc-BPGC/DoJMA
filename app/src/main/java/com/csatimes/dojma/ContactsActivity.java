@@ -1,5 +1,7 @@
 package com.csatimes.dojma;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +25,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class ContactsActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity implements ContactAdapter.OnContactItemClicked {
 
     private RecyclerView contactsRecyclerView;
     private DatabaseReference contactReference;
@@ -34,7 +36,6 @@ public class ContactsActivity extends AppCompatActivity {
     private ContactAdapter adapter;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
@@ -62,17 +63,18 @@ public class ContactsActivity extends AppCompatActivity {
         for (int i = 0; i < foo.size(); i++) {
             contactTypes.add(foo.get(i).getType());
             RealmList<ContactItem> bar = new RealmList<>();
-            bar.addAll(database.where(ContactItem.class).equalTo("type",foo.get(i).getType()).findAll());
+            bar.addAll(database.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
             dataSet.add(i, bar);
         }
 
 
         contactsRecyclerView.setHasFixedSize(true);
-        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         adapter = new ContactAdapter(dataSet, contactTypes);
 
         contactsRecyclerView.setAdapter(adapter);
+        adapter.setOnContactItemClicked(this);
 
     }
 
@@ -148,5 +150,27 @@ public class ContactsActivity extends AppCompatActivity {
         super.onStop();
         contactReference.removeEventListener(contactListener);
         database.close();
+    }
+
+    @Override
+    public void onCallButtonClicked(String tel) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + tel));
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onEmailButtonClicked(String email) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, email);
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+    @Override
+    public void onContactAddClicked(String name, String tel, String email) {
+
     }
 }

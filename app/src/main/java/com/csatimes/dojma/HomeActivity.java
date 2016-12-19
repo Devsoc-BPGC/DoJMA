@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
@@ -30,22 +31,30 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.utilities.ViewPagerAdapter;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    DatabaseReference navBarImageRef = FirebaseDatabase.getInstance().getReference().child("image");
+    ValueEventListener navBarImageListener;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private boolean landscape = false;
     private DrawerLayout drawer;
+    private SimpleDraweeView navBarImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +71,13 @@ public class HomeActivity extends AppCompatActivity
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
-        View activityHomeView = findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         setSupportActionBar(toolbarObject);
 
@@ -83,17 +95,8 @@ public class HomeActivity extends AppCompatActivity
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
 
-        //If on starting the app, no internet connection is available, error Snackbar is
-        // shown.
-        if (!isOnline()) {
-            Snackbar snack = Snackbar.make(activityHomeView, "No Internet. Can't check for updates.", Snackbar.LENGTH_LONG);
-            snack.show();
-        }
-
-
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        //Tablyout setup is called only after the viewpager is ready
         tabLayout.setupWithViewPager(viewPager);
 
         //Custom method to set icons for the tabs
@@ -111,14 +114,23 @@ public class HomeActivity extends AppCompatActivity
             viewPager.setCurrentItem(3);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbarObject, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //If on starting the app, no internet connection is available, error Snackbar is
+        // shown.
+        if (!isOnline()) {
+            Snackbar snack = Snackbar.make(viewPager, "No Internet. Can't check for updates.", Snackbar.LENGTH_LONG);
+            snack.show();
+        }
+
+        navBarImageListener = returnImageChangeListener();
+        navBarImageRef.addValueEventListener(navBarImageListener);
 
     }
 
@@ -128,31 +140,18 @@ public class HomeActivity extends AppCompatActivity
         viewPager.requestFocus();
     }
 
-    private void setupTabIcons() {
-        if (!landscape) {
-            tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
-            tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
-            tabLayout.getTabAt(2).setIcon(R.drawable.ic_event_note_white_24dp);
-            tabLayout.getTabAt(3).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
-        }
-    }
-
-    //Setting up the View Pager with the fragments
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        adapter.addFragment(new Herald(), "Herald");
-        adapter.addFragment(new Gazette(), "Gazette");
-        adapter.addFragment(new Events(), "Events");
-        adapter.addFragment(new Utilities(), "Utilities");
-
-        viewPager.setAdapter(adapter);
-    }
 
     @Override
     protected void onDestroy() {
-        scheduleAlarmForUpdateService();
         super.onDestroy();
+        //navBarImageRef.removeEventListener(navBarImageListener);
+        scheduleAlarmForUpdateService();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currenItem", viewPager.getCurrentItem());
     }
 
     @Override
@@ -162,7 +161,6 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -192,10 +190,11 @@ public class HomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        item.getActionView().clearFocus();
 
         if (id == R.id.nav_main_issues) {
             Intent intent = new Intent(this, CategoryListView.class);
@@ -286,7 +285,6 @@ public class HomeActivity extends AppCompatActivity
                         @Override
                         public void openUri(Activity activity, Uri uri) {
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            intent.putExtra(Intent.EXTRA_REFERRER, Uri.parse(Intent.URI_ANDROID_APP_SCHEME + "//" + getPackageName()));
                             startActivity(intent);
                         }
                     });
@@ -296,6 +294,27 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void setupTabIcons() {
+        if (!landscape) {
+            tabLayout.getTabAt(0).setIcon(R.drawable.ic_chrome_reader_mode_white_24dp);
+            tabLayout.getTabAt(1).setIcon(R.drawable.ic_picture_in_picture_white_24dp);
+            tabLayout.getTabAt(2).setIcon(R.drawable.ic_event_note_white_24dp);
+            tabLayout.getTabAt(3).setIcon(R.drawable.ic_local_convenience_store_white_24dp);
+        }
+    }
+
+    //Setting up the View Pager with the fragments
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        adapter.addFragment(new Herald(), "Herald");
+        adapter.addFragment(new Gazette(), "Gazette");
+        adapter.addFragment(new Events(), "Events");
+        adapter.addFragment(new Utilities(), "Utilities");
+
+        viewPager.setAdapter(adapter);
     }
 
     private boolean isOnline() {
@@ -319,12 +338,6 @@ public class HomeActivity extends AppCompatActivity
                 AlarmManager.INTERVAL_DAY, pIntent);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currenItem", viewPager.getCurrentItem());
-    }
-
     //method to get the right URL to use in the intent
     public String getFacebookPageURL(Context context) {
         PackageManager packageManager = context.getPackageManager();
@@ -340,5 +353,20 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private ValueEventListener returnImageChangeListener() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (navBarImage != null)
+                    navBarImage.setImageURI(Uri.parse(dataSnapshot.getValue(String.class)));
+                else DHC.log("it was null");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                DHC.log("database error " + databaseError.getMessage());
+            }
+        };
+    }
 
 }

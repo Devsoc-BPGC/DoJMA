@@ -29,10 +29,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<String> contactTypes;
     private SparseIntArray positions;
     private int lastTitlePos = 0;
+    private OnContactItemClicked onContactItemClicked;
 
     public ContactAdapter(List<RealmList<ContactItem>> dataSet, List<String> contactTypes) {
         this.dataSet = dataSet;
         this.contactTypes = contactTypes;
+        onContactItemClicked = null;
         generatePositions();
     }
 
@@ -56,7 +58,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         DHC.log("dataset size" + dataSet.size() + " contacttpe size " + contactTypes.size());
 
         for (int i = 0; i < dataSet.size(); i++) {
-            DHC.log(i+1+" size is " + dataSet.get(i).size());
+            DHC.log(i + 1 + " size is " + dataSet.get(i).size());
         }
 
 
@@ -81,16 +83,13 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
             stvh.text.setText(contactTypes.get(positions.get(position)));
             lastTitlePos = positions.get(position);
-            DHC.log("added title and now lasatTitlePos = " + lastTitlePos);
         } else {
-            DHC.log("adding contact now lasatTitlePos = " + lastTitlePos);
 
             ContactViewHolder cvh = (ContactViewHolder) holder;
             int index = position - (lastTitlePos + 1);
 
-
             for (int i = 1; i <= lastTitlePos; i++) {
-                index -= dataSet.get(i-1).size();
+                index -= dataSet.get(i - 1).size();
             }
             DHC.log("contact index is " + index);
 
@@ -108,7 +107,6 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         for (int i = 0; i < contactTypes.size(); i++) {
             count += dataSet.get(i).size();
         }
-        DHC.log(count + " is count");
         return count;
     }
 
@@ -123,18 +121,63 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return TYPE_CONTACT;
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+    public void setOnContactItemClicked(OnContactItemClicked onContactItemClicked) {
+        this.onContactItemClicked = onContactItemClicked;
+    }
+
+    public interface OnContactItemClicked {
+        void onCallButtonClicked(String tel);
+
+        void onEmailButtonClicked(String email);
+
+        void onContactAddClicked(String name, String tel, String email);
+    }
+
+    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView contactName;
         ImageButton call;
         ImageButton add;
         ImageButton email;
 
-        public ContactViewHolder(View itemView) {
+        ContactViewHolder(View itemView) {
             super(itemView);
             contactName = (TextView) itemView.findViewById(R.id.item_format_contact_name);
             call = (ImageButton) itemView.findViewById(R.id.item_format_contact_call);
             add = (ImageButton) itemView.findViewById(R.id.item_format_contact_add);
             email = (ImageButton) itemView.findViewById(R.id.item_format_contact_email);
+
+            call.setOnClickListener(this);
+            email.setOnClickListener(this);
+            add.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+
+            int index = getAdapterPosition() - (lastTitlePos + 1);
+            for (int i = 1; i <= lastTitlePos; i++) {
+                index -= dataSet.get(i - 1).size();
+            }
+            DHC.log("lastpos " + lastTitlePos);
+            try {
+                ContactItem ci = dataSet.get(lastTitlePos).get(index);
+
+                if (onContactItemClicked != null) {
+                    if (id == call.getId()) {
+                        onContactItemClicked.onCallButtonClicked(ci.getNumber());
+
+                    } else if (id == email.getId()) {
+                        onContactItemClicked.onEmailButtonClicked(ci.getEmail());
+
+                    } else if (id == email.getId()) {
+                        onContactItemClicked.onContactAddClicked(ci.getName(), ci.getNumber(), ci.getEmail());
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         }
     }

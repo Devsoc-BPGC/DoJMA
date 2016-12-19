@@ -1,6 +1,12 @@
 package com.csatimes.dojma.models;
 
+import com.csatimes.dojma.utilities.DHC;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import io.realm.RealmObject;
 
@@ -14,15 +20,18 @@ public class GazetteItem extends RealmObject {
     private String url;
     private String date;
     private String imageUrl;
+    @Exclude
+    private long time = 0;
 
     public GazetteItem() {
         this.title = "";
         this.url = "";
         this.date = "";
         this.imageUrl = "";
+        this.time = Long.MAX_VALUE;
     }
 
-    public GazetteItem(String title, String url, String date,String imageUrl) {
+    public GazetteItem(String title, String url, String date, String imageUrl) {
         this.title = title;
         this.url = url;
         this.date = date;
@@ -59,5 +68,44 @@ public class GazetteItem extends RealmObject {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public long getTime() {
+        if (getDateObj() != null)
+            return getDateObj().getTime();
+        else return 0;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    @Exclude
+    public Date getDateObj() {
+        String releaseDateString = date;
+        Date dateObj = null;
+        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyy", Locale.ENGLISH);
+        try {
+            dateObj = format.parse(releaseDateString);
+        } catch (Exception e) {
+            DHC.log("Date parse error in gazette date " + releaseDateString + e.getMessage());
+        }
+        return dateObj;
+    }
+
+    @Exclude
+    public String getReleaseDateFormatted() {
+        String dateString;
+        Date dateObj = getDateObj();
+        if (dateObj != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
+            try {
+                dateString = sdf.format(dateObj);
+                return dateString;
+            } catch (Exception e) {
+                DHC.log("Date parse error in gaztte formatted date string");
+            }
+        }
+        return date;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.csatimes.dojma.adapters.GazettesRV;
 import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.utilities.DHC;
+import com.csatimes.dojma.utilities.SimpleAlertDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import io.realm.Realm;
-import io.realm.RealmList;
+import io.realm.RealmResults;
+import io.realm.Sort;
+
+import static com.csatimes.dojma.adapters.GazettesRV.SINGLE_CLICK;
 
 
 public class Gazette extends Fragment implements GazettesRV.onGazetteItemClickedListener {
@@ -32,7 +36,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     public static final int REQUEST_WRITE_STORAGE = 112;
 
     private GazettesRV adapter;
-    private RealmList<GazetteItem> gazetteResults;
+    private RealmResults<GazetteItem> gazetteResults;
     private TextView emptyList;
     private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes2");
     private Realm database;
@@ -57,8 +61,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
 
         database = Realm.getDefaultInstance();
 
-        gazetteResults = new RealmList<>();
-        gazetteResults.addAll(database.where(GazetteItem.class).findAll());
+        gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
 
         adapter = new GazettesRV(gazetteResults);
         gazetteRecyclerView.setAdapter(adapter);
@@ -86,11 +89,11 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         // Setting up grid
-        int num = 175;
+        int num = 180;
         float t = dpWidth / num;
         float r = dpWidth % num;
         int cols;
-        if (r > 0.8 * num)
+        if (r < 0.1 * num)
             cols = (int) Math.ceil(dpWidth / num);
         else
             cols = (int) t;
@@ -123,6 +126,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
                                 bar.setDate(foo.getDate());
                                 bar.setUrl(foo.getUrl());
                                 bar.setImageUrl(foo.getImageUrl());
+                                bar.setTime(bar.getTime());
                             }
                         });
                     } catch (Exception e) {
@@ -131,9 +135,6 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
 
                 }
 
-                //TODO: sort gazettes later
-                gazetteResults.clear();
-                gazetteResults.addAll(database.where(GazetteItem.class).findAll());
                 adapter.notifyDataSetChanged();
                 if (adapter.getItemCount() != 0) {
                     emptyList.setVisibility(View.GONE);
@@ -157,10 +158,17 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     }
 
     @Override
-    public void onClicked(String url, String title) {
-        //TODO Download file to destination uri and check if file exists
-        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-        downloadManager.enqueue(new DownloadManager.Request(Uri.parse(url)).setTitle(title).setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE).setMimeType("text/pdf"));
+    public void onClicked(GazetteItem gi, int clickType) {
+        if (clickType == SINGLE_CLICK) {
+            //TODO Download file to destination uri and check if file exists
+            DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadManager.enqueue(new DownloadManager.Request(Uri.parse(gi.getUrl())).setTitle(gi.getReleaseDateFormatted()).setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE).setMimeType("text/pdf"));
+        } else {
+            //Detected long click, show fragment
+            //TODO Handle gazette long click more appropriately
+            SimpleAlertDialog sad = new SimpleAlertDialog();
+            sad.showDialog(getContext(), "hello", "", "OK", "", true, true);
+        }
     }
 }
 
