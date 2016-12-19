@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:clickable="true"
@@ -13,124 +12,109 @@
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
-    tools:ignore="UnusedAttribute">
+    tools:targetApi="m">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/viewholder_links_format_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="Links"
-            android:textColor="@color/white"
-            android:textSize="22sp"/>
+            android:textColor="@color/utilities_links_text_color"
+            android:textSize="22sp" />
 
-        <Button
-            android:id="@+id/viewholder_links_format_link1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/viewholder_links_format_button_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewholder_links_format_title"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
             android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="Moodle"
-            android:textColor="@color/utilities_links_background"
-            android:textSize="14sp"
-            android:translationZ="0dp"
-            />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/viewholder_links_format_link2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_links_format_link1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="SWD"
-            android:textColor="@color/utilities_links_background"
-            android:textSize="14sp"
-            android:translationZ="0dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/viewholder_links_format_link3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_links_format_title"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@+id/viewholder_links_format_link1"
-            android:layout_toRightOf="@+id/viewholder_links_format_link1"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="CSA"
-            android:textColor="@color/utilities_links_background"
-            android:textSize="14sp"
-            android:translationZ="0dp"
-            />
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/viewholder_links_format_link1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="Moodle"
+                    android:textColor="@color/utilities_links_background"
+                    android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/viewholder_links_format_link4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/viewholder_links_format_link2"
-            android:layout_below="@+id/viewholder_links_format_link3"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@+id/viewholder_links_format_link2"
-            android:layout_toRightOf="@+id/viewholder_links_format_link2"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="BITS Goa"
-            android:textColor="@color/utilities_links_background"
-            android:textSize="14sp"
-            android:translationZ="0dp"/>
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/viewholder_links_format_link2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="SWD"
+                    android:textColor="@color/utilities_links_background"
+                    android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/viewholder_links_format_link5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_links_format_link2"
-            android:layout_marginEnd="4dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/white"
-            android:elevation="0dp"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="BITS ERP"
-            android:textColor="@color/utilities_links_background"
-            android:textSize="14sp"
-            android:translationZ="0dp"/>
 
-        <TextView
+            </LinearLayout>
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/viewholder_links_format_link5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="BITS ERP"
+                android:textColor="@color/utilities_links_background"
+                android:textSize="14sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/viewholder_links_format_link4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:text="BITS Goa"
+                    android:textColor="@color/utilities_links_background"
+                    android:textSize="14sp" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/viewholder_links_format_link3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="CSA"
+                    android:textColor="@color/utilities_links_background"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/viewholder_links_format_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewholder_links_format_link5"
+            android:layout_below="@+id/viewholder_links_format_button_layout"
             android:paddingBottom="16dp"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
@@ -138,8 +122,8 @@
             android:paddingStart="16dp"
             android:paddingTop="12dp"
             android:text="Click here for more links"
-            android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textColor="@color/utilities_links_text_color"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

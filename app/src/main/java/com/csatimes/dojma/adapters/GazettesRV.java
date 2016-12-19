@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.GazetteItem;
+import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import io.realm.RealmList;
@@ -59,6 +60,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.item_format_gazette_title);
             image = (SimpleDraweeView) itemView.findViewById(R.id.item_format_gazette_image);
+            image.getHierarchy().setProgressBarImage(new CircleImageDrawable());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
