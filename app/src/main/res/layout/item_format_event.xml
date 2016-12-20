@@ -8,6 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:stateListAnimator="@animator/lift_on_touch"
+    app:cardBackgroundColor="?defaultBackground"
     app:cardElevation="0dp"
     app:theme="@style/AlertDialog.AppCompat">
 
@@ -33,6 +34,7 @@
                 android:gravity="center"
                 android:padding="2dp"
                 android:text="Date"
+                android:textColor="?customEventsDateTextColor"
                 android:textSize="15sp" />
 
             <TextView
@@ -42,6 +44,7 @@
                 android:gravity="center"
                 android:padding="2dp"
                 android:text="Time"
+                android:textColor="?customEventsTimeTextColor"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -57,11 +60,11 @@
 
                 <View
                     android:id="@+id/item_format_event_dot_upper"
-                    android:layout_width="0.5dp"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/item_format_event_dot"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/grey500" />
+                    android:background="?customEventsViewColor" />
 
                 <ImageView
                     android:id="@+id/item_format_event_dot"
@@ -74,11 +77,11 @@
 
                 <View
                     android:id="@+id/item_format_event_dot_lower"
-                    android:layout_width="0.5dp"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/item_format_event_dot"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/grey500" />
+                    android:background="?customEventsViewColor" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -97,6 +100,7 @@
                 android:gravity="bottom"
                 android:padding="4dp"
                 android:text="Title"
+                android:textColor="?customEventsTitleTextColor"
                 android:textSize="18sp" />
 
 
@@ -110,6 +114,7 @@
                 android:paddingRight="4dp"
                 android:paddingStart="4dp"
                 android:text="Location"
+                android:textColor="?customEventsLocationTextColor"
                 android:textSize="16sp" />
 
 
@@ -121,6 +126,7 @@
                 android:gravity="top"
                 android:padding="4dp"
                 android:text="Description"
+                android:textColor="?customEventsDescTextColor"
                 android:textSize="14sp" />
 
 
@@ -137,6 +143,7 @@
                 android:id="@+id/item_format_event_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:clickable="false" />
         </LinearLayout>
     </LinearLayout>

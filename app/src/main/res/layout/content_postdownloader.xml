@@ -7,6 +7,7 @@
         android:id="@+id/loading_dojma"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="?defaultBackground"
         android:scaleType="centerCrop"
         android:src="@drawable/screen"
         />

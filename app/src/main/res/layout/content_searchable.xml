@@ -16,13 +16,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="Get important numbers, articles, favourites, pictures, gazettes, issues and more"/>
+        android:text="Get important numbers, articles, favourites, pictures, gazettes, issues and more"
+        android:textColor="?customSearchableErrorTextColor" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content_searchable_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        />
+        android:padding="8dp" />
 
 </RelativeLayout>

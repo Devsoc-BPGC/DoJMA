@@ -5,13 +5,7 @@ package com.csatimes.dojma;
  */
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.csatimes.dojma.models.HeraldNewsItemFormat;
 
@@ -79,7 +73,7 @@ public class CategoryListView extends ListActivity {
         }
         Collections.sort(catlist2);
 
-
+/*
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_list_view, R.id.label, catlist2);
         ListView listView = (ListView) findViewById(R.id.mobile_list);
         this.setListAdapter(adapter);
@@ -99,7 +93,7 @@ public class CategoryListView extends ListActivity {
             }
         });
 
-
+*/
     }
 
     @Override

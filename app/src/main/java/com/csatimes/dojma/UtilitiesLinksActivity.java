@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,8 +47,18 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
     private ValueEventListener linksListener;
     private RealmList<LinkItem> linkItems;
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_links);
 
@@ -71,9 +81,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        }
+         }
 
         linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         linkRecyclerView.setHasFixedSize(true);

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?defaultBackground"
     android:clickable="true"
     android:orientation="vertical"
     android:stateListAnimator="@animator/lift_on_touch">
@@ -17,7 +18,7 @@
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         android:text="Link title"
-        android:textColor="@color/black"
+        android:textColor="?customLinksTitleTextColor"
         android:textSize="16sp" />
 
     <TextView
@@ -31,5 +32,6 @@
         android:paddingStart="16dp"
         android:paddingTop="2dp"
         android:text="Link url"
+        android:textColor="?customLinksLinkTextColor"
         android:textSize="14sp" />
 </LinearLayout>

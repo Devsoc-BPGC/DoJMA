@@ -9,19 +9,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -29,14 +30,20 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.utilities.ViewPagerAdapter;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,16 +55,28 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    DatabaseReference navBarImageRef = FirebaseDatabase.getInstance().getReference().child("image");
-    ValueEventListener navBarImageListener;
+    DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
+    ValueEventListener navBarListener;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private boolean landscape = false;
     private DrawerLayout drawer;
     private SimpleDraweeView navBarImage;
+    private TextView navBarTitle;
+
+
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
         SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
@@ -76,6 +95,7 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        navBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -91,8 +111,6 @@ public class HomeActivity extends AppCompatActivity
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
 
         setupViewPager(viewPager);
@@ -129,8 +147,8 @@ public class HomeActivity extends AppCompatActivity
             snack.show();
         }
 
-        navBarImageListener = returnImageChangeListener();
-        navBarImageRef.addValueEventListener(navBarImageListener);
+        navBarListener = returnImageChangeListener();
+        navBarRef.addValueEventListener(navBarListener);
 
     }
 
@@ -144,7 +162,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //navBarImageRef.removeEventListener(navBarImageListener);
+        navBarRef.removeEventListener(navBarListener);
         scheduleAlarmForUpdateService();
     }
 
@@ -194,8 +212,6 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        item.getActionView().clearFocus();
-
         if (id == R.id.nav_main_issues) {
             Intent intent = new Intent(this, CategoryListView.class);
             startActivity(intent);
@@ -207,10 +223,9 @@ public class HomeActivity extends AppCompatActivity
                 Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
                 PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 String copy_label = "Copy Link";
-
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                         .setShowTitle(true)
-                        .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .setToolbarColor(getChromeCustomTabColorFromTheme())
                         .setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(),
                                 R.drawable.ic_arrow_back_white_24dp))
                         .addMenuItem(copy_label, copy_pendingIntent)
@@ -268,10 +283,9 @@ public class HomeActivity extends AppCompatActivity
             PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             String copy_label = "Copy Link";
-
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setShowTitle(true)
-                    .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                    .setToolbarColor(getChromeCustomTabColorFromTheme())
                     .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp))
                     .addMenuItem(copy_label, copy_pendingIntent)
                     .addDefaultShareMenuItem()
@@ -288,12 +302,23 @@ public class HomeActivity extends AppCompatActivity
                             startActivity(intent);
                         }
                     });
+        } else if (id == R.id.nav_main_settings) {
+            Intent intent = new Intent(this, Settings.class);
+            startActivity(intent);
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private int getChromeCustomTabColorFromTheme() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
     }
 
     private void setupTabIcons() {
@@ -357,9 +382,16 @@ public class HomeActivity extends AppCompatActivity
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (navBarImage != null)
-                    navBarImage.setImageURI(Uri.parse(dataSnapshot.getValue(String.class)));
-                else DHC.log("it was null");
+                Uri uri = Uri.parse(dataSnapshot.child("image").getValue(String.class));
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                        .setProgressiveRenderingEnabled(true)
+                        .build();
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
+                        .setOldController(navBarImage.getController())
+                        .build();
+                navBarImage.setController(controller);
+                navBarTitle.setText(dataSnapshot.child("title").getValue(String.class));
             }
 
             @Override

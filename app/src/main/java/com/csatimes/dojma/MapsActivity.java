@@ -3,6 +3,7 @@ package com.csatimes.dojma;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
@@ -25,8 +26,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FloatingActionButton fab;
     private GoogleMap map;
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -81,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.addMarker(new MarkerOptions().position(marker).title("Nursery"));
         marker = new LatLng(15.3917, 73.87605);
         map.addMarker(new MarkerOptions().position(marker).title("Medical Centre"));
-        marker=new LatLng(15.391248, 73.880643);
+        marker = new LatLng(15.391248, 73.880643);
         map.addMarker(new MarkerOptions().position(marker).title("FoodKing"));
         marker = new LatLng(15.39295, 73.87635);
         map.addMarker(new MarkerOptions().position(marker).title("Cricket Ground"));

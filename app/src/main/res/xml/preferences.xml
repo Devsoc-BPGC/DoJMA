@@ -5,7 +5,7 @@
         android:title="General">
         <SwitchPreference
             android:defaultValue="false"
-            android:enabled="false"
+            android:enabled="true"
             android:key="@string/PREFERENCE_general_night_mode"
             android:summary="Use darker backgrounds to reduce strain to the eyes"
             android:title="Enable Night Mode"

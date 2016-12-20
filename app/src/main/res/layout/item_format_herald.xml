@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/herald_parent_card"
@@ -8,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="2dp"
     android:layout_marginRight="2dp"
-    android:background="@color/white"
+    android:background="?defaultBackground"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
     android:padding="4dp"
@@ -33,8 +32,8 @@
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:text="Title"
-        android:textColor="@color/black"
-        android:textSize="24sp"/>
+        android:textColor="?attr/customHeraldTitleTextColor"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/herald_rv_item_date"
@@ -51,7 +50,8 @@
         android:paddingRight="4dp"
         android:paddingStart="8dp"
         android:text="Date"
-        android:textSize="12sp"/>
+        android:textColor="?customHeraldDateTextColor"
+        android:textSize="12sp" />
 
 
     <TextView
@@ -67,8 +67,8 @@
         android:paddingLeft="8dp"
         android:paddingRight="4dp"
         android:paddingStart="8dp"
-        android:text=""
-        android:textColor="@color/black"/>
+        android:text="-"
+        android:textColor="?attr/customHeraldDescTextColor" />
 
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -85,7 +85,7 @@
         android:paddingTop="8dp"
         app:roundAsCircle="true"
         app:roundedCornerRadius="1dp"
-        app:roundingBorderColor="@color/white"/>
+        app:roundingBorderColor="@color/white" />
 
     <com.like.LikeButton
         android:id="@+id/herald_like_button"
@@ -103,7 +103,7 @@
         app:icon_size="22dp"
         app:icon_type="heart"
         app:is_enabled="true"
-        app:liked="false"/>
+        app:liked="false" />
 
     <ImageButton
         android:id="@+id/herald_rv_share_button"
@@ -112,8 +112,8 @@
         android:layout_alignTop="@+id/herald_like_button"
         android:layout_toEndOf="@+id/herald_like_button"
         android:layout_toRightOf="@+id/herald_like_button"
-        android:background="@color/white"
-        app:srcCompat="@drawable/ic_share"/>
+        android:background="@color/transparent"
+        app:srcCompat="@drawable/ic_share" />
 
 </RelativeLayout>
 

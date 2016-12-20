@@ -153,10 +153,7 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
 
                             }
                         });
-                        adapter.notifyItemChanged(pos);
-                        adapter.notifyItemChanged(0);
-                        adapter.notifyItemChanged(adapter.getItemCount() - 1);
-
+                        adapter.notifyDataSetChanged();
                     } catch (Exception e) {
                         DHC.log("parse error while trying to update event data at key " + s);
                     }
@@ -166,9 +163,6 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
             public void onChildRemoved(final DataSnapshot dataSnapshot) {
 
                 EventItem foo = database.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst();
-
-                DHC.log("data key " + dataSnapshot.getKey());
-
                 if (foo != null) {
                     int position = eventItems.indexOf(foo);
                     database.executeTransaction(new Realm.Transaction() {
@@ -179,12 +173,7 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                     });
                     adapter.notifyItemRemoved(position);
                 } else DHC.log("Deleted item was not in database ");
-                try {
-                    adapter.notifyItemChanged(0);
-                    adapter.notifyItemChanged(adapter.getItemCount() - 1);
-                } catch (Exception e) {
-                    DHC.log("expected error in deleting event");
-                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -221,8 +210,7 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                     if (foo.isAlarmSet()) {
                         foo.setAlarm(false);
                         Toast.makeText(getContext(), "Alarm removed", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         foo.setAlarm(true);
                         Toast.makeText(getContext(), "Alarm set", Toast.LENGTH_SHORT).show();
                         //TODO Set alarm

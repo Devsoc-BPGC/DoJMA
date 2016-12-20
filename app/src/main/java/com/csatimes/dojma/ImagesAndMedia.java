@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
@@ -53,8 +54,18 @@ public class ImagesAndMedia extends AppCompatActivity implements ImageGalleryAda
     private String sprefTitlePostFix = "_title";
     private String sprefUrlPostFix = "_url";
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images_and_media);
 

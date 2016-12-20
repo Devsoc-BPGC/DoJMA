@@ -1,6 +1,5 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,9 +22,9 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/marker_512x512"
-            app:backgroundTint="@color/white"
-            app:elevation="8dp"
-            app:fabSize="normal"/>
+            map:backgroundTint="?defaultBackground"
+            map:elevation="8dp"
+            map:fabSize="normal"/>
     </fragment>
 
 

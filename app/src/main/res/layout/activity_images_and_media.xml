@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="?defaultBackground"
     android:fitsSystemWindows="true"
     tools:context="com.csatimes.dojma.ImagesAndMedia">
 

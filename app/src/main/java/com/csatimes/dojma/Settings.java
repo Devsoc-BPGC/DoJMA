@@ -3,20 +3,22 @@ package com.csatimes.dojma;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
-import com.google.android.gms.analytics.Tracker;
-
-public class Settings extends AppCompatActivity {
+public class Settings extends AppCompatActivity implements SettingsFragment.OnThemeChangedListener {
+    private static final String TAG = "TAG";
+    SettingsFragment settingsFragment;
     private Window window;
-    private Tracker mTracker;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -33,23 +35,26 @@ public class Settings extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
-        Bundle bundle = getIntent().getExtras();
-        try {
-            int color = bundle.getInt("pageColor");
-
-            if (Build.VERSION.SDK_INT >= 21) {
-                window.setStatusBarColor(color);
-                window.setNavigationBarColor(color);
-            }
-            toolbar.setBackgroundColor(color);
-
-        } catch (Exception ignore) {
-            finish();
-        }
-
-        getFragmentManager().beginTransaction().add(R.id.content_settings_frame, new SettingsFragment())
+        settingsFragment = new SettingsFragment();
+        getFragmentManager().beginTransaction().add(R.id.content_settings_frame, settingsFragment)
                 .commit();
+        settingsFragment.setOnThemeChangedListener(this);
 
     }
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
+    @Override
+    public void onThemeChanged() {
+        getFragmentManager().beginTransaction().remove(settingsFragment).commit();
+        recreate();
+        Toast.makeText(this, "Please restart app for the changes to take place", Toast.LENGTH_LONG).show();
+    }
 }

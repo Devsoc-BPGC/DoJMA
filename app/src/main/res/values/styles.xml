@@ -2,10 +2,62 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="customNavDrawerTitleTextColor">@color/grey800</item>
+        <item name="customNavDrawerIconTintColor">@color/grey700</item>
+
+        <item name="customHeraldTitleTextColor">@color/black</item>
+        <item name="customHeraldDescTextColor">@color/grey700</item>
+        <item name="customHeraldDateTextColor">@color/grey500</item>
+
+        <item name="customGazetteTitleTextColor">@color/black</item>
+
+        <item name="customEventsTitleTextColor">@color/black</item>
+        <item name="customEventsLocationTextColor">@color/black</item>
+        <item name="customEventsDescTextColor">@color/grey800</item>
+        <item name="customEventsTimeTextColor">@color/grey800</item>
+        <item name="customEventsDateTextColor">@color/black</item>
+        <item name="customEventsViewColor">@color/grey500</item>
+
+        <item name="customSearchableErrorTextColor">@color/grey700</item>
+
+
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/grey900</item>
+        <item name="colorPrimaryDark">@color/grey900</item>
+
+        <item name="customNavDrawerTitleTextColor">@color/grey400</item>
+        <item name="customNavDrawerIconTintColor">@color/grey400</item>
+
+        <item name="customHeraldTitleTextColor">@color/grey400</item>
+        <item name="customHeraldDescTextColor">@color/grey600</item>
+        <item name="customHeraldDateTextColor">@color/grey500</item>
+
+        <item name="customGazetteTitleTextColor">@color/white</item>
+
+        <item name="customEventsTitleTextColor">@color/white</item>
+        <item name="customEventsLocationTextColor">@color/grey500</item>
+        <item name="customEventsDescTextColor">@color/grey700</item>
+        <item name="customEventsTimeTextColor">@color/grey500</item>
+        <item name="customEventsDateTextColor">@color/grey500</item>
+        <item name="customEventsViewColor">@color/grey700</item>
+
+        <item name="customSearchableErrorTextColor">@color/grey700</item>
+        <item name="customLinksTitleTextColor">@color/grey400</item>
+        <item name="customLinksLinkTextColor">@color/grey600</item>
+
+        <item name="customContactsNameTextColor">@color/grey400</item>
+        <item name="colorControlHighlight">@color/grey700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -89,9 +141,6 @@
     <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
         <item name="colorControlHighlight">@color/white</item>
     </style>
-
-
-
 
 
 </resources>

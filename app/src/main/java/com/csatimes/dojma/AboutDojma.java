@@ -1,6 +1,7 @@
 package com.csatimes.dojma;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -35,8 +36,18 @@ public class AboutDojma extends AppCompatActivity {
             "<p>Aabir Abubaker, Aarsh, Adheep Das, Ananya Shivaditya, Anirudh Dwarakanath, Aparajita Haldar, Ayush Anand, Chand Sethi, Esha Swaroop, Jayachandran Siva, Mahima Samant, Meghana Gupta, Nidhi Kadkol, Nitish Kulshrestha, Rahul Hardikar, Rishi Raj Grandhe,Roshan Dattatri, Roshan Nair, Sahith Dambekodi, Sakshi Mehra, Saloni Dash, Sangeeth Jayprakash, Sangeeth Jayaprakash,  Shriya Srivastava, Shubham Gupta, Srijani Biswas, Sumangala Patki, Tulasi Ravindran, Vedant Kumar</p>\n" +
             "\n" + "</body></html>";
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_dojma);
         Toolbar toolbar = (Toolbar) findViewById(R.id.about_dojma_toolbar);

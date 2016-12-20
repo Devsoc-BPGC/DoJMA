@@ -34,7 +34,7 @@ public class UpdateCheckerService extends IntentService {
     public static UpdateCheckerService instance;
     int pages;
     int noOfArticlesDownloadedByService = 0;
-    boolean enabled = false;
+    boolean enabled = true;
 
     public UpdateCheckerService() {
         super("UpdateCheckerService");

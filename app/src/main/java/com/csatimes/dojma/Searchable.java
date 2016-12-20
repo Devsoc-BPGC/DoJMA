@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +44,7 @@ public class Searchable extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.setTheme(R.style.AppThemeDark);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_search_toolbar);
@@ -61,8 +61,8 @@ public class Searchable extends AppCompatActivity {
         }
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        //    window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+       //     window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
 
         recyclerView.setHasFixedSize(true);
