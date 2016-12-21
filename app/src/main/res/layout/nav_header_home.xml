@@ -14,7 +14,7 @@
         android:foreground="@drawable/gradient_nav_bar_title"
         app:actualImageScaleType="centerCrop"
         app:fadeDuration="500"
-        app:placeholderImage="@color/colorPrimary"
+        app:placeholderImage="?customNavDrawerBackgroundColor"
         app:placeholderImageScaleType="centerCrop" />
 
     <TextView

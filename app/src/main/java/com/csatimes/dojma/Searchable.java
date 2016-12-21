@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,9 +43,18 @@ public class Searchable extends AppCompatActivity {
     private Realm database;
     private SearchRV adapter;
 
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.setTheme(R.style.AppThemeDark);
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_search_toolbar);
@@ -61,8 +71,8 @@ public class Searchable extends AppCompatActivity {
         }
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        //    window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-       //     window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            //    window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            //     window.setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
 
         recyclerView.setHasFixedSize(true);

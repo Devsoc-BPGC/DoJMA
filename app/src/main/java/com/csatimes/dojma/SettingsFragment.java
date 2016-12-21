@@ -3,15 +3,13 @@ package com.csatimes.dojma;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
 /**
  * Created by Vikramaditya Kukreja on 12-07-2016.
  */
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    boolean nightMode;
+    boolean nightMode = false;
     OnThemeChangedListener onThemeChangedListener;
 
     @Override
@@ -20,9 +18,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
-        nightMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-
-
+        nightMode = getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
     }
 
     @Override

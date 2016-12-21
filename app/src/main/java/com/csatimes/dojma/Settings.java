@@ -34,13 +34,16 @@ public class Settings extends AppCompatActivity implements SettingsFragment.OnTh
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-
         settingsFragment = new SettingsFragment();
-        getFragmentManager().beginTransaction().add(R.id.content_settings_frame, settingsFragment)
-                .commit();
+        if (getFragmentManager().getBackStackEntryCount()==0)
+        getFragmentManager().beginTransaction().add(R.id.content_settings_frame_layout, settingsFragment).commit();
+        else getFragmentManager().beginTransaction().replace(R.id.content_settings_frame_layout, settingsFragment).commit();
+
         settingsFragment.setOnThemeChangedListener(this);
 
+
     }
+
 
     private void setTheme() {
         boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
@@ -54,7 +57,7 @@ public class Settings extends AppCompatActivity implements SettingsFragment.OnTh
     @Override
     public void onThemeChanged() {
         getFragmentManager().beginTransaction().remove(settingsFragment).commit();
-        recreate();
         Toast.makeText(this, "Please restart app for the changes to take place", Toast.LENGTH_LONG).show();
+        recreate();
     }
 }

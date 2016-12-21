@@ -105,6 +105,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                emptyList.setVisibility(View.GONE);
 
                 //Delete old values in the database
                 database.executeTransaction(new Realm.Transaction() {

@@ -8,7 +8,7 @@
     android:clickable="true"
     android:contextClickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/utilities_links_background"
+    app:cardBackgroundColor="?customLinksCardBackgroundColor"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="Links"
-            android:textColor="@color/utilities_links_text_color"
+            android:textColor="?customLinksCardTitleColor"
             android:textSize="22sp" />
 
         <LinearLayout
@@ -45,22 +45,22 @@
                     android:id="@+id/viewholder_links_format_link1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?customLinksCardButtonBackgroundColor"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="Moodle"
-                    android:textColor="@color/utilities_links_background"
+                    android:textColor="?customLinksCardButtonTextColor"
                     android:textSize="14sp" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/viewholder_links_format_link2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?customLinksCardButtonBackgroundColor"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="SWD"
-                    android:textColor="@color/utilities_links_background"
+                    android:textColor="?customLinksCardButtonTextColor"
                     android:textSize="14sp" />
 
 
@@ -72,11 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="?customLinksCardButtonBackgroundColor"
                 android:gravity="center"
                 android:padding="8dp"
                 android:text="BITS ERP"
-                android:textColor="@color/utilities_links_background"
+                android:textColor="?customLinksCardButtonTextColor"
                 android:textSize="14sp" />
 
 
@@ -90,21 +90,21 @@
                     android:id="@+id/viewholder_links_format_link4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?customLinksCardButtonBackgroundColor"
                     android:gravity="center"
                     android:text="BITS Goa"
-                    android:textColor="@color/utilities_links_background"
+                    android:textColor="?customLinksCardButtonTextColor"
                     android:textSize="14sp" />
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/viewholder_links_format_link3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="?customLinksCardButtonBackgroundColor"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="CSA"
-                    android:textColor="@color/utilities_links_background"
+                    android:textColor="?customLinksCardButtonTextColor"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -115,14 +115,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewholder_links_format_button_layout"
-            android:paddingBottom="16dp"
-            android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingStart="16dp"
+            android:padding="16dp"
             android:paddingTop="12dp"
             android:text="Click here for more links"
-            android:textColor="@color/utilities_links_text_color"
+            android:textColor="?customLinksCardSubTitleColor"
             android:textSize="12sp" />
 
     </RelativeLayout>

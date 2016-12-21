@@ -8,7 +8,7 @@
     android:clickable="true"
     android:contextClickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/utilities_mess_background"
+    app:cardBackgroundColor="?customMessCardBackgroundColor"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="Mess Menu"
-            android:textColor="@color/utilities_mess_text_color"
+            android:textColor="?customMessCardTitleColor"
             android:textSize="22sp" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_below="@+id/viewholder_mess_format_title"
             android:padding="16dp"
             android:text="@string/viewholder_mess_msg"
-            android:textColor="@color/utilities_mess_text_color"
+            android:textColor="?customMessCardSubTitleColor"
             android:textSize="@dimen/viewholder_small_text" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

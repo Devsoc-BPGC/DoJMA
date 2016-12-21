@@ -67,9 +67,9 @@ public class HomeActivity extends AppCompatActivity
 
     private void setTheme() {
         boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
+        if (mode) {
             setTheme(R.style.AppThemeDark);
-        else {
+        } else {
             setTheme(R.style.AppTheme);
         }
     }

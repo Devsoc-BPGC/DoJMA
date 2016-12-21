@@ -8,7 +8,7 @@
     android:clickable="true"
     android:contextClickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/utilities_contacts_background"
+    app:cardBackgroundColor="?customContactsCardBackgroundColor"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="Contacts"
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardTitleColor"
             android:textSize="22sp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="Medical Centre "
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardNamesTextColor"
             android:textSize="14sp" />
 
         <ImageButton
@@ -60,8 +60,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
-            app:srcCompat="@drawable/main_call_button_state_list"
-            app:theme="@style/MainCallButtonColorControlHighlight" />
+            android:theme="@style/MainCallButtonColorControlHighlight"
+            app:srcCompat="@drawable/main_call_button_state_list" />
 
         <TextView
             android:id="@+id/viewholder_contact_format_name2"
@@ -78,7 +78,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="Main Gate"
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardNamesTextColor"
             android:textSize="14sp" />
 
         <ImageButton
@@ -96,8 +96,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
-            app:srcCompat="@drawable/main_call_button_state_list"
-            app:theme="@style/MainCallButtonColorControlHighlight" />
+            android:theme="@style/MainCallButtonColorControlHighlight"
+            app:srcCompat="@drawable/main_call_button_state_list" />
 
         <TextView
             android:id="@+id/viewholder_contact_format_name3"
@@ -114,7 +114,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="SWD Office"
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardNamesTextColor"
             android:textSize="14sp" />
 
 
@@ -133,9 +133,9 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
+            android:theme="@style/MainCallButtonColorControlHighlight"
             android:visibility="visible"
-            app:srcCompat="@drawable/main_call_button_state_list"
-            app:theme="@style/MainCallButtonColorControlHighlight" />
+            app:srcCompat="@drawable/main_call_button_state_list" />
 
         <TextView
             android:id="@+id/viewholder_contact_format_name4"
@@ -152,7 +152,7 @@
             android:paddingRight="16dp"
             android:paddingStart="16dp"
             android:text="Chief Warden"
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardNamesTextColor"
             android:textSize="14sp" />
 
 
@@ -171,9 +171,9 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingStart="16dp"
+            android:theme="@style/MainCallButtonColorControlHighlight"
             android:visibility="visible"
-            app:srcCompat="@drawable/main_call_button_state_list"
-            app:theme="@style/MainCallButtonColorControlHighlight" />
+            app:srcCompat="@drawable/main_call_button_state_list" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
             android:layout_below="@+id/viewholder_contact_format_call4"
             android:padding="8dp"
             android:text="Click here for more contact numbers"
-            android:textColor="@color/utilities_contacts_text_color"
+            android:textColor="?customContactsCardSubTitleColor"
             android:textSize="12sp"
 
             />
