@@ -114,8 +114,6 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                                     bar.setDesc(foo.getDesc());
                                     bar.setStartDate(foo.getStartDate());
                                     bar.setStartTime(foo.getStartTime());
-                                    bar.setEndDate(foo.getEndDate());
-                                    bar.setEndTime(foo.getEndTime());
                                     bar.setTime(bar.getTime());
                                 }
                             }
@@ -143,8 +141,6 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                             public void execute(Realm realm) {
                                 EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
                                 bar.setDesc(foo.getDesc());
-                                bar.setEndDate(foo.getEndDate());
-                                bar.setEndTime(foo.getEndTime());
                                 bar.setLocation(foo.getLocation());
                                 bar.setStartDate(foo.getStartDate());
                                 bar.setStartTime(foo.getStartTime());

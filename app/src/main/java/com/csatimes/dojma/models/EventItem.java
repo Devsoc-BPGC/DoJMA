@@ -32,8 +32,6 @@ public class EventItem extends RealmObject {
     @Required
     private String desc;
     private String startTime;
-    private String endTime;
-    private String endDate;
     private String location;
     @Exclude
     private long time = 0;
@@ -42,41 +40,20 @@ public class EventItem extends RealmObject {
         desc = "";
         startDate = "";
         startTime = "";
-        endTime = "";
-        endDate = "";
         location = "";
         title = "";
         key = "";
         time = 0;
     }
 
-    public EventItem(String title, String startDate, String startTime, String endTime, String location, String desc, String endDate, String key, long time) {
+    public EventItem(String title, String startDate, String startTime, String location, String desc, String key, long time) {
         this.title = title;
         this.desc = desc;
         this.startDate = startDate;
-        this.endDate = endDate;
         this.startTime = startTime;
-        this.endTime = endTime;
         this.location = location;
         this.key = key;
         this.time = time;
-    }
-
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
     }
 
     public String getTitle() {
@@ -149,21 +126,6 @@ public class EventItem extends RealmObject {
             date = format.parse(dtStart);
         } catch (Exception e) {
             DHC.log("Date parse error in start dateTime " + dtStart + e.getMessage());
-        }
-        return date;
-    }
-
-    @Exclude
-    public Date getEndDateObj() {
-        Date date = null;
-        if (getEndDate() != null && getEndTime() != null) {
-            String foo = getEndDate() + getEndTime();
-            SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
-            try {
-                date = format.parse(foo);
-            } catch (Exception e) {
-                DHC.log("Date parse error in endDate");
-            }
         }
         return date;
     }

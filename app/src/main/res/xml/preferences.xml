@@ -11,7 +11,8 @@
             android:title="Enable Night Mode"
             />
         <SwitchPreference
-            android:defaultValue="false alert"
+            android:defaultValue="false"
+            android:enabled="true"
             android:key="@string/PREFERENCE_general_event_notification"
             android:summaryOff="Automatcially set alarms for any new events"
             android:summaryOn="Disable auto set alarm for new events"
