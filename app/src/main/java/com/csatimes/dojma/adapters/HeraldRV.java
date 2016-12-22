@@ -116,8 +116,8 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private class HeraldPotraitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView title;
-        public TextView date;
+        TextView title;
+        TextView date;
         SimpleDraweeView imageView;
         TextView desc;
         LikeButton fav;
@@ -126,12 +126,12 @@ public class HeraldRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         HeraldPotraitViewHolder(View itemView) {
             super(itemView);
 
-            imageView = (SimpleDraweeView) itemView.findViewById(R.id.herald_rv_item_image);
-            date = (TextView) itemView.findViewById(R.id.herald_rv_item_date);
-            title = (TextView) itemView.findViewById(R.id.herald_rv_item_title);
-            desc = (TextView) itemView.findViewById(R.id.herald_rv_desc);
-            fav = (LikeButton) itemView.findViewById(R.id.herald_like_button);
-            share = (ImageButton) itemView.findViewById(R.id.herald_rv_share_button);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.item_format_herald_image);
+            date = (TextView) itemView.findViewById(R.id.item_format_herald_date);
+            title = (TextView) itemView.findViewById(R.id.item_format_herald_title);
+            desc = (TextView) itemView.findViewById(R.id.item_format_herald_desc);
+            fav = (LikeButton) itemView.findViewById(R.id.item_format_herald_heart);
+            share = (ImageButton) itemView.findViewById(R.id.item_format_herald_share);
             imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
 
             fav.setOnLikeListener(new OnLikeListener() {

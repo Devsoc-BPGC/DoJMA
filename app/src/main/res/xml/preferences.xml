@@ -10,12 +10,13 @@
             android:summary="Use darker backgrounds to reduce strain to the eyes"
             android:title="Enable Night Mode"
             />
-        <MultiSelectListPreference
-            android:dialogTitle="Notification alert"
-            android:entries="@array/general_notification_options"
-            android:entryValues="@array/general_notification_option_values"
-            android:key="@string/PREFERENCE_general_notification_interval"
-            android:title="Customise notifications"/>
+        <SwitchPreference
+            android:defaultValue="false alert"
+            android:key="@string/PREFERENCE_general_event_notification"
+            android:summaryOff="Automatcially set alarms for any new events"
+            android:summaryOn="Disable auto set alarm for new events"
+            android:title="Set alarms for new events"
+            />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/PREFERENCE_sync"

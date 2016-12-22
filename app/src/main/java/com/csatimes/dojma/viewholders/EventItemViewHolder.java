@@ -15,8 +15,7 @@ import com.csatimes.dojma.R;
 public class EventItemViewHolder extends RecyclerView.ViewHolder {
     public TextView title;
     public TextView desc;
-    public TextView date;
-    public TextView time;
+    public TextView dateTime;
     public TextView location;
     public ImageView status;
     public SwitchCompat aSwitch;
@@ -28,8 +27,7 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.item_format_event_title);
         desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
-        date = (TextView) itemView.findViewById(R.id.item_format_event_date);
-        time = (TextView) itemView.findViewById(R.id.item_format_event_time);
+        dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
         location = (TextView) itemView.findViewById(R.id.item_format_event_location);
         aSwitch = (SwitchCompat) itemView.findViewById(R.id.item_format_event_add);
         status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);

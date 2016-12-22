@@ -11,7 +11,7 @@ import java.util.Locale;
 import io.realm.RealmObject;
 
 /**
- * GazetteItem contains title,url,date
+ * GazetteItem contains title,url,dateTime
  */
 @IgnoreExtraProperties
 public class GazetteItem extends RealmObject {
@@ -88,7 +88,7 @@ public class GazetteItem extends RealmObject {
         try {
             dateObj = format.parse(releaseDateString);
         } catch (Exception e) {
-            DHC.log("Date parse error in gazette date " + releaseDateString + e.getMessage());
+            DHC.log("Date parse error in gazette dateTime " + releaseDateString + e.getMessage());
         }
         return dateObj;
     }
@@ -103,7 +103,7 @@ public class GazetteItem extends RealmObject {
                 dateString = sdf.format(dateObj);
                 return dateString;
             } catch (Exception e) {
-                DHC.log("Date parse error in gaztte formatted date string");
+                DHC.log("Date parse error in gaztte formatted dateTime string");
             }
         }
         return date;

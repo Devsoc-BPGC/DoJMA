@@ -99,8 +99,8 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 EventItem foo = (EventItem) results.get(Searchable.SEARCHABLE_EVENTS).get(position - 3 - articlesSize - gazettesSize);
                 eivh.title.setText(foo.getTitle());
                 eivh.location.setText(foo.getLocation());
-                eivh.time.setText(foo.getStartTime());
-                eivh.date.setText(foo.getStartDate());
+                eivh.dateTime.setText(foo.getStartTime());
+                eivh.dateTime.setText(foo.getStartDate());
                 eivh.desc.setText(foo.getDesc());
             }
         }

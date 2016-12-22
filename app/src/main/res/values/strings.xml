@@ -98,7 +98,7 @@
     <string name="pda_download_starting_msg">Starting download</string>
     <string name="PREFERENCES_general_image_animations">pref_general_circle_loader_fresco</string>
     <string name="PREFERENCE_general_night_mode">pref_general_night_mode</string>
-    <string name="PREFERENCE_general_notification_interval">pref_general_notif</string>
+    <string name="PREFERENCE_general_event_notification">pref_general_notif</string>
     <string name="PREFERENCE_sync_syncing">pref_sync</string>
     <string name="PREFERENCE_sync_interval">pref_key_snyc_iterval</string>
     <string name="PREFERENCE_browser_in_app">pref_browser_inapp_enable</string>

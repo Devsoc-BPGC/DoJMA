@@ -148,7 +148,7 @@ public class EventItem extends RealmObject {
         try {
             date = format.parse(dtStart);
         } catch (Exception e) {
-            DHC.log("Date parse error in start date " + dtStart + e.getMessage());
+            DHC.log("Date parse error in start dateTime " + dtStart + e.getMessage());
         }
         return date;
     }
@@ -173,7 +173,7 @@ public class EventItem extends RealmObject {
         String dateString;
         Date date = getStartDateObj();
         if (date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd\nMMM", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
             try {
                 dateString = sdf.format(date);
                 return dateString;

@@ -89,8 +89,6 @@
         <item name="customEventsTitleTextColor">@color/grey400</item>
         <item name="customEventsLocationTextColor">@color/grey500</item>
         <item name="customEventsDescTextColor">@color/grey700</item>
-        <item name="customEventsTimeTextColor">@color/grey500</item>
-        <item name="customEventsDateTextColor">@color/grey500</item>
         <item name="customEventsViewColor">@color/grey700</item>
 
         <item name="customSearchableErrorTextColor">@color/grey600</item>

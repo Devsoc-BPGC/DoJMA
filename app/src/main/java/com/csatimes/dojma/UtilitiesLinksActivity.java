@@ -68,9 +68,14 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Useful Links");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         //These flags are for system bar on top
         //Don't bother yourself with this code
         Window window = this.getWindow();
@@ -81,7 +86,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-         }
+        }
 
         linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         linkRecyclerView.setHasFixedSize(true);

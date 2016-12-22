@@ -23,8 +23,6 @@
     <attr name="customEventsTitleTextColor" format="color" />
     <attr name="customEventsLocationTextColor" format="color" />
     <attr name="customEventsDescTextColor" format="color" />
-    <attr name="customEventsDateTextColor" format="color" />
-    <attr name="customEventsTimeTextColor" format="color" />
     <attr name="customEventsViewColor" format="color" />
     <attr name="customEventsErrorTextColor" format="color" />
 

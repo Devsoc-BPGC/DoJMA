@@ -41,6 +41,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes2");
     private Realm database;
     private ValueEventListener gazetteListener;
+    private RecyclerView gazetteRecyclerView;
 
     public Gazette() {
         // Required empty public constructor
@@ -54,19 +55,11 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
 
         emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
-        RecyclerView gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
+        gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
         gazetteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), span()));
         gazetteRecyclerView.setHasFixedSize(true);
 
-        database = Realm.getDefaultInstance();
-
-        gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
-
-        adapter = new GazettesRV(gazetteResults);
-        gazetteRecyclerView.setAdapter(adapter);
-
-        adapter.setOnGazetteItemClickedListener(this);
         return view;
     }
 
@@ -74,9 +67,17 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     public void onStart() {
         super.onStart();
 
+
+        database = Realm.getDefaultInstance();
+        gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
+
+        adapter = new GazettesRV(gazetteResults);
         if (adapter.getItemCount() != 0) {
             emptyList.setVisibility(View.GONE);
         }
+        gazetteRecyclerView.setAdapter(adapter);
+
+        adapter.setOnGazetteItemClickedListener(this);
 
         gazetteListener = returnEventListener();
 

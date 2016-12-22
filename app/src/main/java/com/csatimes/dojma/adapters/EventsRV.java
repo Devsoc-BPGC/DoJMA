@@ -53,8 +53,7 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
 
         holder.title.setText(eventItems.get(position).getTitle());
         holder.desc.setText(eventItems.get(position).getDesc());
-        holder.time.setText(eventItems.get(position).getStartTimeFormatted());
-        holder.date.setText(eventItems.get(position).getStartDateFormatted());
+        holder.dateTime.setText(eventItems.get(position).getStartDateFormatted() + "\n" + eventItems.get(position).getStartTimeFormatted());
         holder.location.setText(eventItems.get(position).getLocation());
         holder.up.setVisibility(View.VISIBLE);
         holder.down.setVisibility(View.VISIBLE);
@@ -93,13 +92,11 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
             }
 
             holder.status.setColorFilter(color);
-            holder.time.setTextColor(color);
-            holder.date.setTextColor(color);
+            holder.dateTime.setTextColor(color);
 
 
         } else {
-            holder.time.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
-            holder.date.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
+            holder.dateTime.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
             holder.status.setColorFilter(Color.GRAY);
             holder.aSwitch.setChecked(false);
         }
@@ -132,8 +129,7 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
     class EventItemViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView desc;
-        TextView date;
-        TextView time;
+        TextView dateTime;
         TextView location;
         ImageView status;
         SwitchCompat aSwitch;
@@ -145,8 +141,7 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.item_format_event_title);
             desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
-            date = (TextView) itemView.findViewById(R.id.item_format_event_date);
-            time = (TextView) itemView.findViewById(R.id.item_format_event_time);
+            dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
             location = (TextView) itemView.findViewById(R.id.item_format_event_location);
             aSwitch = (SwitchCompat) itemView.findViewById(R.id.item_format_event_add);
             status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);
