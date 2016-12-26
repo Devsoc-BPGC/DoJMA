@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ContactItem;
-import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
 
 import java.util.List;
@@ -18,23 +17,25 @@ import java.util.List;
 import io.realm.RealmList;
 
 /**
- * Created by Vikramaditya Kukreja on 20-07-2016.
+ * Contacts adapter used in {@link com.csatimes.dojma.ContactsActivity}. This adapter takes in a {@link List}<{@link RealmList}<{@link ContactItem}>>
+ * dataset object
+ * and a {@link List}<{@link String}> contactTypes object
  */
 
 public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int TYPE_TITLE = 0;
-    public static final int TYPE_CONTACT = 1;
-    private List<RealmList<ContactItem>> dataSet;
-    private List<String> contactTypes;
-    private SparseIntArray positions;
-    private int lastTitlePos = 0;
-    private OnContactItemClicked onContactItemClicked;
+    private final int TYPE_TITLE = 0;
+    private final int TYPE_CONTACT = 1;
+    private List<RealmList<ContactItem>> mDataSet;
+    private List<String> mContactTypes;
+    private SparseIntArray mPositions;
+    private int mLastTitlePos = 0;
+    private OnContactItemClicked mOnContactItemClicked;
 
-    public ContactAdapter(List<RealmList<ContactItem>> dataSet, List<String> contactTypes) {
-        this.dataSet = dataSet;
-        this.contactTypes = contactTypes;
-        onContactItemClicked = null;
+    public ContactAdapter(List<RealmList<ContactItem>> mDataSet, List<String> mContactTypes) {
+        this.mDataSet = mDataSet;
+        this.mContactTypes = mContactTypes;
+        mOnContactItemClicked = null;
         generatePositions();
     }
 
@@ -54,46 +55,34 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void generatePositions() {
+        if (mPositions == null)
+            mPositions = new SparseIntArray();
+        else mPositions.clear();
 
-        DHC.log("dataset size" + dataSet.size() + " contacttpe size " + contactTypes.size());
-
-        for (int i = 0; i < dataSet.size(); i++) {
-            DHC.log(i + 1 + " size is " + dataSet.get(i).size());
-        }
-
-
-        if (positions == null)
-            positions = new SparseIntArray();
-        else positions.clear();
-
-        for (int i = 0; i < contactTypes.size(); i++) {
+        for (int i = 0; i < mContactTypes.size(); i++) {
             int var = i;
             for (int j = 1; j <= i; j++) {
-                var += dataSet.get(j - 1).size();
+                var += mDataSet.get(j - 1).size();
             }
-            DHC.log("title at index " + var);
-            positions.put(var, i);
+            mPositions.put(var, i);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DHC.log("position " + position);
         if (holder.getItemViewType() == TYPE_TITLE) {
             SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
-            stvh.text.setText(contactTypes.get(positions.get(position)));
-            lastTitlePos = positions.get(position);
+            stvh.text.setText(mContactTypes.get(mPositions.get(position)));
+            mLastTitlePos = mPositions.get(position);
         } else {
 
             ContactViewHolder cvh = (ContactViewHolder) holder;
-            int index = position - (lastTitlePos + 1);
+            int index = position - (mLastTitlePos + 1);
 
-            for (int i = 1; i <= lastTitlePos; i++) {
-                index -= dataSet.get(i - 1).size();
+            for (int i = 1; i <= mLastTitlePos; i++) {
+                index -= mDataSet.get(i - 1).size();
             }
-            DHC.log("contact index is " + index);
-
-            cvh.contactName.setText(dataSet.get(lastTitlePos).get(index).getName());
+            cvh.contactName.setText(mDataSet.get(mLastTitlePos).get(index).getName());
         }
 
 
@@ -102,10 +91,10 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
 
-        int count = contactTypes.size();
+        int count = mContactTypes.size();
 
-        for (int i = 0; i < contactTypes.size(); i++) {
-            count += dataSet.get(i).size();
+        for (int i = 0; i < mContactTypes.size(); i++) {
+            count += mDataSet.get(i).size();
         }
         return count;
     }
@@ -115,14 +104,14 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if (position == 0) return TYPE_TITLE;
 
-        if (positions.get(position) != 0)
+        if (mPositions.get(position) != 0)
             return TYPE_TITLE;
 
         return TYPE_CONTACT;
     }
 
     public void setOnContactItemClicked(OnContactItemClicked onContactItemClicked) {
-        this.onContactItemClicked = onContactItemClicked;
+        this.mOnContactItemClicked = onContactItemClicked;
     }
 
     public interface OnContactItemClicked {
@@ -133,7 +122,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onContactAddClicked(String name, String tel, String email);
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView contactName;
         ImageButton call;
         ImageButton add;
@@ -156,27 +145,28 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onClick(View v) {
             int id = v.getId();
 
-            int index = getAdapterPosition() - (lastTitlePos + 1);
-            for (int i = 1; i <= lastTitlePos; i++) {
-                index -= dataSet.get(i - 1).size();
+            int itemPositionInAdapter = getAdapterPosition();
+            int positionsIndex = 0;
+            int i;
+            for (i = 0; i < mPositions.size(); i++) {
+                if (mPositions.keyAt(i) < itemPositionInAdapter) {
+                    positionsIndex = mPositions.keyAt(i);
+                } else break;
             }
-            DHC.log("lastpos " + lastTitlePos);
-            try {
-                ContactItem ci = dataSet.get(lastTitlePos).get(index);
+            i--;
 
-                if (onContactItemClicked != null) {
-                    if (id == call.getId()) {
-                        onContactItemClicked.onCallButtonClicked(ci.getNumber());
+            ContactItem ci = mDataSet.get(i).get(itemPositionInAdapter - 1 - positionsIndex);
 
-                    } else if (id == email.getId()) {
-                        onContactItemClicked.onEmailButtonClicked(ci.getEmail());
+            if (mOnContactItemClicked != null) {
+                if (id == call.getId()) {
+                    mOnContactItemClicked.onCallButtonClicked(ci.getNumber());
 
-                    } else if (id == email.getId()) {
-                        onContactItemClicked.onContactAddClicked(ci.getName(), ci.getNumber(), ci.getEmail());
-                    }
+                } else if (id == email.getId()) {
+                    mOnContactItemClicked.onEmailButtonClicked(ci.getEmail());
+
+                } else if (id == add.getId()) {
+                    mOnContactItemClicked.onContactAddClicked(ci.getName(), ci.getNumber(), ci.getEmail());
                 }
-            }catch (Exception e){
-                e.printStackTrace();
             }
 
         }
