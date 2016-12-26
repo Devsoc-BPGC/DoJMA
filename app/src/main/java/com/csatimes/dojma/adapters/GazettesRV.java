@@ -38,7 +38,8 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
 
     @Override
     public void onBindViewHolder(GazettesRV.GazetteItemViewHolder holder, int position) {
-        holder.title.setText(gazetteItems.get(position).getReleaseDateFormatted());
+        holder.title.setText(gazetteItems.get(position).getTitle() + "\n"
+                + gazetteItems.get(position).getReleaseDateFormatted());
         holder.image.setImageURI(gazetteItems.get(position).getImageUrl());
     }
 

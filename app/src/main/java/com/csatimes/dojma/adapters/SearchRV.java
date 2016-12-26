@@ -60,7 +60,7 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder = new HeraldSearchViewHolder(v2);
                 break;
             case GAZETTES_ITEM_TYPE:
-                View v3 = inflater.inflate(R.layout.item_format_gazette, parent, false);
+                View v3 = inflater.inflate(R.layout.item_format_search_gazette, parent, false);
                 viewHolder = new GazetteItemViewHolder(v3);
                 break;
             case EVENTS_ITEM_TYPE:
@@ -91,7 +91,8 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 GazetteItemViewHolder givh = (GazetteItemViewHolder) holder;
 
                 GazetteItem foo = (GazetteItem) results.get(Searchable.SEARCHABLE_GAZETTES).get(position - 2 - articlesSize);
-                givh.title.setText(foo.getTitle());
+                givh.title.setText(foo.getTitle() + "\n" + foo.getReleaseDateFormatted());
+                givh.image.setImageURI(foo.getImageUrl());
 
             } else if (holder.getItemViewType() == EVENTS_ITEM_TYPE) {
                 EventItemViewHolder eivh = (EventItemViewHolder) holder;

@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:background="?defaultBackground"
     android:clickable="true"
-    android:orientation="vertical"
-    android:stateListAnimator="@animator/lift_on_touch">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/item_format_links_title"
