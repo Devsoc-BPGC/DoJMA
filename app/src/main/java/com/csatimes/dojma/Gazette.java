@@ -78,7 +78,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
 
         adapter = new GazettesRV(gazetteResults);
-        if (adapter.getItemCount() != 0) {
+        if (gazetteResults.size() > 0) {
             emptyList.setVisibility(View.GONE);
         }
         gazetteRecyclerView.setAdapter(adapter);
@@ -86,7 +86,6 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         adapter.setOnGazetteItemClickedListener(this);
 
         gazetteListener = returnEventListener();
-
         gazettes.addValueEventListener(gazetteListener);
     }
 

@@ -33,7 +33,7 @@ import io.realm.RealmList;
 import static android.content.Intent.ACTION_VIEW;
 
 /**
- * Created by yash on 21/7/16.
+ * Links Activity under the Utilities Section
  */
 
 public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.OnLinkClickedListener {
@@ -96,6 +96,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity implements LinkRv.
 
         linkItems = new RealmList<>();
         linkItems.addAll(database.where(LinkItem.class).findAll());
+        if (linkItems.size() > 0) emptyList.setVisibility(View.GONE);
 
         adapter = new LinkRv(linkItems);
         linkRecyclerView.setAdapter(adapter);

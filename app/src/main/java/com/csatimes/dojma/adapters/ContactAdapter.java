@@ -122,7 +122,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onContactAddClicked(String name, String tel, String email);
     }
 
-    private class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+     class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView contactName;
         ImageButton call;
         ImageButton add;

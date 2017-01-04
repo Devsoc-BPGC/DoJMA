@@ -68,7 +68,7 @@ public class Utilities extends Fragment {
                 message = dataSnapshot.getValue(String.class);
                 editor.putString("miscMessage", message);
                 editor.apply();
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemChanged(3);
             }
 
             @Override

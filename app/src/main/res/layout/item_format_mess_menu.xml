@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_format_mess_menu_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:actualImageScaleType="centerCrop"
+        app:fadeDuration="300"
+        app:placeholderImage="?defaultBackground" />
 
     <TextView
         android:id="@+id/item_format_mess_menu_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        />
 </LinearLayout>

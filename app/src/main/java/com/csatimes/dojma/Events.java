@@ -205,10 +205,10 @@ public class Events extends Fragment implements EventsRV.OnAlarmSetListener {
                 if (foo != null) {
                     if (foo.isAlarmSet()) {
                         foo.setAlarm(false);
-                        Toast.makeText(getContext(), "Alarm removed", Toast.LENGTH_SHORT).show();
                     } else {
                         foo.setAlarm(true);
                         Toast.makeText(getContext(), "Alarm set", Toast.LENGTH_SHORT).show();
+
                         //TODO Set alarm
                     }
                 }

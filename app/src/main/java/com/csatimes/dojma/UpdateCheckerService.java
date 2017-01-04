@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
@@ -255,9 +254,8 @@ public class UpdateCheckerService extends IntentService {
                 }
             }
 
-            String message = null;
+            String message;
 
-            DHC.log(" in database " + database.where(HeraldNewsItemFormat.class).findAll().size());
             if (noOfArticlesDownloadedByService != 0) {
 
                 //Send update available broadcast if Herald fragment is attached
@@ -269,6 +267,7 @@ public class UpdateCheckerService extends IntentService {
                 if (noOfArticlesDownloadedByService == 1)
                     message = "1 new article was downloaded";
                 else message = noOfArticlesDownloadedByService + " articles downloaded";
+
                 Intent openHerald = new Intent(this, HomeActivity.class);
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -299,34 +298,5 @@ public class UpdateCheckerService extends IntentService {
         startService(new Intent(this, ImageUrlHandlerService.class));
         stopSelf();
     }
-
-    @NonNull
-    private String setNotificationMessage(int downloads, int updates) {
-        String foo = null;
-
-        if (updates != 0 && downloads != 0) {
-            if (downloads == 1)
-                foo = "1 article downloaded and " + updates + " " +
-                        "updated";
-            else
-                foo = downloads + " articles downloaded and " +
-                        updates + " updated";
-
-        } else if (downloads == 0) {
-            if (updates == 1)
-                foo = "1 article updated";
-            else {
-                foo = updates + " articles updated";
-            }
-        } else if (updates == 0) {
-            if (downloads == 1)
-                foo = "1 article downloaded";
-            else foo = downloads +
-                    " articles downloaded";
-        } else return null;
-
-        return foo;
-    }
-
 
 }

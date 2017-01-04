@@ -11,8 +11,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -139,13 +136,6 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        //If on starting the app, no internet connection is available, error Snackbar is
-        // shown.
-        if (!isOnline()) {
-            Snackbar snack = Snackbar.make(viewPager, "No Internet. Can't check for updates.", Snackbar.LENGTH_LONG);
-            snack.show();
-        }
 
         navBarListener = returnImageChangeListener();
         navBarRef.addValueEventListener(navBarListener);
@@ -342,25 +332,22 @@ public class HomeActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
     }
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return (netInfo != null && netInfo.isConnected());
-    }
-
     public void scheduleAlarmForUpdateService() {
+
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this, AlarmReceiver.class);
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // Setup periodic alarm every 1 day
+        // Setup periodic alarm every 3 day
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //Cancel old alarm
+        alarm.cancel(pIntent);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                AlarmManager.INTERVAL_DAY, pIntent);
+                3 * AlarmManager.INTERVAL_DAY, pIntent);
     }
 
     //method to get the right URL to use in the intent
