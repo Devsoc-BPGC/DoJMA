@@ -19,8 +19,7 @@ import io.realm.RealmResults;
 
 public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewHolder> {
 
-    public static final int SINGLE_CLICK = 0;
-    public static final int LONG_CLICK = 1;
+    private static final int SINGLE_CLICK = 0;
 
     private RealmResults<GazetteItem> gazetteItems;
     private onGazetteItemClickedListener onGazetteItemClickedListener;
@@ -53,7 +52,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
     }
 
     public interface onGazetteItemClickedListener {
-        void onClicked(GazetteItem gi, int clickType);
+        void onClicked(GazetteItem gi);
     }
 
     class GazetteItemViewHolder extends RecyclerView.ViewHolder {
@@ -69,19 +68,11 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
                 @Override
                 public void onClick(View view) {
                     if (onGazetteItemClickedListener != null) {
-                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()), SINGLE_CLICK);
+                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()));
                     }
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (onGazetteItemClickedListener != null) {
-                        onGazetteItemClickedListener.onClicked(gazetteItems.get(getAdapterPosition()), LONG_CLICK);
-                    }
-                    return false;
-                }
-            });
+
         }
     }
 

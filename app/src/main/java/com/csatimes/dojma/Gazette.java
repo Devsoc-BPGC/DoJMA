@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.csatimes.dojma.adapters.GazettesRV;
 import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.utilities.DHC;
-import com.csatimes.dojma.utilities.SimpleAlertDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,16 +32,10 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-import static com.csatimes.dojma.adapters.GazettesRV.SINGLE_CLICK;
-
 
 public class Gazette extends Fragment implements GazettesRV.onGazetteItemClickedListener {
 
-    //Random number to address write permission
-    public static final int REQUEST_WRITE_STORAGE = 112;
-
     private GazettesRV adapter;
-    private RealmResults<GazetteItem> gazetteResults;
     private TextView emptyList;
     private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes2");
     private Realm database;
@@ -75,7 +68,7 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
 
 
         database = Realm.getDefaultInstance();
-        gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
+        RealmResults<GazetteItem> gazetteResults = database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING);
 
         adapter = new GazettesRV(gazetteResults);
         if (gazetteResults.size() > 0) {
@@ -165,28 +158,21 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     }
 
     @Override
-    public void onClicked(GazetteItem gi, int clickType) {
-        if (clickType == SINGLE_CLICK) {
-            File pdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf");
-            if (pdf.exists()) {
-                Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", pdf);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(uri);
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                if (intent.resolveActivity(getContext().getPackageManager()) != null)
-                    startActivity(intent);
-                else {
-                    Toast.makeText(getContext(), "Could not load from local storage, Downloading again", Toast.LENGTH_SHORT).show();
-                    downloadPDF(gi);
-                }
-            } else {
+    public void onClicked(GazetteItem gi) {
+        File pdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf");
+        if (pdf.exists()) {
+            Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", pdf);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            if (intent.resolveActivity(getContext().getPackageManager()) != null)
+                startActivity(intent);
+            else {
+                Toast.makeText(getContext(), "Could not load from local storage, Downloading again", Toast.LENGTH_SHORT).show();
                 downloadPDF(gi);
             }
         } else {
-            //Detected long click, show fragment
-            //TODO Handle gazette long click more appropriately
-            SimpleAlertDialog sad = new SimpleAlertDialog();
-            sad.showDialog(getContext(), "hello", "", "OK", "", true, true);
+            downloadPDF(gi);
         }
     }
 
