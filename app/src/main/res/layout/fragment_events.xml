@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?defaultBackground"
-    tools:context="com.csatimes.dojma.Events">
+    tools:context="com.csatimes.dojma.fragments.Events">
 
     <TextView
         android:id="@+id/error_text_view"

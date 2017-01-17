@@ -11,11 +11,16 @@
         android:layout_height="wrap_content"
         app:actualImageScaleType="centerCrop"
         app:fadeDuration="300"
-        app:placeholderImage="?defaultBackground" />
+        app:placeholderImage="?defaultBackground"
+        app:viewAspectRatio="1.33" />
 
     <TextView
         android:id="@+id/item_format_mess_menu_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
 </LinearLayout>

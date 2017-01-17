@@ -12,7 +12,7 @@ import com.csatimes.dojma.models.PosterItem;
 import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.Vector;
+import io.realm.RealmList;
 
 /**
  * Created by Vikramaditya Kukreja on 19-06-2016.
@@ -20,10 +20,10 @@ import java.util.Vector;
 
 public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder> {
     private final OnPhotoListener listener;
-    Vector<PosterItem> posterItems;
+    private RealmList<PosterItem> posterItems;
     private Context context;
 
-    public ImageGalleryAdapter(Context context, Vector<PosterItem> posterItems, OnPhotoListener listener) {
+    public ImageGalleryAdapter(Context context, RealmList<PosterItem> posterItems, OnPhotoListener listener) {
 
         this.context = context;
         this.posterItems = posterItems;

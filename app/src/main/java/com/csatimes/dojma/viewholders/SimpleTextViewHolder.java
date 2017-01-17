@@ -13,6 +13,7 @@ import com.csatimes.dojma.R;
 public class SimpleTextViewHolder extends RecyclerView.ViewHolder {
 
     public TextView text;
+
     public SimpleTextViewHolder(View itemView) {
         super(itemView);
         text = (TextView) itemView.findViewById(R.id.viewholder_simple_text_textview);

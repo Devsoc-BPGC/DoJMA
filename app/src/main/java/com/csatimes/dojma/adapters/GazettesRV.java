@@ -11,7 +11,7 @@ import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
 /**
  * Adapter to handle the data in the rv
@@ -21,10 +21,10 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
 
     private static final int SINGLE_CLICK = 0;
 
-    private RealmResults<GazetteItem> gazetteItems;
+    private RealmList<GazetteItem> gazetteItems;
     private onGazetteItemClickedListener onGazetteItemClickedListener;
 
-    public GazettesRV(RealmResults<GazetteItem> gazetteItems) {
+    public GazettesRV(RealmList<GazetteItem> gazetteItems) {
         this.gazetteItems = gazetteItems;
         this.onGazetteItemClickedListener = null;
     }

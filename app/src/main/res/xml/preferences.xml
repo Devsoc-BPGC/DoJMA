@@ -19,55 +19,5 @@
             android:title="Set alarms for new events"
             />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:key="@string/PREFERENCE_sync"
-        android:title="Syncing">
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/PREFERENCE_sync_syncing"
-            android:summary="Download and sync even when app is not being used"
-            android:title="Sync"/>
-        <ListPreference
-            android:defaultValue="2"
-            android:dependency="@string/PREFERENCE_sync_syncing"
-            android:dialogTitle="Select syncing interval"
-            android:entries="@array/settings_sync_intervals"
-            android:entryValues="@array/settings_sync_interval_values"
-            android:key="@string/PREFERENCE_sync_interval"
-            android:negativeButtonText="CANCEL"
-            android:positiveButtonText="OK"
-            android:summary="Specify regular startTime interval to check for updates"
-            android:title="Select sync interval"/>
 
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="@string/PREFERENCE_browser"
-        android:title="Browser">
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/PREFERENCE_browser_in_app"
-            android:summary="Articles will be loaded inside app"
-            android:title="Use in app browser"
-            />
-        <ListPreference
-            android:defaultValue="1"
-            android:dependency="@string/PREFERENCE_browser_in_app"
-            android:entries="@array/settings_browser_list"
-            android:entryValues="@array/settings_browser_list_values"
-            android:key="@string/PREFERENCE_browser_list"
-            android:summary="Choose between Chrome Custom Tabs(if supported),WebView,OfflineViewer"
-            android:title="Change in app browser">
-        </ListPreference>
-
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="@string/PREFERENCE_others"
-        android:title="Other">
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/PREFERENCE_others_analytics"
-            android:summary="Help us improve the DoJMA app by sending user statistics to Google Analytics.\nYou will not be identified personally."
-            android:title="Allow usage behaviour collection"
-            />
-    </PreferenceCategory>
 </PreferenceScreen>

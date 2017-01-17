@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="?defaultBackground"
     android:focusableInTouchMode="true"
-    tools:context="com.csatimes.dojma.Herald">
+    tools:context="com.csatimes.dojma.fragments.Herald">
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_container"

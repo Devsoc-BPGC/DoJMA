@@ -7,7 +7,7 @@
     android:animateLayoutChanges="true"
     android:background="?defaultBackground"
     android:fitsSystemWindows="true"
-    tools:context="com.csatimes.dojma.ImagesAndMedia">
+    tools:context="com.csatimes.dojma.activities.ImagesAndMediaActivity">
 
     <View
         android:id="@+id/advanced_toolbar_back"

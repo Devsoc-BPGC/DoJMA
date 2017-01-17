@@ -1,10 +1,12 @@
 package com.csatimes.dojma.models;
 
+import io.realm.RealmObject;
+
 /**
  * PosterItem containing title and url field
  */
 
-public class PosterItem {
+public class PosterItem extends RealmObject {
     private String title;
     private String url;
 

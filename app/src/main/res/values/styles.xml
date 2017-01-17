@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/statusBarColor</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navigationBarColor</item>
@@ -67,6 +68,7 @@
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/grey900</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/grey900</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/grey900</item>
@@ -157,35 +159,6 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="MaterialSearchViewStyleCustom">
-        <!-- Background for the search bar -->
-        <item name="searchBackground">@color/materialSearchBackground</item>
-
-        <!-- Change voice icon -->
-        <item name="searchVoiceIcon">@drawable/ic_voice_search</item>
-
-        <!-- Change clear text icon -->
-        <item name="searchCloseIcon">@drawable/ic_clear</item>
-
-        <!-- Change up icon -->
-        <item name="searchBackIcon">@drawable/ic_arrow_back</item>
-
-        <!-- Change icon for the suggestions -->
-        <item name="searchSuggestionIcon">@drawable/ic_suggestion</item>
-
-        <!-- Change background for the suggestions list view -->
-        <item name="searchSuggestionBackground">@android:color/white</item>
-
-        <!-- Change text color for edit text. This will also be the color of the cursor -->
-        <item name="android:textColor">@color/black</item>
-
-        <!-- Change hint text color for edit text -->
-        <item name="android:textColorHint">@color/grey500</item>
-
-        <!-- Hint for edit text -->
-        <item name="android:hint">Search all</item>
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.NoActionBar">

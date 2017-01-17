@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         map:uiCompass="true"
         map:uiZoomControls="false"
-        tools:context="com.csatimes.dojma.MapsActivity">
+        tools:context="com.csatimes.dojma.activities.UtilitiesMapsActivity">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/utilities_map_icon"

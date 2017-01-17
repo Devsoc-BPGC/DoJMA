@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.csatimes.dojma.MapsActivity;
+import com.csatimes.dojma.activities.UtilitiesMapsActivity;
 
 /**
  * Created by Vikramaditya Kukreja on 22-07-2016.
@@ -18,7 +18,7 @@ public class UtilitiesViewHolder5 extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, MapsActivity.class);
+                Intent intent = new Intent(context, UtilitiesMapsActivity.class);
                 context.startActivity(intent);
 
             }

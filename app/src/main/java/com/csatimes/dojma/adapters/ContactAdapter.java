@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.activities.UtilitiesContactsActivity;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
 
@@ -17,7 +18,7 @@ import java.util.List;
 import io.realm.RealmList;
 
 /**
- * Contacts adapter used in {@link com.csatimes.dojma.ContactsActivity}. This adapter takes in a {@link List}<{@link RealmList}<{@link ContactItem}>>
+ * Contacts adapter used in {@link UtilitiesContactsActivity}. This adapter takes in a {@link List}<{@link RealmList}<{@link ContactItem}>>
  * dataset object
  * and a {@link List}<{@link String}> contactTypes object
  */
@@ -122,7 +123,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onContactAddClicked(String name, String tel, String email);
     }
 
-     class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView contactName;
         ImageButton call;
         ImageButton add;

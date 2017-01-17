@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?defaultBackground"
     android:fitsSystemWindows="true"
-    tools:context="com.csatimes.dojma.UtilitiesMessMenu">
+    tools:context="com.csatimes.dojma.activities.UtilitiesMenuActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,8 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:transitionName="@string/transition_utilities"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            tools:targetApi="lollipop" />
 
     </android.support.design.widget.AppBarLayout>
 

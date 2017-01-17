@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?defaultBackground"
-    tools:context="com.csatimes.dojma.ContactsActivity">
+    tools:context="com.csatimes.dojma.activities.UtilitiesContactsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/contacts_app_bar"

@@ -134,5 +134,6 @@
     <string name="shortcut_utilities_short_label">Utilities</string>
     <string name="shortcut_utilities_long_label">Utilities</string>
     <string name="shortcut_utilities_disabled_label">Utilities</string>
+    <string name="transition_utilities">utilities_transition</string>
 
 </resources>

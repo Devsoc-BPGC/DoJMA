@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.UtilitiesLinksActivity;
+import com.csatimes.dojma.activities.UtilitiesLinksActivity;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -61,9 +61,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.bits-pilani.ac.in/goa/login"));
             context.startActivity(intent);
 
-        }
-
-        else if (view.getId() == itemView.getId()) {
+        } else if (view.getId() == itemView.getId()) {
             Intent intent = new Intent(context, UtilitiesLinksActivity.class);
             context.startActivity(intent);
 

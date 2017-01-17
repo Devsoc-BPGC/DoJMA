@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?defaultBackground"
-    tools:context="com.csatimes.dojma.UtilitiesLinksActivity">
+    tools:context="com.csatimes.dojma.activities.UtilitiesLinksActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/about_us_appbar"

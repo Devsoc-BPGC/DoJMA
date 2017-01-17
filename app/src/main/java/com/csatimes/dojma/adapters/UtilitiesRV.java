@@ -22,7 +22,7 @@ public class UtilitiesRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String message;
 
     public UtilitiesRV(String message) {
-    this.message = message;
+        this.message = message;
     }
 
     @Override

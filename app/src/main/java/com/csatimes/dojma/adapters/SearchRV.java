@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.Searchable;
+import com.csatimes.dojma.activities.SearchableActivity;
 import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.models.GazetteItem;
-import com.csatimes.dojma.models.HeraldNewsItemFormat;
+import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.viewholders.EventItemViewHolder;
 import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
 import com.csatimes.dojma.viewholders.HeraldSearchViewHolder;
+import com.csatimes.dojma.viewholders.LinkItemViewHolder;
 import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
 
 import java.util.List;
@@ -26,15 +27,24 @@ import java.util.List;
 
 public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TITLE_ITEM_TYPE = 0;
-    private static final int ARTICLES_ITEM_TYPE = 1;
-    private static final int GAZETTES_ITEM_TYPE = 2;
-    private static final int EVENTS_ITEM_TYPE = 3;
+    private static final int ITEM_TYPE_TITLE = 0;
+    private static final int ITEM_TYPE_ARTICLES_FAVOURITES = 1;
+    private static final int ITEM_TYPE_ARTICLES = 2;
+    private static final int ITEM_TYPE_GAZETTES = 3;
+    private static final int ITEM_TYPE_EVENTS = 4;
+    private static final int ITEM_TYPE_CONTACTS = 5;
+    private static final int ITEM_TYPE_LINKS = 6;
+
     private SparseArray<List<Object>> results = new SparseArray<>();
     private SparseArray<String> titles = new SparseArray<>();
+
+
     private int articlesSize;
+    private int favArticlesSize;
     private int gazettesSize;
     private int eventsSize;
+    private int contactsSize;
+    private int linksSize;
 
 
     public SearchRV(SparseArray<List<Object>> results) {
@@ -51,21 +61,34 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
-            case TITLE_ITEM_TYPE:
+            case ITEM_TYPE_TITLE:
                 View v1 = inflater.inflate(R.layout.viewholder_simple_text, parent, false);
                 viewHolder = new SimpleTextViewHolder(v1);
                 break;
-            case ARTICLES_ITEM_TYPE:
+            case ITEM_TYPE_ARTICLES_FAVOURITES:
                 View v2 = inflater.inflate(R.layout.item_format_search_herald, parent, false);
                 viewHolder = new HeraldSearchViewHolder(v2);
                 break;
-            case GAZETTES_ITEM_TYPE:
-                View v3 = inflater.inflate(R.layout.item_format_search_gazette, parent, false);
-                viewHolder = new GazetteItemViewHolder(v3);
+
+            case ITEM_TYPE_ARTICLES:
+                View v3 = inflater.inflate(R.layout.item_format_search_herald, parent, false);
+                viewHolder = new HeraldSearchViewHolder(v3);
                 break;
-            case EVENTS_ITEM_TYPE:
-                View v4 = inflater.inflate(R.layout.item_format_event, parent, false);
-                viewHolder = new EventItemViewHolder(v4);
+            case ITEM_TYPE_GAZETTES:
+                View v4 = inflater.inflate(R.layout.item_format_search_gazette, parent, false);
+                viewHolder = new GazetteItemViewHolder(v4);
+                break;
+            case ITEM_TYPE_EVENTS:
+                View v5 = inflater.inflate(R.layout.item_format_event, parent, false);
+                viewHolder = new EventItemViewHolder(v5);
+                break;
+            case ITEM_TYPE_CONTACTS:
+                View v6 = inflater.inflate(R.layout.item_format_contact, parent, false);
+                //viewHolder = new ContactAdapter.ContactViewHolder(v6);
+                break;
+            case ITEM_TYPE_LINKS:
+                View v7 = inflater.inflate(R.layout.item_format_links, parent, false);
+                viewHolder = new LinkItemViewHolder(v7);
                 break;
 
         }
@@ -75,29 +98,29 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (results != null && results.size() != 0) {
-            if (holder.getItemViewType() == TITLE_ITEM_TYPE) {
+            if (holder.getItemViewType() == ITEM_TYPE_TITLE) {
                 DHC.log("title type");
                 SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
                 stvh.text.setText(titles.get(position));
 
-            } else if (holder.getItemViewType() == ARTICLES_ITEM_TYPE) {
+            } else if (holder.getItemViewType() == ITEM_TYPE_ARTICLES) {
                 HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
 
-                HeraldNewsItemFormat foo = (HeraldNewsItemFormat) results.get(Searchable.SEARCHABLE_ARTICLES).get(position - 1);
+                HeraldItem foo = (HeraldItem) results.get(SearchableActivity.SEARCHABLE_HERALD).get(position - 1);
                 hsvh.title.setText(foo.getTitle_plain());
                 hsvh.date.setText(foo.getUpdateDate());
                 hsvh.simpleDraweeView.setImageURI(Uri.parse(foo.getImageURL()));
-            } else if (holder.getItemViewType() == GAZETTES_ITEM_TYPE) {
+            } else if (holder.getItemViewType() == ITEM_TYPE_GAZETTES) {
                 GazetteItemViewHolder givh = (GazetteItemViewHolder) holder;
 
-                GazetteItem foo = (GazetteItem) results.get(Searchable.SEARCHABLE_GAZETTES).get(position - 2 - articlesSize);
+                GazetteItem foo = (GazetteItem) results.get(SearchableActivity.SEARCHABLE_GAZETTES).get(position - 2 - articlesSize);
                 givh.title.setText(foo.getTitle() + "\n" + foo.getReleaseDateFormatted());
                 givh.image.setImageURI(foo.getImageUrl());
 
-            } else if (holder.getItemViewType() == EVENTS_ITEM_TYPE) {
+            } else if (holder.getItemViewType() == ITEM_TYPE_EVENTS) {
                 EventItemViewHolder eivh = (EventItemViewHolder) holder;
 
-                EventItem foo = (EventItem) results.get(Searchable.SEARCHABLE_EVENTS).get(position - 3 - articlesSize - gazettesSize);
+                EventItem foo = (EventItem) results.get(SearchableActivity.SEARCHABLE_EVENTS).get(position - 3 - articlesSize - gazettesSize);
                 eivh.title.setText(foo.getTitle());
                 eivh.location.setText(foo.getLocation());
                 eivh.dateTime.setText(foo.getStartTime());
@@ -127,9 +150,9 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void updateResult() {
 
-        this.articlesSize = this.results.get(Searchable.SEARCHABLE_ARTICLES).size();
-        this.gazettesSize = this.results.get(Searchable.SEARCHABLE_GAZETTES).size();
-        this.eventsSize = this.results.get(Searchable.SEARCHABLE_EVENTS).size();
+        this.articlesSize = this.results.get(SearchableActivity.SEARCHABLE_HERALD).size();
+        this.gazettesSize = this.results.get(SearchableActivity.SEARCHABLE_GAZETTES).size();
+        this.eventsSize = this.results.get(SearchableActivity.SEARCHABLE_EVENTS).size();
 
         this.titles.put(0, "Herald(" + articlesSize + ")");
         this.titles.put(1 + articlesSize, "Gazettes(" + gazettesSize + ")");
@@ -145,13 +168,13 @@ public class SearchRV extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 || articlesSize + 1 == position
                 || articlesSize + 2 + gazettesSize == position
                 ) {
-            return TITLE_ITEM_TYPE;
+            return ITEM_TYPE_TITLE;
         } else if (position >= 1 && position <= articlesSize)
-            return ARTICLES_ITEM_TYPE;
+            return ITEM_TYPE_ARTICLES;
         else if (position >= articlesSize + 2 && position <= articlesSize + 1 + gazettesSize)
-            return GAZETTES_ITEM_TYPE;
+            return ITEM_TYPE_GAZETTES;
         else if (position >= 3 + gazettesSize + articlesSize)
-            return EVENTS_ITEM_TYPE;//10
+            return ITEM_TYPE_EVENTS;//10
         else return -1;
     }
 }

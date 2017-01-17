@@ -10,12 +10,12 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/nav_bar_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:foreground="@drawable/gradient_nav_bar_title"
         app:actualImageScaleType="centerCrop"
         app:fadeDuration="500"
         app:placeholderImage="?customNavDrawerBackgroundColor"
-        app:placeholderImageScaleType="centerCrop" />
+        app:viewAspectRatio="1.33" />
 
     <TextView
         android:id="@+id/nav_bar_title"

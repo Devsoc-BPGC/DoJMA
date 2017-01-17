@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.csatimes.dojma.ContactsActivity;
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.activities.UtilitiesContactsActivity;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -20,6 +20,7 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
     private ImageButton call1, call2, call3, call4;
     private Context context;
     private String[] contactNumbers = {"9552040123", "8326482016", "0832-2580720", "0832-2580324"};
+
     public UtilitiesViewHolder1(View itemView, Context context) {
         super(itemView);
         call1 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call1);
@@ -89,7 +90,7 @@ public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements Vie
 
         } else if (id == itemView.getId()) {
             try {
-                Intent intent = new Intent(context, ContactsActivity.class);
+                Intent intent = new Intent(context, UtilitiesContactsActivity.class);
                 context.startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();

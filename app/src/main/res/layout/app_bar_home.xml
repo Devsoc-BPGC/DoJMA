@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.csatimes.dojma.HomeActivity"
+    tools:context="com.csatimes.dojma.activities.HomeActivity"
     tools:overrideLibrary="com.miguelcatalan.materialsearchview">
 
     <android.support.design.widget.AppBarLayout
@@ -20,13 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|snap"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:tabGravity="fill"
             app:tabMode="fixed" />
 

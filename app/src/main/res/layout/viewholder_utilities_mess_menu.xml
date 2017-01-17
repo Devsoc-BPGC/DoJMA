@@ -8,6 +8,7 @@
     android:clickable="true"
     android:contextClickable="true"
     android:foreground="?attr/selectableItemBackground"
+    android:transitionName="@string/transition_utilities"
     app:cardBackgroundColor="?customMessCardBackgroundColor"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"

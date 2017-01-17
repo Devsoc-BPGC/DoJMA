@@ -31,6 +31,7 @@ public class DoJMA extends Application {
                 .schemaVersion(2)
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+
     }
 
     @Override
