@@ -8,11 +8,15 @@ import io.realm.annotations.Index;
  */
 
 public class ContactItem extends RealmObject {
+
+    @Index
+    private String type;
     private String name;
     private String number;
     private String email;
-    @Index
-    private String type;
+    private String sub1;
+    private String sub2;
+    private String icon;
     private int id;
 
     public ContactItem() {
@@ -21,14 +25,20 @@ public class ContactItem extends RealmObject {
         this.email = "";
         this.type = "";
         this.id = 0;
+        this.sub1 = "";
+        this.sub2 = "";
+        this.icon = null;
     }
 
-    public ContactItem(String name, String number, String email, String type, int id) {
+    public ContactItem(String name, String number, String email, String sub1, String sub2, String type,String icon, int id) {
         this.name = name;
         this.number = number;
         this.email = email;
+        this.sub1 = sub1;
+        this.sub2 = sub2;
         this.type = type;
         this.id = id;
+        this.icon = icon;
     }
 
     public String getName() {
@@ -69,5 +79,29 @@ public class ContactItem extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getSub1() {
+        return sub1;
+    }
+
+    public void setSub1(String sub1) {
+        this.sub1 = sub1;
+    }
+
+    public String getSub2() {
+        return sub2;
+    }
+
+    public void setSub2(String sub2) {
+        this.sub2 = sub2;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

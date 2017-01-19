@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.MessItem;
-import com.csatimes.dojma.viewholders.MessItemRVViewHolder;
+import com.csatimes.dojma.viewholders.MessItemViewHolder;
 
 import io.realm.RealmList;
 
@@ -14,21 +14,21 @@ import io.realm.RealmList;
  * Created by vikramaditya on 22/12/16.
  */
 
-public class MessAdapter extends RecyclerView.Adapter<MessItemRVViewHolder> {
+public class MessAdapter extends RecyclerView.Adapter<MessItemViewHolder> {
 
-    RealmList<MessItem> messItems;
+    private RealmList<MessItem> messItems;
 
     public MessAdapter(RealmList<MessItem> messItems) {
         this.messItems = messItems;
     }
 
     @Override
-    public MessItemRVViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessItemRVViewHolder(View.inflate(parent.getContext(), R.layout.item_format_mess_menu, null));
+    public MessItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MessItemViewHolder(View.inflate(parent.getContext(), R.layout.item_format_mess_menu, null));
     }
 
     @Override
-    public void onBindViewHolder(MessItemRVViewHolder holder, int position) {
+    public void onBindViewHolder(MessItemViewHolder holder, int position) {
         holder.title.setText(messItems.get(position).getTitle());
         holder.image.setImageURI(messItems.get(position).getImageUrl());
     }

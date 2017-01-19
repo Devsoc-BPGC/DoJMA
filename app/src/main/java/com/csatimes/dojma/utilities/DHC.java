@@ -15,11 +15,26 @@ public class DHC {
     public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
     public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 16;
+
     public static final String UPDATE_SERVICE_DOWNLOAD_SUCCESS = "com.csatimes.dojma.update.service.dns";
     public static final String UPDATE_SERVICE_NO_SUCCESS = "com.csatimes.dojma.update.service.ns";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://csatimes.co.in/dojma/page/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
+
+    public static final int SEARCH_ITEM_TYPE_TITLE = 0;
+    public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE = 1;
+    public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLE = 2;
+    public static final int SEARCH_ITEM_TYPE_GAZETTE = 3;
+    public static final int SEARCH_ITEM_TYPE_EVENT = 4;
+    public static final int SEARCH_ITEM_TYPE_CONTACT = 5;
+    public static final int SEARCH_ITEM_TYPE_LINK = 6;
+    public static final int SEARCH_ITEM_TYPE_MESS = 7;
+    public static final int SEARCH_ITEM_TYPE_POSTER = 8;
+
+    public static final int CONTACT_ITEM_TYPE_TITLE = 9;
+    public static final int CONTACT_ITEM_TYPE_CONTACT = 10;
+
     public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
     public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
     public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";

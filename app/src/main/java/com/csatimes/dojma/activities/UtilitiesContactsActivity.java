@@ -1,10 +1,7 @@
 package com.csatimes.dojma.activities;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.adapters.ContactAdapter;
+import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
+import com.csatimes.dojma.models.TypeItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,14 +26,16 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class UtilitiesContactsActivity extends AppCompatActivity implements ContactAdapter.OnContactItemClicked {
+import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
+import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
+
+public class UtilitiesContactsActivity extends AppCompatActivity {
 
     private DatabaseReference mContactReference;
     private ValueEventListener mContactListener;
-    private Realm database;
-    private List<String> contactTypes;
-    private List<RealmList<ContactItem>> dataSet;
-    private ContactAdapter adapter;
+    private Realm mDatabase;
+    private List<TypeItem> dataSet;
+    private SearchAdapter mContactsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,36 +59,37 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
 
         mContactReference = FirebaseDatabase.getInstance().getReference("contacts");
 
-        database = Realm.getDefaultInstance();
-        contactTypes = new ArrayList<>();
+        mDatabase = Realm.getDefaultInstance();
 
-        RealmResults<ContactItem> foo = database.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING);
         dataSet = new ArrayList<>();
-        for (int i = 0; i < foo.size(); i++) {
-            contactTypes.add(foo.get(i).getType());
-            RealmList<ContactItem> bar = new RealmList<>();
-            bar.addAll(database.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
-            dataSet.add(i, bar);
-        }
-
+        generateContacts();
 
         contactsRecyclerView.setHasFixedSize(true);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new ContactAdapter(dataSet, contactTypes);
+        mContactsAdapter = new SearchAdapter(this,dataSet);
 
-        contactsRecyclerView.setAdapter(adapter);
-        adapter.setOnContactItemClicked(this);
+        contactsRecyclerView.setAdapter(mContactsAdapter);
 
+    }
+
+    private void generateContacts() {
+        dataSet.clear();
+        RealmResults<ContactItem> foo = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING);
+        for (int i = 0; i < foo.size(); i++) {
+            dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE,foo.get(i).getType()));
+            RealmList<ContactItem> bar = new RealmList<>();
+            bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
+            for (int j=0;j<bar.size();j++)
+            dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT,bar.get(j)));
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         mContactListener = returnContactListener();
         mContactReference.addValueEventListener(mContactListener);
-
     }
 
     private ValueEventListener returnContactListener() {
@@ -96,7 +97,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                database.executeTransaction(new Realm.Transaction() {
+                mDatabase.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         realm.delete(ContactItem.class);
@@ -109,7 +110,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
 
                     for (DataSnapshot grandChildShot : childShot.child("contact").getChildren()) {
                         final ContactItem ci = grandChildShot.getValue(ContactItem.class);
-                        database.executeTransaction(new Realm.Transaction() {
+                        mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
                                 ContactItem cif = realm.createObject(ContactItem.class);
@@ -118,28 +119,15 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
                                 cif.setName(ci.getName());
                                 cif.setType(type);
                                 cif.setNumber(ci.getNumber());
+                                cif.setSub1(ci.getSub1());
+                                cif.setSub2(ci.getSub2());
+                                cif.setIcon(ci.getIcon());
                             }
                         });
                     }
-
                 }
-
-                RealmResults<ContactItem> foo = database.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING);
-
-                dataSet.clear();
-                contactTypes.clear();
-
-                for (int i = 0; i < foo.size(); i++) {
-                    contactTypes.add(foo.get(i).getType());
-                    RealmList<ContactItem> bar = new RealmList<>();
-                    bar.addAll(database.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
-                    dataSet.add(i, bar);
-                }
-
-                //Always call generatePositions after notifyDataSetChanged
-                adapter.notifyDataSetChanged();
-                adapter.generatePositions();
-
+                generateContacts();
+                mContactsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -155,23 +143,19 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
      */
     @Override
     protected void onStop() {
-
         super.onStop();
         mContactReference.removeEventListener(mContactListener);
-
     }
 
     /**
-     * Destroy the database reference as soon as activity is destroyed
+     * Destroy the mDatabase reference as soon as activity is destroyed
      * Since the reference was created in the onCreate method, it is best that
      * it is closed in {@link UtilitiesContactsActivity#onDestroy()}
      */
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
-        database.close();
-
+        mDatabase.close();
     }
 
     private void setTheme() {
@@ -181,49 +165,5 @@ public class UtilitiesContactsActivity extends AppCompatActivity implements Cont
         else {
             setTheme(R.style.AppTheme);
         }
-    }
-
-    /**
-     * @param tel Telephone number as a String object
-     */
-    @Override
-    public void onCallButtonClicked(String tel) {
-
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + tel));
-        startActivity(intent);
-
-    }
-
-    /**
-     * @param email Email ID provided as a String object
-     */
-    @Override
-    public void onEmailButtonClicked(String email) {
-
-        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email));
-        startActivity(Intent.createChooser(intent, "Send Email"));
-
-    }
-
-    /**
-     * @param name  Person's name
-     * @param tel   Telephone number as a string
-     * @param email Also as a string
-     * @see <a href = "https://developer.android.com/training/contacts-provider/modify-data.html">Modifying Data Documentation</a> for more
-     */
-    @Override
-    public void onContactAddClicked(String name, String tel, String email) {
-
-        Intent addContactIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
-        addContactIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-        addContactIntent.putExtra(ContactsContract.Intents.Insert.NAME, name);
-        addContactIntent.putExtra(ContactsContract.Intents.Insert.PHONE, tel);
-        addContactIntent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
-        addContactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL, email);
-        addContactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
-        startActivity(addContactIntent);
-
     }
 }

@@ -55,8 +55,6 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
         holder.desc.setText(eventItems.get(position).getDesc());
         holder.dateTime.setText(eventItems.get(position).getStartDateFormatted() + "\n" + eventItems.get(position).getStartTimeFormatted());
         holder.location.setText(eventItems.get(position).getLocation());
-        holder.up.setVisibility(View.VISIBLE);
-        holder.down.setVisibility(View.VISIBLE);
 
 
         if (eventItems.get(position).getStartDateObj() != null) {
@@ -103,13 +101,17 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
 
 
         //Hide bars if first or last view
-        if (position == 0) {
-            holder.up.setVisibility(View.GONE);
+        if (position == 0 || position == getItemCount() - 1) {
+            if (position == 0) {
+                holder.up.setVisibility(View.GONE);
+            }
+            if (position == getItemCount() - 1) {
+                holder.down.setVisibility(View.GONE);
+            }
+        } else {
+            holder.up.setVisibility(View.VISIBLE);
+            holder.down.setVisibility(View.VISIBLE);
         }
-        if (position == getItemCount() - 1) {
-            holder.down.setVisibility(View.GONE);
-        }
-
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 
 import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.realm.Realm;
@@ -23,6 +24,8 @@ public class DoJMA extends Application {
             return;
         }
         LeakCanary.install(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().getReference().keepSynced(true);
         Fresco.initialize(this);
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()

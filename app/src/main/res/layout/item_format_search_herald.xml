@@ -5,10 +5,8 @@
     android:id="@+id/herald_parent_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?defaultBackground"
+    android:background="?selectableItemBackground"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:stateListAnimator="@animator/lift_on_touch"
     tools:ignore="HardcodedText">
 
     <TextView

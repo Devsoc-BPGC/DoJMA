@@ -4,7 +4,9 @@
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/statusBarColor</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navigationBarColor</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            @color/navigationBarColor
+        </item>
 
         <item name="android:windowBackground">@color/white</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -43,6 +45,8 @@
 
         <item name="customContactsCardBackgroundColor">@color/utilities_contacts_background</item>
         <item name="customContactsNameTextColor">@color/grey700</item>
+        <item name="customContactsSub1TextColor">@color/grey600</item>
+        <item name="customContactsSub2TextColor">@color/grey600</item>
         <item name="customContactsCardTitleColor">@color/white</item>
         <item name="customContactsCardSubTitleColor">@color/white</item>
         <item name="customContactsCardNamesTextColor">@color/grey100</item>
@@ -108,6 +112,8 @@
 
         <item name="customContactsCardBackgroundColor">@color/grey700</item>
         <item name="customContactsNameTextColor">@color/grey400</item>
+        <item name="customContactsSub1TextColor">@color/grey600</item>
+        <item name="customContactsSub2TextColor">@color/grey600</item>
         <item name="customContactsCardTitleColor">@color/white</item>
         <item name="customContactsCardSubTitleColor">@color/white</item>
         <item name="customContactsCardNamesTextColor">@color/grey100</item>

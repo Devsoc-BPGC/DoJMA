@@ -113,7 +113,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
     @Override
     public void onItemDismiss(int position) {
         //Also update database of un fav article
-        if (mOnItemClickedListener != null)
+        if (mOnLikeClickedListener != null)
             mOnLikeClickedListener.onDisLiked(data.get(position).getPostID());
         data.remove(position);
         notifyItemRemoved(position);
@@ -122,7 +122,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
     @Override
     public void onItemEmployed(int position, HeraldItem foo) {
         //Also update database of un fav article
-        if (mOnItemClickedListener != null)
+        if (mOnLikeClickedListener != null)
             mOnLikeClickedListener.onLiked(foo.getPostID());
         data.add(position,foo);
         notifyItemInserted(position);
@@ -179,6 +179,8 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     mOnLikeClickedListener.onDisLiked(data.get(getAdapterPosition()).getPostID());
+                    notifyItemRemoved(getAdapterPosition());
+                    data.remove(getAdapterPosition());
                 }
             });
             itemView.setOnClickListener(this);

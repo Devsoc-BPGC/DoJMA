@@ -39,6 +39,8 @@
 
     <attr name="customContactsCardBackgroundColor" format="color" />
     <attr name="customContactsNameTextColor" format="color" />
+    <attr name="customContactsSub1TextColor" format="color" />
+    <attr name="customContactsSub2TextColor" format="color" />
     <attr name="customContactsCardTitleColor" format="color" />
     <attr name="customContactsCardSubTitleColor" format="color" />
     <attr name="customContactsCardNamesTextColor" format="color" />

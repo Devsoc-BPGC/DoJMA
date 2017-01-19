@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,44 +21,39 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.adapters.SearchRV;
+import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.models.LinkItem;
+import com.csatimes.dojma.models.MessItem;
+import com.csatimes.dojma.models.TypeItem;
+import com.csatimes.dojma.utilities.DHC;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmList;
+
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_EVENT;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_GAZETTE;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_LINK;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_MESS;
+import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 
 public class SearchableActivity extends AppCompatActivity {
 
-    public static final int SEARCHABLE_FAVOURITES = 0;
-    public static final int SEARCHABLE_HERALD = 1;
-    public static final int SEARCHABLE_GAZETTES = 2;
-    public static final int SEARCHABLE_EVENTS = 3;
-    public static final int SEARCHABLE_CONTACTS = 4;
-    public static final int SEARCHABLE_LINKS = 5;
-    public static final int SEARCHABLE_MESS = 6;
-    public static final int SEARCHABLE_POSTER = 7;
-
-
-    private TextView emptyQuery;
-    private SparseArray<List<Object>> results = new SparseArray<>();
-    private RecyclerView recyclerView;
-    private Realm database;
-    private SearchRV adapter;
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode) {
-            setTheme(R.style.AppThemeDark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
-    }
+    private TextView mEmptyQuery;
+    private List<TypeItem> results = new ArrayList<>();
+    private RecyclerView mSearchRV;
+    private Realm mDatabase;
+    private SearchAdapter mSearchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +62,8 @@ public class SearchableActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searchable);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_search_toolbar);
-        emptyQuery = (TextView) findViewById(R.id.content_searchable_empty_text);
-        recyclerView = (RecyclerView) findViewById(R.id.content_searchable_rv);
+        mEmptyQuery = (TextView) findViewById(R.id.content_searchable_empty_text);
+        mSearchRV = (RecyclerView) findViewById(R.id.content_searchable_rv);
 
         setSupportActionBar(toolbar);
 
@@ -82,10 +77,9 @@ public class SearchableActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mSearchRV.setHasFixedSize(true);
 
-        database = Realm.getDefaultInstance();
+        mDatabase = Realm.getDefaultInstance();
 
         handleIntent(getIntent());
 
@@ -101,21 +95,30 @@ public class SearchableActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             if (query.length() == 0) {
-                emptyQuery.setVisibility(View.VISIBLE);
-                if (adapter != null) {
-                    adapter = null;
-                    recyclerView.setAdapter(null);
+                mEmptyQuery.setVisibility(View.VISIBLE);
+                if (mSearchAdapter != null) {
+                    mSearchAdapter = null;
+                    mSearchRV.setAdapter(null);
                 }
             } else {
-                emptyQuery.setVisibility(View.GONE);
+                mEmptyQuery.setVisibility(View.GONE);
                 generateResults(query);
-                if (adapter == null) {
-                    adapter = new SearchRV(results);
-                    recyclerView.setAdapter(adapter);
-                    adapter.updateResult();
+                if (mSearchAdapter == null) {
+                    mSearchAdapter = new SearchAdapter(results, this, Calendar.getInstance().getTime());
+                    mSearchRV.setAdapter(mSearchAdapter);
+                    final int span = span();
+                    GridLayoutManager mLayoutManager = new GridLayoutManager(this, span);
+                    mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            if (mSearchAdapter.getItemViewType(position) == DHC.SEARCH_ITEM_TYPE_MESS)
+                                return 1;
+                            return span;
+                        }
+                    });
+                    mSearchRV.setLayoutManager(mLayoutManager);
                 } else {
-                    adapter.notifyDataSetChanged();
-                    adapter.updateResult();
+                    mSearchAdapter.notifyDataSetChanged();
                 }
             }
         }
@@ -126,61 +129,148 @@ public class SearchableActivity extends AppCompatActivity {
         results.clear();
 
         //add herald fav articles
-        List<Object> favourites = new ArrayList<>();
-        favourites.addAll(database
-                .where(HeraldItem.class)
-                .contains("title", query)
-                .findAll());
-        results.put(SEARCHABLE_FAVOURITES, favourites);
-
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Favourites"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<HeraldItem> searchHeraldFavourites = new RealmList<>();
+            searchHeraldFavourites.addAll(mDatabase
+                    .where(HeraldItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .equalTo("fav", true)
+                    .findAll());
+            if (searchHeraldFavourites.size() != 0)
+                for (int i = 0; i < searchHeraldFavourites.size(); i++) {
+                    results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE, searchHeraldFavourites.get(i)));
+                }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
         //add herald articles
-        List<Object> articles = new ArrayList<>();
-        articles.addAll(database
-                .where(HeraldItem.class)
-                .contains("title", query)
-                .findAll());
-        results.put(SEARCHABLE_HERALD, articles);
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Herald"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<HeraldItem> searchHerald = new RealmList<>();
+            searchHerald.addAll(mDatabase
+                    .where(HeraldItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .equalTo("fav", false)
+                    .findAll());
 
+            if (searchHerald.size() != 0) for (int i = 0; i < searchHerald.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE, searchHerald.get(i)));
+            }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
         //add gazettes
-        List<Object> gazettes = new ArrayList<>();
-        gazettes.addAll(database
-                .where(GazetteItem.class)
-                .contains("title", query)
-                .or().contains("date", query)
-                .findAll());
-        results.put(SEARCHABLE_GAZETTES, gazettes);
-
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Gazettes"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<GazetteItem> searchGazettes = new RealmList<>();
+            searchGazettes.addAll(mDatabase
+                    .where(GazetteItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .or().contains("date", query, Case.INSENSITIVE)
+                    .findAll());
+            if (searchGazettes.size() != 0) for (int i = 0; i < searchGazettes.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_GAZETTE, searchGazettes.get(i)));
+            }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
         //add events
-        List<Object> events = new ArrayList<>();
-        events.addAll(database
-                .where(EventItem.class)
-                .contains("title", query)
-                .or().contains("location", query)
-                .or().contains("desc", query)
-                .findAll());
-        results.put(SEARCHABLE_EVENTS, events);
-
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Events"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<EventItem> searchEvents = new RealmList<>();
+            searchEvents.addAll(mDatabase
+                    .where(EventItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .or().contains("location", query, Case.INSENSITIVE)
+                    .or().contains("desc", query, Case.INSENSITIVE)
+                    .findAll());
+            if (searchEvents.size() != 0) for (int i = 0; i < searchEvents.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_EVENT, searchEvents.get(i)));
+            }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
         //add contacts
-        List<Object> contacts = new ArrayList<>();
-        contacts.addAll(database
-                .where(ContactItem.class)
-                .contains("name", query)
-                .or().contains("number", query)
-                .or().contains("email", query)
-                .or().contains("type", query)
-                .findAll());
-        results.put(SEARCHABLE_CONTACTS, contacts);
-
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Contacts"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<ContactItem> searchContacts = new RealmList<>();
+            searchContacts.addAll(mDatabase
+                    .where(ContactItem.class)
+                    .contains("name", query, Case.INSENSITIVE)
+                    .or().contains("number", query)
+                    .or().contains("email", query, Case.INSENSITIVE)
+                    .or().contains("type", query, Case.INSENSITIVE)
+                    .or().contains("sub1", query, Case.INSENSITIVE)
+                    .or().contains("sub2", query, Case.INSENSITIVE)
+                    .findAll());
+            if (searchContacts.size() != 0)
+                for (int i = 0; i < searchContacts.size(); i++) {
+                    results.add(new TypeItem(SEARCH_ITEM_TYPE_CONTACT, searchContacts.get(i)));
+                }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
         //add links
-        List<Object> links = new ArrayList<>();
-        contacts.addAll(database
-                .where(LinkItem.class)
-                .contains("title", query)
-                .or().contains("url", query)
-                .findAll());
-        results.put(SEARCHABLE_LINKS, contacts);
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Links"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<LinkItem> searchLinks = new RealmList<>();
+            searchLinks.addAll(mDatabase
+                    .where(LinkItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .or().contains("url", query, Case.INSENSITIVE)
+                    .findAll());
+            if (searchLinks.size() != 0) for (int i = 0; i < searchLinks.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_LINK, searchLinks.get(i)));
+            }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
+        //add mess images
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Mess"));
+            int lastHeaderPosition = results.size() - 1;
+            RealmList<MessItem> searchMess = new RealmList<>();
+            searchMess.addAll(mDatabase
+                    .where(MessItem.class)
+                    .contains("title", query, Case.INSENSITIVE)
+                    .findAll());
+            if (searchMess.size() != 0) for (int i = 0; i < searchMess.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_MESS, searchMess.get(i)));
+            }
+            else {
+                results.remove(lastHeaderPosition);
+            }
+        }
 
 
+        //add posters. Currently disabled due to it's complexity
+        /*
+        {
+            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE,"Posters"));
+            int lastHeaderPosition = results.size()-1;
+            RealmList<PosterItem> searchPosters = new RealmList<>();
+            searchPosters.addAll(mDatabase
+                    .where(PosterItem.class)
+                    .contains("title", query,Case.INSENSITIVE)
+                    .findAll());
+            for (int i = 0; i < searchPosters.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_POSTER, searchPosters.get(i)));
+            }
+        }
+        */
     }
 
     @Override
@@ -231,6 +321,33 @@ public class SearchableActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
 
+    }
+
+    private int span() {
+
+        //Setup columns according to device screen
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up grid
+        int num = 180;
+        float t = dpWidth / num;
+        float r = dpWidth % num;
+        int cols;
+        if (r < 0.1 * num)
+            cols = (int) Math.ceil(dpWidth / num);
+        else
+            cols = (int) t;
+
+        return cols;
+    }
+
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
 }

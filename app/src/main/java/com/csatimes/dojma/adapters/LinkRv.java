@@ -1,36 +1,42 @@
 package com.csatimes.dojma.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.LinkItem;
+import com.csatimes.dojma.viewholders.LinkItemViewHolder;
 
 import io.realm.RealmList;
 
-public class LinkRv extends RecyclerView.Adapter<LinkRv.LinkItemViewHolder> {
+public class LinkRv extends RecyclerView.Adapter<LinkItemViewHolder> {
     private RealmList<LinkItem> linkItems;
-    private OnLinkClickedListener onLinkClickedListener;
+    private Context context;
 
-    public LinkRv(RealmList<LinkItem> linkItems) {
+    public LinkRv(RealmList<LinkItem> linkItems, Context context) {
         this.linkItems = linkItems;
-        this.onLinkClickedListener = null;
+        this.context = context;
     }
 
     @Override
-    public LinkRv.LinkItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new LinkRv.LinkItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                .item_format_links, parent, false));
+    public LinkItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout
+                .item_format_links, parent, false);
+        return new LinkItemViewHolder(view,context);
 
     }
 
     @Override
-    public void onBindViewHolder(LinkRv.LinkItemViewHolder holder, int position) {
-        holder.title.setText(linkItems.get(position).getTitle());
-        holder.url.setText(linkItems.get(position).getUrl());
+    public void onBindViewHolder(LinkItemViewHolder holder, int position) {
+        LinkItem foo = linkItems.get(position);
+        holder.title.setText(foo.getTitle());
+        holder.url.setText(foo.getUrl());
+        holder.linkItem = foo;
     }
 
     @Override
@@ -38,30 +44,4 @@ public class LinkRv extends RecyclerView.Adapter<LinkRv.LinkItemViewHolder> {
         return linkItems.size();
     }
 
-    public void setOnLinkClickedListener(OnLinkClickedListener onLinkClickedListener) {
-        this.onLinkClickedListener = onLinkClickedListener;
-    }
-
-    public interface OnLinkClickedListener {
-        void onClick(String url);
-    }
-
-    class LinkItemViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView title;
-        public TextView url;
-
-        LinkItemViewHolder(View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.item_format_links_title);
-            url = (TextView) itemView.findViewById(R.id.item_format_links_url);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onLinkClickedListener != null)
-                        onLinkClickedListener.onClick(linkItems.get(getAdapterPosition()).getUrl());
-                }
-            });
-        }
-    }
 }

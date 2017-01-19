@@ -1,4 +1,4 @@
-package com.csatimes.dojma.utilities;
+package com.csatimes.dojma.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

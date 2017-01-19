@@ -12,12 +12,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * Created by vikramaditya on 22/12/16.
  */
 
-public class MessItemRVViewHolder extends RecyclerView.ViewHolder {
+public class MessItemViewHolder extends RecyclerView.ViewHolder {
 
     public TextView title;
     public SimpleDraweeView image;
 
-    public MessItemRVViewHolder(View itemView) {
+    public MessItemViewHolder(View itemView) {
         super(itemView);
         title = (TextView) itemView.findViewById(R.id.item_format_mess_menu_title);
         image = (SimpleDraweeView) itemView.findViewById(R.id.item_format_mess_menu_image);

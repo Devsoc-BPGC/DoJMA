@@ -152,8 +152,6 @@ HeraldAdapter.OnScrollUpdateListener{
 
             }
         });
-        mHeraldAdapter.notifyDataSetChanged();
-
     }
 
     //When an article is shared sharing intent is started

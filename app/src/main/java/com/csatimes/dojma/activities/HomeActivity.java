@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.amitshekhar.DebugDB;
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.adapters.ViewPagerAdapter;
 import com.csatimes.dojma.fragments.Events;
 import com.csatimes.dojma.fragments.Gazette;
 import com.csatimes.dojma.fragments.Herald;
@@ -44,7 +45,6 @@ import com.csatimes.dojma.services.AlarmReceiver;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.csatimes.dojma.utilities.CustomTabActivityHelper;
 import com.csatimes.dojma.utilities.DHC;
-import com.csatimes.dojma.utilities.ViewPagerAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
