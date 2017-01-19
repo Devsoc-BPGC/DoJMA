@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.csatimes.dojma.activities.HomeActivity"
+    tools:context="com.csatimes.dojma.activities.MainActivity"
     tools:overrideLibrary="com.miguelcatalan.materialsearchview">
 
     <android.support.design.widget.AppBarLayout

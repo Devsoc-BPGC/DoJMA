@@ -13,7 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.activities.HomeActivity;
+import com.csatimes.dojma.activities.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -141,11 +141,11 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                 intent = new Intent(this, Class.forName("com.csatimes.dojma." + className));
                 //TODO check for page number
             } catch (ClassNotFoundException e) {
-                intent = new Intent(this, HomeActivity.class);
+                intent = new Intent(this, MainActivity.class);
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         } else {
-            intent = new Intent(this, HomeActivity.class);
+            intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
 

@@ -56,7 +56,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                 } else if (intent.getAction().equalsIgnoreCase(PostDownloadService.SUCCESS)) {
                     editor.putBoolean(getString(R.string.SP_first_install), false);
                     editor.apply();
-                    Intent i = new Intent(context, HomeActivity.class);
+                    Intent i = new Intent(context, MainActivity.class);
                     startActivity(i);
                     finishDownloaderActivity();
 
@@ -88,7 +88,7 @@ public class POSTDownloaderActivity extends AppCompatActivity {
                         public void onPosButtonClick() {
                             editor.putBoolean(getString(R.string.SP_first_install), false);
                             editor.apply();
-                            Intent i = new Intent(POSTDownloaderActivity.this, HomeActivity.class);
+                            Intent i = new Intent(POSTDownloaderActivity.this, MainActivity.class);
                             startActivity(i);
                             finishDownloaderActivity();
                         }

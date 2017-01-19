@@ -57,7 +57,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-public class HomeActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -254,13 +254,13 @@ public class HomeActivity extends AppCompatActivity
             startActivity(Intent.createChooser(intent, "Share app url via ... "));
 
         } else if (id == R.id.nav_main_favourites) {
-            Intent intent = new Intent(HomeActivity.this, FavouritesActivity.class);
+            Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_main_gallery) {
             Intent intent = new Intent(this, ImagesAndMediaActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_main_about) {
-            Intent intent = new Intent(HomeActivity.this, AboutDojmaActivity.class);
+            Intent intent = new Intent(MainActivity.this, AboutDojmaActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_main_fb) {
 

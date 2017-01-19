@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.activities.HomeActivity;
+import com.csatimes.dojma.activities.MainActivity;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.utilities.DHC;
 
@@ -255,7 +255,7 @@ public class UpdateCheckerService extends IntentService {
                 database.close();
                 sendBroadcast(i);
 
-                Intent openHerald = new Intent(this, HomeActivity.class);
+                Intent openHerald = new Intent(this, MainActivity.class);
                 openHerald.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent pendingIntent = PendingIntent.getActivity(
                         this,

@@ -11,8 +11,8 @@
         android:shortcutShortLabel="@string/shortcut_utilities_short_label"
         tools:targetApi="n_mr1">
         <intent
-            android:action="com.csatimes.dojma.activities.HomeActivity.Utilities"
-            android:targetClass="com.csatimes.dojma.activities.HomeActivity"
+            android:action="com.csatimes.dojma.activities.MainActivity.Utilities"
+            android:targetClass="com.csatimes.dojma.activities.MainActivity"
             android:targetPackage="com.csatimes.dojma" />
         <!-- If your shortcut is associated with multiple intents, include them
              here. The last intent in the list determines what the user sees when
@@ -29,8 +29,8 @@
         android:shortcutShortLabel="@string/shortcut_events_short_label"
         tools:targetApi="n_mr1">
         <intent
-            android:action="com.csatimes.dojma.activities.HomeActivity.Events"
-            android:targetClass="com.csatimes.dojma.activities.HomeActivity"
+            android:action="com.csatimes.dojma.activities.MainActivity.Events"
+            android:targetClass="com.csatimes.dojma.activities.MainActivity"
             android:targetPackage="com.csatimes.dojma" />
         <!-- If your shortcut is associated with multiple intents, include them
              here. The last intent in the list determines what the user sees when
