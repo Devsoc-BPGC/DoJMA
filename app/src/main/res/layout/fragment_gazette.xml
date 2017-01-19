@@ -5,13 +5,6 @@
     android:background="?defaultBackground"
     tools:context="com.csatimes.dojma.fragments.Gazette">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gazette_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp"/>
-
-
     <TextView
         android:id="@+id/gazette_empty_text"
         android:layout_width="match_parent"
@@ -20,5 +13,11 @@
         android:gravity="center"
         android:text="@string/no_gazettes"
         android:textColor="?customGazetteErrorTextColor" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gazette_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp" />
 
 </RelativeLayout>

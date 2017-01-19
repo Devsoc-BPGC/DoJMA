@@ -19,14 +19,14 @@ import android.widget.Toast;
 
 import com.csatimes.dojma.BuildConfig;
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.adapters.GazettesRV;
+import com.csatimes.dojma.adapters.GazettesAdapter;
 import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.utilities.DHC;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 
@@ -35,15 +35,15 @@ import io.realm.RealmList;
 import io.realm.Sort;
 
 
-public class Gazette extends Fragment implements GazettesRV.onGazetteItemClickedListener {
+public class Gazette extends Fragment implements GazettesAdapter.onGazetteItemClickedListener {
 
-    private GazettesRV adapter;
-    private TextView emptyList;
-    private DatabaseReference gazettes = FirebaseDatabase.getInstance().getReference().child("gazettes2");
-    private Realm database;
-    private ValueEventListener gazetteListener;
-    private RecyclerView gazetteRecyclerView;
-    private RealmList<GazetteItem> gazetteItems;
+    private GazettesAdapter mGazettesAdapter;
+    private TextView mEmptyListTextView;
+    private DatabaseReference mGazettesReference = FirebaseDatabase.getInstance().getReference().child("gazettes2");
+    private Realm mDatabase;
+    private ChildEventListener mGazettesReferenceListener;
+    private RecyclerView mGazetteRecyclerView;
+    private RealmList<GazetteItem> mDataSet;
 
     public Gazette() {
         // Required empty public constructor
@@ -56,11 +56,11 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gazette, container, false);
 
-        emptyList = (TextView) view.findViewById(R.id.gazette_empty_text);
-        gazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
+        mEmptyListTextView = (TextView) view.findViewById(R.id.gazette_empty_text);
+        mGazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
-        gazetteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), span()));
-        gazetteRecyclerView.setHasFixedSize(true);
+        mGazetteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), span()));
+        mGazetteRecyclerView.setHasFixedSize(true);
 
         return view;
     }
@@ -69,22 +69,23 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     public void onStart() {
         super.onStart();
 
+        mDatabase = Realm.getDefaultInstance();
+        mDataSet = new RealmList<>();
+        mDataSet.addAll(mDatabase.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING));
 
-        database = Realm.getDefaultInstance();
-        gazetteItems = new RealmList<>();
-        gazetteItems.addAll(database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING));
+        mGazettesAdapter = new GazettesAdapter(mDataSet);
 
-        adapter = new GazettesRV(gazetteItems);
-        //Hide the "Empty" textview if size of gazetteItems>0
-        if (gazetteItems.size() > 0) {
-            emptyList.setVisibility(View.GONE);
+        if (mGazettesAdapter.getItemCount() != 0) {
+            mEmptyListTextView.setVisibility(View.INVISIBLE);
+        } else {
+            mEmptyListTextView.setVisibility(View.VISIBLE);
         }
-        gazetteRecyclerView.setAdapter(adapter);
 
-        adapter.setOnGazetteItemClickedListener(this);
+        mGazetteRecyclerView.setAdapter(mGazettesAdapter);
 
-        gazetteListener = returnEventListener();
-        gazettes.addValueEventListener(gazetteListener);
+        mGazettesAdapter.setOnGazetteItemClickedListener(this);
+        mGazettesReferenceListener = returnChildEventListener();
+        mGazettesReference.addChildEventListener(mGazettesReferenceListener);
     }
 
     private int span() {
@@ -105,56 +106,79 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
         return cols;
     }
 
-    private ValueEventListener returnEventListener() {
-        return new ValueEventListener() {
+
+    private ChildEventListener returnChildEventListener() {
+        return new ChildEventListener() {
+            int position;
+
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                emptyList.setVisibility(View.GONE);
-
-                //Delete old values in the database
-                //and the RealmList
-                database.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(GazetteItem.class);
-                    }
-                });
-                gazetteItems.clear();
-
-                for (DataSnapshot shot : dataSnapshot.getChildren()) {
-
-                    try {
-                        final GazetteItem foo = shot.getValue(GazetteItem.class);
-                        database.executeTransaction(new Realm.Transaction() {
+            public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+                DHC.log("onChildAdded");
+                try {
+                    if (mDatabase.where(GazetteItem.class).equalTo("key", dataSnapshot.getKey()).findFirst() == null) {
+                        final GazetteItem foo = dataSnapshot.getValue(GazetteItem.class);
+                        mDatabase.executeTransactionAsync(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                GazetteItem bar = realm.createObject(GazetteItem.class);
+                                GazetteItem bar = realm.createObject(GazetteItem.class, dataSnapshot.getKey());
                                 bar.setTitle(foo.getTitle());
                                 bar.setDate(foo.getDate());
                                 bar.setUrl(foo.getUrl());
                                 bar.setImageUrl(foo.getImageUrl());
                                 bar.setTime(bar.getTime());
                             }
+                        }, new Realm.Transaction.OnSuccess() {
+                            @Override
+                            public void onSuccess() {
+                                mDataSet.clear();
+                                mDataSet.addAll(mDatabase.where(GazetteItem.class).findAllSorted("time",Sort.DESCENDING));
+                                GazetteItem foo = mDatabase.where(GazetteItem.class).equalTo("key",dataSnapshot.getKey()).findFirst();
+                                int position = mDataSet.indexOf(foo);
+                                mGazettesAdapter.notifyItemInserted(position);
+                                mGazetteRecyclerView.scrollToPosition(position);
+                                mEmptyListTextView.setVisibility(View.INVISIBLE);
+                            }
                         });
-                    } catch (Exception e) {
-                        DHC.log("child shot get value parse error in gazettes. check firebase");
                     }
-
-                }
-
-                gazetteItems.addAll(database.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING));
-
-                if (gazetteItems.size() != 0) {
-                    adapter.notifyDataSetChanged();
-                    emptyList.setVisibility(View.GONE);
-                } else {
-                    emptyList.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    DHC.log("Parsing exception for Gazette " + e.getMessage());
                 }
             }
 
             @Override
+            public void onChildChanged(final DataSnapshot dataSnapshot, String s) {
+                onChildMoved(dataSnapshot,s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                DHC.log("onChildRemoved");
+                //Child deleted. Delete the entry from Gazette database
+                final String key = dataSnapshot.getKey();
+                mDatabase.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        GazetteItem foo = realm.where(GazetteItem.class).equalTo("key", key).findFirst();
+                        int position = mDataSet.indexOf(foo);
+                        mGazettesAdapter.notifyItemRemoved(position);
+                        mDataSet.remove(position);
+                        foo.deleteFromRealm();
+                    }
+                });
+                if (mGazettesAdapter.getItemCount() == 0)
+                    mEmptyListTextView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                DHC.log("onChildMoved");
+                onChildRemoved(dataSnapshot);
+                onChildAdded(dataSnapshot, null);
+            }
+
+            @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log("gazettes firebase database error " + databaseError.getMessage());
+                DHC.log("Database Error in Gazettes " + databaseError.getDetails());
             }
         };
     }
@@ -162,8 +186,8 @@ public class Gazette extends Fragment implements GazettesRV.onGazetteItemClicked
     @Override
     public void onStop() {
         super.onStop();
-        gazettes.removeEventListener(gazetteListener);
-        database.close();
+        mGazettesReference.removeEventListener(mGazettesReferenceListener);
+        mDatabase.close();
     }
 
     @Override

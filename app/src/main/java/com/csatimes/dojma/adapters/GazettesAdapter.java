@@ -17,26 +17,24 @@ import io.realm.RealmList;
  * Adapter to handle the data in the rv
  */
 
-public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewHolder> {
-
-    private static final int SINGLE_CLICK = 0;
+public class GazettesAdapter extends RecyclerView.Adapter<GazettesAdapter.GazetteItemViewHolder> {
 
     private RealmList<GazetteItem> gazetteItems;
     private onGazetteItemClickedListener onGazetteItemClickedListener;
 
-    public GazettesRV(RealmList<GazetteItem> gazetteItems) {
+    public GazettesAdapter(RealmList<GazetteItem> gazetteItems) {
         this.gazetteItems = gazetteItems;
         this.onGazetteItemClickedListener = null;
     }
 
     @Override
-    public GazettesRV.GazetteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GazettesAdapter.GazetteItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new GazetteItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
                 .item_format_gazette, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(GazettesRV.GazetteItemViewHolder holder, int position) {
+    public void onBindViewHolder(GazettesAdapter.GazetteItemViewHolder holder, int position) {
         holder.title.setText(gazetteItems.get(position).getTitle() + "\n"
                 + gazetteItems.get(position).getReleaseDateFormatted());
         holder.image.setImageURI(gazetteItems.get(position).getImageUrl());
@@ -47,7 +45,7 @@ public class GazettesRV extends RecyclerView.Adapter<GazettesRV.GazetteItemViewH
         return gazetteItems.size();
     }
 
-    public void setOnGazetteItemClickedListener(GazettesRV.onGazetteItemClickedListener onGazetteItemClickedListener) {
+    public void setOnGazetteItemClickedListener(GazettesAdapter.onGazetteItemClickedListener onGazetteItemClickedListener) {
         this.onGazetteItemClickedListener = onGazetteItemClickedListener;
     }
 

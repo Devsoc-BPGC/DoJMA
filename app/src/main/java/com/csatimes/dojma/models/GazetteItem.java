@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * GazetteItem contains title,url,dateTime
@@ -22,6 +23,8 @@ public class GazetteItem extends RealmObject {
     private String imageUrl;
     @Exclude
     private long time = 0;
+    @PrimaryKey
+    private String key;
 
     public GazetteItem() {
         this.title = "";
@@ -31,11 +34,12 @@ public class GazetteItem extends RealmObject {
         this.time = Long.MAX_VALUE;
     }
 
-    public GazetteItem(String title, String url, String date, String imageUrl) {
+    public GazetteItem(String title, String url, String date, String imageUrl, long time, String key) {
         this.title = title;
         this.url = url;
         this.date = date;
         this.imageUrl = imageUrl;
+        this.key = key;
     }
 
     public String getTitle() {
@@ -68,6 +72,14 @@ public class GazetteItem extends RealmObject {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public long getTime() {
