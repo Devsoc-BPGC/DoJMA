@@ -38,9 +38,11 @@ import com.amitshekhar.DebugDB;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ViewPagerAdapter;
 import com.csatimes.dojma.fragments.Events;
-import com.csatimes.dojma.fragments.Gazette;
+import com.csatimes.dojma.fragments.Gazettes;
 import com.csatimes.dojma.fragments.Herald;
 import com.csatimes.dojma.fragments.Utilities;
+import com.csatimes.dojma.interfaces.OnTitleUpdateListener;
+import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.services.AlarmReceiver;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.csatimes.dojma.utilities.CustomTabActivityHelper;
@@ -57,8 +59,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener {
 
 
     DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
@@ -333,10 +337,17 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new Herald(), "Herald");
-        adapter.addFragment(new Gazette(), "Gazette");
-        adapter.addFragment(new Events(), "Events");
-        adapter.addFragment(new Utilities(), "Utilities");
+        Herald heraldFragment = new Herald();
+        Gazettes gazettesFragment = new Gazettes();
+        Events eventsFragments = new Events();
+        Utilities utilitiesFragment = new Utilities();
+
+        eventsFragments.setOnTitleUpdateListener(this);
+
+        adapter.addFragment(heraldFragment, "Herald", DHC.MAIN_ACTIVITY_HERALD_POS);
+        adapter.addFragment(gazettesFragment, "Gazettes", DHC.MAIN_ACTIVITY_GAZETTES_POS);
+        adapter.addFragment(eventsFragments, "Events(" + Realm.getDefaultInstance().where(EventItem.class).findAll().size() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+        adapter.addFragment(utilitiesFragment, "Utilities", DHC.MAIN_ACTIVITY_UTILITIES_POS);
 
         viewPager.setAdapter(adapter);
     }
@@ -397,4 +408,8 @@ public class MainActivity extends AppCompatActivity
         };
     }
 
+    @Override
+    public void onTitleUpdate(String title, int pos) {
+        tabLayout.getTabAt(pos).setText(title);
+    }
 }

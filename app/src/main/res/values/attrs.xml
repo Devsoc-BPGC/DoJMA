@@ -49,6 +49,10 @@
     <attr name="customMessCardTitleColor" format="color" />
     <attr name="customMessCardSubTitleColor" format="color" />
 
+    <attr name="customContactsTaxiCardBackgroundColor" format="color" />
+    <attr name="customContactsTaxiCardTitleColor" format="color" />
+    <attr name="customContactsTaxiCardSubTitleColor" format="color" />
+
     <attr name="customMapsCardBackgroundColor" format="color" />
     <attr name="customMapsCardTitleColor" format="color" />
     <attr name="customMapsCardSubTitleColor" format="color" />

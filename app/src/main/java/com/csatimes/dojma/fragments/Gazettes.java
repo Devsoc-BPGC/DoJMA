@@ -35,7 +35,7 @@ import io.realm.RealmList;
 import io.realm.Sort;
 
 
-public class Gazette extends Fragment implements GazettesAdapter.onGazetteItemClickedListener {
+public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemClickedListener {
 
     private GazettesAdapter mGazettesAdapter;
     private TextView mEmptyListTextView;
@@ -45,7 +45,7 @@ public class Gazette extends Fragment implements GazettesAdapter.onGazetteItemCl
     private RecyclerView mGazetteRecyclerView;
     private RealmList<GazetteItem> mDataSet;
 
-    public Gazette() {
+    public Gazettes() {
         // Required empty public constructor
     }
 
@@ -153,7 +153,7 @@ public class Gazette extends Fragment implements GazettesAdapter.onGazetteItemCl
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 DHC.log("onChildRemoved");
-                //Child deleted. Delete the entry from Gazette database
+                //Child deleted. Delete the entry from Gazettes database
                 final String key = dataSnapshot.getKey();
                 mDatabase.executeTransaction(new Realm.Transaction() {
                     @Override

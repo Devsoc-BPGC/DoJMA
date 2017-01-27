@@ -113,12 +113,12 @@
     <string name="app_version">Version 2</string>
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
     <string name="title_activity_about_dojma">About DoJMA</string>
-    <string name="UTILITIES_MISC_text">Click here to get all important notifications! Updating needs an active internet connection</string>
     <string name="title_activity_live_lcdnews">Live LCD News</string>
     <string name="no_gazettes">No gazettes available right now</string>
     <string name="title_activity_mess_menus">MessMenus</string>
     <string name="viewholder_mess_msg">Click here for all menus like A mess, C mess, foodking, gaja,
         icespice etc.</string>
+    <string name="viewholder_contacts_taxi_msg">Get taxi numbers here</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search articles</string>
@@ -135,5 +135,11 @@
     <string name="shortcut_utilities_long_label">Utilities</string>
     <string name="shortcut_utilities_disabled_label">Utilities</string>
     <string name="transition_utilities">utilities_transition</string>
+    <string name="UTILITIES_MISC_title">Miscellaneous</string>
+    <string name="UTILITIES_MISC_subtitle">Click here to get all important notifications! Updating needs an active internet connection</string>
+    <string name="UTILITIES_CONTACTS_TAXI_title">Taxis Info</string>
+    <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
+    <string name="UTILITIES_MENU_title">Menus</string>
+    <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
 
 </resources>

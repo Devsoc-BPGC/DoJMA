@@ -2,14 +2,14 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewholder_title_subtitle_cv"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:clickable="true"
     android:contextClickable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:transitionName="@string/transition_utilities"
-    app:cardBackgroundColor="?customMessCardBackgroundColor"
+
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
@@ -20,23 +20,21 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/viewholder_mess_format_title"
+            android:id="@+id/viewholder_title_subtitle_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="Mess Menu"
-            android:textColor="?customMessCardTitleColor"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:transitionName="@string/transition_utilities" />
 
         <TextView
+            android:id="@+id/viewholder_title_subtitle_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/viewholder_mess_format_title"
+            android:layout_below="@+id/viewholder_title_subtitle_title_tv"
             android:padding="16dp"
-            android:text="@string/viewholder_mess_msg"
-            android:textColor="?customMessCardSubTitleColor"
             android:textSize="@dimen/viewholder_small_text" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

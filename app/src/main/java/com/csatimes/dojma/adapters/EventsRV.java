@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.csatimes.dojma.utilities.ColorList;
 
 import java.util.Date;
 
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
 /**
  * Adapter for Events section
@@ -26,16 +25,14 @@ import io.realm.RealmResults;
 
 public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder> {
 
-    private RealmResults<EventItem> eventItems;
-    private Date currentDate;
-    private Context context;
-    private OnAlarmSetListener onAlarmSetListener;
+    private RealmList<EventItem> mEventItems;
+    private Date mCurrentDate;
+    private Context mContext;
 
-    public EventsRV(Context context, RealmResults<EventItem> eventItems, Date currentDate) {
-        this.eventItems = eventItems;
-        this.currentDate = currentDate;
-        this.context = context;
-        this.onAlarmSetListener = null;
+    public EventsRV(Context mContext, RealmList<EventItem> mEventItems, Date mCurrentDate) {
+        this.mEventItems = mEventItems;
+        this.mCurrentDate = mCurrentDate;
+        this.mContext = mContext;
     }
 
     @Override
@@ -51,42 +48,21 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
     @Override
     public void onBindViewHolder(final EventsRV.EventItemViewHolder holder, int position) {
 
-        holder.title.setText(eventItems.get(position).getTitle());
-        holder.desc.setText(eventItems.get(position).getDesc());
-        holder.dateTime.setText(eventItems.get(position).getStartDateFormatted() + "\n" + eventItems.get(position).getStartTimeFormatted());
-        holder.location.setText(eventItems.get(position).getLocation());
+        holder.title.setText(mEventItems.get(position).getTitle());
+        holder.desc.setText(mEventItems.get(position).getDesc());
+        holder.dateTime.setText(mEventItems.get(position).getStartDateFormatted() + "\n" + mEventItems.get(position).getStartTimeFormatted());
+        holder.location.setText(mEventItems.get(position).getLocation());
 
 
-        if (eventItems.get(position).getStartDateObj() != null) {
-            long diff = -currentDate.getTime() + eventItems.get(position).getStartDateObj().getTime();
+        if (mEventItems.get(position).getStartDateObj() != null) {
+            long diff = -mCurrentDate.getTime() + mEventItems.get(position).getStartDateObj().getTime();
             int color;
 
             if (diff <= 0) {
                 //Irrespective of whether alarm was set, switch is unchecked since it isn't required anymore
-                color = ContextCompat.getColor(context, ColorList.NO_PRIORITY);
-                holder.aSwitch.setChecked(false);
-
+                color = ContextCompat.getColor(mContext, ColorList.NO_PRIORITY);
             } else {
-
-                holder.aSwitch.setChecked(eventItems.get(position).isAlarmSet());
-
-                long DAY = 24 * 60 * 60 * 1000;
-                if (diff > 0 && diff <= DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGHEST_PRIORITY);
-                } else if (diff > DAY && diff <= 3 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGHER_PRIORITY);
-                } else if (diff > 3 * DAY && diff <= 7 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGH_PRIORITY);
-                } else if (diff > 7 * DAY && diff <= 14 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.NORMAL_PRIORITY);
-                } else if (diff > 14 * DAY && diff <= 30 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.LOW_PRIORITY);
-                } else if (diff > 30 * DAY && diff <= 365 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.LOWER_PRIORITY);
-                } else {
-                    color = ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY);
-                }
-
+                color = getColorFromDate(diff);
             }
 
             holder.status.setColorFilter(color);
@@ -94,9 +70,8 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
 
 
         } else {
-            holder.dateTime.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
+            holder.dateTime.setTextColor(ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY));
             holder.status.setColorFilter(Color.GRAY);
-            holder.aSwitch.setChecked(false);
         }
 
 
@@ -114,18 +89,30 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
         }
     }
 
+    private int getColorFromDate(long diff) {
+        int color;
+        long DAY = 24 * 60 * 60 * 1000;
+        if (diff > 0 && diff <= DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.HIGHEST_PRIORITY);
+        } else if (diff > DAY && diff <= 3 * DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.HIGHER_PRIORITY);
+        } else if (diff > 3 * DAY && diff <= 7 * DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.HIGH_PRIORITY);
+        } else if (diff > 7 * DAY && diff <= 14 * DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.NORMAL_PRIORITY);
+        } else if (diff > 14 * DAY && diff <= 30 * DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.LOW_PRIORITY);
+        } else if (diff > 30 * DAY && diff <= 365 * DAY) {
+            color = ContextCompat.getColor(mContext, ColorList.LOWER_PRIORITY);
+        } else {
+            color = ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY);
+        }
+        return color;
+    }
+
     @Override
     public int getItemCount() {
-        return eventItems.size();
-    }
-
-    public void setOnAlarmSetListener(OnAlarmSetListener onAlarmSetListener) {
-        this.onAlarmSetListener = onAlarmSetListener;
-    }
-
-
-    public interface OnAlarmSetListener {
-        void onItemClicked(String key);
+        return mEventItems.size();
     }
 
     class EventItemViewHolder extends RecyclerView.ViewHolder {
@@ -134,7 +121,6 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
         TextView dateTime;
         TextView location;
         ImageView status;
-        SwitchCompat aSwitch;
         View up;
         View down;
 
@@ -145,7 +131,6 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
             desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
             dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
             location = (TextView) itemView.findViewById(R.id.item_format_event_location);
-            aSwitch = (SwitchCompat) itemView.findViewById(R.id.item_format_event_add);
             status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);
             up = itemView.findViewById(R.id.item_format_event_dot_upper);
             down = itemView.findViewById(R.id.item_format_event_dot_lower);
@@ -153,13 +138,10 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (eventItems.get(getAdapterPosition()).getStartDateObj() != null && eventItems.get(getAdapterPosition()).getStartDateObj().getTime() - currentDate.getTime() >= 0) {
-                        aSwitch.toggle();
-                        if (onAlarmSetListener != null) {
-                            onAlarmSetListener.onItemClicked(eventItems.get(getAdapterPosition()).getKey());
-                        }
+                    if (mEventItems.get(getAdapterPosition()).getStartDateObj() != null && mEventItems.get(getAdapterPosition()).getStartDateObj().getTime() - mCurrentDate.getTime() >= 0) {
+                       //TODO set alarm
                     } else {
-                        Toast.makeText(context, "Cannot set reminder for old event", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Cannot set reminder for old event", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

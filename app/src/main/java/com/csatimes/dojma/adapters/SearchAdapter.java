@@ -179,40 +179,38 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (diff <= 0) {
                 //Irrespective of whether alarm was set, switch is unchecked since it isn't required anymore
                 color = ContextCompat.getColor(context, ColorList.NO_PRIORITY);
-                eivh.aSwitch.setChecked(false);
 
             } else {
-
-                eivh.aSwitch.setChecked(ei.isAlarmSet());
-
-                long DAY = 24 * 60 * 60 * 1000;
-                if (diff > 0 && diff <= DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGHEST_PRIORITY);
-                } else if (diff > DAY && diff <= 3 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGHER_PRIORITY);
-                } else if (diff > 3 * DAY && diff <= 7 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.HIGH_PRIORITY);
-                } else if (diff > 7 * DAY && diff <= 14 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.NORMAL_PRIORITY);
-                } else if (diff > 14 * DAY && diff <= 30 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.LOW_PRIORITY);
-                } else if (diff > 30 * DAY && diff <= 365 * DAY) {
-                    color = ContextCompat.getColor(context, ColorList.LOWER_PRIORITY);
-                } else {
-                    color = ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY);
-                }
-
+                color = getColorFromDate(diff);
             }
-
             eivh.status.setColorFilter(color);
             eivh.dateTime.setTextColor(color);
-
 
         } else {
             eivh.dateTime.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
             eivh.status.setColorFilter(Color.GRAY);
-            eivh.aSwitch.setChecked(false);
         }
+    }
+
+    private int getColorFromDate(long diff) {
+        int color;
+        long DAY = 24 * 60 * 60 * 1000;
+        if (diff > 0 && diff <= DAY) {
+            color = ContextCompat.getColor(context, ColorList.HIGHEST_PRIORITY);
+        } else if (diff > DAY && diff <= 3 * DAY) {
+            color = ContextCompat.getColor(context, ColorList.HIGHER_PRIORITY);
+        } else if (diff > 3 * DAY && diff <= 7 * DAY) {
+            color = ContextCompat.getColor(context, ColorList.HIGH_PRIORITY);
+        } else if (diff > 7 * DAY && diff <= 14 * DAY) {
+            color = ContextCompat.getColor(context, ColorList.NORMAL_PRIORITY);
+        } else if (diff > 14 * DAY && diff <= 30 * DAY) {
+            color = ContextCompat.getColor(context, ColorList.LOW_PRIORITY);
+        } else if (diff > 30 * DAY && diff <= 365 * DAY) {
+            color = ContextCompat.getColor(context, ColorList.LOWER_PRIORITY);
+        } else {
+            color = ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY);
+        }
+        return color;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.csatimes.dojma.viewholders;
 
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +17,6 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
     public TextView dateTime;
     public TextView location;
     public ImageView status;
-    public SwitchCompat aSwitch;
     public View up;
     public View down;
 
@@ -29,17 +27,9 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
         desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
         dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
         location = (TextView) itemView.findViewById(R.id.item_format_event_location);
-        aSwitch = (SwitchCompat) itemView.findViewById(R.id.item_format_event_add);
         status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);
         up = itemView.findViewById(R.id.item_format_event_dot_upper);
         down = itemView.findViewById(R.id.item_format_event_dot_lower);
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aSwitch.toggle();
-            }
-        });
 
     }
 

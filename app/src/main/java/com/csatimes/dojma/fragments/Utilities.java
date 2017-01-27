@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.adapters.UtilitiesRV;
+import com.csatimes.dojma.adapters.UtilitiesAdapter;
 import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,12 +19,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.csatimes.dojma.utilities.DHC.UTILITIES_MISC_MESSAGE;
+
 public class Utilities extends Fragment {
-    ValueEventListener miscEventListener;
-    private UtilitiesRV adapter;
-    private String message = "";
-    private DatabaseReference miscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
-    private SharedPreferences.Editor editor;
+    ValueEventListener mMiscEventListener;
+    private String mMessage = "";
+    private DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
+    private SharedPreferences.Editor mEditor;
 
     public Utilities() {
         // Required empty public constructor
@@ -39,16 +40,16 @@ public class Utilities extends Fragment {
         RecyclerView utilitiesRecyclerView = (RecyclerView) view.findViewById(R.id.utilities_rv);
 
         SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
-        editor = sp.edit();
+        mEditor = sp.edit();
 
         StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         utilitiesRecyclerView.setLayoutManager(sglm);
         utilitiesRecyclerView.setHasFixedSize(true);
 
-        message = sp.getString("miscMessage", "");
-        adapter = new UtilitiesRV(message);
-        utilitiesRecyclerView.setAdapter(adapter);
+        mMessage = sp.getString(UTILITIES_MISC_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
+        UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
+        utilitiesRecyclerView.setAdapter(mUtilitiesAdapter);
 
         return view;
     }
@@ -56,20 +57,17 @@ public class Utilities extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        miscEventListener = returnValueListener();
-
-        miscReference.addValueEventListener(miscEventListener);
-
+        mMiscEventListener = returnValueListener();
+        mMiscReference.addValueEventListener(mMiscEventListener);
     }
 
     private ValueEventListener returnValueListener() {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                message = dataSnapshot.getValue(String.class);
-                editor.putString("miscMessage", message);
-                editor.apply();
-                adapter.notifyItemChanged(3);
+                mMessage = dataSnapshot.getValue(String.class);
+                mEditor.putString(UTILITIES_MISC_MESSAGE, mMessage);
+                mEditor.apply();
             }
 
             @Override
@@ -82,6 +80,6 @@ public class Utilities extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        miscReference.removeEventListener(miscEventListener);
+        mMiscReference.removeEventListener(mMiscEventListener);
     }
 }

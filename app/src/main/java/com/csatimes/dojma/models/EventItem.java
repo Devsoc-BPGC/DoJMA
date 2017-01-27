@@ -21,8 +21,6 @@ public class EventItem extends RealmObject {
 
     //TODO Add @Index annotation for fields that will be use in searching
 
-    @Exclude
-    private boolean alarm = false;
     @PrimaryKey
     private String key;
     @Required
@@ -160,15 +158,6 @@ public class EventItem extends RealmObject {
             }
         }
         return getStartTime();
-    }
-
-
-    public boolean isAlarmSet() {
-        return alarm;
-    }
-
-    public void setAlarm(boolean alarm) {
-        this.alarm = alarm;
     }
 
 }

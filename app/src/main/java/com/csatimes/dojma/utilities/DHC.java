@@ -1,5 +1,8 @@
 package com.csatimes.dojma.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -12,15 +15,21 @@ public class DHC {
 
     public static final String USER_PREFERENCES = "USER_PREFS";
 
-    public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
-    public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
-    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 16;
+    public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
+    public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
+    public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
+    public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
 
     public static final String UPDATE_SERVICE_DOWNLOAD_SUCCESS = "com.csatimes.dojma.update.service.dns";
     public static final String UPDATE_SERVICE_NO_SUCCESS = "com.csatimes.dojma.update.service.ns";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://csatimes.co.in/dojma/page/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
+    public static final String UTILITIES_MISC_MESSAGE = "miscMessage";
+
+    public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
+    public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
+    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 16;
 
     public static final int SEARCH_ITEM_TYPE_TITLE = 0;
     public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE = 1;
@@ -35,13 +44,21 @@ public class DHC {
     public static final int CONTACT_ITEM_TYPE_TITLE = 9;
     public static final int CONTACT_ITEM_TYPE_CONTACT = 10;
 
-    public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
-    public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
-    public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
-    public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
+    public static final int UTILITIES_ITEM_TYPE_CONTACTS = 0;
+    public static final int UTILITIES_ITEM_TYPE_CONTACTS_TAXI = 1;
+    public static final int UTILITIES_ITEM_TYPE_MESS = 2;
+    public static final int UTILITIES_ITEM_TYPE_LINKS = 3;
+    public static final int UTILITIES_ITEM_TYPE_MISC = 4;
+    public static final int UTILITIES_ITEM_TYPE_MAP = 5;
+
+    public static final int MAIN_ACTIVITY_HERALD_POS = 0;
+    public static final int MAIN_ACTIVITY_GAZETTES_POS = 1;
+    public static final int MAIN_ACTIVITY_EVENTS_POS = 2;
+    public static final int MAIN_ACTIVITY_UTILITIES_POS = 3;
+
 
     public static void log(String message) {
-        Log.e("TAG", message);
+        Log.e("com.csatimes.dojma", message);
     }
 
     public static Snackbar makeCustomSnackbar(View view, String s, int bgColor, int textColor) {
@@ -50,5 +67,12 @@ public class DHC {
         TextView snackbarText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
         snackbarText.setTextColor(textColor);
         return snackbar;
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return (netInfo != null && netInfo.isConnected());
     }
 }

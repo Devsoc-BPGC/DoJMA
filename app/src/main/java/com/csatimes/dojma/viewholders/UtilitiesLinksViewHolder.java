@@ -14,7 +14,7 @@ import com.csatimes.dojma.activities.UtilitiesLinksActivity;
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
 
-public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class UtilitiesLinksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     Button link1;
     Button link2;
     Button link3;
@@ -23,7 +23,7 @@ public class UtilitiesViewHolder3 extends RecyclerView.ViewHolder implements Vie
 
     Context context;
 
-    public UtilitiesViewHolder3(View itemView, Context context) {
+    public UtilitiesLinksViewHolder(View itemView, Context context) {
         super(itemView);
         link1 = (Button) itemView.findViewById(R.id.viewholder_links_format_link1);
         link2 = (Button) itemView.findViewById(R.id.viewholder_links_format_link2);

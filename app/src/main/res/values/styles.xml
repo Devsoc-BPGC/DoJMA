@@ -51,9 +51,13 @@
         <item name="customContactsCardSubTitleColor">@color/white</item>
         <item name="customContactsCardNamesTextColor">@color/grey100</item>
 
+        <item name="customContactsTaxiCardBackgroundColor">@color/utilities_contacts_taxi_background</item>
+        <item name="customContactsTaxiCardTitleColor">@color/black</item>
+        <item name="customContactsTaxiCardSubTitleColor">@color/grey900</item>
+
         <item name="customMessCardBackgroundColor">@color/utilities_mess_background</item>
-        <item name="customMessCardTitleColor">@color/white</item>
-        <item name="customMessCardSubTitleColor">@color/grey100</item>
+        <item name="customMessCardTitleColor">@color/utilities_mess_title_color</item>
+        <item name="customMessCardSubTitleColor">@color/utilities_mess_sub_title_color</item>
 
         <item name="customMapsCardBackgroundColor">@color/utilities_map_background</item>
         <item name="customMapsCardTitleColor">@color/white</item>
@@ -117,6 +121,10 @@
         <item name="customContactsCardTitleColor">@color/white</item>
         <item name="customContactsCardSubTitleColor">@color/white</item>
         <item name="customContactsCardNamesTextColor">@color/grey100</item>
+
+        <item name="customContactsTaxiCardBackgroundColor">@color/grey900</item>
+        <item name="customContactsTaxiCardTitleColor">@color/white</item>
+        <item name="customContactsTaxiCardSubTitleColor">@color/grey400</item>
 
         <item name="customMessCardBackgroundColor">@color/grey800</item>
 

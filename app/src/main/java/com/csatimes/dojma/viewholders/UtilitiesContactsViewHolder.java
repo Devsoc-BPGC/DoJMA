@@ -15,13 +15,13 @@ import com.csatimes.dojma.activities.UtilitiesContactsActivity;
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
 
-public class UtilitiesViewHolder1 extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class UtilitiesContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private ImageButton call1, call2, call3, call4;
     private Context context;
     private String[] contactNumbers = {"9552040123", "8326482016", "0832-2580720", "0832-2580324"};
 
-    public UtilitiesViewHolder1(View itemView, Context context) {
+    public UtilitiesContactsViewHolder(View itemView, Context context) {
         super(itemView);
         call1 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call1);
         call2 = (ImageButton) itemView.findViewById(R.id.viewholder_contact_format_call2);

@@ -58,56 +58,45 @@
         android:id="@+id/item_format_event_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:text="Event Title"
         android:textColor="?customEventsTitleTextColor"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@+id/item_format_event_location"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_event_add"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/item_format_event_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Location"
         android:textColor="?customEventsLocationTextColor"
         android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@+id/item_format_event_dot"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_event_add"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_format_event_title" />
 
     <TextView
         android:id="@+id/item_format_event_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:minLines="3"
         android:text="Desc"
         android:textColor="?customEventsDescTextColor"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="@+id/item_format_event_location"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_event_add"
-        app:layout_constraintTop_toBottomOf="@+id/item_format_event_location" />
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/item_format_event_add"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="@+id/item_format_event_desc"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/item_format_event_title" />
+        app:layout_constraintTop_toBottomOf="@+id/item_format_event_location" />
 
 </android.support.constraint.ConstraintLayout>
