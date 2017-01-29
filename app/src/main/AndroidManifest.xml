@@ -67,15 +67,6 @@
                 android:value="com.csatimes.dojma.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.OpenWebpageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_open_webpage"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:parentActivityName=".activities.MainActivity"

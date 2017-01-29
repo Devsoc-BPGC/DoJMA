@@ -2,11 +2,8 @@ package com.csatimes.dojma.activities;
 
 import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +27,7 @@ import com.csatimes.dojma.callbacks.SimpleItemTouchCallback;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.csatimes.dojma.utilities.CustomTabActivityHelper;
+import com.csatimes.dojma.utilities.DHC;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -40,7 +38,7 @@ public class FavouritesActivity extends AppCompatActivity
         HeraldAdapter.OnLikeClickedListener,
         HeraldAdapter.OnShareClickedListener,
         HeraldAdapter.OnItemClickedListener,
-HeraldAdapter.OnScrollUpdateListener{
+        HeraldAdapter.OnScrollUpdateListener {
 
     private Realm mDatabase;
     private RecyclerView mFavHeraldRecyclerView;
@@ -173,7 +171,7 @@ HeraldAdapter.OnScrollUpdateListener{
 
         HeraldItem foo = mDatabase.where(HeraldItem.class).equalTo("postID", postID).findFirst();
 
-        if (isNetworkAvailable()) {
+        if (DHC.isOnline(this)) {
             try {
                 Intent intent = new Intent((Intent.ACTION_SEND));
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, foo.getUrl());
@@ -206,14 +204,9 @@ HeraldAdapter.OnScrollUpdateListener{
                             }
                         });
             } catch (Exception e) {
-                Intent openWebpage = new Intent(this, OpenWebpageActivity.class);
-
-                openWebpage.putExtra("URL", foo.getUrl());
-                openWebpage.putExtra("TITLE", foo.getTitle());
-                openWebpage.putExtra("POSTID", postID);
-
-                startActivity(openWebpage);
-
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(foo.getUrl()));
+                startActivity(intent);
             }
 
         } else {
@@ -227,14 +220,6 @@ HeraldAdapter.OnScrollUpdateListener{
     public void onUpdate(int pos) {
         mFavHeraldRecyclerView.scrollToPosition(pos);
     }
-    //Check if phone is connected to the Internet (not meaning it is working for sure)
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
-
 
 }
 

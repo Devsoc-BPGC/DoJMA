@@ -28,8 +28,8 @@ public class EventItem extends RealmObject {
     @Required
     private String startDate;
     @Required
-    private String desc;
     private String startTime;
+    private String desc;
     private String location;
     @Exclude
     private long time = 0;

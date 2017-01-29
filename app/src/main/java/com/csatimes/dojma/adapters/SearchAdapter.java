@@ -49,19 +49,19 @@ import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<TypeItem> results = new ArrayList<>();
-    private Context context;
-    private Date currentDate;
+    private Context mContext;
+    private Date mCurrentDate;
 
-    public SearchAdapter(Context context, List<TypeItem> results) {
+    public SearchAdapter(Context mContext, List<TypeItem> results) {
         this.results = results;
-        this.context = context;
-        this.currentDate = null;
+        this.mContext = mContext;
+        this.mCurrentDate = null;
     }
 
-    public SearchAdapter(List<TypeItem> results, Context context, Date currentDate) {
+    public SearchAdapter(List<TypeItem> results, Context mContext, Date mCurrentDate) {
         this.results = results;
-        this.context = context;
-        this.currentDate = currentDate;
+        this.mContext = mContext;
+        this.mCurrentDate = mCurrentDate;
     }
 
     @Override
@@ -97,11 +97,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case CONTACT_ITEM_TYPE_CONTACT:
             case SEARCH_ITEM_TYPE_CONTACT:
                 view = inflater.inflate(R.layout.item_format_contact, parent, false);
-                viewHolder = new ContactItemViewHolder(view, context);
+                viewHolder = new ContactItemViewHolder(view, mContext);
                 break;
             case SEARCH_ITEM_TYPE_LINK:
                 view = inflater.inflate(R.layout.item_format_links, parent, false);
-                viewHolder = new LinkItemViewHolder(view, context);
+                viewHolder = new LinkItemViewHolder(view, mContext);
                 break;
             case SEARCH_ITEM_TYPE_MESS:
                 view = inflater.inflate(R.layout.item_format_mess_menu, parent, false);
@@ -153,7 +153,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if (foo.getIcon() != null) {
                 civh.contactIcon.setImageURI(Uri.parse(foo.getIcon()));
             } else {
-                civh.contactIcon.setImageURI(Uri.parse("res://" + context.getPackageName()
+                civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
                         + "/" + R.drawable.ic_contact));
             }
         } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_LINK) {
@@ -173,12 +173,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void setColor(EventItem ei, EventItemViewHolder eivh) {
         if (ei.getStartDateObj() != null) {
-            long diff = -currentDate.getTime() + ei.getStartDateObj().getTime();
+            long diff = -mCurrentDate.getTime() + ei.getStartDateObj().getTime();
             int color;
 
             if (diff <= 0) {
                 //Irrespective of whether alarm was set, switch is unchecked since it isn't required anymore
-                color = ContextCompat.getColor(context, ColorList.NO_PRIORITY);
+                color = ContextCompat.getColor(mContext, ColorList.NO_PRIORITY);
 
             } else {
                 color = getColorFromDate(diff);
@@ -187,7 +187,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             eivh.dateTime.setTextColor(color);
 
         } else {
-            eivh.dateTime.setTextColor(ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY));
+            eivh.dateTime.setTextColor(ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY));
             eivh.status.setColorFilter(Color.GRAY);
         }
     }
@@ -196,19 +196,19 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int color;
         long DAY = 24 * 60 * 60 * 1000;
         if (diff > 0 && diff <= DAY) {
-            color = ContextCompat.getColor(context, ColorList.HIGHEST_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.HIGHEST_PRIORITY);
         } else if (diff > DAY && diff <= 3 * DAY) {
-            color = ContextCompat.getColor(context, ColorList.HIGHER_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.HIGHER_PRIORITY);
         } else if (diff > 3 * DAY && diff <= 7 * DAY) {
-            color = ContextCompat.getColor(context, ColorList.HIGH_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.HIGH_PRIORITY);
         } else if (diff > 7 * DAY && diff <= 14 * DAY) {
-            color = ContextCompat.getColor(context, ColorList.NORMAL_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.NORMAL_PRIORITY);
         } else if (diff > 14 * DAY && diff <= 30 * DAY) {
-            color = ContextCompat.getColor(context, ColorList.LOW_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.LOW_PRIORITY);
         } else if (diff > 30 * DAY && diff <= 365 * DAY) {
-            color = ContextCompat.getColor(context, ColorList.LOWER_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.LOWER_PRIORITY);
         } else {
-            color = ContextCompat.getColor(context, ColorList.LOWEST_PRIORITY);
+            color = ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY);
         }
         return color;
     }

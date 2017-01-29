@@ -101,29 +101,29 @@ public class Events extends Fragment {
                 try {
                     final String key = dataSnapshot.getKey();
                     final EventItem foo = dataSnapshot.getValue(EventItem.class);
-                    mDatabase.executeTransaction(
-                            new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
-                                    if (bar == null) {
-                                        {
-                                            bar = realm.createObject(EventItem.class, key);
-                                        }
+                    EventItem bar = mDatabase.where(EventItem.class).equalTo("key", key).findFirst();
+                    if (bar == null) {
+                        mDatabase.executeTransaction(
+                                new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        EventItem bar = realm.createObject(EventItem.class, key);
+                                        bar.setTitle(foo.getTitle());
+                                        bar.setLocation(foo.getLocation());
+                                        bar.setDesc(foo.getDesc());
+                                        bar.setStartDate(foo.getStartDate());
+                                        bar.setStartTime(foo.getStartTime());
+                                        bar.setTime(bar.getTime());
                                     }
-                                    bar.setTitle(foo.getTitle());
-                                    bar.setLocation(foo.getLocation());
-                                    bar.setDesc(foo.getDesc());
-                                    bar.setStartDate(foo.getStartDate());
-                                    bar.setStartTime(foo.getStartTime());
-                                    bar.setTime(bar.getTime());
                                 }
-                            }
-                    );
-                    mEventItems.add(foo);
-                    mEventsAdapter.notifyDataSetChanged();
-                    if (onTitleUpdateListener != null)
-                        onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+                        );
+                        mEventItems.add(foo);
+                        mEventsAdapter.notifyItemInserted(mEventItems.size() - 1);
+                        if (onTitleUpdateListener != null)
+                            onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+                    } else {
+                        onChildChanged(dataSnapshot, s);
+                    }
                 } catch (Exception e) {
                     DHC.log("parse error of event in Events");
                 }
@@ -151,14 +151,13 @@ public class Events extends Fragment {
                                 bar.setStartTime(foo.getStartTime());
                                 bar.setTitle(foo.getTitle());
                                 bar.setTime(bar.getTime());
-                                mEventItems.remove(itemChangedPosition);
-                                mEventItems.add(itemChangedPosition, foo);
-
                             }
                         });
-                        mEventsAdapter.notifyItemChanged(itemChangedPosition);
+                        sortDataSet();
+                        mEventsAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        DHC.log("parse error while trying to update event data at key " + s);
+                        DHC.log("parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
+                        e.printStackTrace();
                     }
             }
 
@@ -168,7 +167,6 @@ public class Events extends Fragment {
                 EventItem foo = mDatabase.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst();
                 if (foo != null) {
                     int position = mEventItems.indexOf(foo);
-                    DHC.log("position " + position);
                     if (position > -1) {
                         mEventItems.remove(position);
                         mEventsAdapter.notifyItemRemoved(position);
@@ -195,6 +193,11 @@ public class Events extends Fragment {
                 DHC.log("database Error " + databaseError.getMessage());
             }
         };
+    }
+
+    private void sortDataSet() {
+        mEventItems.sort(new String[]{"time", "title", "location", "desc", "key"},
+                new Sort[]{Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING});
     }
 
 

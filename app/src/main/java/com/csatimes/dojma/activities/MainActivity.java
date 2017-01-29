@@ -34,7 +34,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.amitshekhar.DebugDB;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ViewPagerAdapter;
 import com.csatimes.dojma.fragments.Events;
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
         SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
-        Log.e("TAG", DebugDB.getAddressLog());
+
         if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
             Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
             startActivity(startFirstTimeDownloader);

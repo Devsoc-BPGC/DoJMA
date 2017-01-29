@@ -1,13 +1,7 @@
 package com.csatimes.dojma.fragments;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -15,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.csatimes.dojma.BuildConfig;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.GazettesAdapter;
 import com.csatimes.dojma.models.GazetteItem;
@@ -27,8 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.File;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -192,34 +182,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
     @Override
     public void onClicked(GazetteItem gi) {
-        File pdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf");
-        if (pdf.exists()) {
-            Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", pdf);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(uri);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            if (intent.resolveActivity(getContext().getPackageManager()) != null)
-                startActivity(intent);
-            else {
-                Toast.makeText(getContext(), "Could not load from local storage, Downloading again", Toast.LENGTH_SHORT).show();
-                downloadPDF(gi);
-            }
-        } else {
-            downloadPDF(gi);
-        }
-    }
-
-    private void downloadPDF(GazetteItem gi) {
-        DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-        downloadManager.enqueue(
-                new DownloadManager.Request(Uri.parse(gi.getUrl()))
-                        .setTitle(gi.getReleaseDateFormatted())
-                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf")
-                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                        .setMimeType("application/pdf"));
-        Toast.makeText(getContext(), "Check notifications for download progress", Toast.LENGTH_SHORT).show();
-
+        DHC.getGazette(getActivity(),gi);
     }
 }
 

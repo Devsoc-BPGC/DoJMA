@@ -1,12 +1,28 @@
 package com.csatimes.dojma.utilities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v13.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.csatimes.dojma.BuildConfig;
+import com.csatimes.dojma.models.GazetteItem;
+
+import java.io.File;
 
 /**
  * Dojma Helper Class
@@ -26,6 +42,8 @@ public class DHC {
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
     public static final String UTILITIES_MISC_MESSAGE = "miscMessage";
+
+    public static final int REQUEST_WRITE_PERMISSION = 400;
 
     public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
@@ -74,5 +92,61 @@ public class DHC {
                 .CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
+    }
+
+
+    public static void getGazette(Activity context, GazetteItem gi) {
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+                ActivityCompat.requestPermissions(context,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_WRITE_PERMISSION);
+
+            }
+        } else {
+
+
+            File pdf = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf");
+            if (pdf.exists()) {
+                Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", pdf);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(uri);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                if (intent.resolveActivity(context.getPackageManager()) != null)
+                    context.startActivity(intent);
+                else {
+                    Toast.makeText(context, "Could not load from local storage, Downloading again", Toast.LENGTH_SHORT).show();
+                    downloadPDF(context, gi);
+                }
+            } else {
+                downloadPDF(context, gi);
+            }
+        }
+    }
+
+    private static void downloadPDF(Context context, GazetteItem gi) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(
+                new DownloadManager.Request(Uri.parse(gi.getUrl()))
+                        .setTitle(gi.getReleaseDateFormatted())
+                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, gi.getTitle() + " " + gi.getReleaseDateFormatted() + ".pdf")
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
+                        .setMimeType("application/pdf"));
+        Toast.makeText(context, "Check notifications for download progress", Toast.LENGTH_SHORT).show();
+
     }
 }
