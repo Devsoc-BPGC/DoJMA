@@ -2,10 +2,8 @@ package com.csatimes.dojma.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.PosterItem;
@@ -30,23 +28,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         this.listener = listener;
     }
 
-    public static ImageView getImage(RecyclerView.ViewHolder holder) {
-        if (holder instanceof ViewHolder) {
-            return ((ViewHolder) holder).imageView;
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View herald_card_view_format = inflater.inflate(R.layout.images_rv_item_format, parent, false);
-
-        return new ViewHolder(herald_card_view_format);
-
-
+        return new ViewHolder(View.inflate(context,R.layout.item_format_images_rv,null));
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -64,12 +48,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
         return posterItems.size();
     }
 
-    //This method is used when more than one kind of ViewHolders are required in RecyclerView
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
     public interface OnPhotoListener {
         void onPhotoClick(int position);
     }
@@ -79,7 +57,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
         ViewHolder(final View itemView) {
             super(itemView);
-            imageView = (SimpleDraweeView) itemView.findViewById(R.id.images_rv_imageview);
+            imageView = (SimpleDraweeView) itemView.findViewById(R.id.item_format_images_rv_image);
             imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         }
     }

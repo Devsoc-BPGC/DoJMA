@@ -9,8 +9,9 @@ import android.content.Intent;
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
-    public static final int REQUEST_CODE = 1283;
 
+    public static final int REQUEST_CODE = 1283;
+    public static final String TAG = "services.AlarmReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {

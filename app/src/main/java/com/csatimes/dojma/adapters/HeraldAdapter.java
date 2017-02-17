@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.interfaces.ItemTouchHelperAdapter;
 import com.csatimes.dojma.models.HeraldItem;
-import com.csatimes.dojma.utilities.CircleImageDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -168,7 +167,6 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
             desc = (TextView) itemView.findViewById(R.id.item_format_herald_desc);
             fav = (LikeButton) itemView.findViewById(R.id.item_format_herald_heart);
             share = (ImageButton) itemView.findViewById(R.id.item_format_herald_share);
-            imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
 
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override

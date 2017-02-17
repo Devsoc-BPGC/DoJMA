@@ -18,11 +18,11 @@
         android:layout_marginTop="16dp"
         android:foreground="?selectableItemBackground"
         android:stateListAnimator="@animator/lift_on_touch"
+        android:theme="@style/AlertDialog.AppCompat"
         app:cardElevation="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:theme="@style/AlertDialog.AppCompat">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_format_gazette_image"

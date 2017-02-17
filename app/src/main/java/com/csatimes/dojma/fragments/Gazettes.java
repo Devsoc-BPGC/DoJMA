@@ -27,6 +27,7 @@ import io.realm.Sort;
 
 public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemClickedListener {
 
+    public static final String TAG = "fragments.Gazettes";
     private GazettesAdapter mGazettesAdapter;
     private TextView mEmptyListTextView;
     private DatabaseReference mGazettesReference = FirebaseDatabase.getInstance().getReference().child("gazettes2");
@@ -103,7 +104,6 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
             @Override
             public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
-                DHC.log("onChildAdded");
                 try {
                     if (mDatabase.where(GazetteItem.class).equalTo("key", dataSnapshot.getKey()).findFirst() == null) {
                         final GazetteItem foo = dataSnapshot.getValue(GazetteItem.class);
@@ -131,7 +131,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
                         });
                     }
                 } catch (Exception e) {
-                    DHC.log("Parsing exception for Gazette " + e.getMessage());
+                    DHC.log(TAG,"Parsing exception for Gazette " + e.getMessage());
                 }
             }
 
@@ -142,7 +142,6 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                DHC.log("onChildRemoved");
                 //Child deleted. Delete the entry from Gazettes database
                 final String key = dataSnapshot.getKey();
                 mDatabase.executeTransaction(new Realm.Transaction() {
@@ -161,14 +160,13 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DHC.log("onChildMoved");
                 onChildRemoved(dataSnapshot);
                 onChildAdded(dataSnapshot, null);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log("Database Error in Gazettes " + databaseError.getDetails());
+                DHC.log(TAG,"Database Error in Gazettes " + databaseError.getDetails());
             }
         };
     }

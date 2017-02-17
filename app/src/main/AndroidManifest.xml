@@ -142,13 +142,6 @@
             android:label="@string/title_activity_postdownloader"
             android:theme="@style/AppTheme" />
 
-        <service
-            android:name=".services.ImageUrlHandlerService"
-            android:exported="false" />
-        <service
-            android:name=".services.PostDownloadService"
-            android:exported="false" />
-
         <activity android:name=".activities.UtilitiesContactsActivity"></activity>
 
         <!--

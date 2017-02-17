@@ -31,23 +31,41 @@ public class DHC {
 
     public static final String USER_PREFERENCES = "USER_PREFS";
 
+    public static final String USER_PREFERENCES_NAVBAR_TITLE = "USER_PREFS_NAVBAR_TITLE";
+    public static final String USER_PREFERENCES_NAVBAR_IMAGE_URL = "USER_PREFS_NAVBAR_IMAGE_URL";
+
+    public static final String USER_PREFERENCES_MISC_CARD_MESSAGE = "USER_PREFS_NAVBAR_IMAGE_URL";
+
     public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
     public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
     public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
 
-    public static final String UPDATE_SERVICE_DOWNLOAD_SUCCESS = "com.csatimes.dojma.update.service.dns";
-    public static final String UPDATE_SERVICE_NO_SUCCESS = "com.csatimes.dojma.update.service.ns";
-    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://csatimes.co.in/dojma/page/";
+    public static final String UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS = "com.csatimes.dojma.services.updatecheckerservice.action.dns";
+    public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = "com.csatimes.dojma.services.updatecheckerservice.action.ns";
+    public static final String UPDATE_SERVICE_INTENT_PAGES = "com.csatimes.dojma.services.updatecheckerservice.extra.int.pages";
+    public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = "com.csatimes.dojma.services.updatecheckerservice.extra.boolean.notifications";
+    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald.org/blog/page/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
-    public static final String UTILITIES_MISC_MESSAGE = "miscMessage";
+
+    public static final String FIREBASE_DATABASE_REFERENCE_GAZETTES = "gazettes2";
+    public static final String FIREBASE_DATABASE_REFERENCE_EVENTS = "events2";
+    public static final String FIREBASE_DATABASE_REFERENCE_CONTACTS = "contacts";
+    public static final String FIREBASE_DATABASE_REFERENCE_LINKS = "links";
+    public static final String FIREBASE_DATABASE_REFERENCE_MESS = "mess";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR = "navbar";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE = "title";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL = "image";
+    public static final String FIREBASE_DATABASE_REFERENCE_POSTERS = "posters";
+    public static final String FIREBASE_DATABASE_REFERENCE_MISC_CARD = "miscCard";
+    public static final String FIREBASE_DATABASE_REFERENCE_TAXI = "taxi";
 
     public static final int REQUEST_WRITE_PERMISSION = 400;
 
     public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
-    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 16;
+    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 23;
 
     public static final int SEARCH_ITEM_TYPE_TITLE = 0;
     public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE = 1;
@@ -74,9 +92,12 @@ public class DHC {
     public static final int MAIN_ACTIVITY_EVENTS_POS = 2;
     public static final int MAIN_ACTIVITY_UTILITIES_POS = 3;
 
-
     public static void log(String message) {
         Log.e("com.csatimes.dojma", message);
+    }
+
+    public static void log(String tag, String message) {
+        Log.e("com.csatimes.dojma." + tag, message);
     }
 
     public static Snackbar makeCustomSnackbar(View view, String s, int bgColor, int textColor) {

@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_MISC_MESSAGE;
+import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
 
 public class Utilities extends Fragment {
     ValueEventListener mMiscEventListener;
@@ -47,7 +47,7 @@ public class Utilities extends Fragment {
         utilitiesRecyclerView.setLayoutManager(sglm);
         utilitiesRecyclerView.setHasFixedSize(true);
 
-        mMessage = sp.getString(UTILITIES_MISC_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
+        mMessage = sp.getString(USER_PREFERENCES_MISC_CARD_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
         UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
         utilitiesRecyclerView.setAdapter(mUtilitiesAdapter);
 
@@ -66,7 +66,7 @@ public class Utilities extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMessage = dataSnapshot.getValue(String.class);
-                mEditor.putString(UTILITIES_MISC_MESSAGE, mMessage);
+                mEditor.putString(USER_PREFERENCES_MISC_CARD_MESSAGE, mMessage);
                 mEditor.apply();
             }
 

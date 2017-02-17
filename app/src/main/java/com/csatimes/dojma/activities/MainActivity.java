@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity
         setTheme();
         super.onCreate(savedInstanceState);
         Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
-        SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
-        if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
-            Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
-            startActivity(startFirstTimeDownloader);
+        if (preferences.getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true)) {
+            Intent intent = new Intent(this, POSTDownloaderActivity.class);
+            startActivity(intent);
             finish();
         }
 
@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         navBarRef.removeEventListener(navBarListener);
-        scheduleAlarmForUpdateService();
+        if (!getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE).getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true))
+            scheduleAlarmForUpdateService();
     }
 
     @Override
@@ -356,6 +357,7 @@ public class MainActivity extends AppCompatActivity
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this, AlarmReceiver.class);
         // Create a PendingIntent to be triggered when the alarm goes off
+        //TODO Shift REQUEST CODEE to DHC
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         // Setup periodic alarm every 3 day

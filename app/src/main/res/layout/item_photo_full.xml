@@ -1,7 +1,7 @@
 <com.alexvasilkov.gestures.views.GestureFrameLayout
-    android:id="@+id/gesture_frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gesture_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="?defaultBackground">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/photo_full_image"

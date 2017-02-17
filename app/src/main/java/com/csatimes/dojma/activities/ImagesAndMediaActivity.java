@@ -11,7 +11,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ImageGalleryAdapter;
 import com.csatimes.dojma.adapters.PhotoPagerAdapter;
 import com.csatimes.dojma.models.PosterItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.utilities.GestureSettingsMenu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,17 +33,16 @@ import io.realm.RealmList;
 
 public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGalleryAdapter.OnPhotoListener {
 
+    public static final String TAG = "activities.ImagesAndMedia";
     boolean mIsViewPagerVisible = false;
-
-    ImageGalleryAdapter mGridAdapter;
-    PhotoPagerAdapter mPagerAdapter;
-    GestureSettingsMenu mGestureSettingsMenu;
-    ViewHolder views;
-    RealmList<PosterItem> mPosterItems;
-    Realm mDatabase;
-    ValueEventListener mPosterValueEventListener;
-
-    DatabaseReference mPostersReference = FirebaseDatabase.getInstance().getReference().child("posters");
+    private ImageGalleryAdapter mGridAdapter;
+    private PhotoPagerAdapter mPagerAdapter;
+    private GestureSettingsMenu mGestureSettingsMenu;
+    private ViewHolder views;
+    private RealmList<PosterItem> mPosterItems;
+    private Realm mDatabase;
+    private ValueEventListener mPosterValueEventListener;
+    private DatabaseReference mPostersReference = FirebaseDatabase.getInstance().getReference().child("posters");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,53 +68,28 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mPosterValueEventListener = returnPostersListener();
-        mPostersReference.addValueEventListener(mPosterValueEventListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mPostersReference.removeEventListener(mPosterValueEventListener);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDatabase.close();
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
-
     private void initGrid() {
+        views.grid.setLayoutManager(new GridLayoutManager(this, span()));
+        mGridAdapter = new ImageGalleryAdapter(this, mPosterItems, this);
+        views.grid.setAdapter(mGridAdapter);
+    }
+
+    private int span() {
 
         //Setup columns according to device screen
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        // Setting up images grid
-        float t = dpWidth / 150;
-        float r = dpWidth % 150;
+        // Setting up grid
+        int num = 180;
+        float t = dpWidth / num;
+        float r = dpWidth % num;
         int cols;
-        if (r > 50f)
-            cols = (int) Math.ceil(dpWidth / 150);
+        if (r < 0.1 * num)
+            cols = (int) Math.ceil(dpWidth / num);
         else
             cols = (int) t;
 
-        views.grid.setLayoutManager(new GridLayoutManager(this, cols));
-
-        mGridAdapter = new ImageGalleryAdapter(this, mPosterItems, this);
-
-        views.grid.setAdapter(mGridAdapter);
+        return cols;
     }
 
     private void initPager() {
@@ -144,6 +118,13 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPosterValueEventListener = returnPostersListener();
+        mPostersReference.addValueEventListener(mPosterValueEventListener);
+    }
+
     private ValueEventListener returnPostersListener() {
         return new ValueEventListener() {
             @Override
@@ -158,6 +139,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
                 mPosterItems.clear();
                 for (DataSnapshot childShot : dataSnapshot.getChildren()) {
                     try {
+                        DHC.log(TAG,"Added poster");
                         mPosterItems.add(childShot.getValue(PosterItem.class));
                         mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -168,7 +150,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
                             }
                         });
                     } catch (Exception e) {
-                        Log.e("TAG", "Poster parse exception");
+                       DHC.log(TAG, "Poster parse exception");
                     }
                 }
                 if (mPosterItems.size() == 0) {
@@ -182,9 +164,30 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                DHC.log(TAG,"onDatabaseError " + databaseError.getMessage());
             }
         };
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPostersReference.removeEventListener(mPosterValueEventListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDatabase.close();
+    }
+
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     private void onPhotoInPagerSelected(int position) {
@@ -195,14 +198,14 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
     public void onPhotoClick(int position) {
         mPagerAdapter.setActivated(true);
         mIsViewPagerVisible = true;
-        views.pager.setVisibility(View.INVISIBLE);
+        views.pager.setVisibility(View.GONE);
         views.pager.setCurrentItem(position, false);
         views.toolbarBack.setVisibility(View.VISIBLE);
         views.pagerToolbar.setVisibility(View.VISIBLE);
-        views.appBarLayout.setVisibility(View.INVISIBLE);
+        views.appBarLayout.setVisibility(View.GONE);
         views.pagerBackground.setVisibility(View.VISIBLE);
         views.pager.setVisibility(View.VISIBLE);
-        views.noPostersText.setVisibility(View.INVISIBLE);
+        views.noPostersText.setVisibility(View.GONE);
     }
 
     @Override
