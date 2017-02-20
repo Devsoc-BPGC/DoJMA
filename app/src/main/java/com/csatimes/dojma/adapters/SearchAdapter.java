@@ -3,8 +3,10 @@ package com.csatimes.dojma.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +94,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case SEARCH_ITEM_TYPE_EVENT:
                 view = inflater.inflate(R.layout.item_format_event, parent, false);
-                viewHolder = new EventItemViewHolder(view);
+                viewHolder = new EventItemViewHolder(view,mContext);
                 break;
             case CONTACT_ITEM_TYPE_CONTACT:
             case SEARCH_ITEM_TYPE_CONTACT:
@@ -118,57 +120,78 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if (holder.getItemViewType() == SEARCH_ITEM_TYPE_TITLE || holder.getItemViewType() == CONTACT_ITEM_TYPE_TITLE) {
-            SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
-            stvh.text.setText((String) results.get(position).getValue());
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_HERALD_ARTICLE || holder.getItemViewType() == SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE) {
-            HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
-            HeraldItem foo = (HeraldItem) results.get(position).getValue();
-            hsvh.title.setText(foo.getTitle());
-            hsvh.date.setText(foo.getUpdateDate());
-            hsvh.simpleDraweeView.setImageURI(Uri.parse(foo.getImageURL()));
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_GAZETTE) {
-            GazetteItemViewHolder givh = (GazetteItemViewHolder) holder;
-            GazetteItem foo = (GazetteItem) results.get(position).getValue();
-            givh.title.setText(foo.getTitle() + "\n" + foo.getReleaseDateFormatted());
-            givh.image.setImageURI(foo.getImageUrl());
+        switch (getItemViewType(position)) {
+            case SEARCH_ITEM_TYPE_TITLE:
+            case CONTACT_ITEM_TYPE_TITLE:
+                SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
+                stvh.text.setText((String) results.get(position).getValue());
+                break;
 
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_EVENT) {
-            EventItemViewHolder eivh = (EventItemViewHolder) holder;
-            EventItem foo = (EventItem) results.get(position).getValue();
-            eivh.title.setText(foo.getTitle());
-            eivh.location.setText(foo.getLocation());
-            eivh.dateTime.setText(foo.getStartDateFormatted() + "\n" + foo.getStartTimeFormatted());
-            eivh.desc.setText(foo.getDesc());
-            eivh.up.setVisibility(View.INVISIBLE);
-            eivh.down.setVisibility(View.INVISIBLE);
-            setColor(foo, eivh);
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_CONTACT || holder.getItemViewType() == CONTACT_ITEM_TYPE_CONTACT) {
-            ContactItemViewHolder civh = (ContactItemViewHolder) holder;
-            ContactItem foo = (ContactItem) results.get(position).getValue();
-            civh.contactItem = foo;
-            civh.contactName.setText(foo.getName());
-            civh.contactSub1.setText(foo.getSub1());
-            civh.contactSub2.setText(foo.getSub2());
-            if (foo.getIcon() != null) {
-                civh.contactIcon.setImageURI(Uri.parse(foo.getIcon()));
-            } else {
-                civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
-                        + "/" + R.drawable.ic_contact));
-            }
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_LINK) {
-            LinkItemViewHolder livh = (LinkItemViewHolder) holder;
-            LinkItem foo = (LinkItem) results.get(position).getValue();
-            livh.linkItem = foo;
-            livh.title.setText(foo.getTitle());
-            livh.url.setText(foo.getUrl());
-        } else if (holder.getItemViewType() == SEARCH_ITEM_TYPE_MESS) {
-            MessItemViewHolder mivh = (MessItemViewHolder) holder;
-            MessItem foo = (MessItem) results.get(position).getValue();
-            mivh.title.setText(foo.getTitle());
-            mivh.image.setImageURI(Uri.parse(foo.getImageUrl()));
+            case SEARCH_ITEM_TYPE_HERALD_ARTICLE:
+            case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
+                HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
+                HeraldItem hi = (HeraldItem) results.get(position).getValue();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    hsvh.title.setText(Html.fromHtml(hi.getTitle(),Html.FROM_HTML_MODE_LEGACY));
+                } else hsvh.title.setText(Html.fromHtml(hi.getTitle()));
+
+                hsvh.date.setText(hi.getUpdateDate());
+                hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.getImageURL()));
+                break;
+
+            case SEARCH_ITEM_TYPE_GAZETTE:
+                GazetteItemViewHolder givh = (GazetteItemViewHolder) holder;
+                GazetteItem gi = (GazetteItem) results.get(position).getValue();
+                givh.title.setText(gi.getTitle() + "\n" + gi.getReleaseDateFormatted());
+                givh.image.setImageURI(gi.getImageUrl());
+                break;
+
+            case SEARCH_ITEM_TYPE_EVENT:
+                EventItemViewHolder eivh = (EventItemViewHolder) holder;
+                EventItem ei = (EventItem) results.get(position).getValue();
+                eivh.item = ei;
+                eivh.title.setText(ei.getTitle());
+                eivh.location.setText(ei.getLocation());
+                eivh.dateTime.setText(ei.getStartDateFormatted() + "\n" + ei.getStartTimeFormatted());
+                eivh.desc.setText(ei.getDesc());
+                eivh.up.setVisibility(View.INVISIBLE);
+                eivh.down.setVisibility(View.INVISIBLE);
+                setColor(ei, eivh);
+                break;
+
+            case SEARCH_ITEM_TYPE_CONTACT:
+            case CONTACT_ITEM_TYPE_CONTACT:
+                ContactItemViewHolder civh = (ContactItemViewHolder) holder;
+                ContactItem ci = (ContactItem) results.get(position).getValue();
+                civh.contactItem = ci;
+                civh.contactName.setText(ci.getName());
+                civh.contactSub1.setText(ci.getSub1());
+                civh.contactSub2.setText(ci.getSub2());
+                if (ci.getIcon() != null) {
+                    civh.contactIcon.setImageURI(Uri.parse(ci.getIcon()));
+                } else {
+                    civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
+                            + "/" + R.drawable.ic_contact));
+                }
+                break;
+
+            case SEARCH_ITEM_TYPE_LINK:
+                LinkItemViewHolder livh = (LinkItemViewHolder) holder;
+                LinkItem li = (LinkItem) results.get(position).getValue();
+                livh.linkItem = li;
+                livh.title.setText(li.getTitle());
+                livh.url.setText(li.getUrl());
+                break;
+
+            case SEARCH_ITEM_TYPE_MESS:
+                MessItemViewHolder mivh = (MessItemViewHolder) holder;
+                MessItem mi = (MessItem) results.get(position).getValue();
+                mivh.title.setText(mi.getTitle());
+                mivh.image.setImageURI(Uri.parse(mi.getImageUrl()));
+                break;
+            default:
+                break;
         }
-
     }
 
     private void setColor(EventItem ei, EventItemViewHolder eivh) {

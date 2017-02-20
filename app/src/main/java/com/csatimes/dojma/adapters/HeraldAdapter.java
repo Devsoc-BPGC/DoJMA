@@ -177,8 +177,6 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     mOnLikeClickedListener.onDisLiked(data.get(getAdapterPosition()).getPostID());
-                    notifyItemRemoved(getAdapterPosition());
-                    data.remove(getAdapterPosition());
                 }
             });
             itemView.setOnClickListener(this);

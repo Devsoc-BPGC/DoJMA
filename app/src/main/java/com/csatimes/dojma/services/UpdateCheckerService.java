@@ -163,7 +163,7 @@ public class UpdateCheckerService extends IntentService {
                                                 imageUrl = post.getJSONObject("attachments").getJSONObject("images").getJSONObject("large").getString("url");
                                             entry.setImageURL(imageUrl);
                                         } catch (Exception e) {
-                                            entry.setImageURL(null);
+                                            entry.setImageURL("");
                                             DHC.log(TAG, "Could not get thumbnail");
                                         }
 
