@@ -109,9 +109,7 @@ public class Events extends Fragment {
                                         bar.setTitle(foo.getTitle());
                                         bar.setLocation(foo.getLocation());
                                         bar.setDesc(foo.getDesc());
-                                        bar.setStartDate(foo.getStartDate());
-                                        bar.setStartTime(foo.getStartTime());
-                                        bar.setTime(bar.getTime());
+                                        bar.setDateTime(foo.getStartDate() + foo.getStartTime());
                                     }
                                 }
                         );
@@ -144,10 +142,8 @@ public class Events extends Fragment {
                                 EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
                                 bar.setDesc(foo.getDesc());
                                 bar.setLocation(foo.getLocation());
-                                bar.setStartDate(foo.getStartDate());
-                                bar.setStartTime(foo.getStartTime());
+                                bar.setDateTime(foo.getStartDate() + foo.getStartTime());
                                 bar.setTitle(foo.getTitle());
-                                bar.setTime(bar.getTime());
                             }
                         });
                         mEventsAdapter.notifyDataSetChanged();
@@ -196,14 +192,9 @@ public class Events extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        eventsRef.removeEventListener(mEventChildListener);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
+        eventsRef.removeEventListener(mEventChildListener);
         mDatabase.close();
     }
 

@@ -111,15 +111,6 @@
                 android:value="com.csatimes.dojma.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.IssuesActivity"
-            android:label="@string/title_activity_categories"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.UtilitiesLinksActivity"
             android:label="Links"
             android:parentActivityName=".activities.MainActivity">
@@ -141,8 +132,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_postdownloader"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".activities.UtilitiesContactsActivity"></activity>
+        <activity android:name=".activities.UtilitiesContactsActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -180,8 +170,10 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-            <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-            See README(https://goo.gl/l4GJaQ) for more. -->
+            <!--
+            Set custom default icon. This is used when no icon is set for incoming notification messages.
+            See README(https://goo.gl/l4GJaQ) for more.
+            -->
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@drawable/ic_stat_d" />
@@ -226,6 +218,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity
+            android:name=".activities.IssuesActivity"
+            android:label="@string/title_activity_issues"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.csatimes.dojma.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

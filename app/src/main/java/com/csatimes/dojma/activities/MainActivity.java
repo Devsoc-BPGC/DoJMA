@@ -344,31 +344,35 @@ public class MainActivity extends AppCompatActivity
 
         eventsFragments.setOnTitleUpdateListener(this);
 
+        Realm database = Realm.getDefaultInstance();
+
         adapter.addFragment(heraldFragment, "Herald", DHC.MAIN_ACTIVITY_HERALD_POS);
         adapter.addFragment(gazettesFragment, "Gazettes", DHC.MAIN_ACTIVITY_GAZETTES_POS);
-        adapter.addFragment(eventsFragments, "Events(" + Realm.getDefaultInstance().where(EventItem.class).findAll().size() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+        adapter.addFragment(eventsFragments, "Events(" + database.where(EventItem.class).findAll().size() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", DHC.MAIN_ACTIVITY_UTILITIES_POS);
 
         viewPager.setAdapter(adapter);
+        database.close();
     }
 
     public void scheduleAlarmForUpdateService() {
 
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setAction(DHC.ALARM_RECEIVER_ACTION_UPDATE);
         // Create a PendingIntent to be triggered when the alarm goes off
         //TODO Shift REQUEST CODEE to DHC
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, DHC.ALARM_RECEIVER_REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         // Setup periodic alarm every 3 day
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //Cancel old alarm
         alarm.cancel(pIntent);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                3 * AlarmManager.INTERVAL_DAY, pIntent);
+                5 * AlarmManager.INTERVAL_DAY, pIntent);
     }
 
     //method to get the right URL to use in the intent

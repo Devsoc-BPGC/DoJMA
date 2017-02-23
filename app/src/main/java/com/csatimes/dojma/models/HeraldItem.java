@@ -1,6 +1,15 @@
 package com.csatimes.dojma.models;
 
+import com.google.firebase.database.Exclude;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -11,30 +20,48 @@ public class HeraldItem extends RealmObject {
 
     @PrimaryKey
     private String postID;
-    private String title = "";
-    private String title_plain = "";
-    private String originalDate = "";
-    private String originalMonthYear = "";
-    private String updateDate = "";
-    private String originalTime = "";
-    private String updateTime = "";
-    private String imageURL = "";
-    private String url = "";
-    private String content = "";
-    private String excerpt = "";
-    private String authorName = "";
-    private String categoryTitle = "";
-    private boolean fav = false;
+    private String title;
+    private String title_plain;
+    private String originalDate;
+    private String originalMonthYear;
+    private String updateDate;
+    private String originalTime;
+    private String updateTime;
+    private String imageURL;
+    private String url;
+    private String content;
+    private String excerpt;
+    private String authorName;
+    @Index
+    private String category;
+    private boolean fav;
+
+    @Exclude
+    @Ignore
+    private String formattedDate;
 
     public HeraldItem() {
-
+        title = "";
+        title_plain = "";
+        originalDate = "";
+        originalMonthYear = "";
+        updateDate = "";
+        originalTime = "";
+        updateTime = "";
+        imageURL = "";
+        url = "";
+        content = "";
+        excerpt = "";
+        authorName = "";
+        category = "";
+        fav = false;
     }
 
     public HeraldItem(String postID, String title, String title_plain, String originalDate, String originalMonthYear,
                       String updateDate, String originalTime, String updateTime,
                       String imageURL, String url, String content,
                       String excerpt, String authorName,
-                      String categoryTitle,
+                      String category,
                       boolean fav) {
         this.postID = postID;
         this.title = title;
@@ -49,16 +76,16 @@ public class HeraldItem extends RealmObject {
         this.content = content;
         this.excerpt = excerpt;
         this.authorName = authorName;
-        this.categoryTitle = categoryTitle;
+        this.category = category;
         this.fav = fav;
     }
 
-    public String getCategoryTitle() {
-        return categoryTitle;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoryTitle(String categoryTitle) {
-        this.categoryTitle = categoryTitle;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getPostID() {
@@ -91,6 +118,16 @@ public class HeraldItem extends RealmObject {
 
     public void setOriginalDate(String originalDate) {
         this.originalDate = originalDate;
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+        Date of = null;
+        try {
+            of = simpleDate.parse(originalDate);
+        } catch (ParseException e) {
+            formattedDate = null;
+            return;
+        }
+        SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
+        formattedDate = tf.format(of);
     }
 
 
@@ -174,4 +211,8 @@ public class HeraldItem extends RealmObject {
         this.fav = fav;
     }
 
+    @Exclude
+    public String getFormattedDate() {
+        return formattedDate == null ? getOriginalDate() : formattedDate;
+    }
 }

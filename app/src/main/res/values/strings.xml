@@ -141,5 +141,6 @@
     <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
     <string name="UTILITIES_MENU_title">Menus</string>
     <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
+    <string name="title_activity_issues">IssuesActivity</string>
 
 </resources>

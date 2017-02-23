@@ -232,7 +232,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         super.onResume();
 
         if (DHC.isOnline(this)) {
-            if (UpdateCheckerService.instance == null) {
+            if (!UpdateCheckerService.isInstanceCreated()) {
                 mDatabase.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -331,9 +331,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                                     bar.setTitle(foo.getTitle());
                                     bar.setLocation(foo.getLocation());
                                     bar.setDesc(foo.getDesc());
-                                    bar.setStartDate(foo.getStartDate());
-                                    bar.setStartTime(foo.getStartTime());
-                                    bar.setTime(bar.getTime());
+                                    bar.setDateTime(foo.getStartDate() + foo.getStartTime());
                                 }
                             }, new Realm.Transaction.OnSuccess() {
                                 @Override
@@ -537,6 +535,8 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                 Intent intent = new Intent(this, MainActivity.class);
                 mEditor.putBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), false);
                 mEditor.apply();
+                Intent updateIntent = new Intent(this, UpdateCheckerService.class);
+                startService(updateIntent);
                 startActivity(intent);
                 finish();
             default:

@@ -30,7 +30,7 @@ import java.io.File;
 public class DHC {
 
     public static final String USER_PREFERENCES = "USER_PREFS";
-
+    public static final String PACKAGE_NAME = "com.csatimes.dojma";
     public static final String USER_PREFERENCES_NAVBAR_TITLE = "USER_PREFS_NAVBAR_TITLE";
     public static final String USER_PREFERENCES_NAVBAR_IMAGE_URL = "USER_PREFS_NAVBAR_IMAGE_URL";
 
@@ -41,10 +41,10 @@ public class DHC {
     public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
 
-    public static final String UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS = "com.csatimes.dojma.services.updatecheckerservice.action.dns";
-    public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = "com.csatimes.dojma.services.updatecheckerservice.action.ns";
-    public static final String UPDATE_SERVICE_INTENT_PAGES = "com.csatimes.dojma.services.updatecheckerservice.extra.int.pages";
-    public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = "com.csatimes.dojma.services.updatecheckerservice.extra.boolean.notifications";
+    public static final String UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.dns";
+    public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.ns";
+    public static final String UPDATE_SERVICE_INTENT_PAGES = PACKAGE_NAME + ".services.updatecheckerservice.extra.int.pages";
+    public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = PACKAGE_NAME + ".services.updatecheckerservice.extra.boolean.notifications";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald.org/blog/page/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
@@ -92,12 +92,15 @@ public class DHC {
     public static final int MAIN_ACTIVITY_EVENTS_POS = 2;
     public static final int MAIN_ACTIVITY_UTILITIES_POS = 3;
 
+    public static final int ALARM_RECEIVER_REQUEST_CODE = 75;
+    public static final String ALARM_RECEIVER_ACTION_UPDATE = PACKAGE_NAME + ".services.alarmreceiver.action.update";
+
     public static void log(String message) {
-        Log.e("com.csatimes.dojma", message);
+        Log.e(PACKAGE_NAME + ".", message);
     }
 
     public static void log(String tag, String message) {
-        Log.e("com.csatimes.dojma." + tag, message);
+        Log.e(PACKAGE_NAME + "." + tag, message);
     }
 
     public static Snackbar makeCustomSnackbar(View view, String s, int bgColor, int textColor) {

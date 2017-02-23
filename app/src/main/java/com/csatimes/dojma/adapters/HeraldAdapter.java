@@ -18,10 +18,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import io.realm.RealmList;
 
 /**
@@ -35,6 +31,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
     private OnItemClickedListener mOnItemClickedListener;
     private OnScrollUpdateListener mOnScrollUpdateListener;
     private RealmList<HeraldItem> data;
+
     public HeraldAdapter(RealmList<HeraldItem> data) {
         this.mOnLikeClickedListener = null;
         this.mOnShareClickedListener = null;
@@ -48,7 +45,6 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View herald_card_view_format = inflater.inflate(R.layout.item_format_herald, parent, false);
         return new HeraldViewHolder(herald_card_view_format);
-
     }
 
     @Override
@@ -56,16 +52,8 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
 
         HeraldItem foobar = data.get(position);
         viewHolder.item = foobar;
-
-        //Shift this method to HeraldItemFormat
-        try {
-            SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-            Date of = simpleDate.parse(foobar.getOriginalDate());
-            SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
-            viewHolder.date.setText(tf.format(of));
-        } catch (Exception e) {
-            viewHolder.date.setText(foobar.getOriginalDate());
-        }
+        viewHolder.date.setText(foobar.getFormattedDate());
+        viewHolder.imageView.setImageURI(Uri.parse(foobar.getImageURL()));
 
         if (foobar.isFav())
             viewHolder.fav.setLiked(true);
@@ -79,7 +67,6 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
             viewHolder.desc.setText(Html.fromHtml(foobar.getExcerpt()));
             viewHolder.title.setText(Html.fromHtml(foobar.getTitle()));
         }
-        viewHolder.imageView.setImageURI(Uri.parse(foobar.getImageURL()));
 
     }
 
@@ -123,9 +110,9 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
         //Also update database of un fav article
         if (mOnLikeClickedListener != null)
             mOnLikeClickedListener.onLiked(foo.getPostID());
-        data.add(position,foo);
+        data.add(position, foo);
         notifyItemInserted(position);
-        if (mOnScrollUpdateListener!=null){
+        if (mOnScrollUpdateListener != null) {
             mOnScrollUpdateListener.onUpdate(position);
         }
     }

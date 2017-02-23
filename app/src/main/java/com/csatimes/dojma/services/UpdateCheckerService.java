@@ -35,7 +35,7 @@ public class UpdateCheckerService extends IntentService {
 
     public static final String TAG = "services.updatecheckerservice";
 
-    public static UpdateCheckerService instance;
+    private static UpdateCheckerService instance;
     /**
      * This variable should be used only during debug stages
      * Set to false if you want to enable article downloading, otherwise true
@@ -179,10 +179,10 @@ public class UpdateCheckerService extends IntentService {
                                         //Save category information
                                         if (post.getJSONArray("categories").length() != 0) {
 
-                                            entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
+                                            entry.setCategory(post.getJSONArray("categories").getJSONObject
                                                     (0).getString("title"));
                                         } else {
-                                            entry.setCategoryTitle("Others");
+                                            entry.setCategory("Others");
                                         }
 
                                         if (foobar == null)
