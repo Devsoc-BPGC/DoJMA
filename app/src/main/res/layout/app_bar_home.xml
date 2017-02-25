@@ -4,36 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="false"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context="com.csatimes.dojma.activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_home_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:expanded="false">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/offline_toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/app_bar_home_collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="260dp"
+            android:fitsSystemWindows="true"
+            app:expandedTitleMarginBottom="72dp"
+            app:expandedTitleTextAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:tabMode="fixed"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                app:layout_scrollFlags="scroll">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/app_bar_home_toolbar_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:actualImageScaleType="centerCrop"
+                    app:placeholderImage="@drawable/bits" />
+
+                <View
+                    android:id="@+id/app_bar_home_toolbar_back_drop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0"
+                    android:background="?colorPrimary" />
+
+            </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/app_bar_home_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginBottom="72dp"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/app_bar_home_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="?actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:tabMode="fixed" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/app_bar_home_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

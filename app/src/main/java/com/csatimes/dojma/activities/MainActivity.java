@@ -16,6 +16,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -66,20 +69,26 @@ import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_ACTION_UPDATE;
 import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener,
+        AppBarLayout.OnOffsetChangedListener {
 
 
     public final String TAG = "activities." + MainActivity.class.getSimpleName();
 
-    DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
-    ValueEventListener navBarListener;
+    private boolean landscape = false;
+
+    private Toolbar toolbar;
+    private View fade_backdrop;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private boolean landscape = false;
     private DrawerLayout drawer;
-    private SimpleDraweeView navBarImage;
     private TextView navBarTitle;
-
+    private AppBarLayout appBarLayout;
+    private SimpleDraweeView navBarImage;
+    private ValueEventListener navBarListener;
+    private SimpleDraweeView toolbarBackground;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
 
     private void setTheme() {
         boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
@@ -106,16 +115,20 @@ public class MainActivity extends AppCompatActivity
         landscape = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
-        navBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        toolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.app_bar_home_tabs);
+        fade_backdrop = findViewById(R.id.app_bar_home_toolbar_back_drop);
+        viewPager = (ViewPager) findViewById(R.id.app_bar_home_viewpager);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_home_appbar_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        toolbarBackground = (SimpleDraweeView) findViewById(R.id.app_bar_home_toolbar_background);
+        navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.app_bar_home_collapsing_toolbar);
 
-        setSupportActionBar(toolbarObject);
+        setSupportActionBar(toolbar);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
@@ -140,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
 
-        //Of the Home Activity was started using the app shortcut with the intent action then it is detected here and
+        //If the Home Activity was started using the app shortcut with the intent action then it is detected here and
         // accordingly the viewpager position is set to open Events tab for example
         if (getString(R.string.shortcut_events).equals(getIntent().getAction())) {
             viewPager.setCurrentItem(2);
@@ -150,7 +163,7 @@ public class MainActivity extends AppCompatActivity
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbarObject, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -158,7 +171,7 @@ public class MainActivity extends AppCompatActivity
 
         navBarListener = returnImageChangeListener();
         navBarRef.addValueEventListener(navBarListener);
-
+        appBarLayout.addOnOffsetChangedListener(this);
     }
 
     @Override
@@ -409,7 +422,15 @@ public class MainActivity extends AppCompatActivity
                         .setOldController(navBarImage.getController())
                         .build();
                 navBarImage.setController(controller);
+
+                controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
+                        .setOldController(toolbarBackground.getController())
+                        .build();
+                toolbarBackground.setController(controller);
+
                 navBarTitle.setText(dataSnapshot.child("title").getValue(String.class));
+                toolbar.setTitle(navBarTitle.getText());
             }
 
             @Override
@@ -422,5 +443,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onTitleUpdate(String title, int pos) {
         tabLayout.getTabAt(pos).setText(title);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        toolbarBackground.setImageAlpha(255 * (appBarLayout.getTotalScrollRange() + verticalOffset) / appBarLayout.getTotalScrollRange());
     }
 }
