@@ -1,169 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.csatimes.dojma.activities.AboutUsActivity"
+    tools:context=".activities.AboutUsActivity"
     tools:showIn="@layout/activity_about_us">
 
-    <LinearLayout
-        android:id="@+id/about_us_app_info"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/content_about_us_app_name_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="DoJMA Android App"
+        android:textColor="@color/mac_color"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/about_us_app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DoJMA Android App"
-            android:textColor="@color/mac_color"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/about_us_app_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/app_version"
-            android:textColor="@color/mac_color"
-            android:textSize="12sp" />
-
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/content_about_us_app_version_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/app_version"
+        android:textColor="@color/mac_color"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_app_name_tv" />
 
     <ImageView
-        android:id="@+id/about_us_club_image"
-        android:layout_width="match_parent"
+        android:id="@+id/content_about_us_mac_img"
+        android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_below="@+id/about_us_app_info"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:background="@color/mac_color"
-        android:src="@drawable/maclogopng" />
+        android:src="@drawable/maclogopng"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_app_version_tv" />
 
-    <LinearLayout
-        android:id="@+id/about_us_icons"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/content_about_us_fb_imgbtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/about_us_club_image"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="4dp"
+        android:layout_marginTop="8dp"
         android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/content_about_us_google_play_imgbtn"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img"
+        app:srcCompat="@drawable/ic_facebook_white" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_google_play_imgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/content_about_us_fb_imgbtn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img"
+        app:srcCompat="@drawable/ic_google_play" />
+
+
+    <TextView
+        android:id="@+id/content_about_us_desc_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:text="@string/about_us_main"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_fb_imgbtn" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/about_us_fb_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/mac_color"
-                android:textColor="@color/white"
-                app:srcCompat="@drawable/ic_facebook_white" />
-
-            <ImageButton
-                android:id="@+id/about_us_play_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/mac_color"
-                android:textColor="@color/white"
-                app:srcCompat="@drawable/ic_google_play" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/about_main_ll"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/content_about_us_contributors_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/about_us_icons"
-        android:orientation="vertical">
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Contributors"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_desc_tv" />
 
-        <TextView
-            android:id="@+id/about_us_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/about_us_main" />
-
-        <TextView
-            android:id="@+id/about_us_made_by"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="developed by" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/about_us_vik_ll"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_about_us_rv"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/about_main_ll"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_contributors_tv" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/about_us_vik"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="24dp"
-            android:elevation="8dp"
-            app:roundAsCircle="true"
-            app:roundingBorderColor="@color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Vikramaditya Kukreja"
-            android:textColor="@color/mac_color"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/about_us_vik_ll"
-        android:layout_marginBottom="24dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/about_us_yash"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="24dp"
-            android:elevation="8dp"
-            app:roundAsCircle="true"
-            app:roundingBorderColor="@color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Yash Sharan"
-            android:textColor="@color/mac_color"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

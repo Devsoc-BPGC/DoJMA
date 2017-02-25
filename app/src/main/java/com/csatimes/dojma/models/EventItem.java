@@ -18,13 +18,14 @@ import io.realm.annotations.Required;
 
 public class EventItem extends RealmObject {
 
-
-    //TODO Add @Index annotation for fields that will be use in searching
+    public static final String TAG = "models.EventItem";
+    //TODO Add @Index annotation for fields that will be used in searching/ or used in finding distinct items
 
     @PrimaryKey
     private String key;
     @Required
     private String title;
+
     @Required
     private String startDate;
     @Required
@@ -33,15 +34,23 @@ public class EventItem extends RealmObject {
     private String location;
     @Exclude
     private long time = 0;
+    @Exclude
+    private String startDateFormatted;
+    @Exclude
+    private String startTimeFormatted;
+    @Exclude
+    private Date startDateObj;
 
     public EventItem() {
-        desc = "";
-        startDate = "";
-        startTime = "";
-        location = "";
-        title = "";
-        key = "";
-        time = 0;
+        desc = "SET DESC";
+        startDate = "01011990";
+        startTime = "0000";
+        location = "SET LOCATION";
+        title = "SET TITLE";
+        key = "SET KEY";
+        time = Long.MAX_VALUE;
+        startDateFormatted = "01 JAN";
+        startTimeFormatted = "0:00 am";
     }
 
     public EventItem(String title, String startDate, String startTime, String location, String desc, String key, long time) {
@@ -70,20 +79,61 @@ public class EventItem extends RealmObject {
         this.desc = desc;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
+    public void setDateTime(String datetime) {
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
+        try {
+            setStartDate(datetime.substring(0, 8));
+            setStartTime(datetime.substring(8));
+        } catch (Exception e) {
+            setStartDate("01012000");
+            setStartTime("0000");
+        }
 
-    public String getStartTime() {
-        return startTime;
-    }
+        Date date;
+        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+        try {
+            date = format.parse(datetime);
+            startDateObj = date;
+
+            /**
+             * Set {@link EventItem#startDateFormatted}
+             */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            try {
+                startDateFormatted = sdf.format(date);
+            } catch (Exception e) {
+                DHC.log(TAG, "dd MMM parse error");
+                startDateFormatted = null;
+            }
+
+            /**
+             * Set {@link EventItem#startTimeFormatted}
+             */
+            sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+            try {
+                startTimeFormatted = sdf.format(date);
+            } catch (Exception e) {
+                DHC.log(TAG, "h:mm a parse error");
+                startTimeFormatted = null;
+            }
+
+            /**
+             * Set {@link EventItem#time} which is used for sorting in {@link com.csatimes.dojma.fragments.Events} fragment
+             */
+            if (Calendar.getInstance(Locale.ENGLISH).getTime().getTime() < date.getTime())
+                setTime(date.getTime());
+            else setTime(Long.MAX_VALUE);
+
+        } catch (Exception e) {
+            DHC.log("Date parse error in start dateTime " + datetime + e.getMessage());
+            //TODO remove stack trace
+            e.printStackTrace();
+            setTime(Long.MAX_VALUE);
+            startDateFormatted = null;
+            startTimeFormatted = null;
+        }
+
     }
 
     public String getLocation() {
@@ -103,61 +153,39 @@ public class EventItem extends RealmObject {
     }
 
     public long getTime() {
-        if (getStartDateObj() != null) {
-            if (Calendar.getInstance(Locale.ENGLISH).getTime().getTime() < getStartDateObj().getTime())
-                return getStartDateObj().getTime();
-            else return Long.MAX_VALUE;
-
-        } else return 0;
+        return time;
     }
 
-    public void setTime(long time) {
+    private void setTime(long time) {
         this.time = time;
     }
 
-    @Exclude
     public Date getStartDateObj() {
-        String dtStart = getStartDate() + getStartTime();
-        Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
-        try {
-            date = format.parse(dtStart);
-        } catch (Exception e) {
-            DHC.log("Date parse error in start dateTime " + dtStart + e.getMessage());
-        }
-        return date;
+        return startDateObj;
     }
 
-    @Exclude
+    public String getStartDate() {
+        return startDate;
+    }
+
+    private void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    private void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     public String getStartDateFormatted() {
-        String dateString;
-        Date date = getStartDateObj();
-        if (date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
-            try {
-                dateString = sdf.format(date);
-                return dateString;
-            } catch (Exception e) {
-                DHC.log("Date parse error in getStartDateFormatted");
-            }
-        }
-        return getStartDate();
+        return startDateFormatted == null ? startDate : startDateFormatted;
     }
 
-    @Exclude
     public String getStartTimeFormatted() {
-        String timeString;
-        Date date = getStartDateObj();
-        if (date != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
-            try {
-                timeString = sdf.format(date);
-                return timeString;
-            } catch (Exception e) {
-                DHC.log("Date parse error in getStartTimeFormatted");
-            }
-        }
-        return getStartTime();
+        return startTimeFormatted == null ? startTime : startTimeFormatted;
     }
 
 }

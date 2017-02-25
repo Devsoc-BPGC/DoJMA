@@ -66,6 +66,7 @@
     <attr name="customSettingsSubTitleColor" format="color"/>
 
     <attr name="defaultBackground" format="color" />
+    <attr name="defaultBackgroundSemiTransparent" format="color" />
     <attr name="fabBackgroundColor" format="color" />
 
 

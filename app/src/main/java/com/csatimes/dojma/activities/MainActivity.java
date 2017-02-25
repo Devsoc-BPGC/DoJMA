@@ -4,11 +4,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,6 +16,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -26,12 +26,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
@@ -60,19 +59,36 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import io.realm.Realm;
 
+import static android.app.AlarmManager.INTERVAL_DAY;
+import static android.app.AlarmManager.RTC_WAKEUP;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_ACTION_UPDATE;
+import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_REQUEST_CODE;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener,
+        AppBarLayout.OnOffsetChangedListener {
 
 
-    DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
-    ValueEventListener navBarListener;
+    public final String TAG = "activities." + MainActivity.class.getSimpleName();
+
+    private boolean landscape = false;
+
+    private Toolbar toolbar;
+    private View fade_backdrop;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private boolean landscape = false;
     private DrawerLayout drawer;
-    private SimpleDraweeView navBarImage;
     private TextView navBarTitle;
-
+    private AppBarLayout appBarLayout;
+    private SimpleDraweeView navBarImage;
+    private ValueEventListener navBarListener;
+    private SimpleDraweeView toolbarBackground;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
 
     private void setTheme() {
         boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
@@ -87,39 +103,43 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         setTheme();
         super.onCreate(savedInstanceState);
-        Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
-        SharedPreferences preferences = this.getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+        DHC.log(TAG, FirebaseInstanceId.getInstance().getToken());
+        SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
-        if (preferences.getBoolean(getString(R.string.SP_first_install), true)) {
-            Intent startFirstTimeDownloader = new Intent(this, POSTDownloaderActivity.class);
-            startActivity(startFirstTimeDownloader);
+        if (preferences.getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true)) {
+            Intent intent = new Intent(this, POSTDownloaderActivity.class);
+            startActivity(intent);
             finish();
         }
 
-        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        landscape = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar toolbarObject = (Toolbar) findViewById(R.id.offline_toolbar);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
-        navBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        toolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.app_bar_home_tabs);
+        fade_backdrop = findViewById(R.id.app_bar_home_toolbar_back_drop);
+        viewPager = (ViewPager) findViewById(R.id.app_bar_home_viewpager);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_home_appbar_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        toolbarBackground = (SimpleDraweeView) findViewById(R.id.app_bar_home_toolbar_background);
+        navBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.app_bar_home_collapsing_toolbar);
 
-        setSupportActionBar(toolbarObject);
+        setSupportActionBar(toolbar);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
         Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
         if (Build.VERSION.SDK_INT >= 19) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
         }
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
 
         setupViewPager(viewPager);
@@ -133,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             viewPager.setCurrentItem(savedInstanceState.getInt("currentItem", 0));
         }
 
-        //Of the Home Activity was started using the app shortcut with the intent action then it is detected here and
+        //If the Home Activity was started using the app shortcut with the intent action then it is detected here and
         // accordingly the viewpager position is set to open Events tab for example
         if (getString(R.string.shortcut_events).equals(getIntent().getAction())) {
             viewPager.setCurrentItem(2);
@@ -143,7 +163,7 @@ public class MainActivity extends AppCompatActivity
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbarObject, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -151,7 +171,7 @@ public class MainActivity extends AppCompatActivity
 
         navBarListener = returnImageChangeListener();
         navBarRef.addValueEventListener(navBarListener);
-
+        appBarLayout.addOnOffsetChangedListener(this);
     }
 
     @Override
@@ -165,13 +185,14 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         navBarRef.removeEventListener(navBarListener);
-        scheduleAlarmForUpdateService();
+        if (!getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE).getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true))
+            scheduleAlarmForUpdateService();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("currenItem", viewPager.getCurrentItem());
+        outState.putInt("currentItem", viewPager.getCurrentItem());
     }
 
     @Override
@@ -223,7 +244,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, "https://issuu.com/bitsherald");
 
                 Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
-                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, FLAG_UPDATE_CURRENT);
                 String copy_label = "Copy Link";
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                         .setShowTitle(true)
@@ -269,7 +290,7 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                String facebookUrl = getFacebookPageURL(this);
+                String facebookUrl = getFacebookPageURL();
                 facebookIntent.setData(Uri.parse(facebookUrl));
                 startActivity(facebookIntent);
 
@@ -283,7 +304,7 @@ public class MainActivity extends AppCompatActivity
 
             Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
             PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    FLAG_UPDATE_CURRENT);
             String copy_label = "Copy Link";
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setShowTitle(true)
@@ -343,35 +364,39 @@ public class MainActivity extends AppCompatActivity
 
         eventsFragments.setOnTitleUpdateListener(this);
 
+        Realm database = Realm.getDefaultInstance();
+
         adapter.addFragment(heraldFragment, "Herald", DHC.MAIN_ACTIVITY_HERALD_POS);
         adapter.addFragment(gazettesFragment, "Gazettes", DHC.MAIN_ACTIVITY_GAZETTES_POS);
-        adapter.addFragment(eventsFragments, "Events(" + Realm.getDefaultInstance().where(EventItem.class).findAll().size() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+        adapter.addFragment(eventsFragments, "Events(" + database.where(EventItem.class).findAll().size() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", DHC.MAIN_ACTIVITY_UTILITIES_POS);
 
         viewPager.setAdapter(adapter);
+        database.close();
     }
 
     public void scheduleAlarmForUpdateService() {
 
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setAction(ALARM_RECEIVER_ACTION_UPDATE);
         // Create a PendingIntent to be triggered when the alarm goes off
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, AlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, ALARM_RECEIVER_REQUEST_CODE,
+                intent, FLAG_UPDATE_CURRENT);
         // Setup periodic alarm every 3 day
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         //Cancel old alarm
         alarm.cancel(pIntent);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                3 * AlarmManager.INTERVAL_DAY, pIntent);
+        alarm.setInexactRepeating(RTC_WAKEUP, firstMillis,
+                5 * INTERVAL_DAY, pIntent);
     }
 
     //method to get the right URL to use in the intent
-    public String getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
+    public String getFacebookPageURL() {
+        PackageManager packageManager = getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             if (versionCode >= 3002850) { //newer versions of fb app
@@ -397,7 +422,15 @@ public class MainActivity extends AppCompatActivity
                         .setOldController(navBarImage.getController())
                         .build();
                 navBarImage.setController(controller);
+
+                controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
+                        .setOldController(toolbarBackground.getController())
+                        .build();
+                toolbarBackground.setController(controller);
+
                 navBarTitle.setText(dataSnapshot.child("title").getValue(String.class));
+                toolbar.setTitle(navBarTitle.getText());
             }
 
             @Override
@@ -410,5 +443,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onTitleUpdate(String title, int pos) {
         tabLayout.getTabAt(pos).setText(title);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        toolbarBackground.setImageAlpha(255 * (appBarLayout.getTotalScrollRange() + verticalOffset) / appBarLayout.getTotalScrollRange());
     }
 }

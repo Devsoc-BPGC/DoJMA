@@ -26,12 +26,17 @@ import com.google.firebase.database.ValueEventListener;
 import io.realm.Realm;
 import io.realm.RealmList;
 
+import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Links Activity under the Utilities Section
  */
 
 public class UtilitiesLinksActivity extends AppCompatActivity {
 
+    public final String TAG = "activities." + UtilitiesLinksActivity.class.getSimpleName();
 
     private LinkRv adapter;
     private Realm mDatabase;
@@ -40,15 +45,6 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
     private TextView emptyList;
     private ValueEventListener linksListener;
     private RealmList<LinkItem> linkItems;
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,25 +80,32 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
 
         linkRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         linkRecyclerView.setHasFixedSize(true);
-        linkRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        linkRecyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
 
         mDatabase = Realm.getDefaultInstance();
         linkItems = new RealmList<>();
         linkItems.addAll(mDatabase.where(LinkItem.class).findAll());
-        if (linkItems.size() > 0) emptyList.setVisibility(View.GONE);
+        if (linkItems.size() > 0) emptyList.setVisibility(GONE);
 
-        adapter = new LinkRv(linkItems,this);
+        adapter = new LinkRv(linkItems, this);
         linkRecyclerView.setAdapter(adapter);
 
+    }
+
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode)
+            setTheme(R.style.AppThemeDark);
+        else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         linksListener = returnListener();
         mLinksReference.addValueEventListener(linksListener);
-
     }
 
     @Override
@@ -121,7 +124,6 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                emptyList.setVisibility(View.GONE);
                 mDatabase.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -141,18 +143,22 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
                             }
                         });
                     } catch (Exception ignore) {
-                        DHC.log("parse error in link item");
+                        DHC.log(TAG, "parse error in link item");
                     }
                 }
 
                 linkItems.clear();
                 linkItems.addAll(mDatabase.where(LinkItem.class).findAll());
                 adapter.notifyDataSetChanged();
-
+                if (adapter.getItemCount() == 0) {
+                    emptyList.setVisibility(VISIBLE);
+                } else
+                    emptyList.setVisibility(GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                DHC.log(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }

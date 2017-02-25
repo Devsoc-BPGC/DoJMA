@@ -47,12 +47,6 @@ public class OfflineSimpleViewerActivity extends AppCompatActivity {
                 articleTitle.setText(Html.fromHtml(mHeraldArticle.getTitle(), Html.FROM_HTML_MODE_LEGACY));
                 if (mHeraldArticle.getAuthorName() != null)
                     articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorName(), Html.FROM_HTML_MODE_LEGACY));
-                else if (mHeraldArticle.getAuthorFName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorFName(), Html.FROM_HTML_MODE_LEGACY));
-                else if (mHeraldArticle.getAuthorLName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorLName(), Html.FROM_HTML_MODE_LEGACY));
-                else if (mHeraldArticle.getAuthorNName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorNName(), Html.FROM_HTML_MODE_LEGACY));
                 else articleAuthor.setText("dojma_admin");
 
             } else {
@@ -61,12 +55,6 @@ public class OfflineSimpleViewerActivity extends AppCompatActivity {
 
                 if (mHeraldArticle.getAuthorName() != null)
                     articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorName()));
-                else if (mHeraldArticle.getAuthorFName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorFName()));
-                else if (mHeraldArticle.getAuthorLName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorLName()));
-                else if (mHeraldArticle.getAuthorNName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorNName()));
                 else articleAuthor.setText("dojma_admin");
 
             }

@@ -28,6 +28,7 @@ import io.realm.Sort;
 
 public class Events extends Fragment {
 
+    public static final String TAG = "fragments.Events";
     private DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference().child("events2");
     private EventsRV mEventsAdapter;
     private TextView mErrorText;
@@ -53,8 +54,6 @@ public class Events extends Fragment {
         mEventsRecyclerView.setHasFixedSize(true);
         mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        mEventItems = new RealmList<>();
-
         return view;
     }
 
@@ -67,6 +66,7 @@ public class Events extends Fragment {
         //and because of the late initialising of the realm, mEventsAdapter is placed after it so that mEventsAdapter.notifyDataSetChanged() works
         mDatabase = Realm.getDefaultInstance();
 
+        mEventItems = new RealmList<>();
         mEventItems.addAll(mDatabase.where(EventItem.class).
                 findAllSorted(new String[]{"time", "title", "location", "desc", "key"},
                         new Sort[]{Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING}));
@@ -89,12 +89,10 @@ public class Events extends Fragment {
         }
         if (onTitleUpdateListener != null)
             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
-
     }
 
     private ChildEventListener returnChildrenListener() {
         return new ChildEventListener() {
-            int itemChangedPosition;
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -111,21 +109,19 @@ public class Events extends Fragment {
                                         bar.setTitle(foo.getTitle());
                                         bar.setLocation(foo.getLocation());
                                         bar.setDesc(foo.getDesc());
-                                        bar.setStartDate(foo.getStartDate());
-                                        bar.setStartTime(foo.getStartTime());
-                                        bar.setTime(bar.getTime());
+                                        bar.setDateTime(foo.getStartDate() + foo.getStartTime());
                                     }
                                 }
                         );
                         mEventItems.add(foo);
-                        mEventsAdapter.notifyItemInserted(mEventItems.size() - 1);
+                        mEventsAdapter.notifyDataSetChanged();
                         if (onTitleUpdateListener != null)
                             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
                     } else {
                         onChildChanged(dataSnapshot, s);
                     }
                 } catch (Exception e) {
-                    DHC.log("parse error of event in Events");
+                    DHC.log(TAG, "parse error of event in Events");
                 }
             }
 
@@ -139,7 +135,6 @@ public class Events extends Fragment {
                 else
                     //Parse error could occur
                     try {
-                        itemChangedPosition = mEventItems.indexOf(baz);
                         final EventItem foo = dataSnapshot.getValue(EventItem.class);
                         mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -147,16 +142,13 @@ public class Events extends Fragment {
                                 EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
                                 bar.setDesc(foo.getDesc());
                                 bar.setLocation(foo.getLocation());
-                                bar.setStartDate(foo.getStartDate());
-                                bar.setStartTime(foo.getStartTime());
+                                bar.setDateTime(foo.getStartDate() + foo.getStartTime());
                                 bar.setTitle(foo.getTitle());
-                                bar.setTime(bar.getTime());
                             }
                         });
-                        sortDataSet();
                         mEventsAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        DHC.log("parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
+                        DHC.log(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
                         e.printStackTrace();
                     }
             }
@@ -179,41 +171,30 @@ public class Events extends Fragment {
                         if (onTitleUpdateListener != null)
                             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
 
-                    } else DHC.log("position " + position);
-                } else DHC.log("Deleted item was not in database ");
+                    } else DHC.log(TAG, "position " + position);
+                } else DHC.log(TAG, "Deleted item was not in database ");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DHC.log(dataSnapshot.getKey() + " has been moved" + s);
+                DHC.log(TAG, dataSnapshot.getKey() + " has been moved" + s);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log("database Error " + databaseError.getMessage());
+                DHC.log(TAG, "database Error " + databaseError.getMessage());
             }
         };
     }
 
-    private void sortDataSet() {
-        mEventItems.sort(new String[]{"time", "title", "location", "desc", "key"},
-                new Sort[]{Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING});
-    }
-
-
     public int getCount() {
-        return mEventsAdapter.getItemCount();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        eventsRef.removeEventListener(mEventChildListener);
+        return mEventsAdapter != null ? mEventsAdapter.getItemCount() : 0;
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        eventsRef.removeEventListener(mEventChildListener);
         mDatabase.close();
     }
 

@@ -142,9 +142,9 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return UTILITIES_ITEM_TYPE_CONTACTS_TAXI;
             case 2:
                 return UTILITIES_ITEM_TYPE_MESS;
-            case 3:
-                return UTILITIES_ITEM_TYPE_LINKS;
             case 4:
+                return UTILITIES_ITEM_TYPE_LINKS;
+            case 3:
                 return UTILITIES_ITEM_TYPE_MISC;
             case 5:
                 return UTILITIES_ITEM_TYPE_MAP;

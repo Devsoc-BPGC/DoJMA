@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.activities.MainActivity;
@@ -27,24 +26,48 @@ import java.net.URL;
 
 import io.realm.Realm;
 
-import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_DOWNLOAD_SUCCESS;
-import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_NO_SUCCESS;
-
+import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS;
+import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_NO_SUCCESS;
+import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION;
+import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_PAGES;
 
 public class UpdateCheckerService extends IntentService {
 
-    public static UpdateCheckerService instance;
+    public static final String TAG = "services.updatecheckerservice";
+
+    private static UpdateCheckerService instance;
     /**
      * This variable should be used only during debug stages
      * Set to false if you want to enable article downloading, otherwise true
      */
     boolean enableDownloadingInDebugMode = true;
+
+    /**
+     * To disable showing a notification when calling this service, pass a value of {@code false} in the intent
+     */
+    boolean enableNotifications;
+
+    /**
+     * To only download 'n' number of pages override this value by adding the required data in the intent
+     * {@link DHC#UPDATE_SERVICE_INTENT_PAGES}<br>
+     * Default value is -1
+     */
+    int defaultPagesToDownload;
+
     private int mDownloads;
 
+    /**
+     * No arguments constructor
+     */
     public UpdateCheckerService() {
         super("UpdateCheckerService");
     }
 
+    /**
+     * Check if UpdateCheckerService is running or not
+     *
+     * @return true if running otherwise false
+     */
     public static boolean isInstanceCreated() {
         return instance != null;
     }
@@ -53,41 +76,48 @@ public class UpdateCheckerService extends IntentService {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        mDownloads = 0;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        instance = null;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         if (enableDownloadingInDebugMode) {
-            SharedPreferences sp = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
-            final SharedPreferences.Editor editor = sp.edit();
+            SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+            final SharedPreferences.Editor editor = preferences.edit();
 
             String urlPrefix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX;
             String urlSuffix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX;
 
             Realm database = Realm.getDefaultInstance();
 
-            for (int j = 0; j <= sp.getInt(DHC.UPDATE_SERVICE_HERALD_PAGES, DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES); j++) {
+            if (intent.getExtras() != null) {
+                defaultPagesToDownload = intent.getExtras().getInt(UPDATE_SERVICE_INTENT_PAGES, -1);
+                enableNotifications = intent.getExtras().getBoolean(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, true);
+            } else {
+                defaultPagesToDownload = -1;
+                enableNotifications = true;
+            }
+
+            int defaultPages = defaultPagesToDownload != -1 ? defaultPagesToDownload - 1 : preferences.getInt(DHC.UPDATE_SERVICE_HERALD_PAGES, DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES);
+
+            DHC.log(TAG, "defaultPagesToDownload " + defaultPagesToDownload + " and enableNotifications " + enableNotifications);
+
+
+            for (int j = 0; j <= defaultPages; j++) {
                 try {
                     //Handle malformed URL exception
                     URL url = new URL(urlPrefix + j + urlSuffix);
+                    DHC.log(TAG,url.toString());
 
-                    DHC.log(url.toString() + " at csatimes");
                     // Read all the text returned by the server
                     String response = getServerResponse(url);
 
                     JSONObject jsonResponse;
                     JSONArray posts;
 
-                    //Handle parse error
+                    //Handle parse error using catch
                     jsonResponse = new JSONObject(response);
 
+                    //Get all posts from the json
                     posts = jsonResponse.getJSONArray("posts");
 
                     //Update total pages
@@ -97,208 +127,130 @@ public class UpdateCheckerService extends IntentService {
                     for (int i = 0; i < posts.length(); i++) {
                         final JSONObject post = posts.getJSONObject(i);
 
-                        if (database.where(HeraldItem.class).equalTo
-                                ("postID", post.getInt("id") + "").findFirst() != null) {
+                        final HeraldItem foobar = database.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
 
+                        if ((foobar == null) || (foobar != null && foobar.getUpdateTime().compareTo(post.getString("modified").substring(11)) != 0)) {
                             database.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
                                     try {
-                                        HeraldItem entry = realm.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
-
-                                        entry.setType(post.getString("type"));
-                                        entry.setSlug(post.getString("slug"));
-                                        entry.setUrl(post.getString("url"));
-                                        entry.setStatus(post.getString("status"));
-                                        entry.setTitle(post.getString("title"));
-                                        entry.setTitle_plain(post.getString("title_plain"));
-                                        entry.setContent(post.getString("content"));
-                                        entry.setExcerpt(post.getString("excerpt"));
-                                        entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
-                                        entry.setUpdateDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalTime(post.getString("date").substring(11));
-                                        entry.setUpdateTime(post.getString("date").substring(11));
-                                        entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                        entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
-                                        entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
-                                        entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
-                                        entry.setAuthorURL(post.getJSONObject("author").getString("url"));
-                                        entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
-                                        entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
-                                        entry.setComment_count(post.getInt("comment_count"));
-                                        entry.setComment_status(post.getString("comment_status"));
-                                        //Save category information
-                                        if (post.getJSONArray("categories").length() != 0) {
-                                            try {
-                                                entry.setCategoryID(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("id") + "");
-                                                entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("title"));
-                                                entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("slug"));
-                                                entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("description"));
-                                                entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("post_count"));
-                                            } catch (Exception e) {
-                                                entry.setCategoryID("");
-                                                entry.setCategoryCount(0);
-                                                entry.setCategoryDescription("");
-                                                entry.setCategorySlug("");
-                                                entry.setCategoryTitle("");
-                                            }
-                                        }
-                                        //Save image information
-                                        if (post.getJSONArray("attachments").length() != 0) {
-                                            entry.setImageURL(post.getJSONArray("attachments").getJSONObject(post.getJSONArray("attachments").length() - 1).getString("url"));
-                                            entry.setBigImageUrl(post.getJSONArray("attachments").getJSONObject
-                                                    (post.getJSONArray("attachments").length() - 1).getString("url"));
-                                        } else {
-                                            entry.setImageURL("");
-                                            entry.setBigImageUrl("");
-                                        }
-                                    } catch (JSONException e) {
-                                        DHC.log("wrong json format");
-                                    }
-                                }
-                            });
-                        } else {
-                            final int len = post.getJSONArray("attachments").length();
-                            database.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    try {
-                                        HeraldItem entry = realm.createObject
+                                        HeraldItem entry;
+                                        if (foobar == null) entry = realm.createObject
                                                 (HeraldItem.class, post.getInt("id") + "");
-                                        entry.setType(post.getString("type"));
-                                        entry.setSlug(post.getString("slug"));
+                                        else
+                                            entry = realm.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
+
                                         entry.setUrl(post.getString("url"));
-                                        entry.setStatus(post.getString("status"));
                                         entry.setTitle(post.getString("title"));
                                         entry.setTitle_plain(post.getString("title_plain"));
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
-                                        entry.setUpdateDate(post.getString("date").substring(0, 10));
                                         entry.setOriginalTime(post.getString("date").substring(11));
-                                        entry.setUpdateTime(post.getString("date").substring(11));
-                                        entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                        entry.setAuthorFName(post.getJSONObject("author").getString("first_name"));
-                                        entry.setAuthorLName(post.getJSONObject("author").getString("last_name"));
-                                        entry.setAuthorNName(post.getJSONObject("author").getString("nickname"));
-                                        entry.setAuthorURL(post.getJSONObject("author").getString("url"));
-                                        entry.setAuthorSlug(post.getJSONObject("author").getString("slug"));
-                                        entry.setAuthorDesc(post.getJSONObject("author").getString("description"));
-                                        entry.setComment_count(post.getInt("comment_count"));
-                                        entry.setComment_status(post.getString("comment_status"));
+                                        try {
+                                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
+                                        } catch (Exception e) {
+                                            entry.setAuthorName("dojma_admin");
+                                        }
+
+
+                                        try {
+                                            String imageUrl = post.getString("thumbnail");
+                                            if (imageUrl == null)
+                                                imageUrl = post.getJSONObject("thumbnail_images").getJSONObject("large").getString("url");
+                                            if (imageUrl == null)
+                                                imageUrl = post.getJSONObject("attachments").getJSONObject("images").getJSONObject("large").getString("url");
+                                            entry.setImageURL(imageUrl);
+                                        } catch (Exception e) {
+                                            entry.setImageURL("");
+                                            DHC.log(TAG, "Could not get thumbnail");
+                                        }
+
+
+                                        try {
+                                            entry.setUpdateDate(post.getString("modified").substring(0, 10));
+                                            entry.setUpdateTime(post.getString("modified").substring(11));
+                                        } catch (Exception e) {
+                                            DHC.log(TAG, "Modified date does not exist yet");
+                                            entry.setUpdateDate(entry.getOriginalDate());
+                                            entry.setUpdateTime(entry.getOriginalTime());
+                                        }
                                         //Save category information
                                         if (post.getJSONArray("categories").length() != 0) {
-                                            try {
-                                                entry.setCategoryID(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("id") + "");
-                                                entry.setCategoryTitle(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("title"));
-                                                entry.setCategorySlug(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("slug"));
-                                                entry.setCategoryDescription(post.getJSONArray("categories").getJSONObject
-                                                        (0).getString("description"));
-                                                entry.setCategoryCount(post.getJSONArray("categories").getJSONObject
-                                                        (0).getInt("post_count"));
-                                            } catch (Exception e) {
-                                                Log.e("TAG", "Exception raised in category for post " + post
-                                                        .getInt("id") + "");
-                                                entry.setCategoryID("");
-                                                entry.setCategoryCount(0);
-                                                entry.setCategoryDescription("");
-                                                entry.setCategorySlug("");
-                                                entry.setCategoryTitle("");
-                                            }
+
+                                            entry.setCategory(post.getJSONArray("categories").getJSONObject
+                                                    (0).getString("title"));
                                         } else {
-                                            entry.setCategoryID("");
-                                            entry.setCategoryCount(0);
-                                            entry.setCategoryDescription("");
-                                            entry.setCategorySlug("");
-                                            entry.setCategoryTitle("");
+                                            entry.setCategory("Others");
                                         }
-                                        if (len != 0)
-                                            ;//  entry.setImageURL(post.getJSONArray("attachments").getJSONObject(len - 1).getString("url"));
-                                        else entry.setImageURL("");
-                                        mDownloads++;
+
+                                        if (foobar == null)
+                                            mDownloads++;
                                     } catch (Exception e) {
-                                        DHC.log("wrong json format");
+                                        DHC.log(TAG, "wrong json format " + e.getMessage());
                                     }
                                 }
                             });
                         }
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    DHC.log("json parse error ");
+                    DHC.log(TAG, "json parse error " + e.getMessage());
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    DHC.log("IOException/MalformedURL");
+                    DHC.log(TAG, "IOException/MalformedURL " + e.getMessage());
                 }
 
             }
+
             //Apply changes if any
             editor.apply();
 
-            String message = generateMessage(mDownloads, 0);
-
-            if (message != null) {
+            if (mDownloads > 0) {
 
                 //Send update available broadcast if Herald fragment is attached
                 Intent i = new Intent();
-                i.setAction(UPDATE_SERVICE_DOWNLOAD_SUCCESS);
+                i.setAction(UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS);
                 database.close();
                 sendBroadcast(i);
 
-                Intent openHerald = new Intent(this, MainActivity.class);
-                openHerald.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent pendingIntent = PendingIntent.getActivity(
-                        this,
-                        DHC.UPDATE_SERVICE_PENDING_INTENT_CODE,
-                        openHerald,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+                if (enableNotifications) {
+                    String message = generateMessage(mDownloads);
+                    Intent openHerald = new Intent(this, MainActivity.class);
+                    openHerald.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(
+                            this,
+                            DHC.UPDATE_SERVICE_PENDING_INTENT_CODE,
+                            openHerald,
+                            PendingIntent.FLAG_UPDATE_CURRENT);
 
-                NotificationCompat.Builder downloadNotif =
-                        new NotificationCompat.Builder(this)
-                                .setAutoCancel(true)
-                                .setSmallIcon(R.drawable.ic_stat_d)
-                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.dojma))
-                                .setContentTitle("DoJMA articles update ")
-                                .setContentText(message);
+                    NotificationCompat.Builder downloadNotif =
+                            new NotificationCompat.Builder(this)
+                                    .setAutoCancel(true)
+                                    .setSmallIcon(R.drawable.ic_stat_d)
+                                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.dojma))
+                                    .setContentTitle("DoJMA articles updated!")
+                                    .setContentText(message);
 
-                downloadNotif.setContentIntent(pendingIntent);
+                    downloadNotif.setContentIntent(pendingIntent);
 
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(DHC.UPDATE_SERVICE_NOTIFICATION_CODE, downloadNotif.build());
-
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(DHC.UPDATE_SERVICE_NOTIFICATION_CODE, downloadNotif.build());
+                }
             } else {
                 Intent i = new Intent();
-                i.setAction(UPDATE_SERVICE_NO_SUCCESS);
+                i.setAction(UPDATE_SERVICE_ACTION_NO_SUCCESS);
                 database.close();
                 sendBroadcast(i);
             }
-            startService(new Intent(this, ImageUrlHandlerService.class));
+
         }
         stopSelf();
     }
 
-    private String generateMessage(int mDownloads, int mUpdates) {
-        if (mDownloads != 0 && mUpdates != 0) {
-            return generateMessage(mDownloads, 0) + "and" + generateMessage(0, mUpdates);
-        } else if (mDownloads != 0 && mUpdates == 0) {
-            if (mDownloads == 1) return " One article downloaded ";
-            else return mDownloads + " articles downloaded ";
-        } else if (mUpdates != 0 && mDownloads == 0) {
-            if (mUpdates == 1) return " One article updated ";
-            else return mUpdates + " articles updated ";
-        }
-        return null;
+    private String generateMessage(int mDownloads) {
+        if (mDownloads == 1) return "Downloaded a new article";
+        return "Downloaded " + mDownloads + " articles";
     }
 
     @NonNull
@@ -314,4 +266,9 @@ public class UpdateCheckerService extends IntentService {
         return response;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        instance = null;
+    }
 }

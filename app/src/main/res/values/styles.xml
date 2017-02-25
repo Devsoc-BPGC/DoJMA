@@ -3,6 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/white</item>
+        <item name="defaultBackgroundSemiTransparent">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/statusBarColor</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">
             @color/navigationBarColor
@@ -51,7 +52,9 @@
         <item name="customContactsCardSubTitleColor">@color/white</item>
         <item name="customContactsCardNamesTextColor">@color/grey100</item>
 
-        <item name="customContactsTaxiCardBackgroundColor">@color/utilities_contacts_taxi_background</item>
+        <item name="customContactsTaxiCardBackgroundColor">
+            @color/utilities_contacts_taxi_background
+        </item>
         <item name="customContactsTaxiCardTitleColor">@color/black</item>
         <item name="customContactsTaxiCardSubTitleColor">@color/grey900</item>
 
@@ -78,6 +81,7 @@
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/grey900</item>
+        <item name="defaultBackgroundSemiTransparent">#FFFFFF00</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/grey900</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/grey900</item>
         <item name="android:windowBackground">@color/grey900</item>

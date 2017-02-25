@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_MISC_MESSAGE;
+import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
 
 public class Utilities extends Fragment {
     ValueEventListener mMiscEventListener;
@@ -42,16 +43,31 @@ public class Utilities extends Fragment {
         SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         mEditor = sp.edit();
 
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(span(), StaggeredGridLayoutManager.VERTICAL);
         sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         utilitiesRecyclerView.setLayoutManager(sglm);
         utilitiesRecyclerView.setHasFixedSize(true);
 
-        mMessage = sp.getString(UTILITIES_MISC_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
+        mMessage = sp.getString(USER_PREFERENCES_MISC_CARD_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
         UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
         utilitiesRecyclerView.setAdapter(mUtilitiesAdapter);
 
         return view;
+    }
+
+    private int span() {
+
+        //Setup columns according to device screen
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up grid
+        int num = 180;
+        float t = dpWidth / num;
+        float r = dpWidth % num;
+        if (r < 0.1 * num)
+            return (int) Math.ceil(dpWidth / num);
+        else
+            return (int) t;
     }
 
     @Override
@@ -66,7 +82,7 @@ public class Utilities extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMessage = dataSnapshot.getValue(String.class);
-                mEditor.putString(UTILITIES_MISC_MESSAGE, mMessage);
+                mEditor.putString(USER_PREFERENCES_MISC_CARD_MESSAGE, mMessage);
                 mEditor.apply();
             }
 

@@ -36,7 +36,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/viewholder_map_format_title"
+            android:layout_below="@+id/viewholder_map_format_title"
             android:layout_marginTop="8dp"
             android:foregroundGravity="center"
             android:padding="8dp"

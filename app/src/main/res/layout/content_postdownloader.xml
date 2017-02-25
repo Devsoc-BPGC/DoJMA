@@ -1,25 +1,115 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorPrimary">
+
 
     <ImageView
-        android:id="@+id/loading_dojma"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="?defaultBackground"
-        android:scaleType="centerCrop"
-        android:src="@drawable/screen"
-        />
+        android:id="@+id/imageView"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/maclogopngsmall" />
 
     <TextView
-        android:id="@+id/post_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:text="LOADING..."
-        android:textColor="@color/white"/>
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="DoJMA Android App v2"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/content_post_downloader_start_btn"
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/white"
+        android:text=""
+        android:textColor="@color/colorPrimary"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.v7.widget.CardView
+
+        android:id="@+id/content_post_downloader_card"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:padding="0dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="80dp"
+        app:cardElevation="16dp"
+        app:contentPadding="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1">
+
+        <com.hookedonplay.decoviewlib.DecoView
+            android:id="@+id/content_post_downloader_circle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:dv_lineWidth="12dp"
+            app:dv_rotateAngle="180"
+            app:dv_totalAngle="360"
+            app:theme="@style/AppTheme" />
+
+        <ImageView
+            android:id="@+id/content_post_downloader_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="40dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="@+id/content_post_downloader_card"
+            app:layout_constraintLeft_toLeftOf="@+id/content_post_downloader_card"
+            app:layout_constraintRight_toRightOf="@+id/content_post_downloader_card"
+            app:layout_constraintTop_toTopOf="@+id/content_post_downloader_card" />
 
 
-</RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextSwitcher
+        android:id="@+id/content_post_downloader_status_switcher"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/content_post_downloader_start_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_post_downloader_card"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</android.support.constraint.ConstraintLayout>

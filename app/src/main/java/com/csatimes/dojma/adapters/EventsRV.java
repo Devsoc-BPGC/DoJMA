@@ -7,13 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.utilities.ColorList;
+import com.csatimes.dojma.viewholders.EventItemViewHolder;
 
 import java.util.Date;
 
@@ -23,7 +21,7 @@ import io.realm.RealmList;
  * Adapter for Events section
  */
 
-public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder> {
+public class EventsRV extends RecyclerView.Adapter<EventItemViewHolder> {
 
     private RealmList<EventItem> mEventItems;
     private Date mCurrentDate;
@@ -36,17 +34,17 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
     }
 
     @Override
-    public EventsRV.EventItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the custom layout
         View event_item_format = inflater.inflate(R.layout.item_format_event, parent, false);
         // Return a new holder instance
-        return new EventsRV.EventItemViewHolder(event_item_format);
+        return new EventItemViewHolder(event_item_format, mContext);
     }
 
     @Override
-    public void onBindViewHolder(final EventsRV.EventItemViewHolder holder, int position) {
+    public void onBindViewHolder(EventItemViewHolder holder, int position) {
 
         holder.title.setText(mEventItems.get(position).getTitle());
         holder.desc.setText(mEventItems.get(position).getDesc());
@@ -115,38 +113,4 @@ public class EventsRV extends RecyclerView.Adapter<EventsRV.EventItemViewHolder>
         return mEventItems.size();
     }
 
-    class EventItemViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView desc;
-        TextView dateTime;
-        TextView location;
-        ImageView status;
-        View up;
-        View down;
-
-
-        EventItemViewHolder(final View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.item_format_event_title);
-            desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
-            dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
-            location = (TextView) itemView.findViewById(R.id.item_format_event_location);
-            status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);
-            up = itemView.findViewById(R.id.item_format_event_dot_upper);
-            down = itemView.findViewById(R.id.item_format_event_dot_lower);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mEventItems.get(getAdapterPosition()).getStartDateObj() != null && mEventItems.get(getAdapterPosition()).getStartDateObj().getTime() - mCurrentDate.getTime() >= 0) {
-                       //TODO set alarm
-                    } else {
-                        Toast.makeText(mContext, "Cannot set reminder for old event", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-        }
-
-    }
 }

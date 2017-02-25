@@ -29,25 +29,54 @@ import java.io.File;
  */
 public class DHC {
 
+
     public static final String USER_PREFERENCES = "USER_PREFS";
+    public static final String PACKAGE_NAME = "com.csatimes.dojma";
+    public static final String USER_PREFERENCES_NAVBAR_TITLE = "USER_PREFS_NAVBAR_TITLE";
+    public static final String USER_PREFERENCES_NAVBAR_IMAGE_URL = "USER_PREFS_NAVBAR_IMAGE_URL";
+
+    public static final String USER_PREFERENCES_MISC_CARD_MESSAGE = "USER_PREFS_NAVBAR_IMAGE_URL";
 
     public static final String DoJMA_FACEBOOK_URL = "https://www.facebook.com/DoJMABITSGoa";
     public static final String DoJMA_FACEBOOK_PAGE_ID = "DoJMABITSGoa";
     public static final String BITS_GOA_LCD_LINK = "http://cc.bits-goa.ac.in/enotice/Lcd.php";
     public static final String REALM_DOJMA_DATABASE = "DOJMA_DATABASE";
 
-    public static final String UPDATE_SERVICE_DOWNLOAD_SUCCESS = "com.csatimes.dojma.update.service.dns";
-    public static final String UPDATE_SERVICE_NO_SUCCESS = "com.csatimes.dojma.update.service.ns";
-    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://csatimes.co.in/dojma/page/";
+    public static final String UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.dns";
+    public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.ns";
+    public static final String UPDATE_SERVICE_INTENT_PAGES = PACKAGE_NAME + ".services.updatecheckerservice.extra.int.pages";
+    public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = PACKAGE_NAME + ".services.updatecheckerservice.extra.boolean.notifications";
+    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald.org/blog/page/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
-    public static final String UTILITIES_MISC_MESSAGE = "miscMessage";
+
+    /**
+     * Reference names of the firebase database hierarchy
+     */
+    public static final String FIREBASE_DATABASE_REFERENCE_GAZETTES = "gazettes2";
+    public static final String FIREBASE_DATABASE_REFERENCE_EVENTS = "events2";
+    public static final String FIREBASE_DATABASE_REFERENCE_CONTACTS = "contacts";
+    public static final String FIREBASE_DATABASE_REFERENCE_LINKS = "links";
+    public static final String FIREBASE_DATABASE_REFERENCE_MESS = "mess";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR = "navbar";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE = "title";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL = "image";
+    public static final String FIREBASE_DATABASE_REFERENCE_POSTERS = "posters";
+    public static final String FIREBASE_DATABASE_REFERENCE_MISC_CARD = "miscCard";
+    public static final String FIREBASE_DATABASE_REFERENCE_TAXI = "taxi";
 
     public static final int REQUEST_WRITE_PERMISSION = 400;
 
     public static final int UPDATE_SERVICE_PENDING_INTENT_CODE = 243;
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
-    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 16;
+    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 23;
+
+    /**
+     * Used for defining the different view types in
+     * {@link com.csatimes.dojma.adapters.SearchAdapter}
+     * Notice that {@link DHC#CONTACT_ITEM_TYPE_TITLE} and {@link DHC#CONTACT_ITEM_TYPE_CONTACT}
+     * are also included in this series
+     */
 
     public static final int SEARCH_ITEM_TYPE_TITLE = 0;
     public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE = 1;
@@ -74,11 +103,34 @@ public class DHC {
     public static final int MAIN_ACTIVITY_EVENTS_POS = 2;
     public static final int MAIN_ACTIVITY_UTILITIES_POS = 3;
 
+    public static final int ALARM_RECEIVER_REQUEST_CODE = 75;
+    public static final String ALARM_RECEIVER_ACTION_UPDATE = PACKAGE_NAME + ".services.alarmreceiver.action.update";
 
+    /**
+     * General purpose log printing method where TAG is <b>{@value DHC#PACKAGE_NAME}</b>
+     * @param message Log message
+     */
     public static void log(String message) {
-        Log.e("com.csatimes.dojma", message);
+        Log.e(PACKAGE_NAME, message);
     }
 
+    /**
+     * Specific purpose log printing method where TAG is mentioned as one of the arg
+     * @param tag Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param message Log message
+     */
+    public static void log(String tag, String message) {
+        Log.e(PACKAGE_NAME + "." + tag, message);
+    }
+
+    /**
+     * Get a colored snackbar with time period {@code Snackbar.LENGTH_SHORT}
+     * @param view View paramter to Snackbar
+     * @param s Message to be shown
+     * @param bgColor Background color in value {@code int}
+     * @param textColor Text color. Value in {@code int}
+     * @return Snackbar object with the specified text,colors
+     */
     public static Snackbar makeCustomSnackbar(View view, String s, int bgColor, int textColor) {
         Snackbar snackbar = Snackbar.make(view, s, Snackbar.LENGTH_SHORT);
         snackbar.getView().setBackgroundColor(bgColor);
@@ -87,6 +139,14 @@ public class DHC {
         return snackbar;
     }
 
+    /**
+     * Utility function to check whether device is connected to the internet
+     * @param context Context object. eg. {@code this} if in Activity/Service or
+     * {@code getContext()} if calling from a fragment.
+     *
+     * NOTE: Does not check if internet is working fine or not
+     * @return {@code true} if connected, {@code false} otherwise
+     */
     public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
                 .CONNECTIVITY_SERVICE);
@@ -95,6 +155,11 @@ public class DHC {
     }
 
 
+    /**
+     * Method to download gazette in the downloads folder
+     * @param context
+     * @param gi
+     */
     public static void getGazette(Activity context, GazetteItem gi) {
 
         // Here, thisActivity is the current activity

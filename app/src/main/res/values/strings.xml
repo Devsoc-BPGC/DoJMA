@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="SP_first_install">FIRST_TIME_INSTALL</string>
+    <string name="USER_PREFERENCES_FIRST_INSTALL">FIRST_TIME_INSTALL</string>
     <string name="SP_app_started">APP_STARTED</string>
     <string name="SP_chrome_install_status">CHROME_IS_INSTALLED</string>
 
@@ -141,5 +141,9 @@
     <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
     <string name="UTILITIES_MENU_title">Menus</string>
     <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
+    <string name="title_activity_issues">IssuesActivity</string>
+    <string name="item_format_herald_desc">Desc</string>
+    <string name="item_format_herald_date">Date</string>
+    <string name="item_format_herald_title">Title</string>
 
 </resources>
