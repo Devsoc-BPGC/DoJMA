@@ -4,11 +4,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -26,12 +24,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
@@ -60,9 +56,20 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import io.realm.Realm;
 
+import static android.app.AlarmManager.INTERVAL_DAY;
+import static android.app.AlarmManager.RTC_WAKEUP;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_ACTION_UPDATE;
+import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_REQUEST_CODE;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnTitleUpdateListener {
 
+
+    public final String TAG = "activities." + MainActivity.class.getSimpleName();
 
     DatabaseReference navBarRef = FirebaseDatabase.getInstance().getReference().child("navbar");
     ValueEventListener navBarListener;
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         setTheme();
         super.onCreate(savedInstanceState);
-        Log.e("TAG", FirebaseInstanceId.getInstance().getToken() + " ");
+        DHC.log(TAG, FirebaseInstanceId.getInstance().getToken());
         SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
 
         if (preferences.getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true)) {
@@ -96,7 +103,7 @@ public class MainActivity extends AppCompatActivity
             finish();
         }
 
-        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        landscape = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -115,11 +122,11 @@ public class MainActivity extends AppCompatActivity
         Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
         if (Build.VERSION.SDK_INT >= 19) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
         }
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
 
         setupViewPager(viewPager);
@@ -172,7 +179,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("currenItem", viewPager.getCurrentItem());
+        outState.putInt("currentItem", viewPager.getCurrentItem());
     }
 
     @Override
@@ -224,7 +231,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(android.content.Intent.EXTRA_TEXT, "https://issuu.com/bitsherald");
 
                 Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
-                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent, FLAG_UPDATE_CURRENT);
                 String copy_label = "Copy Link";
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                         .setShowTitle(true)
@@ -270,7 +277,7 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                String facebookUrl = getFacebookPageURL(this);
+                String facebookUrl = getFacebookPageURL();
                 facebookIntent.setData(Uri.parse(facebookUrl));
                 startActivity(facebookIntent);
 
@@ -284,7 +291,7 @@ public class MainActivity extends AppCompatActivity
 
             Intent copy_intent = new Intent(this, CopyLinkBroadcastReceiver.class);
             PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(this, 0, copy_intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    FLAG_UPDATE_CURRENT);
             String copy_label = "Copy Link";
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setShowTitle(true)
@@ -359,25 +366,24 @@ public class MainActivity extends AppCompatActivity
 
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction(DHC.ALARM_RECEIVER_ACTION_UPDATE);
+        intent.setAction(ALARM_RECEIVER_ACTION_UPDATE);
         // Create a PendingIntent to be triggered when the alarm goes off
-        //TODO Shift REQUEST CODEE to DHC
-        PendingIntent pIntent = PendingIntent.getBroadcast(this, DHC.ALARM_RECEIVER_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, ALARM_RECEIVER_REQUEST_CODE,
+                intent, FLAG_UPDATE_CURRENT);
         // Setup periodic alarm every 3 day
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
-        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         //Cancel old alarm
         alarm.cancel(pIntent);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                5 * AlarmManager.INTERVAL_DAY, pIntent);
+        alarm.setInexactRepeating(RTC_WAKEUP, firstMillis,
+                5 * INTERVAL_DAY, pIntent);
     }
 
     //method to get the right URL to use in the intent
-    public String getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
+    public String getFacebookPageURL() {
+        PackageManager packageManager = getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
             if (versionCode >= 3002850) { //newer versions of fb app

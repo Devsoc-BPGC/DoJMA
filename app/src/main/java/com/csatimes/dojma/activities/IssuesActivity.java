@@ -1,6 +1,7 @@
 package com.csatimes.dojma.activities;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,7 @@ public class IssuesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issues);
 
@@ -40,6 +42,18 @@ public class IssuesActivity extends AppCompatActivity {
         }
         issuesListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titlesList));
 
+    }
+
+    /**
+     * Set activity theme
+     */
+    private void setTheme() {
+        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
+        if (mode) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     @Override

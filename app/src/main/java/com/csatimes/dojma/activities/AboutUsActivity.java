@@ -72,28 +72,6 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         ArrayList<String> foo = new ArrayList<>();
         foo.add("Vikramaditya Kukreja");
         foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
-        foo.add("Vikramaditya Kukreja");
-        foo.add("Yash Sharan");
         return foo;
     }
 

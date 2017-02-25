@@ -59,6 +59,7 @@ import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_POSTE
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TAXI;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_NO_SUCCESS;
+import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_PAGES;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
@@ -144,8 +145,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.statusBarColor));
-            window.setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
         }
 
 
@@ -536,6 +535,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                 mEditor.putBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), false);
                 mEditor.apply();
                 Intent updateIntent = new Intent(this, UpdateCheckerService.class);
+                updateIntent.putExtra(UPDATE_SERVICE_INTENT_PAGES, UPDATE_SERVICE_HERALD_DEFAULT_PAGES);
                 startService(updateIntent);
                 startActivity(intent);
                 finish();
