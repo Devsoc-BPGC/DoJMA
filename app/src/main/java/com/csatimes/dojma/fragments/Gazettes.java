@@ -131,7 +131,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
                             }
                         });
                     } catch (Exception e) {
-                        DHC.log(TAG, "Exception in parsing value at " + dataSnapshot.getKey());
+                        DHC.e(TAG, "Exception in parsing value at " + dataSnapshot.getKey());
                     }
                 }
                 mDataSet.clear();
@@ -142,7 +142,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "Database error " + databaseError.getMessage() + " " + databaseError.getDetails());
+                DHC.e(TAG, "Database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }

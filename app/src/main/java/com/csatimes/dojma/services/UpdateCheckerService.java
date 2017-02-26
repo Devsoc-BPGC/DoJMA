@@ -99,14 +99,14 @@ public class UpdateCheckerService extends IntentService {
 
             int defaultPages = defaultPagesToDownload != -1 ? defaultPagesToDownload - 1 : preferences.getInt(DHC.UPDATE_SERVICE_HERALD_PAGES, DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES);
 
-            DHC.log(TAG, "defaultPagesToDownload " + defaultPagesToDownload + " and enableNotifications " + enableNotifications);
+            DHC.e(TAG, "defaultPagesToDownload " + defaultPagesToDownload + " and enableNotifications " + enableNotifications);
 
 
             for (int j = 0; j <= defaultPages; j++) {
                 try {
                     //Handle malformed URL exception
                     URL url = new URL(urlPrefix + j + urlSuffix);
-                    DHC.log(TAG,url.toString());
+                    DHC.e(TAG,url.toString());
 
                     // Read all the text returned by the server
                     String response = getServerResponse(url);
@@ -164,7 +164,7 @@ public class UpdateCheckerService extends IntentService {
                                             entry.setImageURL(imageUrl);
                                         } catch (Exception e) {
                                             entry.setImageURL("");
-                                            DHC.log(TAG, "Could not get thumbnail");
+                                            DHC.e(TAG, "Could not get thumbnail");
                                         }
 
 
@@ -172,7 +172,7 @@ public class UpdateCheckerService extends IntentService {
                                             entry.setUpdateDate(post.getString("modified").substring(0, 10));
                                             entry.setUpdateTime(post.getString("modified").substring(11));
                                         } catch (Exception e) {
-                                            DHC.log(TAG, "Modified date does not exist yet");
+                                            DHC.e(TAG, "Modified date does not exist yet");
                                             entry.setUpdateDate(entry.getOriginalDate());
                                             entry.setUpdateTime(entry.getOriginalTime());
                                         }
@@ -188,16 +188,16 @@ public class UpdateCheckerService extends IntentService {
                                         if (foobar == null)
                                             mDownloads++;
                                     } catch (Exception e) {
-                                        DHC.log(TAG, "wrong json format " + e.getMessage());
+                                        DHC.e(TAG, "wrong json format " + e.getMessage());
                                     }
                                 }
                             });
                         }
                     }
                 } catch (JSONException e) {
-                    DHC.log(TAG, "json parse error " + e.getMessage());
+                    DHC.e(TAG, "json parse error " + e.getMessage());
                 } catch (IOException e) {
-                    DHC.log(TAG, "IOException/MalformedURL " + e.getMessage());
+                    DHC.e(TAG, "IOException/MalformedURL " + e.getMessage());
                 }
 
             }

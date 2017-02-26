@@ -16,7 +16,7 @@
             android:id="@+id/activity_links_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?defaultBackground"
+            android:background="?colorPrimary"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="@style/AppTheme.PopupOverlay"

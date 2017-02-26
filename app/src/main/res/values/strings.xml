@@ -145,5 +145,6 @@
     <string name="item_format_herald_desc">Desc</string>
     <string name="item_format_herald_date">Date</string>
     <string name="item_format_herald_title">Title</string>
+    <string name="menu_main_refresh_herald">Refresh</string>
 
 </resources>

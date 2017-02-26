@@ -103,7 +103,7 @@ public class EventItem extends RealmObject {
             try {
                 startDateFormatted = sdf.format(date);
             } catch (Exception e) {
-                DHC.log(TAG, "dd MMM parse error");
+                DHC.e(TAG, "dd MMM parse error");
                 startDateFormatted = null;
             }
 
@@ -114,7 +114,7 @@ public class EventItem extends RealmObject {
             try {
                 startTimeFormatted = sdf.format(date);
             } catch (Exception e) {
-                DHC.log(TAG, "h:mm a parse error");
+                DHC.e(TAG, "h:mm a parse error");
                 startTimeFormatted = null;
             }
 

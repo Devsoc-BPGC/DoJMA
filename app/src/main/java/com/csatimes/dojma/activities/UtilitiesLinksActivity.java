@@ -143,7 +143,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
                             }
                         });
                     } catch (Exception ignore) {
-                        DHC.log(TAG, "parse error in link item");
+                        DHC.e(TAG, "parse error in link item");
                     }
                 }
 
@@ -158,7 +158,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
+                DHC.e(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }

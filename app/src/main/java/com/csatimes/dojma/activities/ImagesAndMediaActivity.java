@@ -139,7 +139,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
                 mPosterItems.clear();
                 for (DataSnapshot childShot : dataSnapshot.getChildren()) {
                     try {
-                        DHC.log(TAG,"Added poster");
+                        DHC.e(TAG,"Added poster");
                         mPosterItems.add(childShot.getValue(PosterItem.class));
                         mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -150,7 +150,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
                             }
                         });
                     } catch (Exception e) {
-                       DHC.log(TAG, "Poster parse exception");
+                       DHC.e(TAG, "Poster parse exception");
                     }
                 }
                 if (mPosterItems.size() == 0) {
@@ -164,7 +164,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG,"onDatabaseError " + databaseError.getMessage());
+                DHC.e(TAG,"onDatabaseError " + databaseError.getMessage());
             }
         };
     }

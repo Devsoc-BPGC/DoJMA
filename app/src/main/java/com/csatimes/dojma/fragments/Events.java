@@ -121,7 +121,7 @@ public class Events extends Fragment {
                         onChildChanged(dataSnapshot, s);
                     }
                 } catch (Exception e) {
-                    DHC.log(TAG, "parse error of event in Events");
+                    DHC.e(TAG, "parse error of event in Events");
                 }
             }
 
@@ -148,7 +148,7 @@ public class Events extends Fragment {
                         });
                         mEventsAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        DHC.log(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
+                        DHC.e(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
                         e.printStackTrace();
                     }
             }
@@ -171,18 +171,18 @@ public class Events extends Fragment {
                         if (onTitleUpdateListener != null)
                             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
 
-                    } else DHC.log(TAG, "position " + position);
-                } else DHC.log(TAG, "Deleted item was not in database ");
+                    } else DHC.e(TAG, "position " + position);
+                } else DHC.e(TAG, "Deleted item was not in database ");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DHC.log(TAG, dataSnapshot.getKey() + " has been moved" + s);
+                DHC.e(TAG, dataSnapshot.getKey() + " has been moved" + s);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "database Error " + databaseError.getMessage());
+                DHC.e(TAG, "database Error " + databaseError.getMessage());
             }
         };
     }

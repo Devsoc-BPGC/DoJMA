@@ -30,10 +30,18 @@ import java.io.File;
 public class DHC {
 
 
+    public static final String DoJMA = "DoJMA";
+    public static final String MAC = "Mobile Applications Club";
+
     public static final String USER_PREFERENCES = "USER_PREFS";
     public static final String PACKAGE_NAME = "com.csatimes.dojma";
+
+    //MainActivity UI codes
     public static final String USER_PREFERENCES_NAVBAR_TITLE = "USER_PREFS_NAVBAR_TITLE";
     public static final String USER_PREFERENCES_NAVBAR_IMAGE_URL = "USER_PREFS_NAVBAR_IMAGE_URL";
+    public static final String USER_PREFERENCES_TOOLBAR_TITLE = "USER_PREFS_TOOLBAR_TITLE";
+    public static final String USER_PREFERENCES_TOOLBAR_SUBTITLE = "USER_PREFS_TOOLBAR_SUBTITLE";
+    public static final String USER_PREFERENCES_TOOLBAR_IMAGE_URL = "USER_PREFS_TOOLBAR_IMAGE_URL";
 
     public static final String USER_PREFERENCES_MISC_CARD_MESSAGE = "USER_PREFS_NAVBAR_IMAGE_URL";
 
@@ -50,20 +58,22 @@ public class DHC {
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
 
-    /**
-     * Reference names of the firebase database hierarchy
-     */
+    //Reference names of the firebase database hierarchy
     public static final String FIREBASE_DATABASE_REFERENCE_GAZETTES = "gazettes2";
     public static final String FIREBASE_DATABASE_REFERENCE_EVENTS = "events2";
     public static final String FIREBASE_DATABASE_REFERENCE_CONTACTS = "contacts";
     public static final String FIREBASE_DATABASE_REFERENCE_LINKS = "links";
     public static final String FIREBASE_DATABASE_REFERENCE_MESS = "mess";
-    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR = "navbar";
-    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE = "title";
-    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL = "image";
     public static final String FIREBASE_DATABASE_REFERENCE_POSTERS = "posters";
     public static final String FIREBASE_DATABASE_REFERENCE_MISC_CARD = "miscCard";
     public static final String FIREBASE_DATABASE_REFERENCE_TAXI = "taxi";
+    //Reference to UI part of MainActivity
+    public static final String FIREBASE_DATABASE_REFERENCE_UI = "ui";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE = "navbarTitle";
+    public static final String FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL = "navbarImage";
+    public static final String FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE = "toolbarTitle";
+    public static final String FIREBASE_DATABASE_REFERENCE_TOOLBAR_SUBTITLE = "toolbarSubtitle";
+    public static final String FIREBASE_DATABASE_REFERENCE_TOOLBAR_IMAGE_URL = "toolbarImage";
 
     public static final int REQUEST_WRITE_PERMISSION = 400;
 
@@ -71,13 +81,14 @@ public class DHC {
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
     public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 23;
 
+    public static final String CONTACTS_SHOW_TAXI_DATA = "showTaxiData";
+
     /**
      * Used for defining the different view types in
      * {@link com.csatimes.dojma.adapters.SearchAdapter}
      * Notice that {@link DHC#CONTACT_ITEM_TYPE_TITLE} and {@link DHC#CONTACT_ITEM_TYPE_CONTACT}
      * are also included in this series
      */
-
     public static final int SEARCH_ITEM_TYPE_TITLE = 0;
     public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE = 1;
     public static final int SEARCH_ITEM_TYPE_HERALD_ARTICLE = 2;
@@ -107,27 +118,76 @@ public class DHC {
     public static final String ALARM_RECEIVER_ACTION_UPDATE = PACKAGE_NAME + ".services.alarmreceiver.action.update";
 
     /**
-     * General purpose log printing method where TAG is <b>{@value DHC#PACKAGE_NAME}</b>
+     * Log printing method where TAG is mentioned as one of the arg
+     * and the <b>Info</b> level is used
+     *
      * @param message Log message
      */
     public static void log(String message) {
-        Log.e(PACKAGE_NAME, message);
+        Log.i(PACKAGE_NAME, message);
+    }
+
+    /**
+     * Log printing method where TAG is mentioned as one of the arg
+     * and the <b>Verbose</b> level is used
+     *
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param message Log message
+     */
+    public static void v(String tag, String message) {
+        Log.v(PACKAGE_NAME + "." + tag, message);
+    }
+
+    /**
+     * Log printing method where TAG is mentioned as one of the arg
+     * and the <b>Debug</b> level is used
+     *
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param message Log message
+     */
+    public static void d(String tag, String message) {
+        Log.d(PACKAGE_NAME + "." + tag, message);
+    }
+
+    /**
+     * Log printing method where TAG is mentioned as one of the arg
+     * and the <b>Info</b> level is used
+     *
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param message Log message
+     */
+    public static void i(String tag, String message) {
+        Log.i(PACKAGE_NAME + "." + tag, message);
+    }
+
+    /**
+     * Log printing method where TAG is mentioned as one of the arg
+     * and the <b>Warn</b> level is used
+     *
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param message Log message
+     */
+    public static void w(String tag, String message) {
+        Log.w(PACKAGE_NAME + "." + tag, message);
     }
 
     /**
      * Specific purpose log printing method where TAG is mentioned as one of the arg
-     * @param tag Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * and the <b>Error</b> level is used
+     *
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
      * @param message Log message
      */
-    public static void log(String tag, String message) {
+    public static void e(String tag, String message) {
         Log.e(PACKAGE_NAME + "." + tag, message);
     }
 
     /**
      * Get a colored snackbar with time period {@code Snackbar.LENGTH_SHORT}
-     * @param view View paramter to Snackbar
-     * @param s Message to be shown
-     * @param bgColor Background color in value {@code int}
+     *
+     * @param view      View paramter to Snackbar
+     * @param s         Message to be shown
+     * @param bgColor   Background color in value {@code int}
      * @param textColor Text color. Value in {@code int}
      * @return Snackbar object with the specified text,colors
      */
@@ -141,10 +201,11 @@ public class DHC {
 
     /**
      * Utility function to check whether device is connected to the internet
-     * @param context Context object. eg. {@code this} if in Activity/Service or
-     * {@code getContext()} if calling from a fragment.
      *
-     * NOTE: Does not check if internet is working fine or not
+     * @param context Context object. eg. {@code this} if in Activity/Service or
+     *                {@code getContext()} if calling from a fragment.
+     *                <p>
+     *                NOTE: Does not check if internet is working fine or not
      * @return {@code true} if connected, {@code false} otherwise
      */
     public static boolean isOnline(Context context) {
@@ -157,8 +218,9 @@ public class DHC {
 
     /**
      * Method to download gazette in the downloads folder
-     * @param context
-     * @param gi
+     *
+     * @param context context
+     * @param gi      Gazette item to download
      */
     public static void getGazette(Activity context, GazetteItem gi) {
 
