@@ -9,20 +9,18 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -31,6 +29,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.adapters.SlideshowPagerAdapter;
 import com.csatimes.dojma.adapters.ViewPagerAdapter;
 import com.csatimes.dojma.fragments.Events;
 import com.csatimes.dojma.fragments.Gazettes;
@@ -38,11 +37,12 @@ import com.csatimes.dojma.fragments.Herald;
 import com.csatimes.dojma.fragments.Utilities;
 import com.csatimes.dojma.interfaces.OnTitleUpdateListener;
 import com.csatimes.dojma.models.EventItem;
-import com.csatimes.dojma.services.AlarmReceiver;
+import com.csatimes.dojma.models.SlideshowItem;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.csatimes.dojma.services.UpdateCheckerService;
 import com.csatimes.dojma.utilities.CustomTabActivityHelper;
 import com.csatimes.dojma.utilities.DHC;
+import com.csatimes.dojma.utilities.StackTransformer;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +52,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import io.realm.Realm;
+import io.realm.RealmList;
+import me.relex.circleindicator.CircleIndicator;
 
 import static android.app.AlarmManager.INTERVAL_DAY;
 import static android.app.AlarmManager.RTC_WAKEUP;
@@ -73,6 +75,7 @@ import static com.csatimes.dojma.utilities.DHC.DoJMA_FACEBOOK_PAGE_ID;
 import static com.csatimes.dojma.utilities.DHC.DoJMA_FACEBOOK_URL;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE;
+import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR_SUBTITLE;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE;
@@ -84,39 +87,39 @@ import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_UTILITIES_POS;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
-import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_TOOLBAR_IMAGE_URL;
-import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_TOOLBAR_SUBTITLE;
-import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_TOOLBAR_TITLE;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity
+        extends BaseActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        OnTitleUpdateListener,
-        AppBarLayout.OnOffsetChangedListener,
-        ViewPager.OnPageChangeListener {
+        OnTitleUpdateListener {
 
+    /**
+     * Logging Tag for this class.
+     */
+    private final String TAG = "activities." + MainActivity.class.getSimpleName();
 
-    public final String TAG = "activities." + MainActivity.class.getSimpleName();
-
+    /**
+     * By default landscape is assumed to be false.
+     */
     private boolean landscape = false;
 
-    private DatabaseReference mNavBarRef = FirebaseDatabase.getInstance().getReference().child(FIREBASE_DATABASE_REFERENCE_UI);
+    private DatabaseReference mUIReference = FirebaseDatabase.getInstance().getReference().child(FIREBASE_DATABASE_REFERENCE_UI);
     private DrawerLayout mDrawerLayout;
+    private Realm mDatabase;
     private SimpleDraweeView mNavBarImage;
-    private SimpleDraweeView mToolbarBackground;
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
-    private Toolbar mToolbar;
+    private SlideshowPagerAdapter mSlideshowPagerAdapter;
+    private RealmList<SlideshowItem> mSlideshowItems;
     private TabLayout mFragmentsTabLayout;
-    private TextView mToolbarTitle;
-    private TextView mToolbarSubTitle;
     private TextView mNavBarTitle;
-    private ValueEventListener mNavBarListener;
+    private ValueEventListener mUIListener;
     private ViewPager mFragmentsViewPager;
+    private ViewPager mSlideShowViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DHC.e(TAG, FirebaseInstanceId.getInstance().getToken() + "");
         mPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
@@ -130,17 +133,15 @@ public class MainActivity extends AppCompatActivity
         landscape = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_home_appbar_layout);
+        CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.app_bar_vp_indicator);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mFragmentsTabLayout = (TabLayout) findViewById(R.id.app_bar_home_tabs);
         mFragmentsViewPager = (ViewPager) findViewById(R.id.app_bar_home_viewpager);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
         mNavBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
-        mToolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
-        mToolbarBackground = (SimpleDraweeView) findViewById(R.id.app_bar_home_toolbar_background);
-        mToolbarTitle = (TextView) findViewById(R.id.app_bar_home_text_title);
-        mToolbarSubTitle = (TextView) findViewById(R.id.app_bar_home_text_subtitle);
+        mSlideShowViewPager = (ViewPager) findViewById(R.id.app_bar_home_slideshow_vp);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
 
         setSupportActionBar(mToolbar);
 
@@ -155,10 +156,8 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
-
-        setupViewPager(mFragmentsViewPager);
-        //Tablyout setup is called only after the viewpager is ready
-        mFragmentsTabLayout.setupWithViewPager(mFragmentsViewPager);
+        setupViewPagers();
+        circleIndicator.setViewPager(mSlideShowViewPager);
 
         //Custom method to set icons for the tabs
         setupTabIcons();
@@ -183,37 +182,35 @@ public class MainActivity extends AppCompatActivity
         mEditor = mPreferences.edit();
 
         mDrawerLayout.addDrawerListener(toggle);
-        appBarLayout.addOnOffsetChangedListener(this);
-        mFragmentsViewPager.addOnPageChangeListener(this);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode) {
-            setTheme(R.style.AppThemeDark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mFragmentsViewPager.requestFocus();
+        boolean alarmUp = (PendingIntent.getBroadcast(this, ALARM_RECEIVER_REQUEST_CODE,
+                new Intent(ALARM_RECEIVER_ACTION_UPDATE),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if (alarmUp) {
+            DHC.e(TAG, "Alarm is already active");
+        } else DHC.e(TAG, "Not set");
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mNavBarListener = returnImageChangeListener();
-        mNavBarRef.addValueEventListener(mNavBarListener);
+        mUIListener = returnImageChangeListener();
+        mUIReference.addListenerForSingleValueEvent(mUIListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mNavBarRef.removeEventListener(mNavBarListener);
+        mUIReference.removeEventListener(mUIListener);
         mEditor.apply();
     }
 
@@ -222,10 +219,11 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         if (!getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE).getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true))
             scheduleAlarmForUpdateService();
+        mDatabase.close();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("currentItem", mFragmentsViewPager.getCurrentItem());
     }
@@ -240,7 +238,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
@@ -252,7 +250,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
@@ -265,8 +263,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, AboutDojmaActivity.class);
             startActivity(intent);
         } else if (id == R.id.action_refresh_herald) {
-            Intent intent = new Intent(this, UpdateCheckerService.class);
-            startService(intent);
+            if (!UpdateCheckerService.isInstanceCreated()) {
+                Intent intent = new Intent(this, UpdateCheckerService.class);
+                startService(intent);
+            } else {
+                DHC.makeCustomSnackbar(mFragmentsViewPager, "Checking for updates", getPrimaryColorFromTheme(), Color.WHITE).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -274,7 +276,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -290,7 +292,7 @@ public class MainActivity extends AppCompatActivity
             String copy_label = "Copy Link";
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setShowTitle(true)
-                    .setToolbarColor(getChromeCustomTabColorFromTheme())
+                    .setToolbarColor(getPrimaryColorFromTheme())
                     .setCloseButtonIcon(BitmapFactory.decodeResource(this.getResources(),
                             R.drawable.ic_arrow_back_white_24dp))
                     .addMenuItem(copy_label, copy_pendingIntent)
@@ -349,7 +351,7 @@ public class MainActivity extends AppCompatActivity
             String copy_label = "Copy Link";
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setShowTitle(true)
-                    .setToolbarColor(getChromeCustomTabColorFromTheme())
+                    .setToolbarColor(getPrimaryColorFromTheme())
                     .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp))
                     .addMenuItem(copy_label, copy_pendingIntent)
                     .addDefaultShareMenuItem()
@@ -378,7 +380,7 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    private int getChromeCustomTabColorFromTheme() {
+    private int getPrimaryColorFromTheme() {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getTheme();
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
@@ -394,8 +396,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    //Setting up the View Pager with the fragments
-    private void setupViewPager(ViewPager viewPager) {
+    /**
+     * Setup both viewpagers, one for main fragments and the other for the slideshow.
+     */
+    private void setupViewPagers() {
+
+        mDatabase = Realm.getDefaultInstance();
+
+        //Setup up main Viewpager
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         Herald heraldFragment = new Herald();
@@ -405,27 +413,41 @@ public class MainActivity extends AppCompatActivity
 
         eventsFragments.setOnTitleUpdateListener(this);
 
-        Realm database = Realm.getDefaultInstance();
-
         adapter.addFragment(heraldFragment, "Herald", MAIN_ACTIVITY_HERALD_POS);
         adapter.addFragment(gazettesFragment, "Gazettes", MAIN_ACTIVITY_GAZETTES_POS);
-        adapter.addFragment(eventsFragments, "Events(" + database.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
+        adapter.addFragment(eventsFragments, "Events(" + mDatabase.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", MAIN_ACTIVITY_UTILITIES_POS);
 
-        viewPager.setAdapter(adapter);
-        database.close();
+        mFragmentsViewPager.setAdapter(adapter);
+        //Tablyout setup is called only after the viewpager is ready
+        mFragmentsTabLayout.setupWithViewPager(mFragmentsViewPager);
+
+        mSlideshowItems = new RealmList<>();
+        //Setup Slideshow viewpager
+        mSlideshowItems.addAll(mDatabase.where(SlideshowItem.class).findAll());
+        mSlideshowPagerAdapter = new SlideshowPagerAdapter(mSlideshowItems);
+        mSlideShowViewPager.setPageTransformer(false, new StackTransformer());
+        mSlideShowViewPager.setAdapter(mSlideshowPagerAdapter);
+
     }
 
     public void scheduleAlarmForUpdateService() {
 
         // Construct an intent that will execute the AlarmReceiver
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction(ALARM_RECEIVER_ACTION_UPDATE);
+        Intent intent = new Intent(ALARM_RECEIVER_ACTION_UPDATE);
         // Create a PendingIntent to be triggered when the alarm goes off
         PendingIntent pIntent = PendingIntent.getBroadcast(this, ALARM_RECEIVER_REQUEST_CODE,
                 intent, FLAG_UPDATE_CURRENT);
-        // Setup periodic alarm every 3 day
-        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+
+        long days = 5;
+        long hoursInADay = 24;
+        long minutesInAnHour = 60;
+        long secondsInAMinute = 60;
+        long millsInASecond = 1000;
+
+        long initialDelay = days * hoursInADay * minutesInAnHour * secondsInAMinute * millsInASecond;
+
+        long firstMillis = System.currentTimeMillis() + initialDelay; // alarm is set 5 days away
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         //Cancel old alarm
         alarm.cancel(pIntent);
@@ -453,13 +475,10 @@ public class MainActivity extends AppCompatActivity
     private ValueEventListener returnImageChangeListener() {
         return new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
 
                 DataSnapshot navBarTitleSnapshot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE);
                 DataSnapshot navBarImageUrlSnapshot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL);
-                DataSnapshot toolbarTitleSnapshot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE);
-                DataSnapshot toolbarSubtitleSnapshot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_SUBTITLE);
-                DataSnapshot toolbarImageUrlSnapshot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_IMAGE_URL);
 
                 if (navBarTitleSnapshot.exists()) {
                     String navBarTitle = navBarTitleSnapshot.getValue(String.class);
@@ -469,68 +488,60 @@ public class MainActivity extends AppCompatActivity
                     String navBarImageUrl = navBarImageUrlSnapshot.getValue(String.class);
                     mEditor.putString(USER_PREFERENCES_NAVBAR_IMAGE_URL, navBarImageUrl);
                 }
-                if (toolbarTitleSnapshot.exists()) {
-                    String toolbarTitle = toolbarTitleSnapshot.getValue(String.class);
-                    mEditor.putString(USER_PREFERENCES_TOOLBAR_TITLE, toolbarTitle);
-                }
-                if (toolbarSubtitleSnapshot.exists()) {
-                    String toolbarSubtitle = toolbarSubtitleSnapshot.getValue(String.class);
-                    mEditor.putString(USER_PREFERENCES_TOOLBAR_SUBTITLE, toolbarSubtitle);
-                }
-                if (toolbarImageUrlSnapshot.exists()) {
-                    String toolbarImageUrl = toolbarImageUrlSnapshot.getValue(String.class);
-                    mEditor.putString(USER_PREFERENCES_TOOLBAR_IMAGE_URL, toolbarImageUrl);
-                }
-
                 mEditor.apply();
 
                 mNavBarTitle.setText(mPreferences.getString(USER_PREFERENCES_NAVBAR_TITLE, DoJMA));
                 mNavBarImage.setImageURI(mPreferences.getString(USER_PREFERENCES_NAVBAR_IMAGE_URL, ""));
-                mToolbarTitle.setText(mPreferences.getString(USER_PREFERENCES_TOOLBAR_TITLE, DoJMA));
-                mToolbarSubTitle.setText(mPreferences.getString(USER_PREFERENCES_TOOLBAR_SUBTITLE, "v2"));
-                mToolbarBackground.setImageURI(mPreferences.getString(USER_PREFERENCES_TOOLBAR_IMAGE_URL, ""));
+
+
+                DataSnapshot toolbarSnapShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR);
+                mDatabase.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.delete(SlideshowItem.class);
+                    }
+                });
+
+                for (DataSnapshot childShot : toolbarSnapShot.getChildren()) {
+                    final String title, subtitle, imageUrl;
+                    if (childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE).exists())
+                        title = childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE).getValue(String.class);
+                    else title = "";
+                    if (childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_SUBTITLE).exists())
+                        subtitle = childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_SUBTITLE).getValue(String.class);
+                    else subtitle = "";
+                    if (childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_IMAGE_URL).exists()) {
+                        imageUrl = childShot.child(FIREBASE_DATABASE_REFERENCE_TOOLBAR_IMAGE_URL).getValue(String.class);
+                        mDatabase.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                SlideshowItem foo = realm.createObject(SlideshowItem.class);
+                                foo.setTitle(title);
+                                foo.setSubTitle(subtitle);
+                                foo.setImageUrl(imageUrl);
+                            }
+                        });
+                    }
+                }
+                mSlideshowItems.clear();
+                mSlideshowItems.addAll(mDatabase.where(SlideshowItem.class).findAll());
+                mSlideshowPagerAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(final DatabaseError databaseError) {
                 DHC.e(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }
 
-    @Override
-    public void onTitleUpdate(String title, int pos) {
-        mFragmentsTabLayout.getTabAt(pos).setText(title);
-    }
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        int alpha = 255 * (appBarLayout.getTotalScrollRange() - mToolbar.getMeasuredHeight() + verticalOffset) / appBarLayout.getTotalScrollRange();
-        if (alpha > 230) mToolbarBackground.setImageAlpha(255);
-        else if (alpha < 0) mToolbarBackground.setImageAlpha(0);
-        else mToolbarBackground.setImageAlpha(alpha);
-    }
-
     /**
-     * This method is used to make Refresh menu item visible /invisible depending on tab position<br>
-     * If tab position = {@value DHC#MAIN_ACTIVITY_HERALD_POS} then Refresh menu item is shown
-     *
-     * @param position             current tab position
-     * @param positionOffset       offset from base
-     * @param positionOffsetPixels offset from base in px
+     * An interface callback that notifies if the title of a tab needs to be updated.
+     * @param title Updated title
+     * @param pos Position to update
      */
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    public void onTitleUpdate(final String title, final int pos) {
+        mFragmentsTabLayout.getTabAt(pos).setText(title);
     }
 }

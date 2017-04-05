@@ -1,6 +1,7 @@
 package com.csatimes.dojma.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,18 +46,19 @@ public class Events extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_events, container, false);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mEventsRecyclerView = (RecyclerView) view.findViewById(R.id.events_recycler_view);
         mErrorText = (TextView) view.findViewById(R.id.error_text_view);
 
         mEventsRecyclerView.setHasFixedSize(true);
         mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        return view;
     }
-
 
     @Override
     public void onStart() {

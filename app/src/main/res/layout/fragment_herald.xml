@@ -7,8 +7,19 @@
     android:focusableInTouchMode="true"
     tools:context="com.csatimes.dojma.fragments.Herald">
 
+    <TextView
+        android:id="@+id/fragment_herald_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Press &#x21bb; to check for updates"
+        android:textSize="20sp" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/herald_recycler_view"
+        android:id="@+id/fragment_herald_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contextClickable="true"

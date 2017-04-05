@@ -176,11 +176,19 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     civh.contactEmail.setVisibility(GONE);
                 } else civh.contactEmail.setVisibility(VISIBLE);
 
-                if (ci.getSub1() != null)
+                if (ci.getSub1() != null) {
+                    civh.contactSub1.setVisibility(View.VISIBLE);
                     civh.contactSub1.setText(ci.getSub1());
+                } else {
+                    civh.contactSub1.setVisibility(View.GONE);
+                }
 
-                if (ci.getSub2() != null)
+                if (ci.getSub2() != null) {
+                    civh.contactSub1.setVisibility(View.VISIBLE);
                     civh.contactSub2.setText(ci.getSub2());
+                } else {
+                    civh.contactSub1.setVisibility(View.INVISIBLE);
+                }
 
                 if (ci.getIcon() != null) {
                     civh.contactIcon.setImageURI(Uri.parse(ci.getIcon()));
@@ -210,7 +218,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void setColor(EventItem ei, EventItemViewHolder eivh) {
+    private void setColor(final EventItem ei, final EventItemViewHolder eivh) {
         if (ei.getStartDateObj() != null) {
             long diff = -mCurrentDate.getTime() + ei.getStartDateObj().getTime();
             int color;
@@ -231,7 +239,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private int getColorFromDate(long diff) {
+    private int getColorFromDate(final long diff) {
         int color;
         long DAY = 24 * 60 * 60 * 1000;
         if (diff > 0 && diff <= DAY) {

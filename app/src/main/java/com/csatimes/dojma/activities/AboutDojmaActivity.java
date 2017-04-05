@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 
-public class AboutDojmaActivity extends AppCompatActivity {
+public class AboutDojmaActivity extends BaseActivity {
 
     String html = "\n" +
             "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><html><head><META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body><p>We at <i><b>The Department of Journalism and Media Affairs</b></i>, BITS Pilani K.K. Birla Goa Campus (a.k.a. DoJMA) are a group of  writers, designers, cartoonists and photographers from all streams and years of study who strive to bring to you timely updates on all that happens on campus.</p>\n" +
@@ -38,18 +38,8 @@ public class AboutDojmaActivity extends AppCompatActivity {
             "<p>Aabir Abubaker, Aarsh, Adheep Das, Ananya Shivaditya, Anirudh Dwarakanath, Aparajita Haldar, Ayush Anand, Chand Sethi, Esha Swaroop, Jayachandran Siva, Mahima Samant, Meghana Gupta, Nidhi Kadkol, Nitish Kulshrestha, Rahul Hardikar, Rishi Raj Grandhe,Roshan Dattatri, Roshan Nair, Sahith Dambekodi, Sakshi Mehra, Saloni Dash, Sangeeth Jayprakash, Sangeeth Jayaprakash,  Shriya Srivastava, Shubham Gupta, Srijani Biswas, Sumangala Patki, Tulasi Ravindran, Vedant Kumar</p>\n" +
             "\n" + "</body></html>";
 
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_dojma);
         Toolbar toolbar = (Toolbar) findViewById(R.id.about_dojma_toolbar);

@@ -30,7 +30,7 @@ import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
 
-public class UtilitiesContactsActivity extends AppCompatActivity {
+public class UtilitiesContactsActivity extends BaseActivity {
 
     private Realm mDatabase;
     private List<TypeItem> dataSet;
@@ -39,9 +39,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
     private ValueEventListener mContactListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
@@ -169,12 +167,4 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
         mDatabase.close();
     }
 
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
 }

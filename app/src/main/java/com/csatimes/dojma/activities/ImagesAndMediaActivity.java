@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import io.realm.Realm;
 import io.realm.RealmList;
 
-public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGalleryAdapter.OnPhotoListener {
+public class ImagesAndMediaActivity extends BaseActivity implements ImageGalleryAdapter.OnPhotoListener {
 
     public static final String TAG = "activities.ImagesAndMedia";
     boolean mIsViewPagerVisible = false;
@@ -45,8 +45,7 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
     private DatabaseReference mPostersReference = FirebaseDatabase.getInstance().getReference().child("posters");
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images_and_media);
 
@@ -179,15 +178,6 @@ public class ImagesAndMediaActivity extends AppCompatActivity implements ImageGa
     protected void onDestroy() {
         super.onDestroy();
         mDatabase.close();
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     private void onPhotoInPagerSelected(int position) {

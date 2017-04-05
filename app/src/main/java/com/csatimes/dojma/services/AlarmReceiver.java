@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         DHC.e(TAG, "AlarmReceiver called");
-        if (intent != null && intent.getAction().equals(DHC.ALARM_RECEIVER_ACTION_UPDATE)) {
+        if (intent != null && intent.getAction().equals(DHC.ALARM_RECEIVER_ACTION_UPDATE ) && !UpdateCheckerService.isInstanceCreated()) {
             Intent i = new Intent(context, UpdateCheckerService.class);
             context.startService(i);
         }

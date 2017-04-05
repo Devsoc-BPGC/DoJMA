@@ -15,13 +15,12 @@ import com.csatimes.dojma.models.HeraldItem;
 
 import io.realm.Realm;
 
-public class OfflineSimpleViewerActivity extends AppCompatActivity {
+public class OfflineSimpleViewerActivity extends BaseActivity {
 
     private HeraldItem mHeraldArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_simple_viewer);
 
@@ -87,12 +86,4 @@ public class OfflineSimpleViewerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
 }
