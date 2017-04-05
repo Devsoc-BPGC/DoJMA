@@ -1,4 +1,4 @@
-anguage: android
+language: android
 android:
   components:
     # Uncomment the lines below if you want to
@@ -15,14 +15,20 @@ android:
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
-    - extra-android-m2repository
     - addon-google_apis-google-19
+    - extra-android-m2repository
+    - extra-android-support
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-21
+    - sys-img-armeabi-v7a-android-19
     - sys-img-armeabi-v7a-android-17
+    - sys-img-armeabi-v7a-android-16
+
 jdk:
   - oraclejdk8
 sudo: required
-after_failure: "cat $TRAVIS_BUILD_DIR/app/build/outputs/lint-results-debug.xml"
+
+after_failure: "echo build-failed"
