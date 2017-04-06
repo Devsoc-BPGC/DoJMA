@@ -52,11 +52,11 @@ import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_GAZET
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_LINKS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MESS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MISC_CARD;
-import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_POSTERS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TAXI;
+import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_UI;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_NO_SUCCESS;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES;
@@ -303,7 +303,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            DHC.log(TAG, "Error occurred in parsing or storing gazettes data");
+                            DHC.e(TAG, "Error occurred in parsing or storing gazettes data");
                         }
                     }
                     QUOTA_TOTAL += QUOTA_GAZETTES;
@@ -345,7 +345,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            DHC.log(TAG, "Error occurred in parsing or storing events data");
+                            DHC.e(TAG, "Error occurred in parsing or storing events data");
                         }
                     }
                     QUOTA_TOTAL += QUOTA_EVENTS;
@@ -393,7 +393,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            DHC.log(TAG, "Error occurred in parsing or storing links data");
+                            DHC.e(TAG, "Error occurred in parsing or storing links data");
                         }
                     }
                     QUOTA_TOTAL += QUOTA_LINKS;
@@ -433,7 +433,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            DHC.log(TAG, "Error occurred in parsing or storing mess data");
+                            DHC.e(TAG, "Error occurred in parsing or storing mess data");
                         }
                     }
                     QUOTA_TOTAL += QUOTA_MESS;
@@ -444,7 +444,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
                 //Update Navbar title and image url data into the sharedpreferences
                 {
-                    final DataSnapshot navbarShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_NAVBAR);
+                    DataSnapshot navbarShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_UI);
                     mEditor.putString(USER_PREFERENCES_NAVBAR_TITLE, navbarShot.child(FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE).getValue(String.class));
                     mEditor.putString(USER_PREFERENCES_NAVBAR_IMAGE_URL, navbarShot.child(FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL).getValue(String.class));
                     mStatusSwitcher.setText("Added nav bar title and image");
@@ -479,7 +479,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "Database error " + databaseError.getMessage());
+                DHC.e(TAG, "Database error " + databaseError.getMessage());
                 mStatusSwitcher.setText("CLOUD SERVICE ERROR. TRY AGAIN LATER OR REPORT TO ADMIN");
                 QUOTA_TOTAL += 100 - QUOTA_UPDATE_SERVICE;
                 mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);

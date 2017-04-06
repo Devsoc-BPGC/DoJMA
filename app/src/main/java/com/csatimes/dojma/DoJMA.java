@@ -1,6 +1,5 @@
 package com.csatimes.dojma;
 
-
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
@@ -13,6 +12,9 @@ import com.squareup.leakcanary.LeakCanary;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+/**
+ * Application class to initialise libraries.
+ */
 public class DoJMA extends Application {
 
     @Override
@@ -31,14 +33,18 @@ public class DoJMA extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(DHC.REALM_DOJMA_DATABASE)
                 .deleteRealmIfMigrationNeeded()
-                .schemaVersion(2)
+                .schemaVersion(DHC.REALM_DATABASE_SCHEMA_VERSION)
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
     }
 
+    /**
+     * This is where multi dex needs to be installed.
+     * @param base base context
+     */
     @Override
-    protected void attachBaseContext(Context base) {
+    protected void attachBaseContext(final Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }

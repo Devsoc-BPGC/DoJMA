@@ -34,7 +34,7 @@ import static android.view.View.VISIBLE;
  * Links Activity under the Utilities Section
  */
 
-public class UtilitiesLinksActivity extends AppCompatActivity {
+public class UtilitiesLinksActivity extends BaseActivity {
 
     public final String TAG = "activities." + UtilitiesLinksActivity.class.getSimpleName();
 
@@ -47,8 +47,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
     private RealmList<LinkItem> linkItems;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_links);
 
@@ -90,15 +89,6 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
         adapter = new LinkRv(linkItems, this);
         linkRecyclerView.setAdapter(adapter);
 
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override
@@ -143,7 +133,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
                             }
                         });
                     } catch (Exception ignore) {
-                        DHC.log(TAG, "parse error in link item");
+                        DHC.e(TAG, "parse error in link item");
                     }
                 }
 
@@ -158,7 +148,7 @@ public class UtilitiesLinksActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
+                DHC.e(TAG, "database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }

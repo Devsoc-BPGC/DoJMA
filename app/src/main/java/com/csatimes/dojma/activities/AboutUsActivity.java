@@ -30,7 +30,7 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     public static String ABOUT_US_FACEBOOK_PAGE_ID = "MACBITSGoa";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
@@ -76,7 +76,7 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     //method to get the right URL to use in the intent
-    public String getFacebookPageURL(Context context) {
+    public String getFacebookPageURL(final Context context) {
         PackageManager packageManager = context.getPackageManager();
         try {
             int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;

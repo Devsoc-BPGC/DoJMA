@@ -22,9 +22,9 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder implements Vi
     public TextView contactSub2;
     public SimpleDraweeView contactIcon;
     public ContactItem contactItem;
-    private ImageButton contactCall;
+    public ImageButton contactCall;
+    public ImageButton contactEmail;
     private ImageButton contactAdd;
-    private ImageButton contactEmail;
     private Context context;
 
     public ContactItemViewHolder(View itemView, Context context) {

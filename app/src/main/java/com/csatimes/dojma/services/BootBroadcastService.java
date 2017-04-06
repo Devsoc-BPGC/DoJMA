@@ -17,7 +17,7 @@ public class BootBroadcastService extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        DHC.log(TAG, "BootBroadcast");
+        DHC.e(TAG, "BootBroadcast");
         Intent startServiceIntent = new Intent(context, UpdateCheckerService.class);
         startServiceIntent.putExtra(DHC.UPDATE_SERVICE_INTENT_PAGES, DEFAULT_NO_OF_PAGES_TO_DOWNLOAD);
         startWakefulService(context, startServiceIntent);

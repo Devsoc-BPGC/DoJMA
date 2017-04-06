@@ -17,13 +17,12 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.Sort;
 
-public class IssuesActivity extends AppCompatActivity {
+public class IssuesActivity extends BaseActivity {
 
     Realm mDatabase;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issues);
 
@@ -42,18 +41,6 @@ public class IssuesActivity extends AppCompatActivity {
         }
         issuesListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titlesList));
 
-    }
-
-    /**
-     * Set activity theme
-     */
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode) {
-            setTheme(R.style.AppThemeDark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override

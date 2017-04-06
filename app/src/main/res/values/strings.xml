@@ -123,7 +123,7 @@
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search articles</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
-    <string name="menu_main_about_app">About app</string>
+    <string name="menu_main_about_app">About MAC</string>
 
     <string name="shortcut_events">com.csatimes.dojma.HomeActivity.Events</string>
     <string name="shortcut_events_short_label">Events</string>
@@ -145,5 +145,16 @@
     <string name="item_format_herald_desc">Desc</string>
     <string name="item_format_herald_date">Date</string>
     <string name="item_format_herald_title">Title</string>
+    <string name="menu_main_refresh_herald">Refresh</string>
+    <string name="activity_home_drawer_about_mac">About MAC</string>
+    <string name="activity_home_drawer_about_dojma">About DoJMA</string>
+    <string name="activity_home_drawer_settings">Settings</string>
+    <string name="activity_home_drawer_share_app">Share app</string>
+    <string name="activity_home_drawer_facebook_page">Facebook Page</string>
+    <string name="activity_home_drawer_live_lcd_news">Live LCD News</string>
+    <string name="activity_home_drawer_favourites">Favourites</string>
+    <string name="activity_home_drawer_poster_gallery">Poster Gallery</string>
+    <string name="activity_home_drawer_archives">Archives</string>
+    <string name="activity_home_drawer_issues">Issues</string>
 
 </resources>

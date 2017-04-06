@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.activities.UtilitiesContactsActivity;
 
+import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
+
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
  */
@@ -19,7 +21,7 @@ public class UtilitiesContactsViewHolder extends RecyclerView.ViewHolder impleme
 
     private ImageButton call1, call2, call3, call4;
     private Context context;
-    private String[] contactNumbers = {"9552040123", "8326482016", "0832-2580720", "0832-2580324"};
+    private String[] contactNumbers = {"9552040123", "8326482016", "08322580720", "08322580324"};
 
     public UtilitiesContactsViewHolder(View itemView, Context context) {
         super(itemView);
@@ -91,6 +93,7 @@ public class UtilitiesContactsViewHolder extends RecyclerView.ViewHolder impleme
         } else if (id == itemView.getId()) {
             try {
                 Intent intent = new Intent(context, UtilitiesContactsActivity.class);
+                intent.putExtra(CONTACTS_SHOW_TAXI_DATA,false);
                 context.startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();

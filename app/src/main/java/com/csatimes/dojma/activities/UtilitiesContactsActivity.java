@@ -26,25 +26,25 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
 
-public class UtilitiesContactsActivity extends AppCompatActivity {
+public class UtilitiesContactsActivity extends BaseActivity {
 
-    private DatabaseReference mContactReference;
-    private ValueEventListener mContactListener;
     private Realm mDatabase;
     private List<TypeItem> dataSet;
     private SearchAdapter mContactsAdapter;
+    private DatabaseReference mContactReference = FirebaseDatabase.getInstance().getReference("contacts");
+    private ValueEventListener mContactListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.contacts_toolbar);
+        RecyclerView contactsRecyclerView = (RecyclerView) findViewById(R.id.content_contacts_rv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,11 +54,6 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
             }
         });
 
-
-        RecyclerView contactsRecyclerView = (RecyclerView) findViewById(R.id.content_contacts_rv);
-
-        mContactReference = FirebaseDatabase.getInstance().getReference("contacts");
-
         mDatabase = Realm.getDefaultInstance();
 
         dataSet = new ArrayList<>();
@@ -67,21 +62,35 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
         contactsRecyclerView.setHasFixedSize(true);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        mContactsAdapter = new SearchAdapter(this,dataSet);
+        mContactsAdapter = new SearchAdapter(this, dataSet);
 
         contactsRecyclerView.setAdapter(mContactsAdapter);
 
     }
 
     private void generateContacts() {
+        boolean showTaxiData = getIntent().getBooleanExtra(CONTACTS_SHOW_TAXI_DATA, false);
         dataSet.clear();
         RealmResults<ContactItem> foo = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING);
         for (int i = 0; i < foo.size(); i++) {
-            dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE,foo.get(i).getType()));
-            RealmList<ContactItem> bar = new RealmList<>();
-            bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
-            for (int j=0;j<bar.size();j++)
-            dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT,bar.get(j)));
+
+            if (showTaxiData) {
+                if (foo.get(i).getType().equalsIgnoreCase("taxi")) {
+                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, foo.get(i).getType()));
+                    RealmList<ContactItem> bar = new RealmList<>();
+                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
+                    for (int j = 0; j < bar.size(); j++)
+                        dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                }
+            } else {
+                if (!foo.get(i).getType().equalsIgnoreCase("taxi")) {
+                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, foo.get(i).getType()));
+                    RealmList<ContactItem> bar = new RealmList<>();
+                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
+                    for (int j = 0; j < bar.size(); j++)
+                        dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                }
+            }
         }
     }
 
@@ -89,7 +98,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mContactListener = returnContactListener();
-        mContactReference.addValueEventListener(mContactListener);
+        mContactReference.addListenerForSingleValueEvent(mContactListener);
     }
 
     private ValueEventListener returnContactListener() {
@@ -108,7 +117,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
                     final String type = childShot.child("type").getValue(String.class);
                     final int id = childShot.child("id").getValue(Integer.class);
 
-                    for (DataSnapshot grandChildShot : childShot.child("contact").getChildren()) {
+                    for (DataSnapshot grandChildShot : childShot.child("contacts").getChildren()) {
                         final ContactItem ci = grandChildShot.getValue(ContactItem.class);
                         mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -149,7 +158,7 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
 
     /**
      * Destroy the mDatabase reference as soon as activity is destroyed
-     * Since the reference was created in the onCreate method, it is best that
+     * Since the reference was created in the {@link UtilitiesContactsActivity#onCreate(Bundle)} method, it is best that
      * it is closed in {@link UtilitiesContactsActivity#onDestroy()}
      */
     @Override
@@ -158,12 +167,4 @@ public class UtilitiesContactsActivity extends AppCompatActivity {
         mDatabase.close();
     }
 
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
-    }
 }

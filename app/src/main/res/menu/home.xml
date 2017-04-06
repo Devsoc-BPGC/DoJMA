@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_refresh_herald"
+        android:icon="@drawable/quantum_ic_refresh_white_24"
+        android:orderInCategory="0"
+        android:title="@string/menu_main_refresh_herald"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
-        android:orderInCategory="0"
+        android:orderInCategory="1"
         android:title="@string/menu_main_search_title"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_about_dojma"
         android:icon="@drawable/ic_info_outline_white_24dp"
-        android:orderInCategory="1"
-        android:title="@string/menu_main_about_dojma"
-        />
+        android:orderInCategory="99"
+        android:title="@string/menu_main_about_dojma" />
     <item
         android:id="@+id/action_about_us"
-        android:orderInCategory="2"
+        android:orderInCategory="98"
         android:title="@string/menu_main_about_app"
-        app:showAsAction="never"/>
-    <!--
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
-    -->
+        app:showAsAction="never" />
 </menu>

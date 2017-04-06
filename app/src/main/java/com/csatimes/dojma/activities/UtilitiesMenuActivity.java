@@ -25,7 +25,7 @@ import io.realm.RealmList;
  * Created by vikramaditya on 15/12/16.
  */
 
-public class UtilitiesMenuActivity extends AppCompatActivity {
+public class UtilitiesMenuActivity extends BaseActivity {
 
 
     private RecyclerView mMessRecyclerView;
@@ -36,8 +36,7 @@ public class UtilitiesMenuActivity extends AppCompatActivity {
     private RealmList<MessItem> mMessItems;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mess_menus);
 
@@ -70,7 +69,7 @@ public class UtilitiesMenuActivity extends AppCompatActivity {
     private ValueEventListener getListener() {
         return new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 mDatabase.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -102,7 +101,7 @@ public class UtilitiesMenuActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(final DatabaseError databaseError) {
                 DHC.log("database error " + databaseError.getMessage());
             }
         };
@@ -131,15 +130,6 @@ public class UtilitiesMenuActivity extends AppCompatActivity {
             cols = (int) t;
 
         return cols;
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
 }
