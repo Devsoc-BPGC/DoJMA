@@ -3,9 +3,8 @@ package com.csatimes.dojma.utilities;
 import com.csatimes.dojma.R;
 
 /**
- * Colors used for Events section for indicating importance
+ * Colors used for Events section for indicating importance.
  */
-
 public class ColorList {
 
     public static final int HIGHEST_PRIORITY = R.color.deeporangeA400;

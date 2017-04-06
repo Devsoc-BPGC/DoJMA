@@ -8,27 +8,27 @@
         <item
             android:id="@+id/nav_main_issues"
             android:icon="@drawable/ic_menu_issues"
-            android:title="Issues" />
+            android:title="@string/activity_home_drawer_issues" />
 
         <item
             android:id="@+id/nav_main_archives"
             android:icon="@drawable/ic_menu_archive"
-            android:title="Archives" />
+            android:title="@string/activity_home_drawer_archives" />
 
         <item
             android:id="@+id/nav_main_gallery"
             android:icon="@drawable/ic__menu_gallery"
-            android:title="Poster Gallery" />
+            android:title="@string/activity_home_drawer_poster_gallery" />
 
         <item
             android:id="@+id/nav_main_favourites"
             android:icon="@drawable/ic_heart"
-            android:title="Favourites" />
+            android:title="@string/activity_home_drawer_favourites" />
 
         <item
             android:id="@+id/nav_main_lcd"
             android:icon="@drawable/ic_live_tv"
-            android:title="Live LCD News" />
+            android:title="@string/activity_home_drawer_live_lcd_news" />
 
     </group>
     <group
@@ -37,21 +37,25 @@
         <item
             android:id="@+id/nav_main_fb"
             android:icon="@drawable/fb"
-            android:title="Facebook Page" />
+            android:title="@string/activity_home_drawer_facebook_page" />
         <item
             android:id="@+id/nav_main_share"
             android:icon="@drawable/ic_share_white_24dp"
-            android:title="Share app" />
+            android:title="@string/activity_home_drawer_share_app" />
         <item
             android:id="@+id/nav_main_settings"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settings" />
+            android:title="@string/activity_home_drawer_settings" />
 
         <item
             android:id="@+id/nav_main_about"
             android:icon="@drawable/ic_info"
-            android:title="About DoJMA" />
+            android:title="@string/activity_home_drawer_about_dojma" />
 
+        <item
+            android:id="@+id/nav_main_about_us"
+            android:icon="@drawable/ic_info"
+            android:title="@string/activity_home_drawer_about_mac" />
 
     </group>
 

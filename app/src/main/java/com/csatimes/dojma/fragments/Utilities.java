@@ -3,6 +3,7 @@ package com.csatimes.dojma.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -33,11 +34,14 @@ public class Utilities extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_utilities, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_utilities, container, false);
+    }
 
-
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         RecyclerView utilitiesRecyclerView = (RecyclerView) view.findViewById(R.id.utilities_rv);
 
         SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
@@ -52,7 +56,6 @@ public class Utilities extends Fragment {
         UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
         utilitiesRecyclerView.setAdapter(mUtilitiesAdapter);
 
-        return view;
     }
 
     private int span() {
@@ -80,14 +83,14 @@ public class Utilities extends Fragment {
     private ValueEventListener returnValueListener() {
         return new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 mMessage = dataSnapshot.getValue(String.class);
                 mEditor.putString(USER_PREFERENCES_MISC_CARD_MESSAGE, mMessage);
                 mEditor.apply();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(final DatabaseError databaseError) {
 
             }
         };

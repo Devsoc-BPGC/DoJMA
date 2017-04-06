@@ -47,7 +47,7 @@ import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_LINK;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_MESS;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 
-public class SearchableActivity extends AppCompatActivity {
+public class SearchableActivity extends BaseActivity {
 
     private TextView mEmptyQuery;
     private List<TypeItem> results = new ArrayList<>();
@@ -57,7 +57,6 @@ public class SearchableActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
 
@@ -339,15 +338,6 @@ public class SearchableActivity extends AppCompatActivity {
             cols = (int) t;
 
         return cols;
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode) {
-            setTheme(R.style.AppThemeDark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
 }

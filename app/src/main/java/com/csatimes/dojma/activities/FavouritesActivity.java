@@ -7,10 +7,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +31,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.Sort;
 
-public class FavouritesActivity extends AppCompatActivity
+public class FavouritesActivity extends BaseActivity
         implements
         HeraldAdapter.OnLikeClickedListener,
         HeraldAdapter.OnShareClickedListener,
@@ -46,8 +44,7 @@ public class FavouritesActivity extends AppCompatActivity
     private HeraldAdapter mHeraldAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_favourites_toolbar);
@@ -96,7 +93,7 @@ public class FavouritesActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //Returning true displays the menu
         getMenuInflater().inflate(R.menu.favourites_menu, menu);
@@ -104,7 +101,7 @@ public class FavouritesActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.favourites_menu_action_search) {
@@ -113,15 +110,6 @@ public class FavouritesActivity extends AppCompatActivity
             return true;
         } else
             return super.onOptionsItemSelected(item);
-    }
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     //When an article is liked mDatabase has to be updated using the postID

@@ -1,6 +1,7 @@
 package com.csatimes.dojma.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,15 +49,17 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gazette, container, false);
+        return inflater.inflate(R.layout.fragment_gazette, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mEmptyListTextView = (TextView) view.findViewById(R.id.gazette_empty_text);
         mGazetteRecyclerView = (RecyclerView) view.findViewById(R.id.gazette_listview);
 
         mGazetteRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), span()));
         mGazetteRecyclerView.setHasFixedSize(true);
-
-        return view;
     }
 
     @Override
@@ -131,7 +134,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
                             }
                         });
                     } catch (Exception e) {
-                        DHC.log(TAG, "Exception in parsing value at " + dataSnapshot.getKey());
+                        DHC.e(TAG, "Exception in parsing value at " + dataSnapshot.getKey());
                     }
                 }
                 mDataSet.clear();
@@ -142,7 +145,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "Database error " + databaseError.getMessage() + " " + databaseError.getDetails());
+                DHC.e(TAG, "Database error " + databaseError.getMessage() + " " + databaseError.getDetails());
             }
         };
     }

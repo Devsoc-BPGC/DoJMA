@@ -1,6 +1,7 @@
 package com.csatimes.dojma.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,18 +46,19 @@ public class Events extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_events, container, false);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mEventsRecyclerView = (RecyclerView) view.findViewById(R.id.events_recycler_view);
         mErrorText = (TextView) view.findViewById(R.id.error_text_view);
 
         mEventsRecyclerView.setHasFixedSize(true);
         mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        return view;
     }
-
 
     @Override
     public void onStart() {
@@ -121,7 +123,7 @@ public class Events extends Fragment {
                         onChildChanged(dataSnapshot, s);
                     }
                 } catch (Exception e) {
-                    DHC.log(TAG, "parse error of event in Events");
+                    DHC.e(TAG, "parse error of event in Events");
                 }
             }
 
@@ -148,7 +150,7 @@ public class Events extends Fragment {
                         });
                         mEventsAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        DHC.log(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
+                        DHC.e(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
                         e.printStackTrace();
                     }
             }
@@ -171,18 +173,18 @@ public class Events extends Fragment {
                         if (onTitleUpdateListener != null)
                             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
 
-                    } else DHC.log(TAG, "position " + position);
-                } else DHC.log(TAG, "Deleted item was not in database ");
+                    } else DHC.e(TAG, "position " + position);
+                } else DHC.e(TAG, "Deleted item was not in database ");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DHC.log(TAG, dataSnapshot.getKey() + " has been moved" + s);
+                DHC.e(TAG, dataSnapshot.getKey() + " has been moved" + s);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(TAG, "database Error " + databaseError.getMessage());
+                DHC.e(TAG, "database Error " + databaseError.getMessage());
             }
         };
     }

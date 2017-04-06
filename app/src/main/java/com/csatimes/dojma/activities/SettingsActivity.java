@@ -13,15 +13,14 @@ import android.widget.Toast;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.fragments.SettingsFragment;
 
-public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnThemeChangedListener {
+public class SettingsActivity extends BaseActivity implements SettingsFragment.OnThemeChangedListener {
     private static final String TAG = "TAG";
     SettingsFragment settingsFragment;
     private Window window;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -46,16 +45,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         settingsFragment.setOnThemeChangedListener(this);
 
 
-    }
-
-
-    private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode)
-            setTheme(R.style.AppThemeDark);
-        else {
-            setTheme(R.style.AppTheme);
-        }
     }
 
     @Override

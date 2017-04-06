@@ -58,6 +58,7 @@ dependencies {
     compile 'com.turingtechnologies.materialscrollbar:lib:10.0.2'
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.3'
+    compile 'me.relex:circleindicator:1.2.2@aar'
 
     compile 'com.facebook.fresco:fresco:0.12.0'
 

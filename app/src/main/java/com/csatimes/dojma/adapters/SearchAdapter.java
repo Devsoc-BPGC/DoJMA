@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
@@ -94,7 +96,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case SEARCH_ITEM_TYPE_EVENT:
                 view = inflater.inflate(R.layout.item_format_event, parent, false);
-                viewHolder = new EventItemViewHolder(view,mContext);
+                viewHolder = new EventItemViewHolder(view, mContext);
                 break;
             case CONTACT_ITEM_TYPE_CONTACT:
             case SEARCH_ITEM_TYPE_CONTACT:
@@ -132,7 +134,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
                 HeraldItem hi = (HeraldItem) results.get(position).getValue();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    hsvh.title.setText(Html.fromHtml(hi.getTitle(),Html.FROM_HTML_MODE_LEGACY));
+                    hsvh.title.setText(Html.fromHtml(hi.getTitle(), Html.FROM_HTML_MODE_LEGACY));
                 } else hsvh.title.setText(Html.fromHtml(hi.getTitle()));
 
                 hsvh.date.setText(hi.getUpdateDate());
@@ -165,14 +167,36 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ContactItem ci = (ContactItem) results.get(position).getValue();
                 civh.contactItem = ci;
                 civh.contactName.setText(ci.getName());
-                civh.contactSub1.setText(ci.getSub1());
-                civh.contactSub2.setText(ci.getSub2());
+
+                if (ci.getNumber() == null) {
+                    civh.contactCall.setVisibility(GONE);
+                } else civh.contactCall.setVisibility(VISIBLE);
+
+                if (ci.getEmail() == null) {
+                    civh.contactEmail.setVisibility(GONE);
+                } else civh.contactEmail.setVisibility(VISIBLE);
+
+                if (ci.getSub1() != null) {
+                    civh.contactSub1.setVisibility(View.VISIBLE);
+                    civh.contactSub1.setText(ci.getSub1());
+                } else {
+                    civh.contactSub1.setVisibility(View.GONE);
+                }
+
+                if (ci.getSub2() != null) {
+                    civh.contactSub1.setVisibility(View.VISIBLE);
+                    civh.contactSub2.setText(ci.getSub2());
+                } else {
+                    civh.contactSub1.setVisibility(View.INVISIBLE);
+                }
+
                 if (ci.getIcon() != null) {
                     civh.contactIcon.setImageURI(Uri.parse(ci.getIcon()));
                 } else {
                     civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
                             + "/" + R.drawable.ic_contact));
                 }
+
                 break;
 
             case SEARCH_ITEM_TYPE_LINK:
@@ -194,7 +218,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void setColor(EventItem ei, EventItemViewHolder eivh) {
+    private void setColor(final EventItem ei, final EventItemViewHolder eivh) {
         if (ei.getStartDateObj() != null) {
             long diff = -mCurrentDate.getTime() + ei.getStartDateObj().getTime();
             int color;
@@ -215,7 +239,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private int getColorFromDate(long diff) {
+    private int getColorFromDate(final long diff) {
         int color;
         long DAY = 24 * 60 * 60 * 1000;
         if (diff > 0 && diff <= DAY) {

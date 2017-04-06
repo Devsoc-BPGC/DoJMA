@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:actualImageScaleType="centerCrop"
-            app:placeholderImage="@color/grey700" />
+            app:backgroundImage="?defaultBackground"
+            app:placeholderImage="@drawable/ic_file" />
     </android.support.v7.widget.CardView>
 
     <TextView
