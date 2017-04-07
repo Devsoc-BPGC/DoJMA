@@ -1,44 +1,29 @@
 language: android
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
     - platform-tools
     - tools
 
-    # The BuildTools version used by your project
     - build-tools-25.0.2
 
-    # The SDK version used to compile your project
     - android-25
 
-    # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - addon-google_apis-google-19
     - extra-android-m2repository
     - extra-android-support
 
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-22
-    - sys-img-armeabi-v7a-android-21
     - sys-img-armeabi-v7a-android-19
-    - sys-img-armeabi-v7a-android-17
     - sys-img-armeabi-v7a-android-16
-
+os:
+  - linux
 jdk:
   - oraclejdk8
   - oraclejdk7
-  - openjdk6
-
-sudo: required
-
-before_install:
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  
+sudo: false
 
 git:
   depth: 25
@@ -53,12 +38,15 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
-
 script:
     - echo "Travis branch is $TRAVIS_BRANCH"
     - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
-
-os:
-  - linux
-
-after_failure: "echo build-failed"
+    - ./gradlew clean
+    - ./gradlew generateDebugSources
+    - ./gradlew mockableAndroidJar
+    - ./gradlew prepareDebugUnitTestDependencies
+    - ./gradlew generateDebugAndroidTestSources
+    - ./gradlew compileDebugSources
+    - ./gradlew compileDebugUnitTestSources
+    - ./gradlew compileDebugAndroidTestSources
+    - ./gradlew assembleDebug
