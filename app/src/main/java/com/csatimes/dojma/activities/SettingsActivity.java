@@ -50,7 +50,7 @@ public class SettingsActivity extends BaseActivity implements SettingsFragment.O
     @Override
     public void onThemeChanged() {
         getFragmentManager().beginTransaction().remove(settingsFragment).commit();
-        Toast.makeText(this, "Please restart app for the changes to take place", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Please restart app for the changes to take place", Toast.LENGTH_LONG).show();
         recreate();
     }
 }
