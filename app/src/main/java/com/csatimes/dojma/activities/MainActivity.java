@@ -262,6 +262,10 @@ public class MainActivity
         } else if (id == R.id.action_about_dojma) {
             Intent intent = new Intent(this, AboutDojmaActivity.class);
             startActivity(intent);
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.action_refresh_herald) {
             if (!UpdateCheckerService.isInstanceCreated()) {
                 Intent intent = new Intent(this, UpdateCheckerService.class);
@@ -328,6 +332,9 @@ public class MainActivity
             startActivity(intent);
         } else if (id == R.id.nav_main_about) {
             Intent intent = new Intent(this, AboutDojmaActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_main_about_us) {
+            Intent intent = new Intent(this, AboutUsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_main_fb) {
 
