@@ -1,12 +1,35 @@
 language: android
+os:
+  - linux
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+  - openjdk7
+  - openjdk6
+
+sudo: false
+
+git:
+  depth: 25
+
+env:
+  global:
+    - ANDROID_API_LEVEL=25
+    - ANDROID_BUILD_TOOLS_VERSION=25.0.2
+    - ANDROID_ABI=armeabi-v7a
+    - ANDROID_TAG=google_apis
+    - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
+    - EMULATOR_API_LEVEL=22
+    - EMULATOR_NAME=testEmu
+
 android:
   components:
     - platform-tools
     - tools
 
-    - build-tools-25.0.2
+    - build-tools-${ANDROID_BUILD_TOOLS_VERSION}
 
-    - android-25
+    - android-${ANDROID_API_LEVEL}
 
     - extra-google-google_play_services
     - extra-google-m2repository
@@ -14,19 +37,9 @@ android:
     - extra-android-m2repository
     - extra-android-support
 
-    - sys-img-armeabi-v7a-android-22
-    - sys-img-armeabi-v7a-android-19
-    - sys-img-armeabi-v7a-android-16
-os:
-  - linux
-jdk:
-  - oraclejdk8
-  - oraclejdk7
-  
-sudo: false
-
-git:
-  depth: 25
+    - sys-img-${ANDROID_ABI}-android-22
+    - sys-img-${ANDROID_ABI}-android-19
+    - sys-img-${ANDROID_ABI}-android-16
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -38,9 +51,15 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
+before_script:
+  # Create and start emulator
+  - echo no | android create avd --force -n $EMULATOR_NAME -t "android-${EMULATOR_API_LEVEL}" --abi $ANDROID_ABI --tag $ANDROID_TAG
+  - emulator -avd $EMULATOR_NAME -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+
 script:
     - echo "Travis branch is $TRAVIS_BRANCH"
-    - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
+    - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
     - ./gradlew clean
     - ./gradlew generateDebugSources
     - ./gradlew mockableAndroidJar
