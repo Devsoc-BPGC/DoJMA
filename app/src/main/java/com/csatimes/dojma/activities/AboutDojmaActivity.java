@@ -1,26 +1,15 @@
 package com.csatimes.dojma.activities;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 
-public class AboutDojmaActivity extends BaseActivity implements View.OnClickListener{
-
-    String ABOUT_US_FACEBOOK_PAGE_ID="DoJMABITSGoa";
-    String ABOUT_US_FACEBOOK_URL="https://www.facebook.com/DoJMABITSGoa";
+public class AboutDojmaActivity extends BaseActivity {
 
     String html = "\n" +
             "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><html><head><META http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body><p>We at <i><b>The Department of Journalism and Media Affairs</b></i>, BITS Pilani K.K. Birla Goa Campus (a.k.a. DoJMA) are a group of  writers, designers, cartoonists and photographers from all streams and years of study who strive to bring to you timely updates on all that happens on campus.</p>\n" +
@@ -54,9 +43,6 @@ public class AboutDojmaActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_dojma);
         Toolbar toolbar = (Toolbar) findViewById(R.id.about_dojma_toolbar);
-
-        ImageButton facebookImgBtn = (ImageButton) findViewById(R.id.content_about_dojma_fb_imgbtn);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -66,51 +52,5 @@ public class AboutDojmaActivity extends BaseActivity implements View.OnClickList
         } else {
             textView.setText(Html.fromHtml(html));
         }
-
-        facebookImgBtn.setOnClickListener(this);
     }
-
-    //.....
-
-    //method to get the right URL to use in the intent
-    public String getFacebookPageURL(final Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + ABOUT_US_FACEBOOK_URL;
-            } else { //older versions of fb app
-                return "fb://page/" + ABOUT_US_FACEBOOK_PAGE_ID;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            return ABOUT_US_FACEBOOK_URL; //normal web url
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.content_about_dojma_fb_imgbtn:
-                try {
-                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                    String facebookUrl = getFacebookPageURL(this);
-                    facebookIntent.setData(Uri.parse(facebookUrl));
-                    startActivity(facebookIntent);
-                } catch (ActivityNotFoundException e) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_FACEBOOK_URL));
-                    Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-
-    //....
-
-
-
 }
