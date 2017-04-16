@@ -35,10 +35,6 @@ before_script:
 
 after_failure:
     - echo "Build failure"
-
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
-
 os:
   - linux
 jdk:
@@ -63,8 +59,6 @@ script:
     - echo "Travis branch is $TRAVIS_BRANCH"
     - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
     - ls -la
-    - echo "Travis branch is $TRAVIS_BRANCH"
-    - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
     - ./gradlew clean
     - ./gradlew generateDebugSources
     - ./gradlew mockableAndroidJar
