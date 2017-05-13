@@ -21,5 +21,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/about_dojma_image"
         android:layout_marginTop="8dp"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        />
 </RelativeLayout>
