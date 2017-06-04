@@ -163,7 +163,8 @@ public class Events extends Fragment {
                     int position = mEventItems.indexOf(foo);
                     if (position > -1) {
                         mEventItems.remove(position);
-                        mEventsAdapter.notifyItemRemoved(position);
+                        //mEventsAdapter.notifyItemRemoved(position);
+                        mEventsAdapter.notifyDataSetChanged();
                         mDatabase.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
