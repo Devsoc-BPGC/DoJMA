@@ -115,7 +115,7 @@
     <string name="title_activity_about_dojma">About DoJMA</string>
     <string name="title_activity_live_lcdnews">Live LCD News</string>
     <string name="no_gazettes">No gazettes available right now</string>
-    <string name="title_activity_mess_menus">MessMenus</string>
+    <string name="title_activity_mess_menus">Menus</string>
     <string name="viewholder_mess_msg">Click here for all menus like A mess, C mess, foodking, gaja,
         icespice etc.</string>
     <string name="viewholder_contacts_taxi_msg">Get taxi numbers here</string>

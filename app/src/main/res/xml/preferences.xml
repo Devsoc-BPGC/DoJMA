@@ -10,14 +10,6 @@
             android:summary="Use darker backgrounds to reduce strain to the eyes"
             android:title="Enable Night Mode"
             />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:enabled="true"
-            android:key="@string/PREFERENCE_general_event_notification"
-            android:summaryOff="Automatcially set alarms for any new events"
-            android:summaryOn="Disable auto set alarm for new events"
-            android:title="Set alarms for new events"
-            />
     </PreferenceCategory>
 
 </PreferenceScreen>

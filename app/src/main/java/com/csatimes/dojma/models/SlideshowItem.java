@@ -12,6 +12,9 @@ public class SlideshowItem extends RealmObject {
     private String subTitle;
 
     public SlideshowItem() {
+        imageUrl = "";
+        title = "";
+        subTitle = "";
     }
 
     public SlideshowItem(String imageUrl, String title, String subTitle) {

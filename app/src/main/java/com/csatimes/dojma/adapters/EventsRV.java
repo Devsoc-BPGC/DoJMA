@@ -46,14 +46,15 @@ public class EventsRV extends RecyclerView.Adapter<EventItemViewHolder> {
     @Override
     public void onBindViewHolder(EventItemViewHolder holder, int position) {
 
-        holder.title.setText(mEventItems.get(position).getTitle());
-        holder.desc.setText(mEventItems.get(position).getDesc());
-        holder.dateTime.setText(mEventItems.get(position).getStartDateFormatted() + "\n" + mEventItems.get(position).getStartTimeFormatted());
-        holder.location.setText(mEventItems.get(position).getLocation());
+        holder.item = mEventItems.get(position);
+        holder.title.setText(holder.item.getTitle());
+        holder.desc.setText(holder.item.getDesc());
+        holder.dateTime.setText(holder.item.getStartDateFormatted() + "\n" + holder.item.getStartTimeFormatted());
+        holder.location.setText(holder.item.getLocation());
 
 
-        if (mEventItems.get(position).getStartDateObj() != null) {
-            long diff = -mCurrentDate.getTime() + mEventItems.get(position).getStartDateObj().getTime();
+        if (holder.item.getStartDateObj() != null) {
+            long diff = -mCurrentDate.getTime() + holder.item.getStartDateObj().getTime();
             int color;
 
             if (diff <= 0) {

@@ -26,4 +26,28 @@
         android:layout_height="match_parent"
         android:padding="8dp" />
 
+
+    <com.alexvasilkov.gestures.views.GestureFrameLayout
+        android:id="@+id/gesture_frame_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"/>
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imageView_content_search_large"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:actualImageScaleType="centerInside"/>
+        </FrameLayout>
+    </com.alexvasilkov.gestures.views.GestureFrameLayout>
+
 </RelativeLayout>

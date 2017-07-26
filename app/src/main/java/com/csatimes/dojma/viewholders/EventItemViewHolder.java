@@ -1,5 +1,6 @@
 package com.csatimes.dojma.viewholders;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,6 @@ import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.EventItem;
-
-/**
- * Created by vikramaditya on 11/12/16.
- */
 
 public class EventItemViewHolder extends RecyclerView.ViewHolder {
     public TextView title;
@@ -48,7 +45,7 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
                     intent.putExtra("description", item.getDesc());
                     intent.putExtra("eventLocation", item.getLocation());
                     context.startActivity(intent);
-                } catch (Exception e) {
+                } catch (ActivityNotFoundException e) {
                     Toast.makeText(context, "Sorry could not open calendar. ", Toast
                             .LENGTH_SHORT).show();
                 }

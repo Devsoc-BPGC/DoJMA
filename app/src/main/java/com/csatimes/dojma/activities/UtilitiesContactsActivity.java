@@ -1,17 +1,17 @@
 package com.csatimes.dojma.activities;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.TypeItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,13 +37,14 @@ public class UtilitiesContactsActivity extends BaseActivity {
     private SearchAdapter mContactsAdapter;
     private DatabaseReference mContactReference = FirebaseDatabase.getInstance().getReference("contacts");
     private ValueEventListener mContactListener;
-
+    private TextView errorText;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.contacts_toolbar);
+        errorText = (TextView) findViewById(R.id.textView_activity_contacts_error);
         RecyclerView contactsRecyclerView = (RecyclerView) findViewById(R.id.content_contacts_rv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,12 +61,16 @@ public class UtilitiesContactsActivity extends BaseActivity {
         generateContacts();
 
         contactsRecyclerView.setHasFixedSize(true);
-        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        contactsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        if (dataSet.isEmpty()) {
+            errorText.setVisibility(View.VISIBLE);
+        } else {
+            errorText.setVisibility(View.GONE);
+        }
         mContactsAdapter = new SearchAdapter(this, dataSet);
 
         contactsRecyclerView.setAdapter(mContactsAdapter);
-
     }
 
     private void generateContacts() {
@@ -81,6 +86,11 @@ public class UtilitiesContactsActivity extends BaseActivity {
                     bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
                     for (int j = 0; j < bar.size(); j++)
                         dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                    if (dataSet.isEmpty()) {
+                        errorText.setVisibility(View.VISIBLE);
+                    } else {
+                        errorText.setVisibility(View.GONE);
+                    }
                 }
             } else {
                 if (!foo.get(i).getType().equalsIgnoreCase("taxi")) {
@@ -89,6 +99,11 @@ public class UtilitiesContactsActivity extends BaseActivity {
                     bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
                     for (int j = 0; j < bar.size(); j++)
                         dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                    if (dataSet.isEmpty()) {
+                        errorText.setVisibility(View.VISIBLE);
+                    } else {
+                        errorText.setVisibility(View.GONE);
+                    }
                 }
             }
         }
@@ -118,21 +133,25 @@ public class UtilitiesContactsActivity extends BaseActivity {
                     final int id = childShot.child("id").getValue(Integer.class);
 
                     for (DataSnapshot grandChildShot : childShot.child("contacts").getChildren()) {
-                        final ContactItem ci = grandChildShot.getValue(ContactItem.class);
-                        mDatabase.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                ContactItem cif = realm.createObject(ContactItem.class);
-                                cif.setEmail(ci.getEmail());
-                                cif.setId(id);
-                                cif.setName(ci.getName());
-                                cif.setType(type);
-                                cif.setNumber(ci.getNumber());
-                                cif.setSub1(ci.getSub1());
-                                cif.setSub2(ci.getSub2());
-                                cif.setIcon(ci.getIcon());
-                            }
-                        });
+                        try {
+                            final ContactItem ci = grandChildShot.getValue(ContactItem.class);
+                            mDatabase.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    ContactItem cif = realm.createObject(ContactItem.class);
+                                    cif.setEmail(ci.getEmail());
+                                    cif.setId(id);
+                                    cif.setName(ci.getName());
+                                    cif.setType(type);
+                                    cif.setNumber(ci.getNumber());
+                                    cif.setSub1(ci.getSub1());
+                                    cif.setSub2(ci.getSub2());
+                                    cif.setIcon(ci.getIcon());
+                                }
+                            });
+                        } catch (Exception e) {
+                            DHC.log("Contacts format wrong");
+                        }
                     }
                 }
                 generateContacts();
@@ -141,7 +160,7 @@ public class UtilitiesContactsActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                DHC.log(databaseError.getMessage());
             }
         };
     }
@@ -166,5 +185,4 @@ public class UtilitiesContactsActivity extends BaseActivity {
         super.onDestroy();
         mDatabase.close();
     }
-
 }

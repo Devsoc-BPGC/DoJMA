@@ -43,7 +43,7 @@ public class UtilitiesTitleSubTitleViewHolder extends RecyclerView.ViewHolder {
                 } else if (classCode == UTILITIES_ITEM_TYPE_MESS)
                     intent = new Intent(context, UtilitiesMenuActivity.class);
                 else if (classCode == UTILITIES_ITEM_TYPE_MISC)
-                    intent = new Intent(context, UtilitiesMenuActivity.class);
+                   return;
                 context.startActivity(intent);
             }
         });

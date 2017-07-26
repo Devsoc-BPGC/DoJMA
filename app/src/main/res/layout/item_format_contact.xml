@@ -18,7 +18,7 @@
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@+id/item_format_contact_icon_img"
         app:layout_constraintRight_toLeftOf="@+id/item_format_contact_call_imgbtn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/item_format_contact_sub_1_tv"

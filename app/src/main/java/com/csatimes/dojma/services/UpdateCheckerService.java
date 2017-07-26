@@ -116,7 +116,7 @@ public class UpdateCheckerService extends IntentService {
 
                     //Handle parse error using catch
                     jsonResponse = new JSONObject(response);
-
+                    DHC.log("Response " + jsonResponse.toString(4));
                     //Get all posts from the json
                     posts = jsonResponse.getJSONArray("posts");
 
@@ -126,10 +126,11 @@ public class UpdateCheckerService extends IntentService {
 
                     for (int i = 0; i < posts.length(); i++) {
                         final JSONObject post = posts.getJSONObject(i);
-
+                        DHC.log("POST is " + i + " " + j);
                         final HeraldItem foobar = database.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
 
-                        if ((foobar == null) || (foobar != null && foobar.getUpdateTime().compareTo(post.getString("modified").substring(11)) != 0)) {
+                        if ((foobar == null) || (foobar.getUpdateTime().compareTo(post.getString("modified").substring(11)) != 0)) {
+                            DHC.log("ok");
                             database.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
@@ -153,7 +154,6 @@ public class UpdateCheckerService extends IntentService {
                                         } catch (Exception e) {
                                             entry.setAuthorName("dojma_admin");
                                         }
-
 
                                         try {
                                             String imageUrl = post.getString("thumbnail");
@@ -204,6 +204,8 @@ public class UpdateCheckerService extends IntentService {
 
             //Apply changes if any
             editor.apply();
+
+            DHC.log("total herald items " + database.where(HeraldItem.class).findAll().size());
 
             if (mDownloads > 0) {
 

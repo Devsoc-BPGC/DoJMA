@@ -16,6 +16,8 @@ public class PosterItem extends RealmObject {
     }
 
     public PosterItem() {
+        title = "";
+        url = "";
     }
 
     public String getTitle() {

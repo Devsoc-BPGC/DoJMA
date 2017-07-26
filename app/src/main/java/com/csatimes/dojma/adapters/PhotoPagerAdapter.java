@@ -74,6 +74,7 @@ public class PhotoPagerAdapter
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.image.setImageURI(Uri.parse(posterItems.get(position).getUrl()));
+
     }
 
     @Override

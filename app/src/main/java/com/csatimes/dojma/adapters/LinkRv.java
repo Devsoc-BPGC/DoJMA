@@ -1,5 +1,6 @@
 package com.csatimes.dojma.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,21 +15,19 @@ import io.realm.RealmList;
 
 public class LinkRv extends RecyclerView.Adapter<LinkItemViewHolder> {
     private RealmList<LinkItem> linkItems;
-    private Context context;
+    private Activity activity;
 
-    public LinkRv(RealmList<LinkItem> linkItems, Context context) {
+    public LinkRv(RealmList<LinkItem> linkItems, Activity activity) {
         this.linkItems = linkItems;
-        this.context = context;
+        this.activity = activity;
     }
 
     @Override
     public LinkItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout
                 .item_format_links, parent, false);
-        return new LinkItemViewHolder(view,context);
-
+        return new LinkItemViewHolder(view, activity);
     }
 
     @Override
@@ -43,5 +42,4 @@ public class LinkRv extends RecyclerView.Adapter<LinkItemViewHolder> {
     public int getItemCount() {
         return linkItems.size();
     }
-
 }

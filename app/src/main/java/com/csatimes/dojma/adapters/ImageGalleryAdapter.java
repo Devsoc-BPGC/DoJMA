@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.PosterItem;
@@ -35,6 +36,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.imageView.setImageURI(posterItems.get(position).getUrl());
+        holder.textView.setText(posterItems.get(position).getTitle());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,10 +56,12 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView imageView;
+        TextView textView;
 
         ViewHolder(final View itemView) {
             super(itemView);
             imageView = (SimpleDraweeView) itemView.findViewById(R.id.item_format_images_rv_image);
+            textView = (TextView) itemView.findViewById(R.id.item_format_images_rv_title);
             imageView.getHierarchy().setProgressBarImage(new CircleImageDrawable());
         }
     }

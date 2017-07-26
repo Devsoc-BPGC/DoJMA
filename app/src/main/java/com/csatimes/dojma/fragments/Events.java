@@ -15,11 +15,11 @@ import com.csatimes.dojma.adapters.EventsRV;
 import com.csatimes.dojma.interfaces.OnTitleUpdateListener;
 import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.utilities.DHC;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -36,7 +36,7 @@ public class Events extends Fragment {
     private RealmList<EventItem> mEventItems;
     private Realm mDatabase;
     private RecyclerView mEventsRecyclerView;
-    private ChildEventListener mEventChildListener;
+    private ValueEventListener mEventListener;
     private OnTitleUpdateListener onTitleUpdateListener;
 
     public Events() {
@@ -56,8 +56,7 @@ public class Events extends Fragment {
         mErrorText = (TextView) view.findViewById(R.id.error_text_view);
 
         mEventsRecyclerView.setHasFixedSize(true);
-        mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
+        mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -76,9 +75,8 @@ public class Events extends Fragment {
         mEventsAdapter = new EventsRV(getContext(), mEventItems, Calendar.getInstance().getTime());
         mEventsRecyclerView.setAdapter(mEventsAdapter);
 
-        mEventChildListener = returnChildrenListener();
-        eventsRef.addChildEventListener(mEventChildListener);
-
+        mEventListener = returnValueListener();
+        eventsRef.addValueEventListener(mEventListener);
     }
 
     @Override
@@ -93,16 +91,20 @@ public class Events extends Fragment {
             onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
     }
 
-    private ChildEventListener returnChildrenListener() {
-        return new ChildEventListener() {
-
+    private ValueEventListener returnValueListener() {
+        return new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                try {
-                    final String key = dataSnapshot.getKey();
-                    final EventItem foo = dataSnapshot.getValue(EventItem.class);
-                    EventItem bar = mDatabase.where(EventItem.class).equalTo("key", key).findFirst();
-                    if (bar == null) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDatabase.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.delete(EventItem.class);
+                    }
+                });
+                for (final DataSnapshot child : dataSnapshot.getChildren()) {
+                    try {
+                        final String key = child.getKey();
+                        final EventItem foo = child.getValue(EventItem.class);
                         mDatabase.executeTransaction(
                                 new Realm.Transaction() {
                                     @Override
@@ -115,72 +117,15 @@ public class Events extends Fragment {
                                     }
                                 }
                         );
-                        mEventItems.add(foo);
-                        mEventsAdapter.notifyDataSetChanged();
-                        if (onTitleUpdateListener != null)
-                            onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
-                    } else {
-                        onChildChanged(dataSnapshot, s);
-                    }
-                } catch (Exception e) {
-                    DHC.e(TAG, "parse error of event in Events");
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                final String key = dataSnapshot.getKey();
-                EventItem baz = mDatabase.where(EventItem.class).equalTo("key", key).findFirst();
-                if (baz == null)
-                    onChildAdded(dataSnapshot, s);
-                else
-                    //Parse error could occur
-                    try {
-                        final EventItem foo = dataSnapshot.getValue(EventItem.class);
-                        mDatabase.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                EventItem bar = realm.where(EventItem.class).equalTo("key", key).findFirst();
-                                bar.setDesc(foo.getDesc());
-                                bar.setLocation(foo.getLocation());
-                                bar.setDateTime(foo.getStartDate() + foo.getStartTime());
-                                bar.setTitle(foo.getTitle());
-                            }
-                        });
-                        mEventsAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        DHC.e(TAG, "parse error while trying to update event data at key " + dataSnapshot.getKey() + "\n" + e.getMessage());
-                        e.printStackTrace();
+                        DHC.e(TAG, "parse error of event in Events");
                     }
-            }
-
-            @Override
-            public void onChildRemoved(final DataSnapshot dataSnapshot) {
-
-                EventItem foo = mDatabase.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst();
-                if (foo != null) {
-                    int position = mEventItems.indexOf(foo);
-                    if (position > -1) {
-                        mEventItems.remove(position);
-                        //mEventsAdapter.notifyItemRemoved(position);
-                        mEventsAdapter.notifyDataSetChanged();
-                        mDatabase.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.where(EventItem.class).equalTo("key", dataSnapshot.getKey()).findFirst().deleteFromRealm();
-                            }
-                        });
-                        if (onTitleUpdateListener != null)
-                            onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
-
-                    } else DHC.e(TAG, "position " + position);
-                } else DHC.e(TAG, "Deleted item was not in database ");
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                DHC.e(TAG, dataSnapshot.getKey() + " has been moved" + s);
+                }
+                if (onTitleUpdateListener != null)
+                    onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")", DHC.MAIN_ACTIVITY_EVENTS_POS);
+                mEventItems.clear();
+                mEventItems.addAll(mDatabase.where(EventItem.class).findAllSorted("time", Sort.ASCENDING));
+                mEventsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -197,7 +142,7 @@ public class Events extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        eventsRef.removeEventListener(mEventChildListener);
+        eventsRef.removeEventListener(mEventListener);
         mDatabase.close();
     }
 

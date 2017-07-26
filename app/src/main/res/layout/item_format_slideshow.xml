@@ -24,7 +24,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="64dp"
-        android:text="Title"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="20sp" />
 
@@ -38,7 +38,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="4dp"
-        android:text="Subtitle"
+        android:text=""
         android:textColor="@color/grey100"
         android:textSize="16sp" />
 </RelativeLayout>

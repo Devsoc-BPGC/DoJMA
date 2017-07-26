@@ -3,6 +3,7 @@ package com.csatimes.dojma.activities;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,7 @@ public class FavouritesActivity extends BaseActivity
     private RecyclerView mFavHeraldRecyclerView;
     private TextView mEmptyListTextView;
     private HeraldAdapter mHeraldAdapter;
+    private String category;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -50,13 +53,27 @@ public class FavouritesActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_favourites_toolbar);
         setSupportActionBar(toolbar);
 
+        category = getIntent().getStringExtra("category");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (category != null) getSupportActionBar().setTitle(category);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         mEmptyListTextView = (TextView) findViewById(R.id.favourites_empty);
         mFavHeraldRecyclerView = (RecyclerView) findViewById(R.id.favourites_herald_rv);
 
         mDatabase = Realm.getDefaultInstance();
         RealmList<HeraldItem> favouritesList = new RealmList<>();
-        favouritesList.addAll(mDatabase.where(HeraldItem.class).equalTo("fav", true).findAllSorted("originalDate", Sort.ASCENDING));
+        if (category == null)
+            favouritesList.addAll(mDatabase.where(HeraldItem.class).equalTo("fav", true).findAllSorted("originalDate", Sort.ASCENDING));
+        else
+            favouritesList.addAll(mDatabase.where(HeraldItem.class).equalTo("category", category).findAllSorted("originalDate", Sort.ASCENDING));
+
         mHeraldAdapter = new HeraldAdapter(favouritesList);
 
         mFavHeraldRecyclerView.setHasFixedSize(true);
@@ -75,10 +92,11 @@ public class FavouritesActivity extends BaseActivity
     @Override
     protected void onStart() {
         super.onStart();
-        ItemTouchHelper.Callback callback = new SimpleItemTouchCallback(mHeraldAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(mFavHeraldRecyclerView);
-
+        if (category == null) {
+            ItemTouchHelper.Callback callback = new SimpleItemTouchCallback(mHeraldAdapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(mFavHeraldRecyclerView);
+        }
         if (mHeraldAdapter.getItemCount() == 0)
             mEmptyListTextView.setVisibility(View.VISIBLE);
         else {
@@ -170,7 +188,7 @@ public class FavouritesActivity extends BaseActivity
 
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                         .setShowTitle(true)
-                        .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .setToolbarColor(getChromeCustomTabColorFromTheme())
                         .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_white_24dp))
                         .addMenuItem(copy_label, copy_pendingIntent)
                         .addDefaultShareMenuItem()
@@ -209,5 +227,12 @@ public class FavouritesActivity extends BaseActivity
         mFavHeraldRecyclerView.scrollToPosition(pos);
     }
 
+
+    private int getChromeCustomTabColorFromTheme() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
+    }
 }
 

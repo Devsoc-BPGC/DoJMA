@@ -1,9 +1,12 @@
 package com.csatimes.dojma.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,12 +38,19 @@ public class IssuesActivity extends BaseActivity {
         mDatabase = Realm.getDefaultInstance();
         RealmList<HeraldItem> issuesList = new RealmList<>();
         issuesList.addAll(mDatabase.where(HeraldItem.class).distinct("category").sort("category", Sort.ASCENDING));
-        List<String> titlesList = new ArrayList<>();
+        final List<String> titlesList = new ArrayList<>();
         for (int i = 0; i < issuesList.size(); i++) {
             titlesList.add(issuesList.get(i).getCategory());
         }
         issuesListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titlesList));
-
+        issuesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(IssuesActivity.this, FavouritesActivity.class);
+                intent.putExtra("category", titlesList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

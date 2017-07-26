@@ -20,14 +20,14 @@ public class ContactItem extends RealmObject {
     private int id;
 
     public ContactItem() {
-        this.name = null;
-        this.number = null;
-        this.email = null;
+        this.name = "";
+        this.number = "";
+        this.email = "";
         this.type = "Others";
         this.id = 0;
-        this.sub1 = null;
-        this.sub2 = null;
-        this.icon = null;
+        this.sub1 = "";
+        this.sub2 = "";
+        this.icon = "";
     }
 
     public ContactItem(String name, String number, String email, String sub1, String sub2, String type, String icon, int id) {

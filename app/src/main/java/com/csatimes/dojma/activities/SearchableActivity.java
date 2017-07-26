@@ -1,12 +1,12 @@
 package com.csatimes.dojma.activities;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -18,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.alexvasilkov.gestures.views.GestureFrameLayout;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
@@ -30,6 +32,7 @@ import com.csatimes.dojma.models.LinkItem;
 import com.csatimes.dojma.models.MessItem;
 import com.csatimes.dojma.models.TypeItem;
 import com.csatimes.dojma.utilities.DHC;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,13 +50,15 @@ import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_LINK;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_MESS;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 
-public class SearchableActivity extends BaseActivity {
+public class SearchableActivity extends BaseActivity implements SearchAdapter.OnImageClicked {
 
     private TextView mEmptyQuery;
     private List<TypeItem> results = new ArrayList<>();
     private RecyclerView mSearchRV;
     private Realm mDatabase;
     private SearchAdapter mSearchAdapter;
+    private GestureFrameLayout gestureFrameLayout;
+    private SimpleDraweeView simpleDraweeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,16 @@ public class SearchableActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_search_toolbar);
         mEmptyQuery = (TextView) findViewById(R.id.content_searchable_empty_text);
         mSearchRV = (RecyclerView) findViewById(R.id.content_searchable_rv);
+        gestureFrameLayout = (GestureFrameLayout) findViewById(R.id.gesture_frame_search);
+        simpleDraweeView = (SimpleDraweeView) findViewById(R.id.imageView_content_search_large);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        gestureFrameLayout.getController().getSettings().setOverzoomFactor(10);
         setSupportActionBar(toolbar);
 
         //These flags are for system bar on top
@@ -86,6 +100,9 @@ public class SearchableActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        if (imageShown) {
+            onClicked(null);
+        }
         setIntent(intent);
         handleIntent(intent);
     }
@@ -103,7 +120,7 @@ public class SearchableActivity extends BaseActivity {
                 mEmptyQuery.setVisibility(View.GONE);
                 generateResults(query);
                 if (mSearchAdapter == null) {
-                    mSearchAdapter = new SearchAdapter(results, this, Calendar.getInstance().getTime());
+                    mSearchAdapter = new SearchAdapter(this, results, Calendar.getInstance().getTime());
                     mSearchRV.setAdapter(mSearchAdapter);
                     final int span = span();
                     GridLayoutManager mLayoutManager = new GridLayoutManager(this, span);
@@ -291,6 +308,9 @@ public class SearchableActivity extends BaseActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                if (imageShown) {
+                    onClicked(null);
+                }
                 SearchableActivity.this.finish();
                 return true;
             }
@@ -300,6 +320,9 @@ public class SearchableActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
+                if (imageShown) {
+                    onClicked(null);
+                }
                 //handle search
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setAction(Intent.ACTION_SEARCH);
@@ -311,6 +334,9 @@ public class SearchableActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //handle search
+                if (imageShown) {
+                    onClicked(null);
+                }
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setAction(Intent.ACTION_SEARCH);
                 intent.putExtra(SearchManager.QUERY, newText);
@@ -340,4 +366,32 @@ public class SearchableActivity extends BaseActivity {
         return cols;
     }
 
+    boolean imageShown = false;
+
+    @Override
+    public void onBackPressed() {
+        if (imageShown) {
+            onClicked(null);
+            imageShown = false;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onClicked(String uri) {
+        if (imageShown) {
+            gestureFrameLayout.setVisibility(View.GONE);
+            imageShown = false;
+        } else {
+            imageShown = true;
+            gestureFrameLayout.setVisibility(View.VISIBLE);
+            simpleDraweeView.setImageURI(Uri.parse(uri));
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
+    }
 }

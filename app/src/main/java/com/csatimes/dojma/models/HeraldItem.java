@@ -24,8 +24,8 @@ public class HeraldItem extends RealmObject {
     private String title_plain;
     private String originalDate;
     private String originalMonthYear;
-    private String updateDate;
     private String originalTime;
+    private String updateDate;
     private String updateTime;
     private String imageURL;
     private String url;

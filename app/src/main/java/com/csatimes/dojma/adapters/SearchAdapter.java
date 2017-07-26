@@ -1,5 +1,6 @@
 package com.csatimes.dojma.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -55,17 +56,26 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<TypeItem> results = new ArrayList<>();
     private Context mContext;
     private Date mCurrentDate;
+    private Activity mActivity;
 
     public SearchAdapter(Context mContext, List<TypeItem> results) {
         this.results = results;
         this.mContext = mContext;
         this.mCurrentDate = null;
+        if (mContext instanceof OnImageClicked) {
+            this.onImageClicked = (OnImageClicked) this.mContext;
+        } else onImageClicked = null;
+
     }
 
-    public SearchAdapter(List<TypeItem> results, Context mContext, Date mCurrentDate) {
+    public SearchAdapter(Activity activity, List<TypeItem> results, Date mCurrentDate) {
         this.results = results;
-        this.mContext = mContext;
+        this.mContext = activity;
         this.mCurrentDate = mCurrentDate;
+        this.mActivity = activity;
+        if (mActivity instanceof OnImageClicked) {
+            this.onImageClicked = (OnImageClicked) this.mActivity;
+        } else onImageClicked = null;
     }
 
     @Override
@@ -82,13 +92,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder = new SimpleTextViewHolder(view);
                 break;
             case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
-                view = inflater.inflate(R.layout.item_format_search_herald, parent, false);
-                viewHolder = new HeraldSearchViewHolder(view);
-                break;
-
             case SEARCH_ITEM_TYPE_HERALD_ARTICLE:
                 view = inflater.inflate(R.layout.item_format_search_herald, parent, false);
-                viewHolder = new HeraldSearchViewHolder(view);
+                viewHolder = new HeraldSearchViewHolder(view, mContext, mActivity);
                 break;
             case SEARCH_ITEM_TYPE_GAZETTE:
                 view = inflater.inflate(R.layout.item_format_search_gazette, parent, false);
@@ -105,11 +111,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case SEARCH_ITEM_TYPE_LINK:
                 view = inflater.inflate(R.layout.item_format_links, parent, false);
-                viewHolder = new LinkItemViewHolder(view, mContext);
+                viewHolder = new LinkItemViewHolder(view, mActivity);
                 break;
             case SEARCH_ITEM_TYPE_MESS:
                 view = inflater.inflate(R.layout.item_format_mess_menu, parent, false);
-                viewHolder = new MessItemViewHolder(view);
+                viewHolder = new MessItemViewHolder(view, onImageClicked);
                 break;
             case SEARCH_ITEM_TYPE_POSTER:
                 // view = inflater.inflate(R.layout.item_format_links, parent, false);
@@ -133,6 +139,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
                 HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
                 HeraldItem hi = (HeraldItem) results.get(position).getValue();
+                hsvh.item = hi;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     hsvh.title.setText(Html.fromHtml(hi.getTitle(), Html.FROM_HTML_MODE_LEGACY));
                 } else hsvh.title.setText(Html.fromHtml(hi.getTitle()));
@@ -168,35 +175,38 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 civh.contactItem = ci;
                 civh.contactName.setText(ci.getName());
 
-                if (ci.getNumber() == null) {
+                if (ci.getNumber() != null && ci.getNumber().length() != 0) {
+                    civh.contactCall.setVisibility(VISIBLE);
+                } else {
                     civh.contactCall.setVisibility(GONE);
-                } else civh.contactCall.setVisibility(VISIBLE);
+                }
 
-                if (ci.getEmail() == null) {
+                if (ci.getEmail() != null && ci.getEmail().length() != 0) {
+                    civh.contactEmail.setVisibility(VISIBLE);
+                } else {
                     civh.contactEmail.setVisibility(GONE);
-                } else civh.contactEmail.setVisibility(VISIBLE);
+                }
 
-                if (ci.getSub1() != null) {
+                if (ci.getSub1() != null && ci.getSub1().length() != 0) {
                     civh.contactSub1.setVisibility(View.VISIBLE);
                     civh.contactSub1.setText(ci.getSub1());
                 } else {
                     civh.contactSub1.setVisibility(View.GONE);
                 }
 
-                if (ci.getSub2() != null) {
+                if (ci.getSub2() != null && ci.getSub2().length() != 0) {
                     civh.contactSub1.setVisibility(View.VISIBLE);
                     civh.contactSub2.setText(ci.getSub2());
                 } else {
-                    civh.contactSub1.setVisibility(View.INVISIBLE);
+                    civh.contactSub2.setVisibility(View.GONE);
                 }
 
-                if (ci.getIcon() != null) {
+                if (ci.getIcon() != null && ci.getIcon().length() != 0) {
                     civh.contactIcon.setImageURI(Uri.parse(ci.getIcon()));
                 } else {
                     civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
                             + "/" + R.drawable.ic_contact));
                 }
-
                 break;
 
             case SEARCH_ITEM_TYPE_LINK:
@@ -211,7 +221,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 MessItemViewHolder mivh = (MessItemViewHolder) holder;
                 MessItem mi = (MessItem) results.get(position).getValue();
                 mivh.title.setText(mi.getTitle());
-                mivh.image.setImageURI(Uri.parse(mi.getImageUrl()));
+                mivh.link = mi.getImageUrl();
+                mivh.image.setImageURI(Uri.parse(mivh.link));
                 break;
             default:
                 break;
@@ -268,5 +279,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         return results.get(position).getType();
+    }
+
+
+    public OnImageClicked onImageClicked;
+
+    public interface OnImageClicked {
+        void onClicked(String uri);
     }
 }

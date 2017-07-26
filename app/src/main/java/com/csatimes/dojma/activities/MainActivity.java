@@ -266,9 +266,15 @@ public class MainActivity
             if (!UpdateCheckerService.isInstanceCreated()) {
                 Intent intent = new Intent(this, UpdateCheckerService.class);
                 startService(intent);
+                DHC.makeCustomSnackbar(mFragmentsViewPager, "Starting update checker",
+                        getPrimaryColorFromTheme(), Color.WHITE).show();
             } else {
-                DHC.makeCustomSnackbar(mFragmentsViewPager, "Checking for updates", getPrimaryColorFromTheme(), Color.WHITE).show();
+                DHC.makeCustomSnackbar(mFragmentsViewPager, "Still checking for updates", getPrimaryColorFromTheme(),
+                        Color.WHITE).show();
             }
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -370,6 +376,9 @@ public class MainActivity
                     });
         } else if (id == R.id.nav_main_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_main_about_us) {
+            Intent intent = new Intent(this, AboutUsActivity.class);
             startActivity(intent);
         }
 
@@ -537,8 +546,9 @@ public class MainActivity
 
     /**
      * An interface callback that notifies if the title of a tab needs to be updated.
+     *
      * @param title Updated title
-     * @param pos Position to update
+     * @param pos   Position to update
      */
     @Override
     public void onTitleUpdate(final String title, final int pos) {
