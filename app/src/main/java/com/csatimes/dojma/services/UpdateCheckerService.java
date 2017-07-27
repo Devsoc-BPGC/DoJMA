@@ -129,13 +129,7 @@ public class UpdateCheckerService extends IntentService {
                         final JSONObject post = posts.getJSONObject(i);
                         final HeraldItem foobar = database.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
 
-                        if (foobar == null) log("this post doesn't exist " + post.getInt("id"));
-                        else {
-                            log("it is not null " + foobar.getTitle());
-                        }
-
                         if ((foobar == null) || (foobar.getUpdateTime().compareTo(post.getString("modified").substring(11)) != 0)) {
-                            DHC.log("ok");
                             database.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {

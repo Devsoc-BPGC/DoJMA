@@ -169,20 +169,23 @@ public class MainActivity
 
         //If the Home Activity was started using the app shortcut with the intent action then it is detected here and
         // accordingly the viewpager position is set to open Events tab for example
-        if (getString(R.string.shortcut_events).compareTo(getIntent().getAction()) == 0) {
-            mFragmentsViewPager.setCurrentItem(2);
-            log("Changing page to Events");
-        } else if (getString(R.string.shortcut_utilities).compareTo(getIntent().getAction()) == 0) {
-            mFragmentsViewPager.setCurrentItem(3);
-            log("Changing to Utilities");
-        } else {
-            if (getIntent().getAction() != null) {
-                log(getIntent().getAction());
+        try {
+            if (getString(R.string.shortcut_events).compareTo(getIntent().getAction()) == 0) {
+                mFragmentsViewPager.setCurrentItem(2);
+                log("Changing page to Events");
+            } else if (getString(R.string.shortcut_utilities).compareTo(getIntent().getAction()) == 0) {
+                mFragmentsViewPager.setCurrentItem(3);
+                log("Changing to Utilities");
             } else {
-                log("Got nothing");
+                if (getIntent().getAction() != null) {
+                    log(getIntent().getAction());
+                } else {
+                    log("Got nothing");
+                }
             }
+        } catch (Exception e) {
+            log("error in comparing");
         }
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
