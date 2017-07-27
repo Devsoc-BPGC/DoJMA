@@ -30,6 +30,7 @@ import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_DOWNLOAD_SU
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_NO_SUCCESS;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_PAGES;
+import static com.csatimes.dojma.utilities.DHC.log;
 
 public class UpdateCheckerService extends IntentService {
 
@@ -101,7 +102,7 @@ public class UpdateCheckerService extends IntentService {
 
             DHC.e(TAG, "defaultPagesToDownload " + defaultPagesToDownload + " and enableNotifications " + enableNotifications);
 
-
+            DHC.log("default pages are " + defaultPages);
             for (int j = 0; j <= defaultPages; j++) {
                 try {
                     //Handle malformed URL exception
@@ -116,18 +117,22 @@ public class UpdateCheckerService extends IntentService {
 
                     //Handle parse error using catch
                     jsonResponse = new JSONObject(response);
-                    DHC.log("Response " + jsonResponse.toString(4));
+
                     //Get all posts from the json
                     posts = jsonResponse.getJSONArray("posts");
-
+                    log("total posts " + posts.length());
                     //Update total pages
                     int pages = jsonResponse.getInt("pages");
                     editor.putInt(DHC.UPDATE_SERVICE_HERALD_PAGES, pages);
 
                     for (int i = 0; i < posts.length(); i++) {
                         final JSONObject post = posts.getJSONObject(i);
-                        DHC.log("POST is " + i + " " + j);
                         final HeraldItem foobar = database.where(HeraldItem.class).equalTo("postID", post.getInt("id") + "").findFirst();
+
+                        if (foobar == null) log("this post doesn't exist " + post.getInt("id"));
+                        else {
+                            log("it is not null " + foobar.getTitle());
+                        }
 
                         if ((foobar == null) || (foobar.getUpdateTime().compareTo(post.getString("modified").substring(11)) != 0)) {
                             DHC.log("ok");
@@ -147,23 +152,18 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setContent(post.getString("content"));
                                         entry.setExcerpt(post.getString("excerpt"));
                                         entry.setOriginalDate(post.getString("date").substring(0, 10));
-                                        entry.setOriginalMonthYear(post.getString("date").substring(0, 7));
                                         entry.setOriginalTime(post.getString("date").substring(11));
-                                        try {
-                                            entry.setAuthorName(post.getJSONObject("author").getString("name"));
-                                        } catch (Exception e) {
-                                            entry.setAuthorName("dojma_admin");
-                                        }
 
                                         try {
                                             String imageUrl = post.getString("thumbnail");
                                             if (imageUrl == null)
-                                                imageUrl = post.getJSONObject("thumbnail_images").getJSONObject("large").getString("url");
+                                                imageUrl = post.getJSONObject("thumbnail_images").getJSONObject
+                                                        ("thumbnail").getString("url");
                                             if (imageUrl == null)
                                                 imageUrl = post.getJSONObject("attachments").getJSONObject("images").getJSONObject("large").getString("url");
-                                            entry.setImageURL(imageUrl);
+                                            entry.setThumbnailUrl(imageUrl);
                                         } catch (Exception e) {
-                                            entry.setImageURL("");
+                                            entry.setThumbnailUrl("");
                                             DHC.e(TAG, "Could not get thumbnail");
                                         }
 

@@ -131,7 +131,7 @@
     <string name="shortcut_events_disabled_label">Events</string>
 
     <string name="shortcut_utilities">com.csatimes.dojma.HomeActivity.Utilities</string>
-    <string name="shortcut_utilities_short_label">Utilities</string>
+    <string name="shortcut_utilities_short_label">Utils</string>
     <string name="shortcut_utilities_long_label">Utilities</string>
     <string name="shortcut_utilities_disabled_label">Utilities</string>
     <string name="transition_utilities">utilities_transition</string>

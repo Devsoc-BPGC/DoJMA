@@ -145,7 +145,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else hsvh.title.setText(Html.fromHtml(hi.getTitle()));
 
                 hsvh.date.setText(hi.getUpdateDate());
-                hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.getImageURL()));
+                hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.getThumbnailUrl()));
                 break;
 
             case SEARCH_ITEM_TYPE_GAZETTE:

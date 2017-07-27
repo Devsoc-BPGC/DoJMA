@@ -53,7 +53,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldAdapter.HeraldView
         HeraldItem foobar = data.get(position);
         viewHolder.item = foobar;
         viewHolder.date.setText(foobar.getFormattedDate());
-        viewHolder.imageView.setImageURI(Uri.parse(foobar.getImageURL()));
+        viewHolder.imageView.setImageURI(Uri.parse(foobar.getThumbnailUrl()));
 
         if (foobar.isFav())
             viewHolder.fav.setLiked(true);

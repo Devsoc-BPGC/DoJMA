@@ -87,6 +87,7 @@ import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_UTILITIES_POS;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
+import static com.csatimes.dojma.utilities.DHC.log;
 
 public class MainActivity
         extends BaseActivity
@@ -168,10 +169,18 @@ public class MainActivity
 
         //If the Home Activity was started using the app shortcut with the intent action then it is detected here and
         // accordingly the viewpager position is set to open Events tab for example
-        if (getString(R.string.shortcut_events).equals(getIntent().getAction())) {
+        if (getString(R.string.shortcut_events).compareTo(getIntent().getAction()) == 0) {
             mFragmentsViewPager.setCurrentItem(2);
-        } else if (getString(R.string.shortcut_utilities).equals(getIntent().getAction())) {
+            log("Changing page to Events");
+        } else if (getString(R.string.shortcut_utilities).compareTo(getIntent().getAction()) == 0) {
             mFragmentsViewPager.setCurrentItem(3);
+            log("Changing to Utilities");
+        } else {
+            if (getIntent().getAction() != null) {
+                log(getIntent().getAction());
+            } else {
+                log("Got nothing");
+            }
         }
 
 

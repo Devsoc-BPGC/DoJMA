@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.activities.MainActivity;
+import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -50,6 +51,13 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
         if (data != null) {
             //In case data is wrongly formatted
             //we use try catch block
+
+            int version = DHC.VERSION;
+
+            if (data.get("version") != null) {
+                int supportsMin = Integer.parseInt(data.get("version"));
+                if (version < supportsMin) return;
+            }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 

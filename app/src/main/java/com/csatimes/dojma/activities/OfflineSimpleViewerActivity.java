@@ -2,8 +2,6 @@ package com.csatimes.dojma.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
@@ -44,17 +42,12 @@ public class OfflineSimpleViewerActivity extends BaseActivity {
                 articleTitle.setText(Html.fromHtml(mHeraldArticle.getTitle(), Html.FROM_HTML_MODE_LEGACY));
                 articleText.setText(Html.fromHtml(mHeraldArticle.getContent(), Html.FROM_HTML_MODE_LEGACY));
                 articleTitle.setText(Html.fromHtml(mHeraldArticle.getTitle(), Html.FROM_HTML_MODE_LEGACY));
-                if (mHeraldArticle.getAuthorName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorName(), Html.FROM_HTML_MODE_LEGACY));
-                else articleAuthor.setText("dojma_admin");
+                articleAuthor.setText("dojma_admin");
 
             } else {
                 articleTitle.setText(Html.fromHtml(mHeraldArticle.getTitle()));
                 articleText.setText(Html.fromHtml(mHeraldArticle.getContent()));
-
-                if (mHeraldArticle.getAuthorName() != null)
-                    articleAuthor.setText(Html.fromHtml(mHeraldArticle.getAuthorName()));
-                else articleAuthor.setText("dojma_admin");
+                articleAuthor.setText("dojma_admin");
 
             }
         }

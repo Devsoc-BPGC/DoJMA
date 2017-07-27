@@ -23,15 +23,13 @@ public class HeraldItem extends RealmObject {
     private String title;
     private String title_plain;
     private String originalDate;
-    private String originalMonthYear;
     private String originalTime;
     private String updateDate;
     private String updateTime;
-    private String imageURL;
+    private String thumbnailUrl;
     private String url;
     private String content;
     private String excerpt;
-    private String authorName;
     @Index
     private String category;
     private boolean fav;
@@ -44,22 +42,20 @@ public class HeraldItem extends RealmObject {
         title = "";
         title_plain = "";
         originalDate = "";
-        originalMonthYear = "";
         updateDate = "";
         originalTime = "";
         updateTime = "";
-        imageURL = "";
+        thumbnailUrl = "";
         url = "";
         content = "";
         excerpt = "";
-        authorName = "";
         category = "";
         fav = false;
     }
 
     public HeraldItem(String postID, String title, String title_plain, String originalDate, String originalMonthYear,
                       String updateDate, String originalTime, String updateTime,
-                      String imageURL, String url, String content,
+                      String thumbnailUrl, String url, String content,
                       String excerpt, String authorName,
                       String category,
                       boolean fav) {
@@ -67,15 +63,13 @@ public class HeraldItem extends RealmObject {
         this.title = title;
         this.title_plain = title_plain;
         this.originalDate = originalDate;
-        this.originalMonthYear = originalMonthYear;
         this.updateDate = updateDate;
         this.originalTime = originalTime;
         this.updateTime = updateTime;
-        this.imageURL = imageURL;
+        this.thumbnailUrl = thumbnailUrl;
         this.url = url;
         this.content = content;
         this.excerpt = excerpt;
-        this.authorName = authorName;
         this.category = category;
         this.fav = fav;
     }
@@ -131,14 +125,6 @@ public class HeraldItem extends RealmObject {
     }
 
 
-    public String getOriginalMonthYear() {
-        return originalMonthYear;
-    }
-
-    public void setOriginalMonthYear(String originalMonthYear) {
-        this.originalMonthYear = originalMonthYear;
-    }
-
     public String getUpdateDate() {
         return updateDate;
     }
@@ -163,12 +149,12 @@ public class HeraldItem extends RealmObject {
         this.updateTime = updateTime;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public String getUrl() {
@@ -193,14 +179,6 @@ public class HeraldItem extends RealmObject {
 
     public void setExcerpt(String excerpt) {
         this.excerpt = excerpt;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
     }
 
     public boolean isFav() {

@@ -29,6 +29,8 @@ import java.io.File;
  */
 public class DHC {
 
+    public static final int VERSION = 2;
+
     /**
      * Full name of DoJMA.
      */
@@ -88,8 +90,9 @@ public class DHC {
     public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.ns";
     public static final String UPDATE_SERVICE_INTENT_PAGES = PACKAGE_NAME + ".services.updatecheckerservice.extra.int.pages";
     public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = PACKAGE_NAME + ".services.updatecheckerservice.extra.boolean.notifications";
-    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald.org/api/blog/page/";
-    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/?json=all";
+    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald" +
+            ".org/api/blog/?json=all&page=";
+    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/";
 
     /**
      * Key used in {@link #USER_PREFERENCES} ("{@value #USER_PREFERENCES}") to save latest number of
@@ -177,7 +180,7 @@ public class DHC {
     /**
      * Current Realm database schema version.
      */
-    public static final int REALM_DATABASE_SCHEMA_VERSION = 2;
+    public static final int REALM_DATABASE_SCHEMA_VERSION = 3;
 
     public static final String USER_PREFERENCES_NAVBAR_IMAGE_URL = "USER_PREFS_NAVBAR_IMAGE_URL";
     public static final int UPDATE_SERVICE_NOTIFICATION_CODE = 42;
@@ -185,7 +188,7 @@ public class DHC {
     /**
      * Default no. of pages to start downloading. This should be updated before every release.
      */
-    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 23;
+    public static final int UPDATE_SERVICE_HERALD_DEFAULT_PAGES = 25;
 
     /**
      * Key used to detect if taxi data has to be shown instead.
