@@ -1,8 +1,8 @@
 package com.csatimes.dojma.adapters;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,7 +22,7 @@ public class PhotoPagerAdapter
 
     private static final long PROGRESS_DELAY = 300L;
 
-    private final ViewPager viewPager;
+    private final androidx.viewpager.widget.ViewPager viewPager;
     RealmList<PosterItem> posterItems;
     private GestureSettingsSetupListener setupListener;
     private boolean activated;

@@ -2,7 +2,7 @@ package com.csatimes.dojma.services;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.WakefulBroadcastReceiver;
+import androidx.legacy.content.WakefulBroadcastReceiver;
 
 import com.csatimes.dojma.utilities.DHC;
 

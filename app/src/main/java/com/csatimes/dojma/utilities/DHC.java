@@ -10,10 +10,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
-import android.support.v13.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
+
+import com.csatimes.dojma.R;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -312,10 +313,10 @@ public class DHC {
      */
     public static Snackbar makeCustomSnackbar(final View view, final String s,
                                               final int bgColor, final int textColor) {
-        Snackbar snackbar = Snackbar.make(view, s, Snackbar.LENGTH_SHORT);
+        com.google.android.material.snackbar.Snackbar snackbar = Snackbar.make(view, s, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT);
         snackbar.getView().setBackgroundColor(bgColor);
-        TextView snackbarText = (TextView) snackbar.getView()
-                .findViewById(android.support.design.R.id.snackbar_text);
+        TextView snackbarText = snackbar.getView()
+                .findViewById(R.id.snackbar_text);
         snackbarText.setTextColor(textColor);
         return snackbar;
     }
@@ -351,7 +352,7 @@ public class DHC {
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context,
+            if (androidx.legacy.app.ActivityCompat.shouldShowRequestPermissionRationale(context,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an explanation to the user *asynchronously* -- don't block
@@ -359,7 +360,7 @@ public class DHC {
                 // sees the explanation, try again to request the permission.
 
             } else {
-                ActivityCompat.requestPermissions(context,
+                androidx.legacy.app.ActivityCompat.requestPermissions(context,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_WRITE_PERMISSION);
 

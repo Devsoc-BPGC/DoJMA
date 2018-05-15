@@ -3,10 +3,10 @@ package com.csatimes.dojma.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +47,8 @@ public class Utilities extends Fragment {
         SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         mEditor = sp.edit();
 
-        StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(span(), StaggeredGridLayoutManager.VERTICAL);
-        sglm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        androidx.recyclerview.widget.StaggeredGridLayoutManager sglm = new androidx.recyclerview.widget.StaggeredGridLayoutManager(span(), androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL);
+        sglm.setGapStrategy(androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         utilitiesRecyclerView.setLayoutManager(sglm);
         utilitiesRecyclerView.setHasFixedSize(true);
 

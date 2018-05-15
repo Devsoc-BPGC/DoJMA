@@ -2,12 +2,12 @@ package com.csatimes.dojma;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.multidex.MultiDex;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -34,6 +34,7 @@ public class DoJMA extends Application {
 
     /**
      * This is where multi dex needs to be installed.
+     *
      * @param base base context
      */
     @Override

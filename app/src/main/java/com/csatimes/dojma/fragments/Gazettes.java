@@ -1,10 +1,6 @@
 package com.csatimes.dojma.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.Sort;
@@ -37,7 +37,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
     private DatabaseReference mGazettesReference = FirebaseDatabase.getInstance().getReference().child("gazettes2");
     private Realm mDatabase;
     private ValueEventListener mGazettesReferenceListener;
-    private RecyclerView mGazetteRecyclerView;
+    private androidx.recyclerview.widget.RecyclerView mGazetteRecyclerView;
     private RealmList<GazetteItem> mDataSet;
 
     public Gazettes() {
@@ -68,7 +68,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
 
         mDatabase = Realm.getDefaultInstance();
         mDataSet = new RealmList<>();
-        mDataSet.addAll(mDatabase.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING));
+        mDataSet.addAll(mDatabase.where(GazetteItem.class).sort("time", Sort.DESCENDING).findAll());
 
         mGazettesAdapter = new GazettesAdapter(mDataSet);
 
@@ -87,24 +87,6 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
         } else {
             mEmptyListTextView.setVisibility(INVISIBLE);
         }
-    }
-
-    private int span() {
-
-        //Setup columns according to device screen
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        // Setting up grid
-        int num = 180;
-        float t = dpWidth / num;
-        float r = dpWidth % num;
-        int cols;
-        if (r < 0.1 * num)
-            cols = (int) Math.ceil(dpWidth / num);
-        else
-            cols = (int) t;
-
-        return cols;
     }
 
     private ValueEventListener returnChildEventListener() {
@@ -138,7 +120,7 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
                     }
                 }
                 mDataSet.clear();
-                mDataSet.addAll(mDatabase.where(GazetteItem.class).findAllSorted("time", Sort.DESCENDING));
+                mDataSet.addAll(mDatabase.where(GazetteItem.class).sort("time", Sort.DESCENDING).findAll());
                 mGazettesAdapter.notifyDataSetChanged();
                 updateEmptyText();
             }
@@ -155,6 +137,25 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
         super.onStop();
         mGazettesReference.removeEventListener(mGazettesReferenceListener);
         mDatabase.close();
+    }
+
+    private int span() {
+
+        //Setup columns according to device screen
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up grid
+        int num = 180;
+        float t = dpWidth / num;
+        float r = dpWidth % num;
+        int cols;
+        if (r < 0.1 * num) {
+            cols = (int) Math.ceil(dpWidth / num);
+        } else {
+            cols = (int) t;
+        }
+
+        return cols;
     }
 
     @Override

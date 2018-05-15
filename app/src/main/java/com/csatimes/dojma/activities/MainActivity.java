@@ -13,15 +13,17 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.browser.customtabs.CustomTabsIntent;
+
+import com.csatimes.dojma.fragments.EventsFragment;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +33,8 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.SlideshowPagerAdapter;
 import com.csatimes.dojma.adapters.ViewPagerAdapter;
-import com.csatimes.dojma.fragments.Events;
 import com.csatimes.dojma.fragments.Gazettes;
-import com.csatimes.dojma.fragments.Herald;
+import com.csatimes.dojma.fragments.HeraldFragment;
 import com.csatimes.dojma.fragments.Utilities;
 import com.csatimes.dojma.interfaces.OnTitleUpdateListener;
 import com.csatimes.dojma.models.EventItem;
@@ -64,7 +65,7 @@ import static android.content.Intent.EXTRA_REFERRER;
 import static android.content.Intent.EXTRA_TEXT;
 import static android.content.Intent.URI_ANDROID_APP_SCHEME;
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-import static android.support.v4.view.GravityCompat.START;
+import static androidx.core.view.GravityCompat.START;
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 import static com.csatimes.dojma.utilities.DHC.ALARM_RECEIVER_ACTION_UPDATE;
@@ -105,19 +106,19 @@ public class MainActivity
      */
     private boolean landscape = false;
 
-    private DatabaseReference mUIReference = FirebaseDatabase.getInstance().getReference().child(FIREBASE_DATABASE_REFERENCE_UI);
-    private DrawerLayout mDrawerLayout;
-    private Realm mDatabase;
-    private SimpleDraweeView mNavBarImage;
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
-    private SlideshowPagerAdapter mSlideshowPagerAdapter;
-    private RealmList<SlideshowItem> mSlideshowItems;
-    private TabLayout mFragmentsTabLayout;
-    private TextView mNavBarTitle;
-    private ValueEventListener mUIListener;
-    private ViewPager mFragmentsViewPager;
-    private ViewPager mSlideShowViewPager;
+    private DatabaseReference                         mUIReference = FirebaseDatabase.getInstance().getReference().child(FIREBASE_DATABASE_REFERENCE_UI);
+    private androidx.drawerlayout.widget.DrawerLayout mDrawerLayout;
+    private Realm                                     mDatabase;
+    private SimpleDraweeView                          mNavBarImage;
+    private SharedPreferences                         mPreferences;
+    private SharedPreferences.Editor                  mEditor;
+    private SlideshowPagerAdapter                     mSlideshowPagerAdapter;
+    private RealmList<SlideshowItem>                  mSlideshowItems;
+    private TabLayout                                 mFragmentsTabLayout;
+    private TextView                                  mNavBarTitle;
+    private ValueEventListener                        mUIListener;
+    private ViewPager                                 mFragmentsViewPager;
+    private ViewPager                                 mSlideShowViewPager;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -136,12 +137,12 @@ public class MainActivity
 
         CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.app_bar_vp_indicator);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mFragmentsTabLayout = (TabLayout) findViewById(R.id.app_bar_home_tabs);
-        mFragmentsViewPager = (ViewPager) findViewById(R.id.app_bar_home_viewpager);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mFragmentsTabLayout = (com.google.android.material.tabs.TabLayout) findViewById(R.id.app_bar_home_tabs);
+        mFragmentsViewPager = (androidx.viewpager.widget.ViewPager) findViewById(R.id.app_bar_home_viewpager);
+        com.google.android.material.navigation.NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
         mNavBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
-        mSlideShowViewPager = (ViewPager) findViewById(R.id.app_bar_home_slideshow_vp);
+        mSlideShowViewPager = (androidx.viewpager.widget.ViewPager) findViewById(R.id.app_bar_home_slideshow_vp);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
 
         setSupportActionBar(mToolbar);
@@ -395,7 +396,7 @@ public class MainActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        androidx.drawerlayout.widget.DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(START);
 
         return false;
@@ -427,16 +428,16 @@ public class MainActivity
         //Setup up main Viewpager
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        Herald heraldFragment = new Herald();
+        HeraldFragment heraldFragmentFragment = new HeraldFragment();
         Gazettes gazettesFragment = new Gazettes();
-        Events eventsFragments = new Events();
+        EventsFragment eventsFragmentFragments = new EventsFragment();
         Utilities utilitiesFragment = new Utilities();
 
-        eventsFragments.setOnTitleUpdateListener(this);
+        eventsFragmentFragments.setOnTitleUpdateListener(this);
 
-        adapter.addFragment(heraldFragment, "Herald", MAIN_ACTIVITY_HERALD_POS);
+        adapter.addFragment(heraldFragmentFragment, "Herald", MAIN_ACTIVITY_HERALD_POS);
         adapter.addFragment(gazettesFragment, "Gazettes", MAIN_ACTIVITY_GAZETTES_POS);
-        adapter.addFragment(eventsFragments, "Events(" + mDatabase.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
+        adapter.addFragment(eventsFragmentFragments, "Events(" + mDatabase.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", MAIN_ACTIVITY_UTILITIES_POS);
 
         mFragmentsViewPager.setAdapter(adapter);

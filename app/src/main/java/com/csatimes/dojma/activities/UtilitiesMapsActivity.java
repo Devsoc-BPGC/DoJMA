@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 
 import com.csatimes.dojma.R;
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class UtilitiesMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class UtilitiesMapsActivity extends androidx.fragment.app.FragmentActivity implements OnMapReadyCallback {
 
     LatLng leftBottomBound = new LatLng(15.385178, 73.868207);
     LatLng rightTopBound = new LatLng(15.394957, 73.885857);
@@ -45,7 +45,7 @@ public class UtilitiesMapsActivity extends FragmentActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        fab = (FloatingActionButton) findViewById(R.id.utilities_map_icon);
+        fab = (com.google.android.material.floatingactionbutton.FloatingActionButton) findViewById(R.id.utilities_map_icon);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

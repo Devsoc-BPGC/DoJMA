@@ -2,9 +2,9 @@ package com.csatimes.dojma.callbacks;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 
 import com.csatimes.dojma.adapters.HeraldAdapter;
@@ -61,7 +61,7 @@ public class SimpleItemTouchCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+    public void onChildDraw(Canvas c, androidx.recyclerview.widget.RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY,
                 actionState, isCurrentlyActive);
     }

@@ -1,9 +1,9 @@
 package com.csatimes.dojma.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -45,7 +45,7 @@ public class UtilitiesContactsActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.contacts_toolbar);
         errorText = (TextView) findViewById(R.id.textView_activity_contacts_error);
-        RecyclerView contactsRecyclerView = (RecyclerView) findViewById(R.id.content_contacts_rv);
+        RecyclerView contactsRecyclerView = (androidx.recyclerview.widget.RecyclerView) findViewById(R.id.content_contacts_rv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,7 @@ public class UtilitiesContactsActivity extends BaseActivity {
     private void generateContacts() {
         boolean showTaxiData = getIntent().getBooleanExtra(CONTACTS_SHOW_TAXI_DATA, false);
         dataSet.clear();
-        RealmResults<ContactItem> foo = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING);
+        RealmResults<ContactItem> foo = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING).findAll();
         for (int i = 0; i < foo.size(); i++) {
 
             if (showTaxiData) {

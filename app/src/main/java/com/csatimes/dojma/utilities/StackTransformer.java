@@ -4,19 +4,13 @@ package com.csatimes.dojma.utilities;
  * Created by vikramaditya on 27/2/17.
  */
 
-import android.annotation.TargetApi;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.google.firebase.auth.ActionCodeResult;
-import com.google.firebase.database.Exclude;
-
-import io.realm.annotations.Ignore;
+import androidx.viewpager.widget.ViewPager;
 
 public class StackTransformer implements ViewPager.PageTransformer {
 
- public  void transformPage(View view, float position) {
+    public void transformPage(View view, float position) {
 
         if (0 < position && position < 1f) {
             // Fade the page out

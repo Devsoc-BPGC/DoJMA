@@ -7,11 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +18,12 @@ import com.csatimes.dojma.adapters.ContributorsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AboutUsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +38,7 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.about_us_toolbar);
         ImageButton facebookImgBtn = (ImageButton) findViewById(R.id.content_about_us_fb_imgbtn);
         ImageButton googlePlayImgBtn = (ImageButton) findViewById(R.id.content_about_us_google_play_imgbtn);
-        RecyclerView contributorsRecyclerView = (RecyclerView) findViewById(R.id.content_about_us_rv);
+        androidx.recyclerview.widget.RecyclerView contributorsRecyclerView = (RecyclerView) findViewById(R.id.content_about_us_rv);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,21 +76,6 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         return foo;
     }
 
-    //method to get the right URL to use in the intent
-    public String getFacebookPageURL(final Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + ABOUT_US_FACEBOOK_URL;
-            } else { //older versions of fb app
-                return "fb://page/" + ABOUT_US_FACEBOOK_PAGE_ID;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            return ABOUT_US_FACEBOOK_URL; //normal web url
-        }
-    }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -112,6 +98,21 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(googlePlayIntent);
             default:
                 break;
+        }
+    }
+
+    //method to get the right URL to use in the intent
+    public String getFacebookPageURL(final Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850) { //newer versions of fb app
+                return "fb://facewebmodal/f?href=" + ABOUT_US_FACEBOOK_URL;
+            } else { //older versions of fb app
+                return "fb://page/" + ABOUT_US_FACEBOOK_PAGE_ID;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return ABOUT_US_FACEBOOK_URL; //normal web url
         }
     }
 }

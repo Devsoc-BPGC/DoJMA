@@ -3,11 +3,11 @@ package com.csatimes.dojma.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import io.realm.Realm;
 import io.realm.RealmList;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 

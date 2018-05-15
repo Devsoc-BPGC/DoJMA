@@ -6,11 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
 import android.widget.TextView;
 
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
@@ -31,17 +27,23 @@ import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.models.LinkItem;
 import com.csatimes.dojma.models.MessItem;
 import com.csatimes.dojma.models.TypeItem;
-import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_EVENT;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_GAZETTE;
@@ -52,41 +54,43 @@ import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 
 public class SearchableActivity extends BaseActivity implements SearchAdapter.OnImageClicked {
 
+    private final List<TypeItem> results = new ArrayList<>(0);
+    boolean imageShown = false;
     private TextView mEmptyQuery;
-    private List<TypeItem> results = new ArrayList<>();
     private RecyclerView mSearchRV;
     private Realm mDatabase;
+    @Nullable
     private SearchAdapter mSearchAdapter;
     private GestureFrameLayout gestureFrameLayout;
     private SimpleDraweeView simpleDraweeView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_search_toolbar);
-        mEmptyQuery = (TextView) findViewById(R.id.content_searchable_empty_text);
-        mSearchRV = (RecyclerView) findViewById(R.id.content_searchable_rv);
-        gestureFrameLayout = (GestureFrameLayout) findViewById(R.id.gesture_frame_search);
-        simpleDraweeView = (SimpleDraweeView) findViewById(R.id.imageView_content_search_large);
+        final Toolbar toolbar = findViewById(R.id.activity_search_toolbar);
+        setSupportActionBar(toolbar);
+        mEmptyQuery = findViewById(R.id.content_searchable_empty_text);
+        mSearchRV = findViewById(R.id.content_searchable_rv);
+        gestureFrameLayout = findViewById(R.id.gesture_frame_search);
+        simpleDraweeView = findViewById(R.id.imageView_content_search_large);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 onBackPressed();
             }
         });
         gestureFrameLayout.getController().getSettings().setOverzoomFactor(10);
-        setSupportActionBar(toolbar);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
-        Window window = this.getWindow();
-        if (Build.VERSION.SDK_INT >= 19) {
+        final Window window = this.getWindow();
+        if (Build.VERSION.SDK_INT >= KITKAT) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
 
@@ -98,18 +102,9 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
 
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        if (imageShown) {
-            onClicked(null);
-        }
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
+    private void handleIntent(final Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            final String query = intent.getStringExtra(SearchManager.QUERY);
             if (query.length() == 0) {
                 mEmptyQuery.setVisibility(View.VISIBLE);
                 if (mSearchAdapter != null) {
@@ -120,15 +115,18 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
                 mEmptyQuery.setVisibility(View.GONE);
                 generateResults(query);
                 if (mSearchAdapter == null) {
-                    mSearchAdapter = new SearchAdapter(this, results, Calendar.getInstance().getTime());
+                    mSearchAdapter = new SearchAdapter(this,
+                            results, Calendar.getInstance().getTime());
                     mSearchRV.setAdapter(mSearchAdapter);
                     final int span = span();
-                    GridLayoutManager mLayoutManager = new GridLayoutManager(this, span);
+                    final androidx.recyclerview.widget.GridLayoutManager mLayoutManager =
+                            new GridLayoutManager(this, span);
                     mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                         @Override
-                        public int getSpanSize(int position) {
-                            if (mSearchAdapter.getItemViewType(position) == DHC.SEARCH_ITEM_TYPE_MESS)
+                        public int getSpanSize(final int position) {
+                            if (mSearchAdapter.getItemViewType(position) == SEARCH_ITEM_TYPE_MESS) {
                                 return 1;
+                            }
                             return span;
                         }
                     });
@@ -140,134 +138,139 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         }
     }
 
-    private void generateResults(String query) {
+    private void generateResults(final String query) {
 
         results.clear();
 
         //add herald fav articles
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Favourites"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<HeraldItem> searchHeraldFavourites = new RealmList<>();
-            searchHeraldFavourites.addAll(mDatabase
-                    .where(HeraldItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .equalTo("fav", true)
-                    .findAll());
-            if (searchHeraldFavourites.size() != 0)
-                for (int i = 0; i < searchHeraldFavourites.size(); i++) {
-                    results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE, searchHeraldFavourites.get(i)));
-                }
-            else {
-                results.remove(lastHeaderPosition);
-            }
-        }
-        //add herald articles
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Herald"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<HeraldItem> searchHerald = new RealmList<>();
-            searchHerald.addAll(mDatabase
-                    .where(HeraldItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .equalTo("fav", false)
-                    .findAll());
 
-            if (searchHerald.size() != 0) for (int i = 0; i < searchHerald.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE, searchHerald.get(i)));
-            }
-            else {
-                results.remove(lastHeaderPosition);
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Favourites"));
+        int lastHeaderPosition = results.size() - 1;
+        final List<HeraldItem> favoriteMatches = new RealmList<>();
+        favoriteMatches.addAll(mDatabase
+                .where(HeraldItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .equalTo("fav", true)
+                .findAll());
+        if (favoriteMatches.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < favoriteMatches.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE,
+                        favoriteMatches.get(i)));
             }
         }
+
+        //add herald articles
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Herald"));
+        lastHeaderPosition = results.size() - 1;
+        final List<HeraldItem> searchHerald = new RealmList<>();
+        searchHerald.addAll(mDatabase
+                .where(HeraldItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .equalTo("fav", false)
+                .findAll());
+
+        if (searchHerald.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < searchHerald.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE,
+                        searchHerald.get(i)));
+            }
+        }
+
         //add gazettes
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Gazettes"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<GazetteItem> searchGazettes = new RealmList<>();
-            searchGazettes.addAll(mDatabase
-                    .where(GazetteItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .or().contains("date", query, Case.INSENSITIVE)
-                    .findAll());
-            if (searchGazettes.size() != 0) for (int i = 0; i < searchGazettes.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_GAZETTE, searchGazettes.get(i)));
-            }
-            else {
-                results.remove(lastHeaderPosition);
+
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Gazettes"));
+        lastHeaderPosition = results.size() - 1;
+        final List<GazetteItem> gazetteResults = new RealmList<>();
+        gazetteResults.addAll(mDatabase
+                .where(GazetteItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .or().contains("date", query, Case.INSENSITIVE)
+                .findAll());
+        if (gazetteResults.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < gazetteResults.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_GAZETTE, gazetteResults.get(i)));
             }
         }
+
         //add events
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Events"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<EventItem> searchEvents = new RealmList<>();
-            searchEvents.addAll(mDatabase
-                    .where(EventItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .or().contains("location", query, Case.INSENSITIVE)
-                    .or().contains("desc", query, Case.INSENSITIVE)
-                    .findAll());
-            if (searchEvents.size() != 0) for (int i = 0; i < searchEvents.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_EVENT, searchEvents.get(i)));
-            }
-            else {
-                results.remove(lastHeaderPosition);
+
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Events"));
+        lastHeaderPosition = results.size() - 1;
+        final List<EventItem> eventsResults = new RealmList<>();
+        eventsResults.addAll(mDatabase
+                .where(EventItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .or().contains("location", query, Case.INSENSITIVE)
+                .or().contains("desc", query, Case.INSENSITIVE)
+                .findAll());
+        if (eventsResults.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < eventsResults.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_EVENT, eventsResults.get(i)));
             }
         }
+
         //add contacts
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Contacts"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<ContactItem> searchContacts = new RealmList<>();
-            searchContacts.addAll(mDatabase
-                    .where(ContactItem.class)
-                    .contains("name", query, Case.INSENSITIVE)
-                    .or().contains("number", query)
-                    .or().contains("email", query, Case.INSENSITIVE)
-                    .or().contains("type", query, Case.INSENSITIVE)
-                    .or().contains("sub1", query, Case.INSENSITIVE)
-                    .or().contains("sub2", query, Case.INSENSITIVE)
-                    .findAll());
-            if (searchContacts.size() != 0)
-                for (int i = 0; i < searchContacts.size(); i++) {
-                    results.add(new TypeItem(SEARCH_ITEM_TYPE_CONTACT, searchContacts.get(i)));
-                }
-            else {
-                results.remove(lastHeaderPosition);
+
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Contacts"));
+        lastHeaderPosition = results.size() - 1;
+        final List<ContactItem> contactResults = new RealmList<>();
+        contactResults.addAll(mDatabase
+                .where(ContactItem.class)
+                .contains("name", query, Case.INSENSITIVE)
+                .or().contains("number", query)
+                .or().contains("email", query, Case.INSENSITIVE)
+                .or().contains("type", query, Case.INSENSITIVE)
+                .or().contains("sub1", query, Case.INSENSITIVE)
+                .or().contains("sub2", query, Case.INSENSITIVE)
+                .findAll());
+        if (contactResults.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < contactResults.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_CONTACT, contactResults.get(i)));
             }
         }
+
         //add links
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Links"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<LinkItem> searchLinks = new RealmList<>();
-            searchLinks.addAll(mDatabase
-                    .where(LinkItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .or().contains("url", query, Case.INSENSITIVE)
-                    .findAll());
-            if (searchLinks.size() != 0) for (int i = 0; i < searchLinks.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_LINK, searchLinks.get(i)));
-            }
-            else {
-                results.remove(lastHeaderPosition);
+
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Links"));
+        lastHeaderPosition = results.size() - 1;
+        final List<LinkItem> linkResults = new RealmList<>();
+        linkResults.addAll(mDatabase
+                .where(LinkItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .or().contains("url", query, Case.INSENSITIVE)
+                .findAll());
+        if (linkResults.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < linkResults.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_LINK, linkResults.get(i)));
             }
         }
+
         //add mess images
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Mess"));
-            int lastHeaderPosition = results.size() - 1;
-            RealmList<MessItem> searchMess = new RealmList<>();
-            searchMess.addAll(mDatabase
-                    .where(MessItem.class)
-                    .contains("title", query, Case.INSENSITIVE)
-                    .findAll());
-            if (searchMess.size() != 0) for (int i = 0; i < searchMess.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_MESS, searchMess.get(i)));
-            }
-            else {
-                results.remove(lastHeaderPosition);
+
+        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Mess"));
+        lastHeaderPosition = results.size() - 1;
+        final List<MessItem> messResults = new RealmList<>();
+        messResults.addAll(mDatabase
+                .where(MessItem.class)
+                .contains("title", query, Case.INSENSITIVE)
+                .findAll());
+        if (messResults.size() == 0) {
+            results.remove(lastHeaderPosition);
+        } else {
+            for (int i = 0; i < messResults.size(); i++) {
+                results.add(new TypeItem(SEARCH_ITEM_TYPE_MESS, messResults.get(i)));
             }
         }
 
@@ -289,84 +292,22 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         */
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search_search);
-
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setQueryHint("Search DoJMA app..");
-        searchItem.expandActionView();
-
-        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                return false;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                if (imageShown) {
-                    onClicked(null);
-                }
-                SearchableActivity.this.finish();
-                return true;
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
-                if (imageShown) {
-                    onClicked(null);
-                }
-                //handle search
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setAction(Intent.ACTION_SEARCH);
-                intent.putExtra(SearchManager.QUERY, query);
-                onNewIntent(intent);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //handle search
-                if (imageShown) {
-                    onClicked(null);
-                }
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setAction(Intent.ACTION_SEARCH);
-                intent.putExtra(SearchManager.QUERY, newText);
-                onNewIntent(intent);
-                return true;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
     private int span() {
 
         //Setup columns according to device screen
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        final float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         // Setting up grid
-        int num = 180;
-        float t = dpWidth / num;
-        float r = dpWidth % num;
-        int cols;
-        if (r < 0.1 * num)
-            cols = (int) Math.ceil(dpWidth / num);
-        else
-            cols = (int) t;
+        final float num = 180.0f;
+        final float t = dpWidth / num;
+        final float r = dpWidth % num;
+        final double cols;
+        cols = r < num / 10
+                ? Math.ceil(dpWidth / num)
+                : t;
 
-        return cols;
+        return (int) cols;
     }
-
-    boolean imageShown = false;
 
     @Override
     public void onBackPressed() {
@@ -379,7 +320,16 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
     }
 
     @Override
-    public void onClicked(String uri) {
+    protected void onNewIntent(final Intent intent) {
+        if (imageShown) {
+            onClicked(null);
+        }
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    @Override
+    public void onClicked(final String uri) {
         if (imageShown) {
             gestureFrameLayout.setVisibility(View.GONE);
             imageShown = false;
@@ -387,11 +337,72 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
             imageShown = true;
             gestureFrameLayout.setVisibility(View.VISIBLE);
             simpleDraweeView.setImageURI(Uri.parse(uri));
-            View view = this.getCurrentFocus();
+            final View view = this.getCurrentFocus();
             if (view != null) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                final InputMethodManager imm =
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        final MenuItem searchItem = menu.findItem(R.id.menu_search_search);
+
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint("Search DoJMA app..");
+        searchItem.expandActionView();
+
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(final MenuItem menuItem) {
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(final MenuItem menuItem) {
+                if (imageShown) {
+                    onClicked(null);
+                }
+                SearchableActivity.this.finish();
+                return true;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+                searchView.clearFocus();
+                if (imageShown) {
+                    onClicked(null);
+                }
+                //handle search
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setAction(Intent.ACTION_SEARCH);
+                intent.putExtra(SearchManager.QUERY, query);
+                onNewIntent(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                //handle search
+                if (imageShown) {
+                    onClicked(null);
+                }
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setAction(Intent.ACTION_SEARCH);
+                intent.putExtra(SearchManager.QUERY, newText);
+                onNewIntent(intent);
+                return true;
+            }
+        });
+        return true;
     }
 }

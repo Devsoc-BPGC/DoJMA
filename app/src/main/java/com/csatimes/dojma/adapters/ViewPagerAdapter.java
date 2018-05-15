@@ -1,24 +1,24 @@
 package com.csatimes.dojma.adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 
 /**
  * Created by vikramaditya on 14/12/16.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private SparseArray<Fragment> fragmentMap = new SparseArray<>();
-    private SparseArray<String> fragmentTitlesMap = new SparseArray<>();
+public class ViewPagerAdapter extends androidx.fragment.app.FragmentPagerAdapter {
+    private SparseArray<androidx.fragment.app.Fragment> fragmentMap       = new SparseArray<>();
+    private SparseArray<String>                         fragmentTitlesMap = new SparseArray<>();
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public androidx.fragment.app.Fragment getItem(int position) {
         return fragmentMap.get(position);
     }
 
@@ -27,7 +27,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentMap.size();
     }
 
-    public void addFragment(Fragment fragment, String title, int position) {
+    public void addFragment(androidx.fragment.app.Fragment fragment, String title, int position) {
         fragmentMap.put(position, fragment);
         fragmentTitlesMap.put(position, title);
     }

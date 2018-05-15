@@ -8,52 +8,71 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
- * Event data object that has a title,startDate,start startTime,end startTime,location,desc,id and some more useful methods and variables
+ * Event data object that has a title,startDate,start startTime,end startTime,
+ * location,desc,id and some more useful methods and variables
  */
 
+// FIXME:  UseOfObsoleteDateTimeApi
+@SuppressWarnings("UseOfObsoleteDateTimeApi")
 public class EventItem extends RealmObject {
 
-    public static final String TAG = "models.EventItem";
-    //TODO Add @Index annotation for fields that will be used in searching/ or used in finding distinct items
+    public static final String TAG = EventItem.class.getSimpleName();
+    public static final String FIELD_ORIGINAL_DATE = "originalDate";
+    // TODO Add @Index annotation for fields that will be used in searching or
+    // used in finding distinct items
 
     @PrimaryKey
     private String key;
+
     @Required
     private String title;
 
     @Required
     private String startDate;
+
     @Required
     private String startTime;
+
     private String desc;
+
     private String location;
+
     @Exclude
-    private long time = 0;
+    private long time;
+
+    @Nullable
     @Exclude
     private String startDateFormatted;
+
+    @Nullable
     @Exclude
     private String startTimeFormatted;
+
     @Exclude
     private Date startDateObj;
 
     public EventItem() {
-        desc = "SET DESC";
-        startDate = "01011990";
-        startTime = "0000";
-        location = "SET LOCATION";
-        title = "SET TITLE";
-        key = "SET KEY";
+        desc = "";
+        startDate = "";
+        startTime = "";
+        location = "";
+        title = "";
+        key = "";
         time = Long.MAX_VALUE;
-        startDateFormatted = "01 JAN";
-        startTimeFormatted = "0:00 am";
+        startDateFormatted = "";
+        startTimeFormatted = "";
     }
 
-    public EventItem(String title, String startDate, String startTime, String location, String desc, String key, long time) {
+    public EventItem(final String title, final String startDate,
+                     final String startTime, final String location,
+                     final String desc, final String key, final long time) {
         this.title = title;
         this.desc = desc;
         this.startDate = startDate;
@@ -67,7 +86,7 @@ public class EventItem extends RealmObject {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -75,72 +94,74 @@ public class EventItem extends RealmObject {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public void setDesc(final String desc) {
         this.desc = desc;
     }
 
-    public void setDateTime(String datetime) {
-
+    @SuppressWarnings("FeatureEnvy")
+    public void setDateTime(final String datetime) {
         try {
-            setStartDate(datetime.substring(0, 8));
-            setStartTime(datetime.substring(8));
-        } catch (Exception e) {
-            setStartDate("01012000");
-            setStartTime("0000");
+            this.startDate = datetime.substring(0, 8);
+            this.startTime = datetime.substring(8);
+        } catch (final Exception e) {
+            this.startDate = "01012000";
+            this.startTime = "0000";
         }
 
-        Date date;
-        SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
+        final Date date;
+        //noinspection HardCodedStringLiteral
+        final SimpleDateFormat format = new SimpleDateFormat("ddMMyyyyHHmm", Locale.ENGLISH);
 
         try {
             date = format.parse(datetime);
-            startDateObj = date;
-
-            /**
-             * Set {@link EventItem#startDateFormatted}
-             */
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
-            try {
-                startDateFormatted = sdf.format(date);
-            } catch (Exception e) {
-                DHC.e(TAG, "dd MMM parse error");
-                startDateFormatted = null;
-            }
-
-            /**
-             * Set {@link EventItem#startTimeFormatted}
-             */
-            sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
-            try {
-                startTimeFormatted = sdf.format(date);
-            } catch (Exception e) {
-                DHC.e(TAG, "h:mm a parse error");
-                startTimeFormatted = null;
-            }
-
-            /**
-             * Set {@link EventItem#time} which is used for sorting in {@link com.csatimes.dojma.fragments.Events} fragment
-             */
-            if (Calendar.getInstance(Locale.ENGLISH).getTime().getTime() < date.getTime())
-                setTime(date.getTime());
-            else setTime(Long.MAX_VALUE);
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
+            //noinspection HardCodedStringLiteral,StringConcatenation
             DHC.log("Date parse error in start dateTime " + datetime + e.getMessage());
-            //TODO remove stack trace
-            e.printStackTrace();
-            setTime(Long.MAX_VALUE);
+            this.time = Long.MAX_VALUE;
             startDateFormatted = null;
+            startTimeFormatted = null;
+            return;
+        }
+        startDateObj = date;
+
+        /*
+         * Set {@link EventItem#startDateFormatted}
+         */
+        //noinspection HardCodedStringLiteral
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+        try {
+            startDateFormatted = sdf.format(date);
+        } catch (final Exception e) {
+            DHC.e(TAG, "dd MMM parse error"); //NON-NLS
+            startDateFormatted = null;
+        }
+
+        /*
+         * Set {@link EventItem#startTimeFormatted}
+         */
+        //noinspection HardCodedStringLiteral
+        sdf = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+        try {
+            startTimeFormatted = sdf.format(date);
+        } catch (final Exception e) {
+            //noinspection HardCodedStringLiteral
+            DHC.e(TAG, "h:mm a parse error");
             startTimeFormatted = null;
         }
 
+        /*
+         * Set {@link EventItem#time} which is used for sorting in
+         * {@link com.csatimes.dojma.fragments.EventsFragment} fragment
+         */
+        final long currentTime = Calendar.getInstance(Locale.ENGLISH).getTime().getTime();
+        this.time = currentTime < date.getTime() ? date.getTime() : Long.MAX_VALUE;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         this.location = location;
     }
 
@@ -148,7 +169,7 @@ public class EventItem extends RealmObject {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(final String key) {
         this.key = key;
     }
 
@@ -156,7 +177,8 @@ public class EventItem extends RealmObject {
         return time;
     }
 
-    private void setTime(long time) {
+    @SuppressWarnings("unused")
+    private void setTime(final long time) {
         this.time = time;
     }
 
@@ -168,7 +190,8 @@ public class EventItem extends RealmObject {
         return startDate;
     }
 
-    private void setStartDate(String startDate) {
+    @SuppressWarnings("unused")
+    private void setStartDate(final String startDate) {
         this.startDate = startDate;
     }
 
@@ -176,7 +199,8 @@ public class EventItem extends RealmObject {
         return startTime;
     }
 
-    private void setStartTime(String startTime) {
+    @SuppressWarnings("unused")
+    private void setStartTime(final String startTime) {
         this.startTime = startTime;
     }
 

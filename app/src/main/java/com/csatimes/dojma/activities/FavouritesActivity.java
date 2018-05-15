@@ -8,13 +8,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.HeraldAdapter;
 import com.csatimes.dojma.callbacks.SimpleItemTouchCallback;
+import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.csatimes.dojma.utilities.CustomTabActivityHelper;
@@ -31,6 +32,7 @@ import com.csatimes.dojma.utilities.DHC;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
 import io.realm.Sort;
 
 public class FavouritesActivity extends BaseActivity
@@ -50,16 +52,18 @@ public class FavouritesActivity extends BaseActivity
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_favourites_toolbar);
+        final Toolbar toolbar = findViewById(R.id.activity_favourites_toolbar);
         setSupportActionBar(toolbar);
 
         category = getIntent().getStringExtra("category");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (category != null) getSupportActionBar().setTitle(category);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (category != null) getSupportActionBar().setTitle(category);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 onBackPressed();
             }
         });
@@ -68,17 +72,17 @@ public class FavouritesActivity extends BaseActivity
         mFavHeraldRecyclerView = (RecyclerView) findViewById(R.id.favourites_herald_rv);
 
         mDatabase = Realm.getDefaultInstance();
-        RealmList<HeraldItem> favouritesList = new RealmList<>();
-        if (category == null)
-            favouritesList.addAll(mDatabase.where(HeraldItem.class).equalTo("fav", true).findAllSorted("originalDate", Sort.ASCENDING));
-        else
-            favouritesList.addAll(mDatabase.where(HeraldItem.class).equalTo("category", category).findAllSorted("originalDate", Sort.ASCENDING));
-
+        final RealmList<HeraldItem> favouritesList = new RealmList<>();
+        RealmQuery<HeraldItem> query = mDatabase.where(HeraldItem.class);
+        query = category == null
+                ? query.equalTo("fav", true)
+                : query.equalTo("category", category);
+        favouritesList.addAll(query.sort(EventItem.FIELD_ORIGINAL_DATE, Sort.ASCENDING).findAll());
         mHeraldAdapter = new HeraldAdapter(favouritesList);
 
         mFavHeraldRecyclerView.setHasFixedSize(true);
         mFavHeraldRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mFavHeraldRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mFavHeraldRecyclerView.addItemDecoration(new androidx.recyclerview.widget.DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         mHeraldAdapter.setHasStableIds(true);
         mHeraldAdapter.setOnLikeClickedListener(this);

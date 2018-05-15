@@ -3,13 +3,13 @@ package com.csatimes.dojma.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
@@ -68,7 +68,7 @@ public class ImagesAndMediaActivity extends BaseActivity implements ImageGallery
     }
 
     private void initGrid() {
-        views.grid.setLayoutManager(new GridLayoutManager(this, span()));
+        views.grid.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(this, span()));
         mGridAdapter = new ImageGalleryAdapter(this, mPosterItems, this);
         views.grid.setAdapter(mGridAdapter);
     }
@@ -222,15 +222,15 @@ public class ImagesAndMediaActivity extends BaseActivity implements ImageGallery
     }
 
     private class ViewHolder {
-        final Toolbar toolbar;
-        final View toolbarBack;
-        final RecyclerView grid;
-        final AppBarLayout appBarLayout;
-        final ViewPager pager;
-        final Toolbar pagerToolbar;
+        final Toolbar                                   toolbar;
+        final View                                      toolbarBack;
+        final androidx.recyclerview.widget.RecyclerView grid;
+        final AppBarLayout                              appBarLayout;
+        final ViewPager                                 pager;
+        final Toolbar                                   pagerToolbar;
         // final TextView pagerTitle;
-        final View pagerBackground;
-        final TextView noPostersText;
+        final View                                      pagerBackground;
+        final TextView                                  noPostersText;
 
         ViewHolder(Activity activity) {
             toolbar = Views.find(activity, R.id.images_toolbar);

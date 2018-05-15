@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/content_post_downloader_start_btn"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
 
         android:id="@+id/content_post_downloader_card"
         android:layout_width="160dp"
@@ -93,7 +93,7 @@
             app:layout_constraintTop_toTopOf="@+id/content_post_downloader_card" />
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <TextSwitcher
         android:id="@+id/content_post_downloader_status_switcher"
@@ -112,4 +112,4 @@
         app:layout_constraintVertical_bias="0.0" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
