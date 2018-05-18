@@ -29,8 +29,9 @@ public class Utilities extends Fragment {
     private DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
     private SharedPreferences.Editor mEditor;
 
-    public Utilities() {
-        // Required empty public constructor
+    public static Fragment newInstance() {
+        Utilities utilities=new Utilities();
+        return utilities;
     }
 
     @Override

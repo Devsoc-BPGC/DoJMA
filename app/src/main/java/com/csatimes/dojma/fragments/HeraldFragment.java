@@ -85,8 +85,9 @@ public class HeraldFragment extends Fragment implements
         }
     };
 
-    public HeraldFragment() {
-        // Required empty public constructor
+    public static Fragment newInstance() {
+        HeraldFragment heraldFragment=new HeraldFragment();
+        return heraldFragment;
     }
 
     @Override

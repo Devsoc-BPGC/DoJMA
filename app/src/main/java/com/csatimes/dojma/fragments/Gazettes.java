@@ -40,8 +40,9 @@ public class Gazettes extends Fragment implements GazettesAdapter.onGazetteItemC
     private androidx.recyclerview.widget.RecyclerView mGazetteRecyclerView;
     private RealmList<GazetteItem> mDataSet;
 
-    public Gazettes() {
-        // Required empty public constructor
+    public static Fragment newInstance() {
+        Gazettes gazettes = new Gazettes();
+        return gazettes;
     }
 
 

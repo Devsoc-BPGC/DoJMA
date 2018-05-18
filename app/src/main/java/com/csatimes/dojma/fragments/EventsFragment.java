@@ -40,8 +40,9 @@ public class EventsFragment extends Fragment {
     private ValueEventListener mEventListener;
     private OnTitleUpdateListener onTitleUpdateListener;
 
-    public EventsFragment() {
-        // Required empty public constructor
+    public static Fragment newInstance() {
+        EventsFragment eventsFragment=new EventsFragment();
+        return eventsFragment;
     }
 
     @Override

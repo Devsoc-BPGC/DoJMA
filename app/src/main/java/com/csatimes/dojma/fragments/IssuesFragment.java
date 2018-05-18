@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 
 public class IssuesFragment extends Fragment {
 
-    public IssuesFragment() {
-        // Required empty public constructor
+    public static Fragment newInstance(){
+        IssuesFragment issuesFragment = new IssuesFragment();
+        return issuesFragment;
     }
 
     @Override
