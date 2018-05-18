@@ -18,6 +18,9 @@ import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.csatimes.dojma.fragments.EventsFragment;
+import com.csatimes.dojma.fragments.IssuesFragment;
+import com.csatimes.dojma.fragments.favouritesfragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -82,7 +85,6 @@ import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLB
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_UI;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_EVENTS_POS;
-import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_GAZETTES_POS;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_HERALD_POS;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_UTILITIES_POS;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
@@ -119,6 +121,7 @@ public class MainActivity
     private ValueEventListener                        mUIListener;
     private ViewPager                                 mFragmentsViewPager;
     private ViewPager                                 mSlideShowViewPager;
+    private BottomNavigationView                      mbottomnavigationview;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -135,15 +138,40 @@ public class MainActivity
         landscape = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE;
         setContentView(R.layout.activity_home);
 
-        CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.app_bar_vp_indicator);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mFragmentsTabLayout = (com.google.android.material.tabs.TabLayout) findViewById(R.id.app_bar_home_tabs);
-        mFragmentsViewPager = (androidx.viewpager.widget.ViewPager) findViewById(R.id.app_bar_home_viewpager);
+        mbottomnavigationview = findViewById(R.id.bottom_navigation);
+        mbottomnavigationview.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                switch(menuItem.getItemId()){
+                    case R.id.bottom_herald:mFragmentsViewPager.setCurrentItem(0);
+                                            menuItem.setChecked(true);
+                                            break;
+                    case R.id.bottom_favourites:mFragmentsViewPager.setCurrentItem(1);
+                                                menuItem.setChecked(true);
+                                                break;
+                    case R.id.bottom_issues:mFragmentsViewPager.setCurrentItem(4);
+                                            menuItem.setChecked(true);
+                                            break;
+                    case R.id.bottom_events:mFragmentsViewPager.setCurrentItem(2);
+                                            menuItem.setChecked(true);
+                                            break;
+                    case R.id.bottom_utilities: mFragmentsViewPager.setCurrentItem(3);
+                                                menuItem.setChecked(true);
+                                                break;
+                }
+                return false;
+            }
+        });
+        CircleIndicator circleIndicator = findViewById(R.id.app_bar_vp_indicator);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mFragmentsTabLayout = findViewById(R.id.app_bar_home_tabs);
+        mFragmentsViewPager = findViewById(R.id.app_bar_home_viewpager);
         com.google.android.material.navigation.NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavBarImage = (SimpleDraweeView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
-        mNavBarTitle = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
-        mSlideShowViewPager = (androidx.viewpager.widget.ViewPager) findViewById(R.id.app_bar_home_slideshow_vp);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.app_bar_home_toolbar);
+        mNavBarImage = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_image);
+        mNavBarTitle = navigationView.getHeaderView(0).findViewById(R.id.nav_bar_title);
+        mSlideShowViewPager = findViewById(R.id.app_bar_home_slideshow_vp);
+        Toolbar mToolbar = findViewById(R.id.app_bar_home_toolbar);
 
         setSupportActionBar(mToolbar);
 
@@ -432,11 +460,15 @@ public class MainActivity
         Gazettes gazettesFragment = new Gazettes();
         EventsFragment eventsFragmentFragments = new EventsFragment();
         Utilities utilitiesFragment = new Utilities();
+        IssuesFragment issuesFragment = new IssuesFragment();
+        favouritesfragment favouritesFragment = new favouritesfragment();
 
         eventsFragmentFragments.setOnTitleUpdateListener(this);
 
         adapter.addFragment(heraldFragmentFragment, "Herald", MAIN_ACTIVITY_HERALD_POS);
-        adapter.addFragment(gazettesFragment, "Gazettes", MAIN_ACTIVITY_GAZETTES_POS);
+        adapter.addFragment(gazettesFragment, "Gazettes", 5);
+        adapter.addFragment(favouritesFragment, "Favourites", 1);
+        adapter.addFragment(issuesFragment, "Issues",4);
         adapter.addFragment(eventsFragmentFragments, "Events(" + mDatabase.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", MAIN_ACTIVITY_UTILITIES_POS);
 
@@ -452,6 +484,8 @@ public class MainActivity
         mSlideShowViewPager.setAdapter(mSlideshowPagerAdapter);
 
     }
+
+
 
     public void scheduleAlarmForUpdateService() {
 
