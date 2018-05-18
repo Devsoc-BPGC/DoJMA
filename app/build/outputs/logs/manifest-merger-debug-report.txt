@@ -1,0 +1,825 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:213:9-221:20
+	android:grantUriPermissions
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:217:13-47
+	android:authorities
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:215:13-60
+	android:exported
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:216:13-37
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:214:13-62
+manifest
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+MERGED from [io.realm:realm-android-library:5.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-realm-android-library-5.1.0.aar/36f53c7762b047bd27b779dc714c0c2e/AndroidManifest.xml:2:1-10:12
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:20:1-40:12
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-instrumentation-2.0.0.aar/1adee41b53f49a847b1db2cc9e16429f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/e65bf2b92692b8640172763fb35de5ee/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:2:1-16:12
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-lib-10.0.2.aar/167d1efa6e287eca4c92263118e872ab/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.material:material:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/material-1.0.0-alpha1.aar/e18578e11d26c409ffda0d88e17cb231/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0-alpha1.aar/b131e08fd34f19abbdb0f2182859fefd/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v13-1.0.0-alpha1.aar/fef882684ff716e2ab73580e5c4f2756/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-database:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-15.0.0.aar/800e049d6fd7691a7cd99d5ebbd373e1/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:17:1-37:12
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.firebase:firebase-core:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-core-15.0.2.aar/c2072ae2de6418b36ab461de5d727427/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:17:1-34:12
+MERGED from [com.google.firebase:firebase-database-connection:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-connection-15.0.0.aar/ba3a07b31db6a1ec42710978813fcbee/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:17:1-55:12
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:17:1-41:12
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:17:1-65:12
+MERGED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:2:1-15:12
+MERGED from [com.google.firebase:firebase-iid-interop:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-interop-15.0.0.aar/25bfecab6b4f6aba7ad37bfde7ff82dd/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-15.0.1.aar/1a2d93afeb4e00de3fbb701b11cda2c3/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-database-collection-15.0.1.aar/47809d42325a3109e5556453f922f687/AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.firebase:firebase-measurement-connector:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-15.0.0.aar/d9cf563cb83d83dbb00e70da2324f491/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-stats-15.0.1.aar/42c4dff8e3e0a1fcef25e3283c684a8f/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-15.0.1.aar/1846fa021f2ac28b7cd3a614bb747a64/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-alpha1.aar/e8508e15452db81459e7b1383be9641d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cardview-1.0.0-alpha1.aar/854b34379122b46db54818b40fac8ad3/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/recyclerview-1.0.0-alpha1.aar/6c7f78b416f2f61d1920c8159d3f62ad/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.browser:browser:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/browser-1.0.0-alpha1.aar/560a57c6a26991915db1039b31fa1427/AndroidManifest.xml:17:1-22:12
+MERGED from [com.alexvasilkov:android-commons:1.2.4] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/c24b8ce26cc5315d715eda92bb343a01/AndroidManifest.xml:2:1-14:12
+MERGED from [me.relex:circleindicator:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-circleindicator-1.2.2.aar/c9767f2519128287ca13ccaa6f019b5a/AndroidManifest.xml:2:1-12:12
+MERGED from [com.facebook.fresco:fresco:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/fresco-1.5.0.aar/abc53964d4e8754501c93ffc984246bc/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/constraintlayout-1.1.0.aar/aeb8803a04618060a64d749ba6bcf95d/AndroidManifest.xml:2:1-11:12
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/relinker-1.2.2.aar/a30021d23cdd94303bd6dc1d7d51c47d/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0-alpha1.aar/681311aabc7dfee6e03ddbf94e642e26/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0-alpha1.aar/ef6178a115ed12afb0e8286a42ada57c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0-alpha1.aar/a9e5fc2bcc1f8ef8667c06679b57528c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0-alpha1.aar/cb183e46adaca833718eb39804ccdf44/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.0-alpha1.aar/34cefb8675429e6b4fd0358e3be5e6aa/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/transition-1.0.0-alpha1.aar/9bbb3508489b21457060c4c976704672/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/media-1.0.0-alpha1.aar/6f20cfce1edb89c27b41f3e8367f8e6e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/loader-1.0.0-alpha1.aar/bf8e32789f3d66adf0b6c46c5e07e94e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0-alpha1.aar/6e253cfe66c3190ccfb4d97408c1d48d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0-alpha1.aar/2c026375c4aaf31758e1a85d139aec4e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0-alpha1.aar/bd500a1ef3fe2bd88f0911e7f2f03c2e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0-alpha1.aar/88b922f53dfeb4b25f97f13941d22ab6/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/customview-1.0.0-alpha1.aar/277117f48243fc1a3c606ea82a28b521/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0-alpha1.aar/21b02b58573ce699eca1924e838bf109/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0-alpha1.aar/dcbdc2ab731d83ae5098468beaa1a2a1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0-alpha1.aar/3c7ea36cb70f27a1e8a4af177282ef51/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0-alpha1.aar/50ef0c8eed7feae308af8581653b41a8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0-alpha1.aar/d92329259c212c7f44fafe3fa9485946/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0-alpha1.aar/0b04983b4f6e1dfec8326a27660a16f7/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/print-1.0.0-alpha1.aar/f02fa94cb146461cc9467a0cee716e95/AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:drawee:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-drawee-1.5.0.aar/055649d7947b793d012feece4cb74e6e/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-1.5.0.aar/926602a8d0170da4e6c2097c0f0c5753/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline-base:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-base-1.5.0.aar/c42c3018e1cd04df1bf1f8d966c5e5ed/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:fbcore:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-1.5.0.aar/9f061a73a4fbd3f814b6f2d696cb7491/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0-alpha1.aar/2d9a5e7a415db2779aeb301213cc55b9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0-alpha1.aar/099faa9f464d0e2572673f4f6d3c8293/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.2.aar/910566863bae5f3530c0e19f32784d2e/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0-alpha1.aar/713938813e4a655033ab75b4e160e935/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0-alpha1.aar/a83284bcbf4357135873f32421167f67/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+	package
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:4:5-33
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+	xmlns:tools
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:1-234:12
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:6:5-67
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:29:5-67
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:29:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:6:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:7:22-76
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:8:22-76
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:9:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:10:5-80
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:10:22-77
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:11:5-68
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:24:5-68
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:11:22-65
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:12:22-78
+uses-permission#android.permission.CALL_PHONE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:13:5-69
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:13:22-66
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:14:5-75
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:14:22-72
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:21:5-79
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:21:22-76
+application
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:23:5-232:19
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:32:5-38:19
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:32:5-38:19
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:11:5-14:19
+MERGED from [com.google.android.material:material:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/material-1.0.0-alpha1.aar/e18578e11d26c409ffda0d88e17cb231/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/material-1.0.0-alpha1.aar/e18578e11d26c409ffda0d88e17cb231/AndroidManifest.xml:22:5-20
+MERGED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:30:5-20
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:30:5-20
+MERGED from [com.google.firebase:firebase-core:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-core-15.0.2.aar/c2072ae2de6418b36ab461de5d727427/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-core:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-core-15.0.2.aar/c2072ae2de6418b36ab461de5d727427/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:26:5-32:19
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:26:5-32:19
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:28:5-39:19
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:28:5-39:19
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:34:5-63:19
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:34:5-63:19
+MERGED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:7:5-13:19
+MERGED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:7:5-13:19
+MERGED from [com.google.firebase:firebase-iid-interop:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-interop-15.0.0.aar/25bfecab6b4f6aba7ad37bfde7ff82dd/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-interop-15.0.0.aar/25bfecab6b4f6aba7ad37bfde7ff82dd/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-15.0.1.aar/1a2d93afeb4e00de3fbb701b11cda2c3/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-15.0.1.aar/1a2d93afeb4e00de3fbb701b11cda2c3/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-15.0.0.aar/d9cf563cb83d83dbb00e70da2324f491/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-15.0.0.aar/d9cf563cb83d83dbb00e70da2324f491/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-stats-15.0.1.aar/42c4dff8e3e0a1fcef25e3283c684a8f/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-stats-15.0.1.aar/42c4dff8e3e0a1fcef25e3283c684a8f/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-15.0.1.aar/1846fa021f2ac28b7cd3a614bb747a64/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-15.0.1.aar/1846fa021f2ac28b7cd3a614bb747a64/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:22:5-26:19
+MERGED from [com.alexvasilkov:android-commons:1.2.4] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/c24b8ce26cc5315d715eda92bb343a01/AndroidManifest.xml:12:5-20
+MERGED from [com.alexvasilkov:android-commons:1.2.4] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/c24b8ce26cc5315d715eda92bb343a01/AndroidManifest.xml:12:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/constraintlayout-1.1.0.aar/aeb8803a04618060a64d749ba6bcf95d/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/constraintlayout-1.1.0.aar/aeb8803a04618060a64d749ba6bcf95d/AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:22:5-89
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.2.aar/910566863bae5f3530c0e19f32784d2e/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.2.aar/910566863bae5f3530c0e19f32784d2e/AndroidManifest.xml:22:5-20
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:28:9-35
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:27:9-41
+	android:icon
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:26:9-43
+	android:allowBackup
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:25:9-36
+		REJECTED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:12:9-35
+		REJECTED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:12:9-35
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:30:9-40
+	tools:replace
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:29:9-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:24:9-30
+activity#com.csatimes.dojma.activities.MainActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:31:9-59:20
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:33:13-45
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:34:13-56
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:32:13-52
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:35:13-39:29
+action#android.intent.action.MAIN
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:36:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:38:17-77
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:38:27-74
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:www.csatimes.co.in/dojma/+data:scheme:http+data:scheme:https
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:40:13-51:29
+	android:autoVerify
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:41:17-42
+	tools:targetApi
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:42:17-36
+action#android.intent.action.VIEW
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:43:17-69
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:43:25-66
+category#android.intent.category.DEFAULT
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:45:17-76
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:45:27-73
+category#android.intent.category.BROWSABLE
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:46:17-78
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:46:27-75
+data
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:48:17-47
+	android:host
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:50:23-63
+	android:scheme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:48:23-44
+meta-data#android.app.shortcuts
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:53:13-55:53
+	android:resource
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:55:17-50
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:54:17-53
+meta-data#android.app.default_searchable
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:56:13-58:47
+	android:value
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:58:17-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:57:17-62
+activity#com.csatimes.dojma.activities.SettingsActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:60:9-68:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:63:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:62:13-60
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:64:13-56
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:61:13-56
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:65:13-67:78
+	android:value
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:67:17-75
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:66:17-63
+activity#com.csatimes.dojma.activities.AboutUsActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:69:9-78:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:72:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:71:13-60
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:73:13-56
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:70:13-55
+service#com.csatimes.dojma.services.UpdateCheckerService
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:80:9-82:40
+	android:exported
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:82:13-37
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:81:13-58
+receiver#com.csatimes.dojma.services.AlarmReceiver
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:84:9-60
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:84:19-57
+receiver#com.csatimes.dojma.services.CopyLinkBroadcastReceiver
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:85:9-87:38
+	android:enabled
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:87:13-35
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:86:13-63
+receiver#com.csatimes.dojma.services.BootBroadcastService
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:88:9-92:20
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:88:19-64
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:89:13-91:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:90:17-79
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:90:25-76
+activity#com.csatimes.dojma.activities.FavouritesActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:94:9-102:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:97:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:96:13-62
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:98:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:95:13-58
+activity#com.csatimes.dojma.activities.ImagesAndMediaActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:103:9-111:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:106:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:105:13-68
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:107:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:104:13-62
+activity#com.csatimes.dojma.activities.UtilitiesLinksActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:112:9-119:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:115:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:114:13-34
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:113:13-62
+activity#com.csatimes.dojma.activities.OfflineSimpleViewerActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:120:9-128:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:123:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:122:13-73
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:124:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:121:13-67
+activity#com.csatimes.dojma.activities.POSTDownloaderActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:129:9-133:47
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:132:13-66
+	android:configChanges
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:131:13-63
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:133:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:130:13-62
+activity#com.csatimes.dojma.activities.UtilitiesContactsActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:134:9-74
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:134:19-71
+meta-data#com.google.android.geo.API_KEY
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:145:9-147:55
+	android:value
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:147:13-52
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:146:13-58
+activity#com.csatimes.dojma.activities.UtilitiesMapsActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:149:9-155:20
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:151:13-56
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:150:13-61
+activity#com.csatimes.dojma.activities.AboutDojmaActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:156:9-164:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:159:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:158:13-63
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:160:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:157:13-58
+service#com.csatimes.dojma.services.HandleFirebaseMessages
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:166:9-184:19
+	android:enabled
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:168:13-35
+	android:exported
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:169:13-37
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:167:13-60
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:170:13-172:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:171:17-78
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:171:25-75
+meta-data#com.google.firebase.messaging.default_notification_icon
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:178:13-180:58
+	android:resource
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:180:17-55
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:179:17-87
+meta-data#com.google.firebase.messaging.default_notification_color
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:181:13-183:58
+	android:resource
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:183:17-55
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:182:17-88
+activity#com.csatimes.dojma.activities.UtilitiesMenuActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:186:9-194:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:189:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:188:13-62
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:190:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:187:13-61
+activity#com.csatimes.dojma.activities.SearchableActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:195:9-211:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:199:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:197:13-62
+	android:launchMode
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:198:13-43
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:200:13-56
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:196:13-58
+intent-filter#action:name:android.intent.action.SEARCH
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:201:13-203:29
+action#android.intent.action.SEARCH
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:202:17-71
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:202:25-68
+meta-data#android.app.searchable
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:208:13-210:54
+	android:resource
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:210:17-51
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:209:17-54
+activity#com.csatimes.dojma.activities.IssuesActivity
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:223:9-231:20
+	android:parentActivityName
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:226:13-66
+	android:label
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:225:13-58
+	android:theme
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:227:13-44
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:224:13-54
+uses-sdk
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+MERGED from [io.realm:realm-android-library:5.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-realm-android-library-5.1.0.aar/36f53c7762b047bd27b779dc714c0c2e/AndroidManifest.xml:6:5-8:41
+MERGED from [io.realm:realm-android-library:5.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-realm-android-library-5.1.0.aar/36f53c7762b047bd27b779dc714c0c2e/AndroidManifest.xml:6:5-8:41
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:25:5-27:41
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:25:5-27:41
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-instrumentation-2.0.0.aar/1adee41b53f49a847b1db2cc9e16429f/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-instrumentation-2.0.0.aar/1adee41b53f49a847b1db2cc9e16429f/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/e65bf2b92692b8640172763fb35de5ee/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/multidex-2.0.0.aar/e65bf2b92692b8640172763fb35de5ee/AndroidManifest.xml:20:5-43
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-LikeButton-0.2.0.aar/d3869943836441294a85445d80aedcaa/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-DecoView-charting-v0.9.3.aar/5d3b769494a6cca9401ca7ba35f7bfeb/AndroidManifest.xml:7:5-9:41
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-lib-10.0.2.aar/167d1efa6e287eca4c92263118e872ab/AndroidManifest.xml:7:5-9:41
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-lib-10.0.2.aar/167d1efa6e287eca4c92263118e872ab/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.material:material:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/material-1.0.0-alpha1.aar/e18578e11d26c409ffda0d88e17cb231/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/material-1.0.0-alpha1.aar/e18578e11d26c409ffda0d88e17cb231/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0-alpha1.aar/b131e08fd34f19abbdb0f2182859fefd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0-alpha1.aar/b131e08fd34f19abbdb0f2182859fefd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v13-1.0.0-alpha1.aar/fef882684ff716e2ab73580e5c4f2756/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v13-1.0.0-alpha1.aar/fef882684ff716e2ab73580e5c4f2756/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-database:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-15.0.0.aar/800e049d6fd7691a7cd99d5ebbd373e1/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-15.0.0.aar/800e049d6fd7691a7cd99d5ebbd373e1/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-core:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-core-15.0.2.aar/c2072ae2de6418b36ab461de5d727427/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-core:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-core-15.0.2.aar/c2072ae2de6418b36ab461de5d727427/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-database-connection:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-connection-15.0.0.aar/ba3a07b31db6a1ec42710978813fcbee/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database-connection:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-database-connection-15.0.0.aar/ba3a07b31db6a1ec42710978813fcbee/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-interop-15.0.0.aar/25bfecab6b4f6aba7ad37bfde7ff82dd/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-interop-15.0.0.aar/25bfecab6b4f6aba7ad37bfde7ff82dd/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-15.0.1.aar/1a2d93afeb4e00de3fbb701b11cda2c3/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-15.0.1.aar/1a2d93afeb4e00de3fbb701b11cda2c3/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-database-collection-15.0.1.aar/47809d42325a3109e5556453f922f687/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/firebase-database-collection-15.0.1.aar/47809d42325a3109e5556453f922f687/AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-15.0.0.aar/d9cf563cb83d83dbb00e70da2324f491/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-15.0.0.aar/d9cf563cb83d83dbb00e70da2324f491/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-stats-15.0.1.aar/42c4dff8e3e0a1fcef25e3283c684a8f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-stats-15.0.1.aar/42c4dff8e3e0a1fcef25e3283c684a8f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-15.0.1.aar/1846fa021f2ac28b7cd3a614bb747a64/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-15.0.1.aar/1846fa021f2ac28b7cd3a614bb747a64/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-alpha1.aar/e8508e15452db81459e7b1383be9641d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0-alpha1.aar/e8508e15452db81459e7b1383be9641d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cardview-1.0.0-alpha1.aar/854b34379122b46db54818b40fac8ad3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cardview-1.0.0-alpha1.aar/854b34379122b46db54818b40fac8ad3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/recyclerview-1.0.0-alpha1.aar/6c7f78b416f2f61d1920c8159d3f62ad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/recyclerview-1.0.0-alpha1.aar/6c7f78b416f2f61d1920c8159d3f62ad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.browser:browser:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/browser-1.0.0-alpha1.aar/560a57c6a26991915db1039b31fa1427/AndroidManifest.xml:20:5-44
+MERGED from [androidx.browser:browser:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/browser-1.0.0-alpha1.aar/560a57c6a26991915db1039b31fa1427/AndroidManifest.xml:20:5-44
+MERGED from [com.alexvasilkov:android-commons:1.2.4] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/c24b8ce26cc5315d715eda92bb343a01/AndroidManifest.xml:8:5-10:41
+MERGED from [com.alexvasilkov:android-commons:1.2.4] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/c24b8ce26cc5315d715eda92bb343a01/AndroidManifest.xml:8:5-10:41
+MERGED from [me.relex:circleindicator:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-circleindicator-1.2.2.aar/c9767f2519128287ca13ccaa6f019b5a/AndroidManifest.xml:8:5-10:41
+MERGED from [me.relex:circleindicator:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-circleindicator-1.2.2.aar/c9767f2519128287ca13ccaa6f019b5a/AndroidManifest.xml:8:5-10:41
+MERGED from [com.facebook.fresco:fresco:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/fresco-1.5.0.aar/abc53964d4e8754501c93ffc984246bc/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fresco:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/fresco-1.5.0.aar/abc53964d4e8754501c93ffc984246bc/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/constraintlayout-1.1.0.aar/aeb8803a04618060a64d749ba6bcf95d/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/constraintlayout-1.1.0.aar/aeb8803a04618060a64d749ba6bcf95d/AndroidManifest.xml:5:5-7:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/relinker-1.2.2.aar/a30021d23cdd94303bd6dc1d7d51c47d/AndroidManifest.xml:7:5-43
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/relinker-1.2.2.aar/a30021d23cdd94303bd6dc1d7d51c47d/AndroidManifest.xml:7:5-43
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0-alpha1.aar/681311aabc7dfee6e03ddbf94e642e26/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0-alpha1.aar/681311aabc7dfee6e03ddbf94e642e26/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0-alpha1.aar/ef6178a115ed12afb0e8286a42ada57c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-animated-1.0.0-alpha1.aar/ef6178a115ed12afb0e8286a42ada57c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0-alpha1.aar/a9e5fc2bcc1f8ef8667c06679b57528c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-ui-1.0.0-alpha1.aar/a9e5fc2bcc1f8ef8667c06679b57528c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0-alpha1.aar/cb183e46adaca833718eb39804ccdf44/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/legacy-support-core-utils-1.0.0-alpha1.aar/cb183e46adaca833718eb39804ccdf44/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.0-alpha1.aar/34cefb8675429e6b4fd0358e3be5e6aa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/vectordrawable-1.0.0-alpha1.aar/34cefb8675429e6b4fd0358e3be5e6aa/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/transition-1.0.0-alpha1.aar/9bbb3508489b21457060c4c976704672/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/transition-1.0.0-alpha1.aar/9bbb3508489b21457060c4c976704672/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/media-1.0.0-alpha1.aar/6f20cfce1edb89c27b41f3e8367f8e6e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/media-1.0.0-alpha1.aar/6f20cfce1edb89c27b41f3e8367f8e6e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/loader-1.0.0-alpha1.aar/bf8e32789f3d66adf0b6c46c5e07e94e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/loader-1.0.0-alpha1.aar/bf8e32789f3d66adf0b6c46c5e07e94e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0-alpha1.aar/6e253cfe66c3190ccfb4d97408c1d48d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/viewpager-1.0.0-alpha1.aar/6e253cfe66c3190ccfb4d97408c1d48d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0-alpha1.aar/2c026375c4aaf31758e1a85d139aec4e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-1.0.0-alpha1.aar/2c026375c4aaf31758e1a85d139aec4e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0-alpha1.aar/bd500a1ef3fe2bd88f0911e7f2f03c2e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/drawerlayout-1.0.0-alpha1.aar/bd500a1ef3fe2bd88f0911e7f2f03c2e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0-alpha1.aar/88b922f53dfeb4b25f97f13941d22ab6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-1.0.0-alpha1.aar/88b922f53dfeb4b25f97f13941d22ab6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/customview-1.0.0-alpha1.aar/277117f48243fc1a3c606ea82a28b521/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/customview-1.0.0-alpha1.aar/277117f48243fc1a3c606ea82a28b521/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0-alpha1.aar/21b02b58573ce699eca1924e838bf109/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-1.0.0-alpha1.aar/21b02b58573ce699eca1924e838bf109/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0-alpha1.aar/dcbdc2ab731d83ae5098468beaa1a2a1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-1.0.0-alpha1.aar/dcbdc2ab731d83ae5098468beaa1a2a1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-1.0.0-alpha1.aar/87172e862f3a6ad5f48394908139ecf6/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0-alpha1.aar/3c7ea36cb70f27a1e8a4af177282ef51/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/cursoradapter-1.0.0-alpha1.aar/3c7ea36cb70f27a1e8a4af177282ef51/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0-alpha1.aar/50ef0c8eed7feae308af8581653b41a8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/interpolator-1.0.0-alpha1.aar/50ef0c8eed7feae308af8581653b41a8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0-alpha1.aar/d92329259c212c7f44fafe3fa9485946/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/documentfile-1.0.0-alpha1.aar/d92329259c212c7f44fafe3fa9485946/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0-alpha1.aar/0b04983b4f6e1dfec8326a27660a16f7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-1.0.0-alpha1.aar/0b04983b4f6e1dfec8326a27660a16f7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/print-1.0.0-alpha1.aar/f02fa94cb146461cc9467a0cee716e95/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/print-1.0.0-alpha1.aar/f02fa94cb146461cc9467a0cee716e95/AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:drawee:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-drawee-1.5.0.aar/055649d7947b793d012feece4cb74e6e/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-drawee-1.5.0.aar/055649d7947b793d012feece4cb74e6e/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-1.5.0.aar/926602a8d0170da4e6c2097c0f0c5753/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-1.5.0.aar/926602a8d0170da4e6c2097c0f0c5753/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-base-1.5.0.aar/c42c3018e1cd04df1bf1f8d966c5e5ed/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-imagepipeline-base-1.5.0.aar/c42c3018e1cd04df1bf1f8d966c5e5ed/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-1.5.0.aar/9f061a73a4fbd3f814b6f2d696cb7491/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.5.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-1.5.0.aar/9f061a73a4fbd3f814b6f2d696cb7491/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0-alpha1.aar/2d9a5e7a415db2779aeb301213cc55b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-runtime-2.0.0-alpha1.aar/2d9a5e7a415db2779aeb301213cc55b9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0-alpha1.aar/099faa9f464d0e2572673f4f6d3c8293/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-viewmodel-2.0.0-alpha1.aar/099faa9f464d0e2572673f4f6d3c8293/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.2.aar/910566863bae5f3530c0e19f32784d2e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/play-services-measurement-base-15.0.2.aar/910566863bae5f3530c0e19f32784d2e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0-alpha1.aar/713938813e4a655033ab75b4e160e935/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/lifecycle-livedata-core-2.0.0-alpha1.aar/713938813e4a655033ab75b4e160e935/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0-alpha1.aar/a83284bcbf4357135873f32421167f67/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] /home/agrim/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0-alpha1.aar/a83284bcbf4357135873f32421167f67/AndroidManifest.xml:20:5-44
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+		INJECTED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:218:13-220:58
+	android:resource
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:220:17-55
+	android:name
+		ADDED from /home/agrim/Dojma/app/src/main/AndroidManifest.xml:219:17-67
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:30:5-76
+	android:name
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:30:22-73
+provider#com.amitshekhar.DebugDBInitProvider
+ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:33:9-37:40
+	android:enabled
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:36:13-35
+	android:authorities
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:35:13-71
+	android:exported
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:37:13-37
+	android:name
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/debug-db-0.4.0.aar/973f3134110d9d72766f5723c1647a0b/AndroidManifest.xml:34:13-63
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:28:9-34:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:30:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-messaging-15.0.2.aar/dc6b7a9b9dfbb9ec18fc00d29eba120e/AndroidManifest.xml:29:13-82
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-maps-15.0.1.aar/f952f83fb043e87f53fa8ff4fcac8ebe/AndroidManifest.xml:28:9-32
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:27:9-31:19
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:35:9-39:19
+MERGED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:35:9-39:19
+	android:name
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:27:18-89
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:28:13-30:85
+	android:value
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:30:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:15.0.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-measurement-connector-impl-15.0.0.aar/db7eeb285d86c67ccaa96afac31b8ee7/AndroidManifest.xml:29:17-139
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:26:5-110
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:26:5-110
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:29:9-33:20
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:29:9-33:20
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:30:13-85
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:34:9-42:20
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:36:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:37:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:38:13-69
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:35:13-100
+intent-filter#action:name:com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:39:13-41:29
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:40:17-79
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:40:25-76
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:44:9-47:40
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:35:9-38:40
+MERGED from [com.google.firebase:firebase-analytics-impl:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-impl-15.0.2.aar/a0de59eb6820a2360c5ee74758871f3e/AndroidManifest.xml:35:9-38:40
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:46:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:45:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:48:9-52:72
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:50:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:51:13-37
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:52:13-69
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:15.0.2] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-analytics-15.0.2.aar/0b15d2b8815cd5c64ffdca943974bd09/AndroidManifest.xml:49:13-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:26:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:26:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:28:5-30:47
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:30:9-44
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:29:9-63
+permission#com.csatimes.dojma.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:28:5-30:47
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:30:9-44
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:29:9-63
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:32:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:32:22-76
+uses-permission#com.csatimes.dojma.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:32:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:32:22-76
+meta-data#com.google.firebase.components:com.google.firebase.iid.Registrar
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:37:17-96
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:41:9-50:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:43:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:44:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:42:13-78
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:${applicationId}
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:45:13-49:29
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:com.csatimes.dojma
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:45:13-49:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:46:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:46:25-78
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:48:17-61
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:48:27-58
+category#com.csatimes.dojma
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:48:17-61
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:48:27-58
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:56:9-62:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:58:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:57:13-77
+intent-filter#action:name:com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:59:13-61:29
+	android:priority
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:59:28-51
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:60:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:15.1.0] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-iid-15.1.0.aar/c9d21a953bb2faaacb0aeb73ebf2245b/AndroidManifest.xml:60:25-77
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:8:9-12:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:11:13-37
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:12:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-firebase-common-15.0.1.aar/fc82ff4a1a28322d3514b0696681ef0d/AndroidManifest.xml:9:13-77
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-15.0.1.aar/596fdbead462b475ef8047b350bdc514/AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] /home/agrim/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-15.0.1.aar/90f0984e9857c515f1c1aa05607e66cd/AndroidManifest.xml:24:13-58
