@@ -22,9 +22,9 @@ public class BaseActivity extends AppCompatActivity {
      * Set theme on create.
      */
     private void setTheme() {
-        boolean mode = PreferenceManager.getDefaultSharedPreferences(this)
+        boolean isNightMode = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.PREFERENCE_general_night_mode), false);
-        if (mode) {
+        if (isNightMode) {
             setTheme(R.style.AppThemeDark);
         } else {
             setTheme(R.style.AppTheme);

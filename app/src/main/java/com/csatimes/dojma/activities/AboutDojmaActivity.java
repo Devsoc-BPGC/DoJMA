@@ -1,6 +1,8 @@
 package com.csatimes.dojma.activities;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.widget.TextView;
@@ -104,11 +106,12 @@ public class AboutDojmaActivity extends BaseActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_dojma);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.about_dojma_toolbar);
+        final Toolbar toolbar = findViewById(R.id.about_dojma_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TextView textView = (TextView) findViewById(R.id.about_dojma_text);
+        final TextView textView = findViewById(R.id.about_dojma_text);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
