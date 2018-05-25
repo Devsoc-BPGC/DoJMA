@@ -5,32 +5,27 @@
         android:id="@+id/bottom_herald"
         android:enabled="true"
         android:icon="@drawable/ic_chrome_reader_mode_white_24dp"
-        android:showAsAction="ifRoom"
         android:iconTint="@color/black"
         android:title="Herald" />
     <item
         android:enabled="true"
         android:id="@+id/bottom_issues"
         android:icon="@drawable/ic_menu_issues"
-        android:title="Issues"
-        android:showAsAction="ifRoom" />
+        android:title="Issues" />
     <item
         android:enabled="true"
         android:id="@+id/bottom_favourites"
         android:icon="@drawable/ic_heart"
-        android:showAsAction="withText"
         android:title="Favourites" />
     <item
         android:enabled="true"
         android:id="@+id/bottom_events"
         android:title="Events"
-        android:icon="@drawable/ic_event_note_black_24dp"
-        android:showAsAction="withText" />
+        android:icon="@drawable/ic_event_note_black_24dp"/>
     <item
         android:enabled="true"
         android:id="@+id/bottom_utilities"
         android:title="Utilities"
-        android:showAsAction="withText"
         android:icon="@drawable/ic_local_convenience_store_black_24dp"/>
 
 </menu>
