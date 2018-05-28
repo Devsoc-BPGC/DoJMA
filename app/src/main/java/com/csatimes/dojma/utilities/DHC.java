@@ -102,6 +102,11 @@ public class DHC {
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
 
     /**
+     * Firebase node name for contributors.
+     */
+    public static final String FIREBASE_DATABASE_REFERENCE_CONTRIBUTORS = "contributors";
+
+    /**
      * Firebase node name for gazettes.
      */
     public static final String FIREBASE_DATABASE_REFERENCE_GAZETTES = "gazettes2";
@@ -405,4 +410,5 @@ public class DHC {
         Toast.makeText(context, "Check notifications for download progress", Toast.LENGTH_SHORT).show();
 
     }
+
 }
