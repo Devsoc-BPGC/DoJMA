@@ -6,7 +6,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.csatimes.dojma"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 11
         versionName "3"
@@ -46,9 +46,9 @@ dependencies {
 //    implementation 'androidx.annotation:annotation:1.0.0-alpha1'
     implementation 'androidx.browser:browser:1.0.0-alpha1'
 
-    implementation "com.google.firebase:firebase-core:15.0.2"
-    implementation "com.google.firebase:firebase-database:15.0.0"
-    implementation "com.google.firebase:firebase-messaging:15.0.2"
+    implementation "com.google.firebase:firebase-core:16.0.0"
+    implementation "com.google.firebase:firebase-database:16.0.1"
+    implementation "com.google.firebase:firebase-messaging:17.0.0"
 //    implementation "com.google.firebase:firebase-storage:15.0.2"
 
 //    implementation "com.google.code.gson:gson:2.8.2"

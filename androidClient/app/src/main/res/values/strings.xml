@@ -159,5 +159,6 @@
     <string name="activity_home_drawer_poster_gallery">Poster Gallery</string>
     <string name="activity_home_drawer_archives">Archives</string>
     <string name="activity_home_drawer_issues">Issues</string>
+    <string name="share_app">Share App</string>
 
 </resources>

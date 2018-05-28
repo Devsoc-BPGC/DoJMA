@@ -29,4 +29,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:showAsAction="never" />
+    <item
+        android:id="@+id/action_shareapp"
+        android:orderInCategory="100"
+        android:title="@string/share_app"
+        android:showAsAction="never" />
+
 </menu>

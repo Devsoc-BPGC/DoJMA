@@ -57,7 +57,7 @@ public class MainActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu,menu);
+        getMenuInflater().inflate(R.menu.home   ,menu);
         return true;
     }
 
@@ -65,7 +65,7 @@ public class MainActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch(item.getItemId()) {
-            case R.id.action_refresh:
+            case R.id.action_refresh_herald:
                 intent = new Intent(this, UpdateCheckerService.class);
                 startService(intent);
                 Toast.makeText(MainActivity.this,"Refresh Works!",Toast.LENGTH_SHORT).show();
