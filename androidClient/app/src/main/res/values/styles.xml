@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/white</item>
         <item name="defaultBackgroundSemiTransparent">@color/white</item>
@@ -73,9 +73,7 @@
         <item name="customSettingsSubTitleColor">@color/grey700</item>
 
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -140,7 +138,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
     </style>
 
 
@@ -196,6 +194,5 @@
     <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
         <item name="colorControlHighlight">@color/white</item>
     </style>
-
 
 </resources>

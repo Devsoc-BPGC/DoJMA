@@ -92,7 +92,7 @@
         </receiver>
 
         <activity
-            android:name=".activities.FavouritesActivity"
+            android:name=".issues.IssuesActivity"
             android:label="@string/title_activity_favourites"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme">
@@ -220,15 +220,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity
-            android:name=".activities.IssuesActivity"
-            android:label="@string/title_activity_issues"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.activities.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

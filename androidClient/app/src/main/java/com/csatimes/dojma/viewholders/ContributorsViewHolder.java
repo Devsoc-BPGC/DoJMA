@@ -15,6 +15,6 @@ public class ContributorsViewHolder extends RecyclerView.ViewHolder {
 
     public ContributorsViewHolder(View itemView) {
         super(itemView);
-        nameTextView = (TextView) itemView.findViewById(R.id.item_format_contributors_name_tv);
+        nameTextView = itemView.findViewById(R.id.item_format_contributors_name_tv);
     }
 }

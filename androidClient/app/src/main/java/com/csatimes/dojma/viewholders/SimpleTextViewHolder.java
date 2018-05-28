@@ -1,10 +1,11 @@
 package com.csatimes.dojma.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simple text viewholder used in Searchable activity
@@ -16,6 +17,6 @@ public class SimpleTextViewHolder extends RecyclerView.ViewHolder {
 
     public SimpleTextViewHolder(View itemView) {
         super(itemView);
-        text = (TextView) itemView.findViewById(R.id.viewholder_simple_text_textview);
+        text = itemView.findViewById(R.id.viewholder_simple_text_textview);
     }
 }

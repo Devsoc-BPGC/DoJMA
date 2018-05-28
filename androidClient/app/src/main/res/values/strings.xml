@@ -120,6 +120,7 @@
         icespice etc.</string>
     <string name="viewholder_contacts_taxi_msg">Get taxi numbers here</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
+    <string name="share_prompt">share via … </string>
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search articles</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
@@ -160,5 +161,12 @@
     <string name="activity_home_drawer_archives">Archives</string>
     <string name="activity_home_drawer_issues">Issues</string>
     <string name="share_app">Share App</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="favorite_instruction">Click on the ♡ to save articles to your favourites</string>
+    <string name="herald">Herald</string>
+    <string name="issues">Issues</string>
+    <string name="favorites">Favourites</string>
+    <string name="events">Events</string>
+    <string name="utilities">Utilities</string>
 
 </resources>

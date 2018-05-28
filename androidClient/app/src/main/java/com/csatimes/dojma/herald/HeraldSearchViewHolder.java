@@ -1,4 +1,4 @@
-package com.csatimes.dojma.viewholders;
+package com.csatimes.dojma.herald;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -90,7 +90,7 @@ public class HeraldSearchViewHolder extends RecyclerView.ViewHolder {
 
                 } else {
                     Intent intent = new Intent(context, OfflineSimpleViewerActivity.class);
-                    intent.putExtra("POSTID", item.getPostID());
+                    intent.putExtra(HeraldItem.POSTID, item.getPostID());
                     context.startActivity(intent);
                 }
             }

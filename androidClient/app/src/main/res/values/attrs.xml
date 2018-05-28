@@ -68,6 +68,7 @@
     <attr name="defaultBackground" format="color" />
     <attr name="defaultBackgroundSemiTransparent" format="color" />
     <attr name="fabBackgroundColor" format="color" />
+    <attr name="customTab_toolbar_color" format="color" />
 
 
 </resources>

@@ -18,7 +18,7 @@ public class GazetteItemViewHolder extends RecyclerView.ViewHolder {
     public GazetteItemViewHolder(View itemView) {
         super(itemView);
 
-        title = (TextView) itemView.findViewById(R.id.item_format_gazette_title);
-        image = (SimpleDraweeView) itemView.findViewById(R.id.item_format_gazette_image);
+        title = itemView.findViewById(R.id.item_format_gazette_title);
+        image = itemView.findViewById(R.id.item_format_gazette_image);
     }
 }

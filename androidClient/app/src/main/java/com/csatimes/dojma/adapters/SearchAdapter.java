@@ -24,7 +24,7 @@ import com.csatimes.dojma.utilities.ColorList;
 import com.csatimes.dojma.viewholders.ContactItemViewHolder;
 import com.csatimes.dojma.viewholders.EventItemViewHolder;
 import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
-import com.csatimes.dojma.viewholders.HeraldSearchViewHolder;
+import com.csatimes.dojma.herald.HeraldSearchViewHolder;
 import com.csatimes.dojma.viewholders.LinkItemViewHolder;
 import com.csatimes.dojma.viewholders.MessItemViewHolder;
 import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
