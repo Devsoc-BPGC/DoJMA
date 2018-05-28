@@ -24,10 +24,22 @@
         app:itemTextColor="?customNavDrawerTitleTextColor"
         app:menu="@menu/activity_home_drawer" /-->
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white"
+        app:title="DoJMA BITS Goa"/>
+
     <FrameLayout
         android:id="@+id/home_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"/>
 
     <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" -->
 
