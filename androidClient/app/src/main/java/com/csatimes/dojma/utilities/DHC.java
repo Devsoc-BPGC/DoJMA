@@ -184,7 +184,17 @@ public class DHC {
     public static final int UTILITIES_ITEM_TYPE_MISC = 4;
     public static final int UTILITIES_ITEM_TYPE_MAP = 5;
 
+    public static final int MAIN_ACTIVITY_HERALD_POS = 0;
+    public static final int MAIN_ACTIVITY_GAZETTES_POS = 5;
     public static final int MAIN_ACTIVITY_EVENTS_POS = 3;
+    public static final int MAIN_ACTIVITY_UTILITIES_POS = 4;
+    public static final int MAIN_ACTIVITY_FAVOURITES_POS = 2;
+    public static final int MAIN_ACTIVITY_ISSUES_POS = 1;
+
+    /**
+     * Alarm receiver request code.
+     */
+    public static final int ALARM_RECEIVER_REQUEST_CODE = 75;
 
     /**
      * Alarm receiver intent action.

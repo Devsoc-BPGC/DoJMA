@@ -85,8 +85,11 @@ import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLB
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TOOLBAR_TITLE;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_UI;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_EVENTS_POS;
+import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_GAZETTES_POS;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_HERALD_POS;
 import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_UTILITIES_POS;
+import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_FAVOURITES_POS;
+import static com.csatimes.dojma.utilities.DHC.MAIN_ACTIVITY_ISSUES_POS;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
@@ -144,19 +147,19 @@ public class MainActivity
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                 switch(menuItem.getItemId()){
-                    case R.id.bottom_herald:mFragmentsViewPager.setCurrentItem(0);
+                    case R.id.bottom_herald:mFragmentsViewPager.setCurrentItem(MAIN_ACTIVITY_HERALD_POS);
                                             menuItem.setChecked(true);
                                             break;
-                    case R.id.bottom_favourites:mFragmentsViewPager.setCurrentItem(1);
+                    case R.id.bottom_favourites:mFragmentsViewPager.setCurrentItem(MAIN_ACTIVITY_FAVOURITES_POS);
                                                 menuItem.setChecked(true);
                                                 break;
-                    case R.id.bottom_issues:mFragmentsViewPager.setCurrentItem(4);
+                    case R.id.bottom_issues:mFragmentsViewPager.setCurrentItem(MAIN_ACTIVITY_ISSUES_POS);
                                             menuItem.setChecked(true);
                                             break;
-                    case R.id.bottom_events:mFragmentsViewPager.setCurrentItem(2);
+                    case R.id.bottom_events:mFragmentsViewPager.setCurrentItem(MAIN_ACTIVITY_EVENTS_POS);
                                             menuItem.setChecked(true);
                                             break;
-                    case R.id.bottom_utilities: mFragmentsViewPager.setCurrentItem(3);
+                    case R.id.bottom_utilities: mFragmentsViewPager.setCurrentItem(MAIN_ACTIVITY_UTILITIES_POS);
                                                 menuItem.setChecked(true);
                                                 break;
                 }
@@ -456,19 +459,19 @@ public class MainActivity
         //Setup up main Viewpager
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        HeraldFragment heraldFragmentFragment = new HeraldFragment();
-        Gazettes gazettesFragment = new Gazettes();
-        EventsFragment eventsFragmentFragments = new EventsFragment();
-        Utilities utilitiesFragment = new Utilities();
-        IssuesFragment issuesFragment = new IssuesFragment();
-        favouritesfragment favouritesFragment = new favouritesfragment();
+        HeraldFragment heraldFragmentFragment = (HeraldFragment) HeraldFragment.newInstance();
+        Gazettes gazettesFragment = (Gazettes) Gazettes.newInstance();
+        EventsFragment eventsFragmentFragments = (EventsFragment) EventsFragment.newInstance();
+        Utilities utilitiesFragment = (Utilities) Utilities.newInstance();
+        IssuesFragment issuesFragment = (IssuesFragment) IssuesFragment.newInstance();
+        favouritesfragment favouritesFragment = (favouritesfragment) favouritesfragment.newInstance();
 
         eventsFragmentFragments.setOnTitleUpdateListener(this);
 
         adapter.addFragment(heraldFragmentFragment, "Herald", MAIN_ACTIVITY_HERALD_POS);
-        adapter.addFragment(gazettesFragment, "Gazettes", 5);
-        adapter.addFragment(favouritesFragment, "Favourites", 1);
-        adapter.addFragment(issuesFragment, "Issues",4);
+        adapter.addFragment(gazettesFragment, "Gazettes", MAIN_ACTIVITY_GAZETTES_POS);
+        adapter.addFragment(favouritesFragment, "Favourites", MAIN_ACTIVITY_FAVOURITES_POS);
+        adapter.addFragment(issuesFragment, "Issues",MAIN_ACTIVITY_ISSUES_POS);
         adapter.addFragment(eventsFragmentFragments, "Events(" + mDatabase.where(EventItem.class).findAll().size() + ")", MAIN_ACTIVITY_EVENTS_POS);
         adapter.addFragment(utilitiesFragment, "Utilities", MAIN_ACTIVITY_UTILITIES_POS);
 

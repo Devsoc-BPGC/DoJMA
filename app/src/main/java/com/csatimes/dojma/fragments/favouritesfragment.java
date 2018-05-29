@@ -12,8 +12,9 @@ import androidx.fragment.app.Fragment;
 
 public class favouritesfragment extends Fragment {
 
-    public favouritesfragment() {
-        // Required empty public constructor
+    public static Fragment newInstance(){
+        favouritesfragment favouritesFragment = new favouritesfragment();
+        return favouritesFragment;
     }
 
     @Override
