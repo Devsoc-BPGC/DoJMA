@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.AboutUsActivity"
+    tools:showIn="@layout/activity_about_us">
+
+    <TextView
+        android:id="@+id/content_about_us_app_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="DoJMA Android App"
+        android:textColor="@color/mac_color"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/content_about_us_app_version_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/app_version"
+        android:textColor="@color/mac_color"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_app_name_tv" />
+
+    <ImageView
+        android:id="@+id/content_about_us_mac_img"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/mac_color"
+        android:src="@drawable/maclogopng"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_app_version_tv" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_fb_imgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/content_about_us_google_play_imgbtn"
+        app:layout_constraintLeft_toRightOf="@id/content_about_us_github_imgbtn"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img"
+        app:srcCompat="@drawable/ic_facebook_white" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_google_play_imgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="210dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/content_about_us_fb_imgbtn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/content_about_us_linkedin_imgbtn"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img"
+        app:srcCompat="@drawable/ic_google_play" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_github_imgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="80dp"
+        android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:srcCompat="@drawable/ic_github_circle"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="@+id/content_about_us_fb_imgbtn"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_linkedin_imgbtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:textColor="@color/mac_color"
+        app:srcCompat="@drawable/ic_linkedin1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/content_about_us_google_play_imgbtn"
+        app:layout_constraintRight_toLeftOf="@id/content_about_us_website_imgbtn"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img" />
+
+    <ImageButton
+        android:id="@+id/content_about_us_website_imgbtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="89dp"
+        android:background="@color/mac_color"
+        android:textColor="@color/white"
+        app:srcCompat="@drawable/ic_website"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/content_about_us_linkedin_imgbtn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_mac_img" />
+
+    <TextView
+        android:id="@+id/content_about_us_desc_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/about_us_main"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_fb_imgbtn" />
+
+    <TextView
+        android:id="@+id/content_about_us_morebymac_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="More By MAC"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_desc_tv" />
+
+    <android.widget.ListView
+        android:id="@+id/content_about_us_morebymac_lv"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_morebymac_tv" />
+
+    <TextView
+        android:id="@+id/content_about_us_contributors_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Contributors"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_morebymac_lv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/content_about_us_contributors_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_about_us_contributors_tv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
