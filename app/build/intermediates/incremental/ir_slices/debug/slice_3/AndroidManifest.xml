@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.csatimes.dojma"
+      android:versionCode="11"
+      android:versionName="3"
+      split="lib_slice_3_apk">
+</manifest>

@@ -1,0 +1,10 @@
+#Mon May 28 16:31:20 IST 2018
+path.2=classes.dex
+path.1=classes.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=/home/agrim/Dojma/app/build/intermediates/transforms/dexMerger/debug/40
+base.1=/home/agrim/Dojma/app/build/intermediates/transforms/dexMerger/debug/41
+base.0=/home/agrim/Dojma/app/build/intermediates/transforms/dexMerger/debug/42

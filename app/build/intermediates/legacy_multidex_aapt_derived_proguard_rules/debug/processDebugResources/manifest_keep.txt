@@ -1,0 +1,2 @@
+# Referenced at /home/agrim/Dojma/app/build/intermediates/merged_manifests/debug/processDebugManifest/merged/AndroidManifest.xml:42
+-keep class com.csatimes.dojma.DoJMA { <init>(...); }
