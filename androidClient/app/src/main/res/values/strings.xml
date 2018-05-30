@@ -1,27 +1,15 @@
 <resources>
     <string name="app_name">DoJMA BITS Goa</string>
     <string name="search_dojma">Search articles, events, contacts</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="USER_PREFERENCES_FIRST_INSTALL">FIRST_TIME_INSTALL</string>
-    <string name="SP_app_started">APP_STARTED</string>
-    <string name="SP_chrome_install_status">CHROME_IS_INSTALLED</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_open_webpage">OpenWebpage</string>
-    <string name="title_activity_chrome_custom_tab">ChromseCustomTab</string>
-    <string name="title_activity_download_for_first_time">First Time Setup</string>
     <string name="title_activity_about_us">About</string>
-    <string name="title_share_this_article">Share article</string>
-    <string name="title_activity_favourite">Favourite Section</string>
     <string name="title_activity_favourites">Favourites</string>
-    <string name="title_activity_images_and_media">Images And Media</string>
-    <string name="title_activity_categories">Categories</string>
     <string name="title_activity_searchable">Search DoJMA</string>
 
 
@@ -36,105 +24,30 @@
     <string name="menu_fit_method">Fit method</string>
     <string name="menu_gravity">Gravity</string>
 
-    <string name="menu_crop_rect">Rectangle</string>
-    <string name="menu_crop_square">Square</string>
-    <string name="menu_crop_circle">Circle</string>
-    <string name="filter_articles">Filter articles</string>
-    <string name="sort_order">Sort Order</string>
     \
-    <string-array name="filter_options">
-        <item>Favourites</item>
-        <item>Dismissed</item>
-        <item>New</item>
-    </string-array>
-    <string-array name="sort_options">
-        <item>Name</item>
-        <item>Date Created</item>
-        <item>Date Updated</item>
-        <item>Popular</item>
-        <item>Favourites</item>
-    </string-array>
-
-    <string-array name="settings_browser_list">
-        <item>Chrome Custom Tabs</item>
-        <item>Android WebView</item>
-        <item>Simple Offline WebViewer</item>
-    </string-array>
-    <string-array name="settings_browser_list_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="settings_sync_intervals">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>12 hours</item>
-        <item>1 day</item>
-    </string-array>
-
-    <string-array name="settings_sync_interval_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-    </string-array>
-    <string-array name="general_notification_options">
-        <item>New articles arrive</item>
-        <item>Articles are updated</item>
-    </string-array>
-    <string-array name="general_notification_option_values">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
 
 
     <string name="title_activity_offline_simple_viewer">Offline View</string>
     <string name="title_activity_postdownloader">POSTDownloaderActivity</string>
-    <string name="pda_download_starting_msg">Starting download</string>
-    <string name="PREFERENCES_general_image_animations">pref_general_circle_loader_fresco</string>
     <string name="PREFERENCE_general_night_mode">pref_general_night_mode</string>
-    <string name="PREFERENCE_general_event_notification">pref_general_notif</string>
-    <string name="PREFERENCE_sync_syncing">pref_sync</string>
-    <string name="PREFERENCE_sync_interval">pref_key_snyc_iterval</string>
-    <string name="PREFERENCE_browser_in_app">pref_browser_inapp_enable</string>
-    <string name="PREFERENCE_browser_list">pref_browser_list</string>
-    <string name="PREFERENCE_others_analytics">pref_other_analytics</string>
-    <string name="PREFERENCE_others">pref_key_others</string>
-    <string name="PREFERENCE_browser">pref_key_browser</string>
-    <string name="PREFERENCE_sync">pref_key_syncing_settings</string>
     <string name="PREFERENCE_general">pref_key_general</string>
-    <string name="no_internet_msg">Not connected to the internet!</string>
     <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
     <string name="app_version">Version 2</string>
     <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
     <string name="title_activity_about_dojma">About DoJMA</string>
-    <string name="title_activity_live_lcdnews">Live LCD News</string>
-    <string name="no_gazettes">No gazettes available right now</string>
     <string name="title_activity_mess_menus">Menus</string>
-    <string name="viewholder_mess_msg">Click here for all menus like A mess, C mess, foodking, gaja,
-        icespice etc.</string>
-    <string name="viewholder_contacts_taxi_msg">Get taxi numbers here</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
     <string name="share_prompt">share via … </string>
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search articles</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
     <string name="menu_main_about_app">About MAC</string>
-    <string name="menu_main_shareapp">Share App</string>
-    <string name="menu_main_refresh">Refresh</string>
 
 
-    <string name="shortcut_events">com.csatimes.dojma.HomeActivity.Events</string>
     <string name="shortcut_events_short_label">Events</string>
     <string name="shortcut_events_long_label">Events</string>
     <string name="shortcut_events_disabled_label">Events</string>
 
-    <string name="shortcut_utilities">com.csatimes.dojma.HomeActivity.Utilities</string>
     <string name="shortcut_utilities_short_label">Utils</string>
     <string name="shortcut_utilities_long_label">Utilities</string>
     <string name="shortcut_utilities_disabled_label">Utilities</string>
@@ -145,24 +58,12 @@
     <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
     <string name="UTILITIES_MENU_title">Menus</string>
     <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
-    <string name="title_activity_issues">IssuesActivity</string>
     <string name="item_format_herald_desc">Desc</string>
     <string name="item_format_herald_date">Date</string>
     <string name="item_format_herald_title">Title</string>
     <string name="menu_main_refresh_herald">Refresh</string>
-    <string name="activity_home_drawer_about_mac">About MAC</string>
-    <string name="activity_home_drawer_about_dojma">About DoJMA</string>
-    <string name="activity_home_drawer_settings">Settings</string>
-    <string name="activity_home_drawer_share_app">Share app</string>
-    <string name="activity_home_drawer_facebook_page">Facebook Page</string>
-    <string name="activity_home_drawer_live_lcd_news">Live LCD News</string>
-    <string name="activity_home_drawer_favourites">Favourites</string>
-    <string name="activity_home_drawer_poster_gallery">Poster Gallery</string>
-    <string name="activity_home_drawer_archives">Archives</string>
-    <string name="activity_home_drawer_issues">Issues</string>
     <string name="share_app">Share App</string>
     <string name="invalid_url">Invalid URL</string>
-    <string name="favorite_instruction">Click on the ♡ to save articles to your favourites</string>
     <string name="herald">Herald</string>
     <string name="issues">Issues</string>
     <string name="favorites">Favourites</string>
