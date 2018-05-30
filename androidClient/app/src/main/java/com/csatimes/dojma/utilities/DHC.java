@@ -47,11 +47,6 @@ public class DHC {
     public static final int VERSION = 2;
 
     /**
-     * Full name of DoJMA.
-     */
-    public static final String DoJMA = "Department of Journalism and Media Affairs";
-
-    /**
      * Name of shared preferences file used for the app.
      */
     public static final String USER_PREFERENCES = "USER_PREFS";
@@ -91,6 +86,11 @@ public class DHC {
      * pages.
      */
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
+
+    /**
+     * Firebase node name for contributors.
+     */
+    public static final String FIREBASE_DATABASE_REFERENCE_CONTRIBUTORS = "contributors";
 
     /**
      * Firebase node name for events.
@@ -188,11 +188,6 @@ public class DHC {
     public static final int MAIN_ACTIVITY_EVENTS_POS = 3;
 
     /**
-     * Alarm receiver intent action.
-     */
-    public static final String ALARM_RECEIVER_ACTION_UPDATE = PACKAGE_NAME + ".services.alarmreceiver.action.update";
-
-    /**
      * Log printing method where TAG is {@value #PACKAGE_NAME}
      * and the <b>Error</b> level is used
      *
@@ -206,7 +201,7 @@ public class DHC {
      * Specific purpose log printing method where TAG is mentioned as one of the arg
      * and the <b>Error</b> level is used
      *
-     * @param tag Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
      * @param message Log message
      */
     public static void e(final String tag, final String message) {
@@ -216,9 +211,9 @@ public class DHC {
     /**
      * Get a colored snackbar with time period {@code Snackbar.LENGTH_SHORT}
      *
-     * @param view View paramter to Snackbar
-     * @param s Message to be shown
-     * @param bgColor Background color in value {@code int}
+     * @param view      View paramter to Snackbar
+     * @param s         Message to be shown
+     * @param bgColor   Background color in value {@code int}
      * @param textColor Text color. Value in {@code int}
      * @return Snackbar object with the specified text,colors
      */
@@ -236,9 +231,9 @@ public class DHC {
      * Utility function to check whether device is connected to the internet
      *
      * @param context Context object. eg. {@code this} if in Activity/Service or
-     * {@code getContext()} if calling from a fragment.
-     * <p>
-     * NOTE: Does not check if internet is working fine or not
+     *                {@code getContext()} if calling from a fragment.
+     *                <p>
+     *                NOTE: Does not check if internet is working fine or not
      * @return {@code true} if connected, {@code false} otherwise
      */
     public static boolean isOnline(final Context context) {
