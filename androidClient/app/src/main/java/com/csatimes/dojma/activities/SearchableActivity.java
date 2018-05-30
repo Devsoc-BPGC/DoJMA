@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
 import android.widget.TextView;
 
 import com.alexvasilkov.gestures.views.GestureFrameLayout;
@@ -22,7 +21,6 @@ import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.EventItem;
-import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.models.LinkItem;
 import com.csatimes.dojma.models.MessItem;
@@ -46,7 +44,6 @@ import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_EVENT;
-import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_GAZETTE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_LINK;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_MESS;
@@ -180,24 +177,6 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
             }
         }
 
-        //add gazettes
-
-        results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Gazettes"));
-        lastHeaderPosition = results.size() - 1;
-        final List<GazetteItem> gazetteResults = new RealmList<>();
-        gazetteResults.addAll(mDatabase
-                .where(GazetteItem.class)
-                .contains("title", query, Case.INSENSITIVE)
-                .or().contains("date", query, Case.INSENSITIVE)
-                .findAll());
-        if (gazetteResults.size() == 0) {
-            results.remove(lastHeaderPosition);
-        } else {
-            for (int i = 0; i < gazetteResults.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_GAZETTE, gazetteResults.get(i)));
-            }
-        }
-
         //add events
 
         results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE, "Events"));
@@ -205,9 +184,9 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         final List<EventItem> eventsResults = new RealmList<>();
         eventsResults.addAll(mDatabase
                 .where(EventItem.class)
-                .contains("title", query, Case.INSENSITIVE)
-                .or().contains("location", query, Case.INSENSITIVE)
-                .or().contains("desc", query, Case.INSENSITIVE)
+                .contains(EventItem.FIELD_TITLE, query, Case.INSENSITIVE)
+                .or().contains(EventItem.FIELD_LOCATION, query, Case.INSENSITIVE)
+                .or().contains(EventItem.FIELD_DESC, query, Case.INSENSITIVE)
                 .findAll());
         if (eventsResults.size() == 0) {
             results.remove(lastHeaderPosition);
@@ -224,12 +203,12 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         final List<ContactItem> contactResults = new RealmList<>();
         contactResults.addAll(mDatabase
                 .where(ContactItem.class)
-                .contains("name", query, Case.INSENSITIVE)
-                .or().contains("number", query)
-                .or().contains("email", query, Case.INSENSITIVE)
-                .or().contains("type", query, Case.INSENSITIVE)
-                .or().contains("sub1", query, Case.INSENSITIVE)
-                .or().contains("sub2", query, Case.INSENSITIVE)
+                .contains(ContactItem.FIELD_NAME, query, Case.INSENSITIVE)
+                .or().contains(ContactItem.FIELD_NUMBER, query)
+                .or().contains(ContactItem.FIELD_EMAIL, query, Case.INSENSITIVE)
+                .or().contains(ContactItem.FIELD_TYPE, query, Case.INSENSITIVE)
+                .or().contains(ContactItem.FIELD_SUB1, query, Case.INSENSITIVE)
+                .or().contains(ContactItem.FIELD_SUB2, query, Case.INSENSITIVE)
                 .findAll());
         if (contactResults.size() == 0) {
             results.remove(lastHeaderPosition);
@@ -246,7 +225,7 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         final List<LinkItem> linkResults = new RealmList<>();
         linkResults.addAll(mDatabase
                 .where(LinkItem.class)
-                .contains("title", query, Case.INSENSITIVE)
+                .contains(LinkItem.FIELD_TITLE, query, Case.INSENSITIVE)
                 .or().contains("url", query, Case.INSENSITIVE)
                 .findAll());
         if (linkResults.size() == 0) {
@@ -264,7 +243,7 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         final List<MessItem> messResults = new RealmList<>();
         messResults.addAll(mDatabase
                 .where(MessItem.class)
-                .contains("title", query, Case.INSENSITIVE)
+                .contains(MessItem.FIELD_TITLE, query, Case.INSENSITIVE)
                 .findAll());
         if (messResults.size() == 0) {
             results.remove(lastHeaderPosition);
@@ -273,27 +252,9 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
                 results.add(new TypeItem(SEARCH_ITEM_TYPE_MESS, messResults.get(i)));
             }
         }
-
-
-        //add posters. Currently disabled due to it's complexity
-        /*
-        {
-            results.add(new TypeItem(SEARCH_ITEM_TYPE_TITLE,"Posters"));
-            int lastHeaderPosition = results.size()-1;
-            RealmList<PosterItem> searchPosters = new RealmList<>();
-            searchPosters.addAll(mDatabase
-                    .where(PosterItem.class)
-                    .contains("title", query,Case.INSENSITIVE)
-                    .findAll());
-            for (int i = 0; i < searchPosters.size(); i++) {
-                results.add(new TypeItem(SEARCH_ITEM_TYPE_POSTER, searchPosters.get(i)));
-            }
-        }
-        */
     }
 
     private int span() {
-
         //Setup columns according to device screen
         final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         final float dpWidth = displayMetrics.widthPixels / displayMetrics.density;

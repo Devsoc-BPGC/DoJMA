@@ -80,8 +80,6 @@
         <service
             android:name=".services.UpdateCheckerService"
             android:exported="false" />
-
-        <receiver android:name=".services.AlarmReceiver" />
         <receiver
             android:name=".services.CopyLinkBroadcastReceiver"
             android:enabled="true" />
@@ -94,15 +92,6 @@
         <activity
             android:name=".issues.IssuesActivity"
             android:label="@string/title_activity_favourites"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.ImagesAndMediaActivity"
-            android:label="@string/title_activity_images_and_media"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data

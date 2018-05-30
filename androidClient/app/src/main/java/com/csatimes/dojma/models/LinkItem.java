@@ -1,9 +1,12 @@
 package com.csatimes.dojma.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 public class LinkItem extends RealmObject {
 
+    @Ignore
+    public static final String FIELD_TITLE = "title";
     private String title;
     private String url;
 

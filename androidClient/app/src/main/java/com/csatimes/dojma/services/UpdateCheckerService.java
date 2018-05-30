@@ -7,7 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.csatimes.dojma.R;
@@ -34,8 +38,9 @@ import static com.csatimes.dojma.utilities.DHC.log;
 
 public class UpdateCheckerService extends IntentService {
 
-    public static final String TAG = "services.updatecheckerservice";
+    public static final String TAG = UpdateCheckerService.class.getSimpleName();
 
+    @Nullable
     private static UpdateCheckerService instance;
     /**
      * This variable should be used only during debug stages
@@ -44,12 +49,14 @@ public class UpdateCheckerService extends IntentService {
     boolean enableDownloadingInDebugMode = true;
 
     /**
-     * To disable showing a notification when calling this service, pass a value of {@code false} in the intent
+     * To disable showing a notification when calling this service, pass a value
+     * of {@code false} in the intent
      */
     boolean enableNotifications;
 
     /**
-     * To only download 'n' number of pages override this value by adding the required data in the intent
+     * To only download 'n' number of pages override this value by adding the
+     * required data in the intent
      * {@link DHC#UPDATE_SERVICE_INTENT_PAGES}<br>
      * Default value is -1
      */
@@ -80,49 +87,48 @@ public class UpdateCheckerService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(final Intent intent) {
         if (enableDownloadingInDebugMode) {
-            SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
+            final SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
             final SharedPreferences.Editor editor = preferences.edit();
 
-            String urlPrefix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX;
-            String urlSuffix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX;
+            final String urlPrefix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX;
+            final String urlSuffix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX;
 
-            Realm database = Realm.getDefaultInstance();
+            final Realm database = Realm.getDefaultInstance();
 
-            if (intent.getExtras() != null) {
-                defaultPagesToDownload = intent.getExtras().getInt(UPDATE_SERVICE_INTENT_PAGES, -1);
-                enableNotifications = intent.getExtras().getBoolean(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, true);
+            final Bundle extras = intent.getExtras();
+            if (extras != null) {
+                defaultPagesToDownload = extras.getInt(UPDATE_SERVICE_INTENT_PAGES, -1);
+                enableNotifications = extras.getBoolean(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, true);
             } else {
                 defaultPagesToDownload = -1;
                 enableNotifications = true;
             }
 
-            int defaultPages = defaultPagesToDownload != -1 ? defaultPagesToDownload - 1 : preferences.getInt(DHC.UPDATE_SERVICE_HERALD_PAGES, DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES);
+            final int defaultPages = defaultPagesToDownload == -1
+                    ? preferences.getInt(DHC.UPDATE_SERVICE_HERALD_PAGES,
+                    DHC.UPDATE_SERVICE_HERALD_DEFAULT_PAGES) : defaultPagesToDownload - 1;
 
-            DHC.e(TAG, "defaultPagesToDownload " + defaultPagesToDownload + " and enableNotifications " + enableNotifications);
-
-            DHC.log("default pages are " + defaultPages);
             for (int j = 0; j <= defaultPages; j++) {
                 try {
                     //Handle malformed URL exception
-                    URL url = new URL(urlPrefix + j + urlSuffix);
+                    final URL url = new URL(urlPrefix + j + urlSuffix);
                     DHC.e(TAG,url.toString());
 
                     // Read all the text returned by the server
-                    String response = getServerResponse(url);
+                    final String response = getServerResponse(url);
 
-                    JSONObject jsonResponse;
-                    JSONArray posts;
+                    final JSONObject jsonResponse;
+                    final JSONArray posts;
 
                     //Handle parse error using catch
                     jsonResponse = new JSONObject(response);
 
                     //Get all posts from the json
                     posts = jsonResponse.getJSONArray("posts");
-                    log("total posts " + posts.length());
                     //Update total pages
-                    int pages = jsonResponse.getInt("pages");
+                    final int pages = jsonResponse.getInt("pages");
                     editor.putInt(DHC.UPDATE_SERVICE_HERALD_PAGES, pages);
 
                     for (int i = 0; i < posts.length(); i++) {
@@ -188,10 +194,8 @@ public class UpdateCheckerService extends IntentService {
                             });
                         }
                     }
-                } catch (JSONException e) {
-                    DHC.e(TAG, "json parse error " + e.getMessage());
-                } catch (IOException e) {
-                    DHC.e(TAG, "IOException/MalformedURL " + e.getMessage());
+                } catch (JSONException | IOException e) {
+                    Log.e(TAG, "json parse error " + e.getMessage());
                 }
 
             }
@@ -257,7 +261,7 @@ public class UpdateCheckerService extends IntentService {
         while ((str = in.readLine()) != null) {
             sb.append(str);
         }
-        String response = sb.toString();
+        final String response = sb.toString();
         in.close();
         return response;
     }

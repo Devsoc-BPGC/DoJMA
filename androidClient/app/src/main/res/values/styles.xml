@@ -148,7 +148,7 @@
     </style>
 
     <style name="CustomToolbar">
-        <item name="android:id">@id/offline_toolbar</item>
+        <item name="android:id">@id/settings_toolbar</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">?attr/colorPrimary</item>

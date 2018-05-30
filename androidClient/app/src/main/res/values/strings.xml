@@ -168,5 +168,6 @@
     <string name="favorites">Favourites</string>
     <string name="events">Events</string>
     <string name="utilities">Utilities</string>
+    <string name="restart_on_theme_change_prompt">Please restart app for the changes to take place</string>
 
 </resources>

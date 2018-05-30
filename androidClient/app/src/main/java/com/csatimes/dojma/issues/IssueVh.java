@@ -19,7 +19,8 @@ public class IssueVh extends RecyclerView.ViewHolder implements View.OnClickList
     private final MaterialButton titleMb;
     private String title;
 
-    IssueVh(@NonNull final View itemView) {
+    @SuppressWarnings("WeakerAccess")
+    public IssueVh(@NonNull final View itemView) {
         super(itemView);
         rootView = itemView;
         titleMb = rootView.findViewById(R.id.mb_title);
