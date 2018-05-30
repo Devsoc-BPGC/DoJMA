@@ -68,6 +68,10 @@ public class MainActivity extends BaseActivity
                 intent = new Intent(this, SettingsActivity.class);
                 break;
             }
+            case R.id.action_search: {
+                intent = new Intent(this, SearchableActivity.class);
+                break;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
