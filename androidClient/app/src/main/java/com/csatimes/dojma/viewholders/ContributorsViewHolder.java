@@ -1,10 +1,18 @@
 package com.csatimes.dojma.viewholders;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.models.Contributor;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by vikramaditya on 24/2/17.
