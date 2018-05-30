@@ -1,5 +1,6 @@
 package com.csatimes.dojma.activities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     public static String ABOUT_US_BL_URL = "https://play.google.com/store/apps/details?id=net.deepeshmakhijani.bpgclogin";
     public static String ABOUT_US_ABHIGYAN_URL = "https://play.google.com/store/apps/details?id=com.macbitsgoa.abhigyaan";
     public static String ABOUT_US_ICEF_URL = "https://play.google.com/store/apps/details?id=bits.mac.icef_2018";
+    public static String ABOUT_US_GOOGLEPLAY_URL = "https://play.google.com/store/search?q=Mobile%20App%20Club%20-%20BITS%20Goa&c=apps&hl=en";
     Context context = AboutUsActivity.this;
     Activity activity = AboutUsActivity.this;
     Exception e;
@@ -59,7 +62,7 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("About App");
+        getSupportActionBar().setTitle(R.string.about_app);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
@@ -131,29 +134,24 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
                     startActivity(facebookIntent);
                 } catch (ActivityNotFoundException e) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_FACEBOOK_URL));
-                    Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
                 break;
             case R.id.content_about_us_linkedin_imgbtn:
                 Intent linkedinIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_LINKEDIN_URL));
-                Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
                 startActivity(linkedinIntent);
                 break;
             case R.id.content_about_us_website_imgbtn:
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_WEBSITE_URL));
-                Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
                 startActivity(websiteIntent);
                 break;
             case R.id.content_about_us_github_imgbtn:
                 Intent githubIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_GITHUB_URL));
-                Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
                 startActivity(githubIntent);
                 break;
             case R.id.content_about_us_google_play_imgbtn:
-                Intent googlePlayIntent = new Intent(Intent.ACTION_VIEW);
-                googlePlayIntent.setData(Uri.parse("market://search?q=Mobile App Club - BITS Goa"));
-                startActivity(googlePlayIntent);
+                Intent googleplayIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_GOOGLEPLAY_URL));
+                startActivity(googleplayIntent);
             default:
                 break;
         }

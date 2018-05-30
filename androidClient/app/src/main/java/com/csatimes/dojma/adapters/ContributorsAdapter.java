@@ -1,12 +1,24 @@
 package com.csatimes.dojma.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.models.Contributor;
+import com.csatimes.dojma.utilities.DHC;
 import com.csatimes.dojma.viewholders.ContributorsViewHolder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +45,7 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHo
     public ContributorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View contributor = inflater.inflate(R.layout.item_format_contributors, parent, false);
-        return new ContributorsViewHolder(contributor, context);
+        return new ContributorsViewHolder(contributor, contributor.getContext());
     }
 
     @Override
