@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.models.Contributor;
 import com.csatimes.dojma.models.Morebymac;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 
@@ -25,12 +24,12 @@ public class MorebymacViewHolder extends RecyclerView.ViewHolder implements View
     public Morebymac morebymac;
     public Context context ;
 
-    Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-    PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    String copy_label = "Copy Link";
+    private Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+    private PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private String copy_label = "Copy Link";
 
-    int colorResource = getChromeCustomTabColorFromTheme();
-    final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+    private int colorResource = getChromeCustomTabColorFromTheme();
+    private final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
             .setShowTitle(true)
             .setToolbarColor(colorResource)
             .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
