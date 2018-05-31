@@ -27,7 +27,8 @@ public class ContributorsViewHolder extends RecyclerView.ViewHolder implements V
     public Contributor contributor;
     public Context context ;
 
-    public ContributorsViewHolder(View itemView, final Context context) {
+
+    public ContributorsViewHolder(View itemView) {
         super(itemView);
         Fresco.initialize(context);
         nameTv = itemView.findViewById(R.id.dojma_contributor_name);
@@ -35,7 +36,7 @@ public class ContributorsViewHolder extends RecyclerView.ViewHolder implements V
         phoneTv = itemView.findViewById(R.id.dojma_contributor_phone);
         photoIv = itemView.findViewById(R.id.dojma_contributor_image);
         itemView.setOnClickListener(this);
-        this.context = context;
+        this.context = itemView.getContext();
     }
 
     public void populate(Contributor contributor) {
