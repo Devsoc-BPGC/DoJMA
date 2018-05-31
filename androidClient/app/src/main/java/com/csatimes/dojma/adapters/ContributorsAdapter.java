@@ -31,7 +31,6 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHo
     private static final String TAG = "mac";
     private ArrayList<Contributor> contributors;
     private Context context;
-    private Activity activity;
 
     public ContributorsAdapter(Context context) {
         this.context = context;

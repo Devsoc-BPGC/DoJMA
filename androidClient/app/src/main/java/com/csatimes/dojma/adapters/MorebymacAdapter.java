@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.models.Contributor;
 import com.csatimes.dojma.models.Morebymac;
 import com.csatimes.dojma.utilities.DHC;
-import com.csatimes.dojma.viewholders.ContributorsViewHolder;
 import com.csatimes.dojma.viewholders.MorebymacViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +25,8 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> implements ValueEventListener{
 
-    ArrayList<Morebymac> moreApps;
+    private ArrayList<Morebymac> moreApps;
     private Context context;
-    private Activity activity;
 
     public MorebymacAdapter(Context context) {
         this.context = context;

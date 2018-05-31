@@ -36,16 +36,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AboutUsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "mac";
     public static String ABOUT_US_FACEBOOK_URL = "https://www.facebook.com/MACBITSGoa";
     public static String ABOUT_US_FACEBOOK_PAGE_ID = "MACBITSGoa";
     public static String ABOUT_US_GITHUB_URL = "https://github.com/MobileApplicationsClub";
     public static String ABOUT_US_LINKEDIN_URL = "https://www.linkedin.com/mwlite/company/13598216";
     public static String ABOUT_US_WEBSITE_URL = "https://macbitsgoa.com";
     public static String ABOUT_US_GOOGLEPLAY_URL = "https://play.google.com/store/search?q=Mobile%20App%20Club%20-%20BITS%20Goa&c=apps&hl=en";
-    Context context = AboutUsActivity.this;
-    Activity activity = AboutUsActivity.this;
-    Exception e;
+    private Context context = AboutUsActivity.this;
+    private Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+    private PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private String copy_label = "Copy Link";
+
+    private int colorResource = getChromeCustomTabColorFromTheme();
+    private final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+            .setShowTitle(true)
+            .setToolbarColor(colorResource)
+            .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
+            .addMenuItem(copy_label, copy_pendingIntent)
+            .addDefaultShareMenuItem()
+            .enableUrlBarHiding()
+            .build();
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -59,22 +70,8 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         ImageButton linkedinImgBtn = findViewById(R.id.content_about_us_linkedin_imgbtn);
         ImageButton websiteImgBtn = findViewById(R.id.content_about_us_website_imgbtn);
 
-        androidx.recyclerview.widget.RecyclerView morebymacRecyclerView = findViewById(R.id.content_about_us_morebymac_rv);
-        androidx.recyclerview.widget.RecyclerView contributorsRecyclerView = findViewById(R.id.content_about_us_contributors_rv);
-
-        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String copy_label = "Copy Link";
-
-        int colorResource = getChromeCustomTabColorFromTheme();
-        final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(colorResource)
-                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
-                .addMenuItem(copy_label, copy_pendingIntent)
-                .addDefaultShareMenuItem()
-                .enableUrlBarHiding()
-                .build();
+        RecyclerView morebymacRecyclerView = findViewById(R.id.content_about_us_morebymac_rv);
+        RecyclerView contributorsRecyclerView = findViewById(R.id.content_about_us_contributors_rv);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -115,19 +112,6 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String copy_label = "Copy Link";
-
-        int colorResource = getChromeCustomTabColorFromTheme();
-        final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(colorResource)
-                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
-                .addMenuItem(copy_label, copy_pendingIntent)
-                .addDefaultShareMenuItem()
-                .enableUrlBarHiding()
-                .build();
         switch (id) {
             case R.id.content_about_us_fb_imgbtn:
                 try {
