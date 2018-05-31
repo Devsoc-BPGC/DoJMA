@@ -40,7 +40,7 @@ public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> 
     public MorebymacViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View morebymac = inflater.inflate(R.layout.item_format_contributors, parent, false);
-        return new MorebymacViewHolder(morebymac, morebymac.getContext());
+        return new MorebymacViewHolder(morebymac);
     }
 
     @Override

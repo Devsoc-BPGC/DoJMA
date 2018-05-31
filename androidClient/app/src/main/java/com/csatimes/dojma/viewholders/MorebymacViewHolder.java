@@ -38,10 +38,10 @@ public class MorebymacViewHolder extends RecyclerView.ViewHolder implements View
             .enableUrlBarHiding()
             .build();
 
-    public MorebymacViewHolder(View itemView, final Context context) {
+    public MorebymacViewHolder(View itemView) {
         super(itemView);
         text = itemView.findViewById(R.id.viewholder_simple_text_textview);
-        this.context = context;
+        this.context = itemView.getContext();
         itemView.setOnClickListener(this);
 
     }
