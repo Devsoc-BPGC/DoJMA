@@ -1,13 +1,17 @@
 package com.csatimes.dojma.activities;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,12 +21,15 @@ import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ContributorsAdapter;
+import com.csatimes.dojma.adapters.MorebymacAdapter;
+import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,11 +42,6 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     public static String ABOUT_US_GITHUB_URL = "https://github.com/MobileApplicationsClub";
     public static String ABOUT_US_LINKEDIN_URL = "https://www.linkedin.com/mwlite/company/13598216";
     public static String ABOUT_US_WEBSITE_URL = "https://macbitsgoa.com";
-    public static String ABOUT_US_ARD_URL = "https://play.google.com/store/apps/details?id=com.macbitsgoa.ard";
-    public static String ABOUT_US_NMD_URL = "https://play.google.com/store/apps/details?id=com.macbitsgoa.nmd";
-    public static String ABOUT_US_BL_URL = "https://play.google.com/store/apps/details?id=net.deepeshmakhijani.bpgclogin";
-    public static String ABOUT_US_ABHIGYAN_URL = "https://play.google.com/store/apps/details?id=com.macbitsgoa.abhigyaan";
-    public static String ABOUT_US_ICEF_URL = "https://play.google.com/store/apps/details?id=bits.mac.icef_2018";
     public static String ABOUT_US_GOOGLEPLAY_URL = "https://play.google.com/store/search?q=Mobile%20App%20Club%20-%20BITS%20Goa&c=apps&hl=en";
     Context context = AboutUsActivity.this;
     Activity activity = AboutUsActivity.this;
@@ -57,8 +59,22 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         ImageButton linkedinImgBtn = findViewById(R.id.content_about_us_linkedin_imgbtn);
         ImageButton websiteImgBtn = findViewById(R.id.content_about_us_website_imgbtn);
 
-        android.widget.ListView morebymacListView = findViewById(R.id.content_about_us_morebymac_lv);
+        androidx.recyclerview.widget.RecyclerView morebymacRecyclerView = findViewById(R.id.content_about_us_morebymac_rv);
         androidx.recyclerview.widget.RecyclerView contributorsRecyclerView = findViewById(R.id.content_about_us_contributors_rv);
+
+        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String copy_label = "Copy Link";
+
+        int colorResource = getChromeCustomTabColorFromTheme();
+        final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(colorResource)
+                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
+                .addMenuItem(copy_label, copy_pendingIntent)
+                .addDefaultShareMenuItem()
+                .enableUrlBarHiding()
+                .build();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,35 +95,9 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
             window.setNavigationBarColor(ContextCompat.getColor(this, R.color.mac_color));
         }
 
-        final String[] str2 = new String[]{"ARD App","NMD App","Bits Login App","Abhigyan App","ICEF App"};
-        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(context, android.R.layout.simple_list_item_1, str2);
-        morebymacListView.setAdapter(adapter);
-
-        morebymacListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i)
-                {
-                    case 0 :Intent ardIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_ARD_URL));
-                        startActivity(ardIntent);
-                        break;
-                    case 1 :Intent nmdIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_NMD_URL));
-                        startActivity(nmdIntent);
-                        break;
-                    case 2 :Intent blIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_BL_URL));
-                        startActivity(blIntent);
-                        break;
-                    case 3 :Intent abhigyaanIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_ABHIGYAN_URL));
-                        startActivity(abhigyaanIntent);
-                        break;
-                    case 4 :Intent icefIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_ICEF_URL));
-                        startActivity(icefIntent);
-                        break;
-                }
-            }
-        });
-
+        morebymacRecyclerView.setHasFixedSize(false);
+        morebymacRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        morebymacRecyclerView.setAdapter(new MorebymacAdapter(AboutUsActivity.this));
 
 
         contributorsRecyclerView.setHasFixedSize(false);
@@ -125,6 +115,19 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String copy_label = "Copy Link";
+
+        int colorResource = getChromeCustomTabColorFromTheme();
+        final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(colorResource)
+                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
+                .addMenuItem(copy_label, copy_pendingIntent)
+                .addDefaultShareMenuItem()
+                .enableUrlBarHiding()
+                .build();
         switch (id) {
             case R.id.content_about_us_fb_imgbtn:
                 try {
@@ -133,25 +136,20 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
                     facebookIntent.setData(Uri.parse(facebookUrl));
                     startActivity(facebookIntent);
                 } catch (ActivityNotFoundException e) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_FACEBOOK_URL));
-                    startActivity(intent);
+                    customTabsIntent.launchUrl(context, Uri.parse(ABOUT_US_FACEBOOK_URL));
                 }
                 break;
             case R.id.content_about_us_linkedin_imgbtn:
-                Intent linkedinIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_LINKEDIN_URL));
-                startActivity(linkedinIntent);
+                customTabsIntent.launchUrl(context, Uri.parse(ABOUT_US_LINKEDIN_URL));
                 break;
             case R.id.content_about_us_website_imgbtn:
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_WEBSITE_URL));
-                startActivity(websiteIntent);
+                customTabsIntent.launchUrl(context, Uri.parse(ABOUT_US_WEBSITE_URL));
                 break;
             case R.id.content_about_us_github_imgbtn:
-                Intent githubIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_GITHUB_URL));
-                startActivity(githubIntent);
+                customTabsIntent.launchUrl(context, Uri.parse(ABOUT_US_GITHUB_URL));
                 break;
             case R.id.content_about_us_google_play_imgbtn:
-                Intent googleplayIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(ABOUT_US_GOOGLEPLAY_URL));
-                startActivity(googleplayIntent);
+                customTabsIntent.launchUrl(context, Uri.parse(ABOUT_US_GOOGLEPLAY_URL));
             default:
                 break;
         }
@@ -170,5 +168,12 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
         } catch (PackageManager.NameNotFoundException e) {
             return ABOUT_US_FACEBOOK_URL; //normal web url
         }
+    }
+
+    private int getChromeCustomTabColorFromTheme() {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
     }
 }
