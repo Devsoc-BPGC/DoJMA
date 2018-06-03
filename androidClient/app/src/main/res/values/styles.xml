@@ -142,7 +142,7 @@
     </style>
 
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeNoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -167,6 +167,10 @@
 
     <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
         <item name="colorControlHighlight">@color/white</item>
+    </style>
+    
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
 </resources>

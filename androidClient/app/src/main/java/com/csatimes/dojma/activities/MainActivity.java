@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        setTheme(R.style.AppThemeNoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final SharedPreferences mPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
