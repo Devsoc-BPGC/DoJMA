@@ -1,6 +1,5 @@
 package com.csatimes.dojma.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,10 +25,8 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> implements ValueEventListener{
 
     private ArrayList<Morebymac> moreApps;
-    private Context context;
 
-    public MorebymacAdapter(Context context) {
-        this.context = context;
+    public MorebymacAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
                 .child(DHC.FIREBASE_DATABASE_REFERENCE_MOREAPPS);
         devRef.addValueEventListener(this);

@@ -2,7 +2,6 @@ package com.csatimes.dojma.adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vikramaditya on 24/2/17.
@@ -30,10 +28,8 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHo
 
     private static final String TAG = "mac";
     private ArrayList<Contributor> contributors;
-    private Context context;
 
-    public ContributorsAdapter(Context context) {
-        this.context = context;
+    public ContributorsAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
                 .child(DHC.FIREBASE_DATABASE_REFERENCE_CONTRIBUTORS);
         devRef.addValueEventListener(this);

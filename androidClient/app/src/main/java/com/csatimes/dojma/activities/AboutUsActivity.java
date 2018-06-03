@@ -1,6 +1,5 @@
 package com.csatimes.dojma.activities;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -15,17 +14,12 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ContributorsAdapter;
 import com.csatimes.dojma.adapters.MorebymacAdapter;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -94,12 +88,12 @@ public class AboutUsActivity extends AppCompatActivity implements View.OnClickLi
 
         morebymacRecyclerView.setHasFixedSize(false);
         morebymacRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        morebymacRecyclerView.setAdapter(new MorebymacAdapter(AboutUsActivity.this));
+        morebymacRecyclerView.setAdapter(new MorebymacAdapter());
 
 
         contributorsRecyclerView.setHasFixedSize(false);
         contributorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contributorsRecyclerView.setAdapter(new ContributorsAdapter(AboutUsActivity.this));
+        contributorsRecyclerView.setAdapter(new ContributorsAdapter());
 
         findViewById(R.id.content_about_us_app_name_tv).requestFocus();
         facebookImgBtn.setOnClickListener(this);
