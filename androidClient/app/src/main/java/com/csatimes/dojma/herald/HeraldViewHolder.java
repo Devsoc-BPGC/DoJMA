@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.HeraldItem;
-import com.csatimes.dojma.utilities.Browser;
 import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
@@ -21,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 
 import static android.content.Intent.EXTRA_TEXT;
+import static com.csatimes.dojma.articles.ArticleViewerActivity.readArticle;
 
 /**
  * @author Rushikesh Jogdand.
@@ -64,7 +64,7 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
                     parentActivity.getString(R.string.share_prompt)));
             return;
         }
-        new Browser(parentActivity).launchUrl(item.getUrl());
+        readArticle(view.getContext(), Integer.parseInt(item.getPostID()));
     }
 
     @Override

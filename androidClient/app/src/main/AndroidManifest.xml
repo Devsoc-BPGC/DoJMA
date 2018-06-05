@@ -209,6 +209,9 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <activity
+            android:name=".articles.ArticleViewerActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
