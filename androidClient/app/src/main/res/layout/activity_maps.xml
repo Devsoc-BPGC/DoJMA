@@ -15,7 +15,7 @@
         map:uiZoomControls="false"
         tools:context="com.csatimes.dojma.activities.UtilitiesMapsActivity">
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/utilities_map_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
