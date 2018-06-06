@@ -24,16 +24,13 @@ import androidx.core.content.ContextCompat;
 /**
  * Browser opens web links.
  * Includes default customizations which can be overridden.
- * <p>
  * <h1>Usage</h1>
- * <p>
  * To open url with default customizations
  * <pre>
  * {@code
  * new Browser(this).launchUrl("example.com");
  * }
  * </pre>
- * </p>
  * <p>
  * To override values :
  * <pre>
@@ -42,7 +39,6 @@ import androidx.core.content.ContextCompat;
  * .launchUrl("example.com");
  * }
  * </pre>
- * </p>
  *
  * @author Rushikesh Jogdand
  */
@@ -146,7 +142,7 @@ public final class Browser {
      * Method to get pixel value corresponding to input dp.
      *
      * @param context of calling method.
-     * @param dp value to be converted in dp.
+     * @param dp      value to be converted in dp.
      * @return converted value in pixels.
      */
     public static float dpToPx(final Context context, final float dp) {
@@ -158,8 +154,8 @@ public final class Browser {
      * Method to get bitmap from vector drawable.
      *
      * @param drawable Input {@link android.graphics.drawable.Drawable}
-     * @param width The width of resultant bitmap in pixels.
-     * @param height The height of resultant bitmap in pixels.
+     * @param width    The width of resultant bitmap in pixels.
+     * @param height   The height of resultant bitmap in pixels.
      * @return converted bitmap.
      */
     public static Bitmap getBitmapFromDrawable(final Drawable drawable,
@@ -212,7 +208,7 @@ public final class Browser {
      * Sets the start animations.
      *
      * @param enterResId Resource ID of the "enter" animation for the browser.
-     * @param exitResId Resource ID of the "exit" animation for the application.
+     * @param exitResId  Resource ID of the "exit" animation for the application.
      * @return current instance.
      */
     public Browser setStartAnimation(@AnimRes final int enterResId, @AnimRes final int exitResId) {
@@ -224,7 +220,7 @@ public final class Browser {
      * Sets the exit animations.
      *
      * @param enterResId Resource ID of the "enter" animation for the application.
-     * @param exitResId Resource ID of the "exit" animation for the browser.
+     * @param exitResId  Resource ID of the "exit" animation for the browser.
      * @return current instance.
      */
     public Browser setExitAnimations(@AnimRes final int enterResId, @AnimRes final int exitResId) {
@@ -235,7 +231,7 @@ public final class Browser {
     /**
      * Adds a menu item.
      *
-     * @param label Menu label.
+     * @param label         Menu label.
      * @param pendingIntent Pending intent delivered when the menu item is clicked.
      * @return current instance.
      */
@@ -247,11 +243,11 @@ public final class Browser {
     /**
      * Sets the action button that is displayed in the Toolbar.
      *
-     * @param icon The {@link Drawable} icon.
-     * The width:height ratio of icon should be in range [1, 2].
-     * @param description The description for the button. To be used for accessibility.
+     * @param icon          The {@link Drawable} icon.
+     *                      The width:height ratio of icon should be in range [1, 2].
+     * @param description   The description for the button. To be used for accessibility.
      * @param pendingIntent pending intent delivered when the button is clicked.
-     * @param shouldTint Whether the action button should be tinted.
+     * @param shouldTint    Whether the action button should be tinted.
      * @return current instance.
      */
     @SuppressWarnings("BooleanParameter")
@@ -281,12 +277,7 @@ public final class Browser {
             initiateIntent();
             mCustomTabsIntent.launchUrl(hostActivity, Uri.parse(saneUrl));
         } else {
-            hostActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(hostActivity, R.string.invalid_url, Toast.LENGTH_SHORT).show();
-                }
-            });
+            hostActivity.runOnUiThread(() -> Toast.makeText(hostActivity, R.string.invalid_url, Toast.LENGTH_SHORT).show());
         }
     }
 

@@ -40,6 +40,8 @@ public class DHC {
 
     public static final String MIME_TYPE_PLAINTEXT = "text/plain";
 
+    public static final String MIME_TYPE_HTML = "text/html";
+
     public static final int VERSION = 2;
 
     /**

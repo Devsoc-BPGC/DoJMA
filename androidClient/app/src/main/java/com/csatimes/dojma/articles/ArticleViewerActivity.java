@@ -10,12 +10,16 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.GetPostResponse;
 import com.csatimes.dojma.models.Image;
 import com.csatimes.dojma.models.Post;
+import com.csatimes.dojma.utilities.Browser;
 import com.csatimes.dojma.utilities.DojmaApi;
 import com.csatimes.dojma.utilities.DojmaApiValues;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -32,6 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_HTML;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DojmaApiValues.DOJMA_API_BASE_URL;
 
@@ -55,7 +60,8 @@ public class ArticleViewerActivity extends AppCompatActivity {
     private TextView dateTv;
     private View emptySpace;
     private SimpleDraweeView articleImage;
-    private TextView contentTv;
+    private WebView contentWv;
+    private Browser browser;
 
     /**
      * Convenient method to launch this activity.
@@ -73,6 +79,7 @@ public class ArticleViewerActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         acquireArticleId(getIntent(), savedInstanceState);
+        browser = new Browser(this);
         initViews();
         final DojmaApi api = new Retrofit.Builder()
                 .baseUrl(DOJMA_API_BASE_URL)
@@ -125,7 +132,15 @@ public class ArticleViewerActivity extends AppCompatActivity {
         findViewById(R.id.fab_back).setOnClickListener(view -> onBackPressed());
         titleTv = findViewById(R.id.tv_article_title);
         dateTv = findViewById(R.id.tv_article_date);
-        contentTv = findViewById(R.id.tv_article_content);
+        contentWv = findViewById(R.id.wv_article_content);
+        contentWv.getSettings().setJavaScriptEnabled(false);
+        contentWv.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(final WebView view, final WebResourceRequest request) {
+                browser.launchUrl(request.getUrl().toString());
+                return true;
+            }
+        });
         articleImage = findViewById(R.id.sdv_article_image);
         emptySpace = findViewById(R.id.space_above_article_card);
     }
@@ -133,11 +148,10 @@ public class ArticleViewerActivity extends AppCompatActivity {
     private void handlePost(@NonNull final Post post) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             titleTv.setText(Html.fromHtml(post.title, Html.FROM_HTML_MODE_LEGACY));
-            contentTv.setText(Html.fromHtml(post.content, Html.FROM_HTML_MODE_LEGACY));
         } else {
             titleTv.setText(Html.fromHtml(post.title));
-            contentTv.setText(Html.fromHtml(post.content));
         }
+        contentWv.loadData(post.content, MIME_TYPE_HTML, null);
         try {
             dateTv.setText(Html.fromHtml(articleDateFormat.format(DojmaApiValues.DOJMA_API_DATE_SDF.parse(post.date))));
         } catch (final ParseException e) {
