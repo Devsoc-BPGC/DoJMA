@@ -1,8 +1,10 @@
 package com.csatimes.dojma.utilities;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -246,5 +248,24 @@ public class DHC {
         return (netInfo != null && netInfo.isConnected());
     }
 
+    public static int getGridSpan() {
+        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        final float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up images grid
+        final float val = 300.0f;
+        final float t = dpWidth / val;
+        final float r = dpWidth % val;
+        return r < val / 2 ? (int) Math.floor(t) : (int) Math.ceil(t);
+    }
 
+    public static int getStaggeredGridSpan() {
+        //Setup columns according to device screen
+        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        final float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        // Setting up grid
+        final int num = 180;
+        final float t = dpWidth / num;
+        final float r = dpWidth % num;
+        return r * 10 < num ? (int) Math.ceil(dpWidth / num) : (int) t;
+    }
 }

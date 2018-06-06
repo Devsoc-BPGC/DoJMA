@@ -3,7 +3,6 @@ package com.csatimes.dojma.herald;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
+import static com.csatimes.dojma.utilities.DHC.getGridSpan;
 
 
 public class HeraldFragment extends Fragment {
 
     private static final String TAG = TAG_PREFIX + HeraldFragment.class.getSimpleName();
-    private RecyclerView heraldTv;
+    private RecyclerView heraldRv;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
@@ -35,25 +35,13 @@ public class HeraldFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        heraldTv = view.findViewById(R.id.fragment_herald_rv);
+        heraldRv = view.findViewById(R.id.fragment_herald_rv);
         final Context context = getContext();
-        heraldTv.setLayoutManager(new GridLayoutManager(context, span()));
+        heraldRv.setLayoutManager(new GridLayoutManager(context, getGridSpan()));
         if (context != null) {
-            heraldTv.addItemDecoration(new DividerItemDecoration(context, VERTICAL));
+            heraldRv.addItemDecoration(new DividerItemDecoration(context, VERTICAL));
         }
     }
-
-    private int span() {
-        //Setup columns according to device screen
-        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        final float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        // Setting up images grid
-        final float val = 300.0f;
-        final float t = dpWidth / val;
-        final float r = dpWidth % val;
-        return r < val / 2 ? (int) Math.floor(t) : (int) Math.ceil(t);
-    }
-
 
     @Override
     public void onStart() {
@@ -61,7 +49,7 @@ public class HeraldFragment extends Fragment {
         final Activity activity = getActivity();
         if (activity != null) {
             final HeraldAdapter mAdapter = new HeraldAdapter(activity);
-            heraldTv.setAdapter(mAdapter);
+            heraldRv.setAdapter(mAdapter);
         } else {
             Log.e(TAG, "getActivity() returned null in onStart()");
         }

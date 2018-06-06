@@ -2,7 +2,10 @@ package com.csatimes.dojma.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,17 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
+import static com.csatimes.dojma.utilities.DHC.getStaggeredGridSpan;
 
 public class Utilities extends Fragment {
-    ValueEventListener mMiscEventListener;
+    private ValueEventListener mMiscEventListener;
     private String mMessage = "";
-    private DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
+    private final DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
     private SharedPreferences.Editor mEditor;
-
-    public static Fragment newInstance() {
-        Utilities utilities=new Utilities();
-        return utilities;
-    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -43,35 +42,20 @@ public class Utilities extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView utilitiesRecyclerView = (RecyclerView) view.findViewById(R.id.utilities_rv);
+        final RecyclerView utilitiesRecyclerView = view.findViewById(R.id.utilities_rv);
 
-        SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
+        final SharedPreferences sp = getContext().getSharedPreferences(DHC.USER_PREFERENCES, Context.MODE_PRIVATE);
         mEditor = sp.edit();
 
-        androidx.recyclerview.widget.StaggeredGridLayoutManager sglm = new androidx.recyclerview.widget.StaggeredGridLayoutManager(span(), androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager sglm = new StaggeredGridLayoutManager(getStaggeredGridSpan(), StaggeredGridLayoutManager.VERTICAL);
         sglm.setGapStrategy(androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         utilitiesRecyclerView.setLayoutManager(sglm);
         utilitiesRecyclerView.setHasFixedSize(true);
 
         mMessage = sp.getString(USER_PREFERENCES_MISC_CARD_MESSAGE, getString(R.string.UTILITIES_MISC_subtitle));
-        UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
+        final UtilitiesAdapter mUtilitiesAdapter = new UtilitiesAdapter(getContext(), mMessage);
         utilitiesRecyclerView.setAdapter(mUtilitiesAdapter);
 
-    }
-
-    private int span() {
-
-        //Setup columns according to device screen
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        // Setting up grid
-        int num = 180;
-        float t = dpWidth / num;
-        float r = dpWidth % num;
-        if (r < 0.1 * num)
-            return (int) Math.ceil(dpWidth / num);
-        else
-            return (int) t;
     }
 
     @Override
@@ -84,14 +68,14 @@ public class Utilities extends Fragment {
     private ValueEventListener returnValueListener() {
         return new ValueEventListener() {
             @Override
-            public void onDataChange(final DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 mMessage = dataSnapshot.getValue(String.class);
                 mEditor.putString(USER_PREFERENCES_MISC_CARD_MESSAGE, mMessage);
                 mEditor.apply();
             }
 
             @Override
-            public void onCancelled(final DatabaseError databaseError) {
+            public void onCancelled(@NonNull final DatabaseError databaseError) {
 
             }
         };

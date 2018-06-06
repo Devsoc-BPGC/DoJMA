@@ -4,13 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Model for `attachment` fields in Dojma api.
  *
  * @author Rushikesh Jogdand.
  */
 @SuppressWarnings("DuplicateStringLiteralInspection")
-public class Attachment {
+public class Attachment extends RealmObject {
+    @PrimaryKey
     @SerializedName("id")
     public int id;
 
@@ -35,6 +40,12 @@ public class Attachment {
     @SerializedName("mime_type")
     public String mimeType;
 
+    /**
+     * Saving full image as fullImage.
+     */
+    @Ignore
     @SerializedName("images")
     public HashMap<String, Image> images;
+
+    public Image fullImage;
 }

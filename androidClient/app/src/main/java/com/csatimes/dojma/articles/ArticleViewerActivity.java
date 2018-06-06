@@ -30,12 +30,15 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.csatimes.dojma.models.Post.FIELD_ID;
+import static com.csatimes.dojma.models.Post.persistInRealm;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_HTML;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DojmaApiValues.DOJMA_API_BASE_URL;
@@ -62,6 +65,7 @@ public class ArticleViewerActivity extends AppCompatActivity {
     private SimpleDraweeView articleImage;
     private WebView contentWv;
     private Browser browser;
+    private Realm realm;
 
     /**
      * Convenient method to launch this activity.
@@ -81,6 +85,19 @@ public class ArticleViewerActivity extends AppCompatActivity {
         acquireArticleId(getIntent(), savedInstanceState);
         browser = new Browser(this);
         initViews();
+        realm = Realm.getDefaultInstance();
+        realm.where(Post.class)
+                .equalTo(FIELD_ID, articleId)
+                .findAllAsync()
+                .addChangeListener(posts -> {
+                    final Post post;
+                    if (posts.size() > 0) {
+                        post = posts.get(0);
+                        if (post != null) {
+                            handlePost(realm.copyFromRealm(post));
+                        }
+                    }
+                });
         final DojmaApi api = new Retrofit.Builder()
                 .baseUrl(DOJMA_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -98,7 +115,8 @@ public class ArticleViewerActivity extends AppCompatActivity {
                     finish();
                     return;
                 }
-                handlePost(body.post);
+                final Post post = body.post;
+                persistInRealm(post, realm);
             }
 
             @Override
@@ -121,12 +139,6 @@ public class ArticleViewerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        outState.putInt(EXTRA_ARTICLE_ID, articleId);
-        super.onSaveInstanceState(outState);
-    }
-
     private void initViews() {
         setContentView(R.layout.activity_article_viewer);
         findViewById(R.id.fab_back).setOnClickListener(view -> onBackPressed());
@@ -145,6 +157,18 @@ public class ArticleViewerActivity extends AppCompatActivity {
         emptySpace = findViewById(R.id.space_above_article_card);
     }
 
+    @Override
+    protected void onDestroy() {
+        realm.close();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putInt(EXTRA_ARTICLE_ID, articleId);
+        super.onSaveInstanceState(outState);
+    }
+
     private void handlePost(@NonNull final Post post) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             titleTv.setText(Html.fromHtml(post.title, Html.FROM_HTML_MODE_LEGACY));
@@ -157,8 +181,8 @@ public class ArticleViewerActivity extends AppCompatActivity {
         } catch (final ParseException e) {
             Log.e(TAG, e.getMessage(), e.fillInStackTrace());
         }
-        if (post.thumbnailImages != null && post.thumbnailImages.containsKey("full")) {
-            final Image headerImage = post.thumbnailImages.get("full");
+        if (post.fullThumbnailImage != null) {
+            final Image headerImage = post.fullThumbnailImage;
             final int scaledHeight = headerImage.height * Resources.getSystem().getDisplayMetrics().widthPixels / headerImage.width;
             final ViewGroup.LayoutParams imageParams = articleImage.getLayoutParams();
             imageParams.height = scaledHeight;

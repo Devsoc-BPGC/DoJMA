@@ -2,6 +2,9 @@ package com.csatimes.dojma.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Model for `author` field of DoJMA api.
  *
@@ -9,7 +12,8 @@ import com.google.gson.annotations.SerializedName;
  */
 
 @SuppressWarnings("DuplicateStringLiteralInspection")
-public class Author {
+public class Author extends RealmObject {
+    @PrimaryKey
     @SerializedName("id")
     public int id;
 
