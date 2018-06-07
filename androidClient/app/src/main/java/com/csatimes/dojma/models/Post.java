@@ -22,12 +22,6 @@ public class Post extends RealmObject {
     @Ignore
     public static final String FIELD_ID = "id";
 
-    @Ignore
-    public static final String FIELD_TITLE = "title";
-
-    @Ignore
-    public static final String FIELD_CONTENT = "content";
-
     @PrimaryKey
     @SerializedName("id")
     public int id;
@@ -81,33 +75,33 @@ public class Post extends RealmObject {
     @SerializedName("modified")
     public String modified;
 
-    public static void persistInRealm(@NonNull final Post post, final Realm db) {
+    /**
+     * Convenient method to insert a post object in realm with all its linked
+     * children.
+     *
+     * @param post  the object to be persisted.
+     * @param realm {@link Realm} instance, must be in a transaction.
+     *              (Preferably in asynchronous transaction.)
+     *              {@link Realm#executeTransactionAsync(Realm.Transaction)}
+     */
+    public static void persistInRealm(@NonNull final Post post, final Realm realm) {
+        if (!realm.isInTransaction()) {
+            throw new IllegalStateException("Database must be in transaction.");
+        }
+        for (final Category category : post.categories) {
+            realm.insertOrUpdate(category);
+        }
+        for (final Tag tag : post.tags) {
+            realm.insertOrUpdate(tag);
+        }
+        realm.insertOrUpdate(post.author);
+        for (final Attachment a : post.attachments) {
+            Attachment.persistInRealm(a, realm);
+        }
         if (post.thumbnailImages != null && post.thumbnailImages.containsKey("full")) {
             post.fullThumbnailImage = post.thumbnailImages.get("full");
+            realm.insertOrUpdate(post.fullThumbnailImage);
         }
-        for (final Attachment a : post.attachments) {
-            if (a.images != null && a.images.containsKey("full")) {
-                a.fullImage = a.images.get("full");
-            }
-        }
-        db.executeTransactionAsync(realm -> {
-            for (final Category category : post.categories) {
-                realm.insertOrUpdate(category);
-            }
-            for (final Tag tag : post.tags) {
-                realm.insertOrUpdate(tag);
-            }
-            realm.insertOrUpdate(post.author);
-            for (final Attachment attachment : post.attachments) {
-                if (attachment.fullImage != null) {
-                    realm.insertOrUpdate(attachment.fullImage);
-                }
-                realm.insertOrUpdate(attachment);
-            }
-            if (post.fullThumbnailImage != null) {
-                realm.insertOrUpdate(post.fullThumbnailImage);
-            }
-            realm.insertOrUpdate(post);
-        });
+        realm.insertOrUpdate(post);
     }
 }

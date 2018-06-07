@@ -2,15 +2,8 @@ package com.csatimes.dojma.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +17,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
 import static com.csatimes.dojma.utilities.DHC.getStaggeredGridSpan;
 
 public class Utilities extends Fragment {
+    private final DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
     private ValueEventListener mMiscEventListener;
     private String mMessage = "";
-    private final DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
     private SharedPreferences.Editor mEditor;
+    private static final String TAG = TAG_PREFIX + Utilities.class.getSimpleName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -76,7 +77,7 @@ public class Utilities extends Fragment {
 
             @Override
             public void onCancelled(@NonNull final DatabaseError databaseError) {
-
+                Log.e(TAG, databaseError.getMessage(), databaseError.toException());
             }
         };
     }

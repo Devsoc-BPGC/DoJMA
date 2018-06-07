@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
+import androidx.annotation.NonNull;
+import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -48,4 +50,24 @@ public class Attachment extends RealmObject {
     public HashMap<String, Image> images;
 
     public Image fullImage;
+
+    /**
+     * Convenient method to insert a attachment object in realm with all its linked
+     * children.
+     *
+     * @param attachment the object to be persisted.
+     * @param realm         {@link Realm} instance, must be in a transaction.
+     *                   (Preferably in asynchronous transaction.)
+     *                   {@link Realm#executeTransactionAsync(Realm.Transaction)}
+     */
+    public static void persistInRealm(@NonNull final Attachment attachment, final Realm realm) {
+        if (!realm.isInTransaction()) {
+            throw new IllegalStateException("Database must be in transaction.");
+        }
+        if (attachment.images != null && attachment.images.containsKey("full")) {
+            attachment.fullImage = attachment.images.get("full");
+            realm.insertOrUpdate(attachment.fullImage);
+        }
+        realm.insertOrUpdate(attachment);
+    }
 }
