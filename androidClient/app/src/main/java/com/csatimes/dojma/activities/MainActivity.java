@@ -89,6 +89,11 @@ public class MainActivity
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
+
+            case R.id.action_shorts:
+                intent = new Intent(this, ShortsActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

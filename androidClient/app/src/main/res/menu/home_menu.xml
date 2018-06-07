@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/menu_main_refresh"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about_dojma"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="@string/menu_main_about_dojma" />
+
+    <item
+        android:id="@+id/action_about_us"
+        android:title="@string/menu_main_about_app"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_shareapp"
+        android:title="@string/menu_main_shareapp"
+        android:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_shorts"
+        android:title="@string/menu_main_shorts"
+        android:showAsAction="always"
+        android:icon="@drawable/article_icon"/>
+
+</menu>
