@@ -116,7 +116,9 @@ public class ArticleViewerActivity extends AppCompatActivity {
                     return;
                 }
                 final Post post = body.post;
-                persistInRealm(post, realm);
+                if (post != null) {
+                    realm.executeTransactionAsync(db -> persistInRealm(post, db));
+                }
             }
 
             @Override
