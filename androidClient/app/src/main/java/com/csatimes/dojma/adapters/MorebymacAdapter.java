@@ -1,6 +1,5 @@
 package com.csatimes.dojma.adapters;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.Morebymac;
-import com.csatimes.dojma.utilities.DHC;
+import com.csatimes.dojma.utilities.FirebaseKeys;
 import com.csatimes.dojma.viewholders.MorebymacViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +27,7 @@ public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> 
 
     public MorebymacAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
-                .child(DHC.FIREBASE_DATABASE_REFERENCE_MOREAPPS);
+                .child(FirebaseKeys.FIREBASE_DATABASE_REFERENCE_MOREAPPS);
         devRef.addValueEventListener(this);
         devRef.keepSynced(true);
     }
@@ -36,7 +35,7 @@ public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> 
     @Override
     public MorebymacViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View morebymac = inflater.inflate(R.layout.item_format_contributors, parent, false);
+        final View morebymac = inflater.inflate(R.layout.item_format_simple_text, parent, false);
         return new MorebymacViewHolder(morebymac);
     }
 
@@ -48,18 +47,18 @@ public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> 
     @Override
     public int getItemCount() {
         if(moreApps == null)
-            return 0;
+            {return 0;}
         else
-            return moreApps.size();
+            {return moreApps.size();}
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         if (dataSnapshot == null)
-            return;
+            {return;}
 
         if (moreApps != null)
-        {moreApps.clear();}
+            {moreApps.clear();}
         for (DataSnapshot child : dataSnapshot.getChildren()) {
             moreApps.add(child.getValue(Morebymac.class));
         }

@@ -24,36 +24,34 @@ public class MorebymacViewHolder extends RecyclerView.ViewHolder implements View
     public Morebymac morebymac;
     public Context context ;
 
-    private Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-    private PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    private String copy_label = "Copy Link";
-
-    private int colorResource = getChromeCustomTabColorFromTheme();
-    private final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-            .setShowTitle(true)
-            .setToolbarColor(colorResource)
-            .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
-            .addMenuItem(copy_label, copy_pendingIntent)
-            .addDefaultShareMenuItem()
-            .enableUrlBarHiding()
-            .build();
-
     public MorebymacViewHolder(View itemView) {
         super(itemView);
         text = itemView.findViewById(R.id.viewholder_simple_text_textview);
-        this.context = itemView.getContext();
+        context = itemView.getContext();
         itemView.setOnClickListener(this);
-
     }
 
     public void populate(Morebymac morebymac) {
         this.morebymac = morebymac;
-        text.setText(morebymac.name);
+        text.setText(morebymac.appName);
     }
 
     @Override
     public void onClick(View view) {
-        customTabsIntent.launchUrl(context, Uri.parse(morebymac.web));
+        Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
+        PendingIntent copy_pendingIntent = PendingIntent.getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String copy_label = "Copy Link";
+
+        int colorResource = getChromeCustomTabColorFromTheme();
+        final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(colorResource)
+                .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
+                .addMenuItem(copy_label, copy_pendingIntent)
+                .addDefaultShareMenuItem()
+                .enableUrlBarHiding()
+                .build();
+        customTabsIntent.launchUrl(context, Uri.parse(morebymac.playstoreUrl));
     }
 
     private int getChromeCustomTabColorFromTheme() {

@@ -88,16 +88,6 @@ public class DHC {
     public static final String UPDATE_SERVICE_HERALD_PAGES = "HERALD_PAGES";
 
     /**
-     * Firebase node name for moreapps.
-     */
-    public static final String FIREBASE_DATABASE_REFERENCE_MOREAPPS = "moreapps";
-
-    /**
-     * Firebase node name for contributors.
-     */
-    public static final String FIREBASE_DATABASE_REFERENCE_CONTRIBUTORS = "contributors";
-
-    /**
      * Firebase node name for events.
      */
     public static final String FIREBASE_DATABASE_REFERENCE_EVENTS = "events2";
