@@ -24,18 +24,18 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder implements Vi
     public ContactItem contactItem;
     public ImageButton contactCall;
     public ImageButton contactEmail;
-    private ImageButton contactAdd;
-    private Context context;
+    private final ImageButton contactAdd;
+    private final Context context;
 
     public ContactItemViewHolder(View itemView, Context context) {
         super(itemView);
-        contactName = (TextView) itemView.findViewById(R.id.item_format_contact_name_tv);
-        contactSub1 = (TextView) itemView.findViewById(R.id.item_format_contact_sub_1_tv);
-        contactSub2 = (TextView) itemView.findViewById(R.id.item_format_contact_sub_2_tv);
-        contactCall = (ImageButton) itemView.findViewById(R.id.item_format_contact_call_imgbtn);
-        contactAdd = (ImageButton) itemView.findViewById(R.id.item_format_contact_add_contact_imgbtn);
-        contactEmail = (ImageButton) itemView.findViewById(R.id.item_format_contact_email_imgbtn);
-        contactIcon = (SimpleDraweeView) itemView.findViewById(R.id.item_format_contact_icon_img);
+        contactName = itemView.findViewById(R.id.item_format_contact_name_tv);
+        contactSub1 = itemView.findViewById(R.id.item_format_contact_sub_1_tv);
+        contactSub2 = itemView.findViewById(R.id.item_format_contact_sub_2_tv);
+        contactCall = itemView.findViewById(R.id.item_format_contact_call_imgbtn);
+        contactAdd = itemView.findViewById(R.id.item_format_contact_add_contact_imgbtn);
+        contactEmail = itemView.findViewById(R.id.item_format_contact_email_imgbtn);
+        contactIcon = itemView.findViewById(R.id.item_format_contact_icon_img);
 
         this.context = context;
 

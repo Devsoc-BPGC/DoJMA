@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.HeraldItem;
+import com.csatimes.dojma.utilities.DHC;
 
 import io.realm.Realm;
 
@@ -22,7 +23,7 @@ public class OfflineSimpleViewerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offline_simple_viewer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.offline_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         TextView articleText = (TextView) findViewById(R.id.offline_article);
         TextView articleTitle = (TextView) findViewById(R.id.offline_article_title);
         TextView articleAuthor = (TextView) findViewById(R.id.offline_article_author);
@@ -31,7 +32,7 @@ public class OfflineSimpleViewerActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        String postID = intent.getStringExtra("POSTID");
+        String postID = intent.getStringExtra(HeraldItem.POSTID);
         Realm database = Realm.getDefaultInstance();
 
         if (postID != null) {
@@ -72,7 +73,7 @@ public class OfflineSimpleViewerActivity extends BaseActivity {
         if (id == R.id.offline_menu_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, mHeraldArticle.getUrl());
-            intent.setType("text/plain");
+            intent.setType(DHC.MIME_TYPE_PLAINTEXT);
             startActivity(Intent.createChooser(intent, "Share via"));
         }
 

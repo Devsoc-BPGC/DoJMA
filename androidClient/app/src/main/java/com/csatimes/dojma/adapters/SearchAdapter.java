@@ -5,17 +5,16 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.herald.HeraldSearchViewHolder;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.EventItem;
-import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.models.LinkItem;
 import com.csatimes.dojma.models.MessItem;
@@ -23,145 +22,153 @@ import com.csatimes.dojma.models.TypeItem;
 import com.csatimes.dojma.utilities.ColorList;
 import com.csatimes.dojma.viewholders.ContactItemViewHolder;
 import com.csatimes.dojma.viewholders.EventItemViewHolder;
-import com.csatimes.dojma.viewholders.GazetteItemViewHolder;
-import com.csatimes.dojma.viewholders.HeraldSearchViewHolder;
 import com.csatimes.dojma.viewholders.LinkItemViewHolder;
 import com.csatimes.dojma.viewholders.MessItemViewHolder;
 import com.csatimes.dojma.viewholders.SimpleTextViewHolder;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
+import static com.csatimes.dojma.utilities.DHC.DAYS_IN_FN;
+import static com.csatimes.dojma.utilities.DHC.DAYS_IN_MONTH;
+import static com.csatimes.dojma.utilities.DHC.DAYS_IN_YR;
+import static com.csatimes.dojma.utilities.DHC.MS_IN_DAY;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_EVENT;
-import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_GAZETTE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_HERALD_ARTICLE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_LINK;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_MESS;
-import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_POSTER;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_TITLE;
 
 /**
- * adapter to place articles,gazettes in the search rv
+ * Adapter to place articles in the search rv
  */
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<TypeItem> results = new ArrayList<>();
-    private Context mContext;
-    private Date mCurrentDate;
+    private static final String TAG = SearchAdapter.class.getSimpleName();
+    private final List<TypeItem> results;
+    private final Context mContext;
+    @Nullable
+    private final Date mCurrentDate;
+    @Nullable
+    private final OnImageClicked onImageClicked;
     private Activity mActivity;
 
-    public SearchAdapter(Context mContext, List<TypeItem> results) {
+    public SearchAdapter(final Context mContext, final List<TypeItem> results) {
         this.results = results;
         this.mContext = mContext;
         this.mCurrentDate = null;
-        if (mContext instanceof OnImageClicked) {
-            this.onImageClicked = (OnImageClicked) this.mContext;
-        } else onImageClicked = null;
+        this.onImageClicked = mContext instanceof OnImageClicked
+                ? (OnImageClicked) this.mContext
+                : null;
 
     }
 
-    public SearchAdapter(Activity activity, List<TypeItem> results, Date mCurrentDate) {
+    public SearchAdapter(final Activity activity, final List<TypeItem> results,
+                         final Date mCurrentDate) {
         this.results = results;
         this.mContext = activity;
         this.mCurrentDate = mCurrentDate;
         this.mActivity = activity;
-        if (mActivity instanceof OnImageClicked) {
-            this.onImageClicked = (OnImageClicked) this.mActivity;
-        } else onImageClicked = null;
+        this.onImageClicked = mActivity instanceof OnImageClicked
+                ? (OnImageClicked) this.mActivity
+                : null;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent,
+                                                      final int viewType) {
 
-        RecyclerView.ViewHolder viewHolder = null;
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view;
-
+        final RecyclerView.ViewHolder viewHolder;
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        final View view;
         switch (viewType) {
             case CONTACT_ITEM_TYPE_TITLE:
-            case SEARCH_ITEM_TYPE_TITLE:
+            case SEARCH_ITEM_TYPE_TITLE: {
                 view = inflater.inflate(R.layout.item_format_simple_text, parent, false);
                 viewHolder = new SimpleTextViewHolder(view);
                 break;
+            }
             case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
-            case SEARCH_ITEM_TYPE_HERALD_ARTICLE:
+            case SEARCH_ITEM_TYPE_HERALD_ARTICLE: {
                 view = inflater.inflate(R.layout.item_format_search_herald, parent, false);
                 viewHolder = new HeraldSearchViewHolder(view, mContext, mActivity);
                 break;
-            case SEARCH_ITEM_TYPE_GAZETTE:
-                view = inflater.inflate(R.layout.item_format_search_gazette, parent, false);
-                viewHolder = new GazetteItemViewHolder(view);
-                break;
-            case SEARCH_ITEM_TYPE_EVENT:
+            }
+            case SEARCH_ITEM_TYPE_EVENT: {
                 view = inflater.inflate(R.layout.item_format_event, parent, false);
                 viewHolder = new EventItemViewHolder(view, mContext);
                 break;
+            }
             case CONTACT_ITEM_TYPE_CONTACT:
-            case SEARCH_ITEM_TYPE_CONTACT:
+            case SEARCH_ITEM_TYPE_CONTACT: {
                 view = inflater.inflate(R.layout.item_format_contact, parent, false);
                 viewHolder = new ContactItemViewHolder(view, mContext);
                 break;
-            case SEARCH_ITEM_TYPE_LINK:
+            }
+            case SEARCH_ITEM_TYPE_LINK: {
                 view = inflater.inflate(R.layout.item_format_links, parent, false);
                 viewHolder = new LinkItemViewHolder(view, mActivity);
                 break;
-            case SEARCH_ITEM_TYPE_MESS:
+            }
+            case SEARCH_ITEM_TYPE_MESS: {
                 view = inflater.inflate(R.layout.item_format_mess_menu, parent, false);
                 viewHolder = new MessItemViewHolder(view, onImageClicked);
                 break;
-            case SEARCH_ITEM_TYPE_POSTER:
-                // view = inflater.inflate(R.layout.item_format_links, parent, false);
-                //viewHolder = new PosIte(view);
-                break;
+            }
+            default: {
+                Log.e(TAG, "got empty view type");
+                //noinspection AssignmentToNull
+                viewHolder = null;
+            }
         }
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder,
+                                 final int position) {
 
         switch (getItemViewType(position)) {
             case SEARCH_ITEM_TYPE_TITLE:
             case CONTACT_ITEM_TYPE_TITLE:
-                SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
-                stvh.text.setText((String) results.get(position).getValue());
+                final SimpleTextViewHolder stvh = (SimpleTextViewHolder) holder;
+                stvh.text.setText((CharSequence) results.get(position).getValue());
                 break;
 
             case SEARCH_ITEM_TYPE_HERALD_ARTICLE:
             case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
-                HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
-                HeraldItem hi = (HeraldItem) results.get(position).getValue();
+                final HeraldSearchViewHolder hsvh = (HeraldSearchViewHolder) holder;
+                final HeraldItem hi = (HeraldItem) results.get(position).getValue();
                 hsvh.item = hi;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     hsvh.title.setText(Html.fromHtml(hi.getTitle(), Html.FROM_HTML_MODE_LEGACY));
-                } else hsvh.title.setText(Html.fromHtml(hi.getTitle()));
+                } else {
+                    hsvh.title.setText(Html.fromHtml(hi.getTitle()));
+                }
 
                 hsvh.date.setText(hi.getUpdateDate());
                 hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.getThumbnailUrl()));
                 break;
 
-            case SEARCH_ITEM_TYPE_GAZETTE:
-                GazetteItemViewHolder givh = (GazetteItemViewHolder) holder;
-                GazetteItem gi = (GazetteItem) results.get(position).getValue();
-                givh.title.setText(gi.getTitle() + "\n" + gi.getReleaseDateFormatted());
-                givh.image.setImageURI(gi.getImageUrl());
-                break;
-
             case SEARCH_ITEM_TYPE_EVENT:
-                EventItemViewHolder eivh = (EventItemViewHolder) holder;
-                EventItem ei = (EventItem) results.get(position).getValue();
+                final EventItemViewHolder eivh = (EventItemViewHolder) holder;
+                final EventItem ei = (EventItem) results.get(position).getValue();
                 eivh.item = ei;
                 eivh.title.setText(ei.getTitle());
                 eivh.location.setText(ei.getLocation());
-                eivh.dateTime.setText(ei.getStartDateFormatted() + "\n" + ei.getStartTimeFormatted());
+                eivh.dateTime.setText(ei.getStartDateFormatted() + "\n"
+                        + ei.getStartTimeFormatted());
                 eivh.desc.setText(ei.getDesc());
                 eivh.up.setVisibility(View.INVISIBLE);
                 eivh.down.setVisibility(View.INVISIBLE);
@@ -170,8 +177,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             case SEARCH_ITEM_TYPE_CONTACT:
             case CONTACT_ITEM_TYPE_CONTACT:
-                ContactItemViewHolder civh = (ContactItemViewHolder) holder;
-                ContactItem ci = (ContactItem) results.get(position).getValue();
+                final ContactItemViewHolder civh = (ContactItemViewHolder) holder;
+                final ContactItem ci = (ContactItem) results.get(position).getValue();
                 civh.contactItem = ci;
                 civh.contactName.setText(ci.getName());
 
@@ -188,17 +195,17 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
 
                 if (ci.getSub1() != null && ci.getSub1().length() != 0) {
-                    civh.contactSub1.setVisibility(View.VISIBLE);
+                    civh.contactSub1.setVisibility(VISIBLE);
                     civh.contactSub1.setText(ci.getSub1());
                 } else {
-                    civh.contactSub1.setVisibility(View.GONE);
+                    civh.contactSub1.setVisibility(GONE);
                 }
 
                 if (ci.getSub2() != null && ci.getSub2().length() != 0) {
-                    civh.contactSub1.setVisibility(View.VISIBLE);
+                    civh.contactSub1.setVisibility(VISIBLE);
                     civh.contactSub2.setText(ci.getSub2());
                 } else {
-                    civh.contactSub2.setVisibility(View.GONE);
+                    civh.contactSub2.setVisibility(GONE);
                 }
 
                 if (ci.getIcon() != null && ci.getIcon().length() != 0) {
@@ -210,16 +217,16 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
 
             case SEARCH_ITEM_TYPE_LINK:
-                LinkItemViewHolder livh = (LinkItemViewHolder) holder;
-                LinkItem li = (LinkItem) results.get(position).getValue();
+                final LinkItemViewHolder livh = (LinkItemViewHolder) holder;
+                final LinkItem li = (LinkItem) results.get(position).getValue();
                 livh.linkItem = li;
                 livh.title.setText(li.getTitle());
                 livh.url.setText(li.getUrl());
                 break;
 
             case SEARCH_ITEM_TYPE_MESS:
-                MessItemViewHolder mivh = (MessItemViewHolder) holder;
-                MessItem mi = (MessItem) results.get(position).getValue();
+                final MessItemViewHolder mivh = (MessItemViewHolder) holder;
+                final MessItem mi = (MessItem) results.get(position).getValue();
                 mivh.title.setText(mi.getTitle());
                 mivh.link = mi.getImageUrl();
                 mivh.image.setImageURI(Uri.parse(mivh.link));
@@ -230,20 +237,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void setColor(final EventItem ei, final EventItemViewHolder eivh) {
-        if (ei.getStartDateObj() != null) {
-            long diff = -mCurrentDate.getTime() + ei.getStartDateObj().getTime();
-            int color;
-
-            if (diff <= 0) {
-                //Irrespective of whether alarm was set, switch is unchecked since it isn't required anymore
-                color = ContextCompat.getColor(mContext, ColorList.NO_PRIORITY);
-
-            } else {
-                color = getColorFromDate(diff);
-            }
+        if (ei.getStartDateObj() != null && mCurrentDate != null) {
+            final long diff = -mCurrentDate.getTime() + ei.getStartDateObj().getTime();
+            final int color;
+            color = diff <= 0
+                    ? ContextCompat.getColor(mContext, ColorList.NO_PRIORITY)
+                    : getColorFromDate(diff);
             eivh.status.setColorFilter(color);
             eivh.dateTime.setTextColor(color);
-
         } else {
             eivh.dateTime.setTextColor(ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY));
             eivh.status.setColorFilter(Color.GRAY);
@@ -251,19 +252,17 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private int getColorFromDate(final long diff) {
-        int color;
-        long DAY = 24 * 60 * 60 * 1000;
-        if (diff > 0 && diff <= DAY) {
+        final int color;
+        //noinspection IfStatementWithTooManyBranches
+        if (diff > 0 && diff <= MS_IN_DAY) {
             color = ContextCompat.getColor(mContext, ColorList.HIGHEST_PRIORITY);
-        } else if (diff > DAY && diff <= 3 * DAY) {
+        } else if (diff > MS_IN_DAY && diff <= 3 * MS_IN_DAY) {
             color = ContextCompat.getColor(mContext, ColorList.HIGHER_PRIORITY);
-        } else if (diff > 3 * DAY && diff <= 7 * DAY) {
+        } else if (diff > 3 * MS_IN_DAY && diff <= 7 * MS_IN_DAY) {
             color = ContextCompat.getColor(mContext, ColorList.HIGH_PRIORITY);
-        } else if (diff > 7 * DAY && diff <= 14 * DAY) {
+        } else if (diff > 7 * MS_IN_DAY && diff <= DAYS_IN_FN * MS_IN_DAY) {
             color = ContextCompat.getColor(mContext, ColorList.NORMAL_PRIORITY);
-        } else if (diff > 14 * DAY && diff <= 30 * DAY) {
-            color = ContextCompat.getColor(mContext, ColorList.LOW_PRIORITY);
-        } else if (diff > 30 * DAY && diff <= 365 * DAY) {
+        } else if (diff > DAYS_IN_MONTH * MS_IN_DAY && diff <= DAYS_IN_YR * MS_IN_DAY) {
             color = ContextCompat.getColor(mContext, ColorList.LOWER_PRIORITY);
         } else {
             color = ContextCompat.getColor(mContext, ColorList.LOWEST_PRIORITY);
@@ -272,17 +271,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public int getItemCount() {
-        return results.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(final int position) {
         return results.get(position).getType();
     }
 
-
-    public OnImageClicked onImageClicked;
+    @Override
+    public int getItemCount() {
+        return results.size();
+    }
 
     public interface OnImageClicked {
         void onClicked(String uri);

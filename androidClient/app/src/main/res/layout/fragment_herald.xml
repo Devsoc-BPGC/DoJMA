@@ -1,27 +1,9 @@
-<!-- Do not change this relative layout to a different layout as it is required by the DragScrollBar library-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_herald_rv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?defaultBackground"
-    android:focusableInTouchMode="true"
-    tools:context="com.csatimes.dojma.fragments.HeraldFragment">
-
-    <TextView
-        android:id="@+id/fragment_herald_error_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="Press &#x21bb; to check for updates"
-        android:textSize="20sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_herald_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contextClickable="true"
-        tools:targetApi="n" />
-</RelativeLayout>
+    android:contextClickable="true"
+    tools:context="herald.HeraldFragment"
+    tools:ignore="UnusedAttribute" />

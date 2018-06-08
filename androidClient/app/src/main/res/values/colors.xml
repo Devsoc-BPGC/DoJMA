@@ -1,47 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/facebook_primary</color>
-    <color name="colorPrimaryDark">#2d4885</color>
-    <color name="colorAccent">@color/orange500</color>
-    <color name="colorPrimaryLight">@color/facebook_light</color>
+    <color name="colorPrimary">#3e2723</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#26a69a</color>
+    <color name="colorAccentFaint">#3326a69a</color>
+    <color name="colorPrimaryLight">#795548</color>
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="redA200">#ff5252</color>
     <color name="red500">#f44336</color>
     <color name="red700">#d32f2f</color>
-    <color name="pink300">#F06292</color>
-    <color name="pink500">#E91E63</color>
     <color name="purpleA400">#D500F9</color>
-    <color name="purple500">#9C27B0</color>
     <color name="deeppurpleA400">#651FFF</color>
-    <color name="deeppurple500">#673AB7</color>
-    <color name="deeppurple600">#5E35B1</color>
     <color name="indigo500">#3F51B5</color>
-    <color name="blueA200">#448AFF</color>
     <color name="blueA400">#2979FF</color>
     <color name="blue500">#2196F3</color>
-    <color name="blue700">#1976D2</color>
     <color name="lightblue500">#03A9F4</color>
-    <color name="lightblue700">#0288D1</color>
-    <color name="cyanA400">#00E5FF</color>
-    <color name="cyan400">#26C6DA</color>
     <color name="cyan500">#00BCD4</color>
     <color name="teal500">#009688</color>
     <color name="green500">#4CAF50</color>
     <color name="green700">#388E3C</color>
-    <color name="green800">#2E7D32</color>
-    <color name="lightgreenA400">#76FF03</color>
-    <color name="lightgreen500">#8BC34A</color>
-    <color name="lime500">#CDDC39</color>
-    <color name="yellowA400">#FFEA00</color>
     <color name="yellow500">#FFEB3B</color>
-    <color name="amber500">#FFC107</color>
-    <color name="orangeA400">#FF9100</color>
-    <color name="orange500">#FF9800</color>
     <color name="deeporangeA400">#FF3D00</color>
-    <color name="deeporange500">#FF5722</color>
-    <color name="brown500">#795548</color>
     <color name="grey100">#F5F5F5</color>
     <color name="grey400">#BDBDBD</color>
     <color name="grey500">#9E9E9E</color>
@@ -51,34 +31,18 @@
     <color name="grey900">#212121</color>
     <color name="amberA400">#FFC400</color>
 
-    <color name="black_overlay">#66000000</color>
-    <color name="quora_primary">#b92b27</color>
-    <color name="facebook_primary">#3b5999</color>
-    <color name="facebook_light">#8b9dc3</color>
+    <color name="statusBarColor">@color/colorPrimaryLight</color>
+    <color name="navigationBarColor">@color/colorPrimaryLight</color>
 
-    <color name="statusBarColor">@color/facebook_primary</color>
-    <color name="navigationBarColor">@color/facebook_primary</color>
-
-    <color name="materialSearchBackground">@color/white</color>
     <color name="likeDotsColorPrimary">@color/red500</color>
     <color name="likeDotsColorSecondary">@color/colorAccent</color>
     <color name="likeCircleStart">@color/red500</color>
     <color name="likeCircleEnd">@color/red500</color>
 
     <color name="shareDotsColorPrimary">@color/blue500</color>
-    <color name="shareDotsColorSecondary">@color/facebook_primary</color>
-    <color name="shareCircleStart">@color/facebook_light</color>
-    <color name="shareCircleEnd">@color/facebook_primary</color>
 
     <color name="alert_dialog_background">@color/grey800</color>
     <color name="alert_dialog_text_color">@color/white</color>
-    <color name="alert_dialog_title_text_color">@color/white</color>
-    <color name="alert_dialog_list_item_text_color">@color/white</color>
-    <color name="herald_searchview_background">@color/colorPrimary</color>
-
-    <color name="filter_dialog_text_color_light">@color/black</color>
-    <color name="filter_dialog_accent_color_light">@color/blue500</color>
-    <color name="filter_dialog_bg_color_light">@color/white</color>
 
     <color name="call_button_color">@color/blue500</color>
     <color name="mail_button_color">@color/red700</color>
@@ -92,17 +56,8 @@
     <color name="utilities_misc_background">@color/grey800</color>
     <color name="utilities_map_background">@color/teal500</color>
 
-    <color name="utilities_contacts_text_color">@color/white</color>
     <color name="utilities_mess_title_color">@color/white</color>
     <color name="utilities_mess_sub_title_color">@color/grey100</color>
-    <color name="utilities_links_text_color">@color/white</color>
-    <color name="utilities_misc_text_color">@color/white</color>
-    <color name="utilities_map_text_color">@color/white</color>
-
-    <color name="expandable_textview_down_color">@color/grey500</color>
-    <color name="expandable_textview_up_color">@color/colorAccent</color>
-    <color name="expandable_textview_up_fill_color">@color/white</color>
-    <color name="expandable_textview_down_fill_color">@color/white</color>
 
     <color name="mac_color">@color/green700</color>
 </resources>

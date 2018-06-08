@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
         <item name="defaultBackground">@color/white</item>
         <item name="defaultBackgroundSemiTransparent">@color/white</item>
@@ -73,9 +73,7 @@
         <item name="customSettingsSubTitleColor">@color/grey700</item>
 
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -140,44 +138,18 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
     </style>
 
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeNoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="CustomToolbar">
-        <item name="android:id">@id/offline_toolbar</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
-
-    <style name="CustomToolbar.Transparent">
-        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/alert_dialog_background</item>
@@ -196,6 +168,9 @@
     <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
         <item name="colorControlHighlight">@color/white</item>
     </style>
-
+    
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 
 </resources>

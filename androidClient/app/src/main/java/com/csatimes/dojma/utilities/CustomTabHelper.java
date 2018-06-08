@@ -9,35 +9,25 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.csatimes.dojma.services.KeepAliveService;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Helper class for Custom Tabs.
  */
 public class CustomTabHelper {
-    static final String STABLE_PACKAGE = "com.android.chrome";
-    static final String BETA_PACKAGE = "com.chrome.beta";
-    static final String DEV_PACKAGE = "com.chrome.dev";
-    static final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
+    private static final String STABLE_PACKAGE = "com.android.chrome";
+    private static final String BETA_PACKAGE = "com.chrome.beta";
+    private static final String DEV_PACKAGE = "com.chrome.dev";
+    private static final String LOCAL_PACKAGE = "com.google.android.apps.chrome";
     private static final String TAG = "CustomTabsHelper";
-    private static final String EXTRA_CUSTOM_TABS_KEEP_ALIVE =
-            "android.support.customtabs.extra.KEEP_ALIVE";
     private static final String ACTION_CUSTOM_TABS_CONNECTION =
             "android.support.customtabs.action.CustomTabsService";
 
+    @Nullable
     private static String sPackageNameToUse;
-
-    private CustomTabHelper() {
-    }
-
-    public static void addKeepAliveExtra(Context context, Intent intent) {
-        Intent keepAliveIntent = new Intent().setClassName(
-                context.getPackageName(), KeepAliveService.class.getCanonicalName());
-        intent.putExtra(EXTRA_CUSTOM_TABS_KEEP_ALIVE, keepAliveIntent);
-    }
 
     /**
      * Goes through all apps that handle VIEW intents and have a warmup service. Picks
@@ -62,10 +52,10 @@ public class CustomTabHelper {
         }
 
         // Get all apps that can handle VIEW intents.
-        List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
-        List<String> packagesSupportingCustomTabs = new ArrayList<>();
-        for (ResolveInfo info : resolvedActivityList) {
-            Intent serviceIntent = new Intent();
+        final List<ResolveInfo> resolvedActivityList = pm.queryIntentActivities(activityIntent, 0);
+        final List<String> packagesSupportingCustomTabs = new ArrayList<>(0);
+        for (final ResolveInfo info : resolvedActivityList) {
+            final Intent serviceIntent = new Intent();
             serviceIntent.setAction(ACTION_CUSTOM_TABS_CONNECTION);
             serviceIntent.setPackage(info.activityInfo.packageName);
             if (pm.resolveService(serviceIntent, 0) != null) {
@@ -75,6 +65,7 @@ public class CustomTabHelper {
 
         // Now packagesSupportingCustomTabs contains all apps that can handle both VIEW intents
         // and service calls.
+        //noinspection IfStatementWithTooManyBranches
         if (packagesSupportingCustomTabs.isEmpty()) {
             sPackageNameToUse = null;
         } else if (packagesSupportingCustomTabs.size() == 1) {
@@ -101,32 +92,26 @@ public class CustomTabHelper {
      * @param intent The intent to check with.
      * @return Whether there is a specialized handler for the given intent.
      */
-    private static boolean hasSpecializedHandlerIntents(Context context, Intent intent) {
+    private static boolean hasSpecializedHandlerIntents(final Context context, final Intent intent) {
         try {
-            PackageManager pm = context.getPackageManager();
-            List<ResolveInfo> handlers = pm.queryIntentActivities(
+            final PackageManager pm = context.getPackageManager();
+            final List<ResolveInfo> handlers = pm.queryIntentActivities(
                     intent,
                     PackageManager.GET_RESOLVED_FILTER);
             if (handlers == null || handlers.size() == 0) {
                 return false;
             }
-            for (ResolveInfo resolveInfo : handlers) {
-                IntentFilter filter = resolveInfo.filter;
+            for (final ResolveInfo resolveInfo : handlers) {
+                final IntentFilter filter = resolveInfo.filter;
                 if (filter == null) continue;
                 if (filter.countDataAuthorities() == 0 || filter.countDataPaths() == 0) continue;
                 if (resolveInfo.activityInfo == null) continue;
                 return true;
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             Log.e(TAG, "Runtime exception while getting specialized handlers");
         }
         return false;
     }
 
-    /**
-     * @return All possible chrome package names that provide custom tabs feature.
-     */
-    public static String[] getPackages() {
-        return new String[]{"", STABLE_PACKAGE, BETA_PACKAGE, DEV_PACKAGE, LOCAL_PACKAGE};
-    }
 }

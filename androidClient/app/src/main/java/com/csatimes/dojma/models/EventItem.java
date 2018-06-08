@@ -11,6 +11,7 @@ import java.util.Locale;
 import androidx.annotation.Nullable;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -19,18 +20,25 @@ import io.realm.annotations.Required;
  * location,desc,id and some more useful methods and variables
  */
 
-// FIXME:  UseOfObsoleteDateTimeApi
-@SuppressWarnings("UseOfObsoleteDateTimeApi")
 public class EventItem extends RealmObject {
 
     public static final String TAG = EventItem.class.getSimpleName();
+    @Ignore
     public static final String FIELD_ORIGINAL_DATE = "originalDate";
-    // TODO Add @Index annotation for fields that will be used in searching or
-    // used in finding distinct items
+
+    @Ignore
+    public static final String FIELD_TITLE = "title";
+
+    @Ignore
+    public static final String FIELD_LOCATION = "location";
+
+    @Ignore
+    public static final String FIELD_DESC = "desc";
 
     @PrimaryKey
     private String key;
 
+    @Index
     @Required
     private String title;
 
@@ -40,8 +48,10 @@ public class EventItem extends RealmObject {
     @Required
     private String startTime;
 
+    @Index
     private String desc;
 
+    @Index
     private String location;
 
     @Exclude

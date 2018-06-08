@@ -8,7 +8,7 @@ public class TypeItem {
     private int type;
     private Object value;
 
-    public TypeItem(int type, Object value) {
+    public TypeItem(final int type, final Object value) {
         this.type = type;
         this.value = value;
     }
@@ -17,7 +17,7 @@ public class TypeItem {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(final int type) {
         this.type = type;
     }
 
@@ -25,7 +25,7 @@ public class TypeItem {
         return value;
     }
 
-    public void setValue(Object value) {
+    public void setValue(final Object value) {
         this.value = value;
     }
 }

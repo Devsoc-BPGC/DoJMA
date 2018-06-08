@@ -12,9 +12,9 @@ import com.csatimes.dojma.activities.UtilitiesMenuActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_ITEM_TYPE_CONTACTS_TAXI;
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_ITEM_TYPE_MESS;
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_ITEM_TYPE_MISC;
+import static com.csatimes.dojma.utilities.DHC.CONTACTS_TAXI;
+import static com.csatimes.dojma.utilities.DHC.MESS;
+import static com.csatimes.dojma.utilities.DHC.MISC;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -37,12 +37,12 @@ public class UtilitiesTitleSubTitleViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
                 Intent intent = null;
-                if (classCode == UTILITIES_ITEM_TYPE_CONTACTS_TAXI) {
+                if (classCode == CONTACTS_TAXI) {
                     intent = new Intent(context, UtilitiesContactsActivity.class);
                     intent.putExtra(CONTACTS_SHOW_TAXI_DATA, true);
-                } else if (classCode == UTILITIES_ITEM_TYPE_MESS) {
+                } else if (classCode == MESS) {
                     intent = new Intent(context, UtilitiesMenuActivity.class);
-                } else if (classCode == UTILITIES_ITEM_TYPE_MISC) {
+                } else if (classCode == MISC) {
                     return;
                 }
                 context.startActivity(intent);

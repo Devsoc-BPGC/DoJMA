@@ -8,11 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +22,6 @@ import android.widget.ViewSwitcher;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.EventItem;
-import com.csatimes.dojma.models.GazetteItem;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.models.LinkItem;
 import com.csatimes.dojma.models.MessItem;
@@ -42,13 +37,15 @@ import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.charts.SeriesLabel;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
 import io.realm.Realm;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_CONTACTS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_EVENTS;
-import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_GAZETTES;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_LINKS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MESS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MISC_CARD;
@@ -68,39 +65,33 @@ import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
 
 public class POSTDownloaderActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG = "activities.PostDownloaderActivity";
-
+    private final String TAG = "activities.PostDownloaderActivity";
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private final float QUOTA_UPDATE_SERVICE = 30;
+    private final float QUOTA_EVENTS = 10;
+    private final float QUOTA_CONTACTS = 7;
+    private final float QUOTA_TAXI = 8;
+    private final float QUOTA_POSTERS = 5;
+    private final float QUOTA_MESS = 10;
+    private final float QUOTA_LINKS = 10;
+    private final float QUOTA_NAVBAR = 5;
+    private final float QUOTA_MISC_CARD = 5;
+    private final float CIRCLE_MAX = 100;
+    private final float CIRCLE_MIN = 0;
+    private final int CIRCLE_SPEED_DEFAULT = 300;
     private TextSwitcher mStatusSwitcher;
     private DecoView mCircleLoadingView;
     private AppCompatButton mStartButton;
     private int mMainLoaderIndex = 0;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private Realm mDatabase;
-
-    private float QUOTA_UPDATE_SERVICE = 30;
-    private float QUOTA_GAZETTES = 10;
-    private float QUOTA_EVENTS = 10;
-    private float QUOTA_CONTACTS = 7;
-    private float QUOTA_TAXI = 8;
-    private float QUOTA_POSTERS = 5;
-    private float QUOTA_MESS = 10;
-    private float QUOTA_LINKS = 10;
-    private float QUOTA_NAVBAR = 5;
-    private float QUOTA_MISC_CARD = 5;
-
     private float QUOTA_TOTAL = 0;
-
-    private float CIRCLE_MAX = 100;
-    private float CIRCLE_MIN = 0;
-    private int CIRCLE_SPEED_DEFAULT = 300;
-
     private boolean firebaseDownload;
     private boolean dojmaDownload;
 
 
     private SharedPreferences.Editor mEditor;
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
 
         @Override
@@ -133,19 +124,9 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_postdownloader);
 
-        mStatusSwitcher = (TextSwitcher) findViewById(R.id.content_post_downloader_status_switcher);
-        mCircleLoadingView = (DecoView) findViewById(R.id.content_post_downloader_circle_view);
-        mStartButton = (AppCompatButton) findViewById(R.id.content_post_downloader_start_btn);
-
-        //These flags are for system bar on top
-        //Don't bother yourself with this code
-        Window window = this.getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        }
+        mStatusSwitcher = findViewById(R.id.content_post_downloader_status_switcher);
+        mCircleLoadingView = findViewById(R.id.content_post_downloader_circle_view);
+        mStartButton = findViewById(R.id.content_post_downloader_start_btn);
 
 
         dojmaDownload = false;
@@ -160,19 +141,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
         setupSwitcher(mStatusSwitcher);
 
-        if (!DHC.isOnline(this)) {
-            //Add a red error series if not connected
-            int index = mCircleLoadingView.addSeries(new SeriesItem.Builder(ContextCompat.getColor(this, R.color.red500))
-                    .setRange(CIRCLE_MIN, CIRCLE_MAX, CIRCLE_MIN)
-                    .setCapRounded(true)
-                    .setSpinDuration(2000)
-                    .setInitialVisibility(true)
-                    .build());
-            mCircleLoadingView.moveTo(index, CIRCLE_MAX);
-            mStatusSwitcher.setVisibility(GONE);
-
-        } else {
-
+        if (DHC.isOnline(this)) {
             mStatusSwitcher.setText("Setting up ... ");
 
             SeriesItem mainSeries = new SeriesItem.Builder(ContextCompat.getColor(this, R.color.colorPrimaryDark))
@@ -185,6 +154,17 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
             mMainLoaderIndex = mCircleLoadingView.addSeries(mainSeries);
 
             databaseReference.addListenerForSingleValueEvent(returnSingleValueEventListener());
+        } else {
+            //Add a red error series if not connected
+            int index = mCircleLoadingView.addSeries(new SeriesItem.Builder(ContextCompat.getColor(this, R.color.red500))
+                    .setRange(CIRCLE_MIN, CIRCLE_MAX, CIRCLE_MIN)
+                    .setCapRounded(true)
+                    .setSpinDuration(2000)
+                    .setInitialVisibility(true)
+                    .build());
+            mCircleLoadingView.moveTo(index, CIRCLE_MAX);
+            mStatusSwitcher.setVisibility(GONE);
+
         }
         mStartButton.setOnClickListener(this);
     }
@@ -227,37 +207,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (DHC.isOnline(this)) {
-            if (!UpdateCheckerService.isInstanceCreated()) {
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(HeraldItem.class);
-                    }
-                });
-                Intent intent = new Intent(this, UpdateCheckerService.class);
-                intent.putExtra(UPDATE_SERVICE_INTENT_PAGES, 1);
-                intent.putExtra(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, false);
-                startService(intent);
-            }
-
-            IntentFilter intf = new IntentFilter();
-            intf.addAction(UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS);
-            intf.addAction(UPDATE_SERVICE_ACTION_NO_SUCCESS);
-            registerReceiver(broadcastReceiver, intf);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         mDatabase.close();
@@ -268,49 +217,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //Download Gazettes
-                {
-                    final DataSnapshot gazettesShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_GAZETTES);
-                    mDatabase.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.delete(GazetteItem.class);
-                        }
-                    });
-                    for (final DataSnapshot gazetteShotChild : gazettesShot.getChildren()) {
-                        try {
-                            final GazetteItem foo = gazetteShotChild.getValue(GazetteItem.class);
-                            mDatabase.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    GazetteItem bar = realm.createObject(GazetteItem.class, gazetteShotChild.getKey());
-                                    bar.setTitle(foo.getTitle());
-                                    bar.setDate(foo.getDate());
-                                    bar.setUrl(foo.getUrl());
-                                    bar.setImageUrl(foo.getImageUrl());
-                                    bar.setTime(bar.getTime());
-                                }
-                            }, new Realm.Transaction.OnSuccess() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-                            }, new Realm.Transaction.OnError() {
-                                @Override
-                                public void onError(Throwable error) {
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            DHC.e(TAG, "Error occurred in parsing or storing gazettes data");
-                        }
-                    }
-                    QUOTA_TOTAL += QUOTA_GAZETTES;
-                    mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
-                    mStatusSwitcher.setText("Added gazettes");
-
-                }
                 //Download Events
                 {
                     final DataSnapshot eventsShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_EVENTS);
@@ -504,12 +410,13 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
             StringBuilder sb = new StringBuilder();
             int size = mDatabase.where(HeraldItem.class).findAll().size();
-            if (size > 0) sb.append(size).append(" articles\n");
-            else sb.append("No articles added");
+            if (size > 0) {
+                sb.append(size).append(" articles\n");
+            } else {
+                sb.append("No articles added");
+            }
             size = mDatabase.where(EventItem.class).findAll().size();
             if (size > 0) sb.append(size).append(" event(s)\n");
-            size = mDatabase.where(GazetteItem.class).findAll().size();
-            if (size > 0) sb.append(size).append(" gazettes\n");
             size = mDatabase.where(LinkItem.class).findAll().size();
             if (size > 0) sb.append(size).append(" links\n");
             size = mDatabase.where(ContactItem.class).findAll().size();
@@ -524,6 +431,37 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (DHC.isOnline(this)) {
+            if (!UpdateCheckerService.isInstanceCreated()) {
+                mDatabase.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.delete(HeraldItem.class);
+                    }
+                });
+                Intent intent = new Intent(this, UpdateCheckerService.class);
+                intent.putExtra(UPDATE_SERVICE_INTENT_PAGES, 1);
+                intent.putExtra(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, false);
+                startService(intent);
+            }
+
+            IntentFilter intf = new IntentFilter();
+            intf.addAction(UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS);
+            intf.addAction(UPDATE_SERVICE_ACTION_NO_SUCCESS);
+            registerReceiver(broadcastReceiver, intf);
+        }
     }
 
     @Override

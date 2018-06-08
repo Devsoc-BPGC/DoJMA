@@ -25,11 +25,11 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
 
     public EventItemViewHolder(final View itemView, final Context context) {
         super(itemView);
-        title = (TextView) itemView.findViewById(R.id.item_format_event_title);
-        desc = (TextView) itemView.findViewById(R.id.item_format_event_desc);
-        dateTime = (TextView) itemView.findViewById(R.id.item_format_event_date_time);
-        location = (TextView) itemView.findViewById(R.id.item_format_event_location);
-        status = (ImageView) itemView.findViewById(R.id.item_format_event_dot);
+        title = itemView.findViewById(R.id.item_format_event_title);
+        desc = itemView.findViewById(R.id.item_format_event_desc);
+        dateTime = itemView.findViewById(R.id.item_format_event_date_time);
+        location = itemView.findViewById(R.id.item_format_event_location);
+        status = itemView.findViewById(R.id.item_format_event_dot);
         up = itemView.findViewById(R.id.item_format_event_dot_upper);
         down = itemView.findViewById(R.id.item_format_event_dot_lower);
 

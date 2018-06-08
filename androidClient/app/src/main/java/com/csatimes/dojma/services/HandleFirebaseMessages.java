@@ -7,9 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import com.csatimes.dojma.R;
@@ -21,64 +18,55 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+
 public class HandleFirebaseMessages extends FirebaseMessagingService {
 
-    final int DEFAULT_ID = 42;
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            // Log exception
-            Log.e("TAG", "fucked man " + e.getMessage());
-            return null;
-        }
-    }
+    private static final int DEFAULT_ID = 42;
+    private static final String TAG = HandleFirebaseMessages.class.getSimpleName();
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-
-        Map<String, String> data = remoteMessage.getData();
+    public void onMessageReceived(final RemoteMessage remoteMessage) {
+        final Map<String, String> data = remoteMessage.getData();
 
         if (data != null) {
             //In case data is wrongly formatted
             //we use try catch block
 
-            int version = DHC.VERSION;
+            final int version = DHC.VERSION;
 
             if (data.get("version") != null) {
-                int supportsMin = Integer.parseInt(data.get("version"));
+                final int supportsMin = Integer.parseInt(data.get("version"));
                 if (version < supportsMin) return;
             }
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             int notificationId = DEFAULT_ID;
-            String type = data.get("type");
-            String id = data.get("id");
-            String smallTitle = data.get("smallTitle");
-            String smallSubTitle = data.get("smallSubTitle");
-            String contentInfo = data.get("contentInfo");
-            String ticker = data.get("ticker");
-            String link = data.get("link");
-            String className = data.get("className");
+            final String type = data.get("type");
+            final String id = data.get("id");
+            final String smallTitle = data.get("smallTitle");
+            final String smallSubTitle = data.get("smallSubTitle");
+            final String contentInfo = data.get("contentInfo");
+            final String ticker = data.get("ticker");
+            final String link = data.get("link");
+            final String className = data.get("className");
 
             if (type != null) {
                 if (type.compareTo("1") == 0) {
                     //Large Text Style corresponds to "1"
-                    String bigTitle = data.get("bigTitle");
-                    String bigSubTitle = data.get("bigSubTitle");
-                    String bigSummaryText = data.get("bigSummaryText");
+                    final String bigTitle = data.get("bigTitle");
+                    final String bigSubTitle = data.get("bigSubTitle");
+                    final String bigSummaryText = data.get("bigSummaryText");
 
-                    NotificationCompat.BigTextStyle notificationBigText = new NotificationCompat.BigTextStyle();
+                    final NotificationCompat.BigTextStyle notificationBigText
+                            = new NotificationCompat.BigTextStyle();
 
                     if (bigTitle != null) notificationBigText.setBigContentTitle(bigTitle);
                     if (bigSubTitle != null) notificationBigText.bigText(bigSubTitle);
@@ -88,26 +76,23 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                 } else if (type.compareTo("2") == 0) {
                     //BigPicture style specific
 
-                    String imageUrl = data.get("imageUrl");
-                    String bigSummaryText = data.get("bigSummaryText");
-                    String bigTitle = data.get("bigTitle");
+                    final String imageUrl = data.get("imageUrl");
+                    final String bigSummaryText = data.get("bigSummaryText");
+                    final String bigTitle = data.get("bigTitle");
 
-                    NotificationCompat.BigPictureStyle notificationBigPicture = new NotificationCompat.BigPictureStyle();
+                    final NotificationCompat.BigPictureStyle notificationBigPicture
+                            = new NotificationCompat.BigPictureStyle();
                     if (imageUrl != null) {
-                        Bitmap image = getBitmapFromURL(imageUrl);
-                        if (image != null)
+                        final Bitmap image = getBitmapFromURL(imageUrl);
+                        if (image != null) {
                             notificationBigPicture.bigPicture(image);
-                        else {
-                            //TODO Image is null bt url wasn;t!
                         }
                     }
-
-                    if (bigSummaryText != null)
+                    if (bigSummaryText != null) {
                         notificationBigPicture.setSummaryText(bigSummaryText);
+                    }
                     if (bigTitle != null) notificationBigPicture.setBigContentTitle(bigTitle);
-                    //TODO icon
                     builder.setStyle(notificationBigPicture);
-
                 }
             }
 
@@ -126,19 +111,49 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
             builder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
             builder.setAutoCancel(true);
 
-            if (ticker != null) builder.setTicker(ticker);
-            else builder.setTicker("New campus news!");
+            if (ticker != null) {
+                builder.setTicker(ticker);
+            } else {
+                builder.setTicker("New campus news!");
+            }
 
-            if (contentInfo != null) builder.setContentInfo(contentInfo);
-            else builder.setContentInfo("DoJMA");
+            if (contentInfo != null) {
+                builder.setContentInfo(contentInfo);
+            } else {
+                builder.setContentInfo("DoJMA");
+            }
 
-            NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(this);
+            final NotificationManagerCompat mNotificationManager
+                    = NotificationManagerCompat.from(this);
             mNotificationManager.notify(notificationId, builder.build());
 
         }
     }
 
-    private PendingIntent addWebsiteLinkPendingIntent(int id, String link, String className) {
+    public static Bitmap getBitmapFromURL(final String src) {
+        final URL url;
+        final HttpURLConnection connection;
+        try {
+            url = new URL(src);
+        } catch (final MalformedURLException e) {
+            Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+            return null;
+        }
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            final InputStream input = connection.getInputStream();
+            return BitmapFactory.decodeStream(input);
+        } catch (final IOException e) {
+            Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+            return null;
+        }
+    }
+
+    private PendingIntent addWebsiteLinkPendingIntent(final int id,
+                                                      final String link,
+                                                      final String className) {
         Intent intent;
 
         if (link != null) {
@@ -148,7 +163,7 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
             try {
                 intent = new Intent(this, Class.forName("com.csatimes.dojma." + className));
                 //TODO check for page number
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 intent = new Intent(this, MainActivity.class);
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
