@@ -16,12 +16,12 @@ import io.realm.annotations.PrimaryKey;
  * HeraldItemFormat
  */
 
-@SuppressWarnings("FieldNamingConvention")
+@SuppressWarnings({"FieldNamingConvention", "DuplicateStringLiteralInspection"})
 public class HeraldItem extends RealmObject {
 
+    @Ignore
     public static final String CATEGORY = "category";
     public static final String FAV = "fav";
-    public static final String POSTID = "POSTID";
 
     @PrimaryKey
     private String postID;

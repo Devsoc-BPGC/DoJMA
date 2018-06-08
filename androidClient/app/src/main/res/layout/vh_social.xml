@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/sdv_social"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="8dp"
+    android:background="@android:color/transparent"
+    fresco:placeholderImage="@drawable/ic_public" />
+

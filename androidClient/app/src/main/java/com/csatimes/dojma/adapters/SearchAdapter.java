@@ -101,9 +101,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             case SEARCH_ITEM_TYPE_HERALD_ARTICLES_FAVOURITE:
             case SEARCH_ITEM_TYPE_HERALD_ARTICLE: {
-                view = inflater.inflate(R.layout.item_format_search_herald, parent, false);
-                viewHolder = new HeraldSearchViewHolder(view, mContext, mActivity);
-                break;
+                return new HeraldSearchViewHolder(inflater
+                        .inflate(R.layout.item_format_search_herald,
+                                parent,
+                                false)
+                );
             }
             case SEARCH_ITEM_TYPE_EVENT: {
                 view = inflater.inflate(R.layout.item_format_event, parent, false);

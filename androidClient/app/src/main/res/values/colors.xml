@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="mac_dark">#1b5e20</color>
     <color name="colorPrimary">#3e2723</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#26a69a</color>
@@ -60,4 +61,5 @@
     <color name="utilities_mess_sub_title_color">@color/grey100</color>
 
     <color name="mac_color">@color/green700</color>
+    <color name="mac_color_faint">@color/green500</color>
 </resources>

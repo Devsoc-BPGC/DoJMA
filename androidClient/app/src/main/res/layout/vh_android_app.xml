@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/btn_android_app"
+    style="@style/Widget.MaterialComponents.Button.TextButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="start|center_vertical"
+    android:orientation="vertical"
+    android:paddingBottom="12dp"
+    android:paddingStart="24dp"
+    android:paddingTop="12dp"
+    android:textAllCaps="false"
+    android:textColor="@color/mac_color"
+    android:textSize="18sp"
+    app:textAllCaps="false"
+    tools:text="DoJMA">
+
+</com.google.android.material.button.MaterialButton>

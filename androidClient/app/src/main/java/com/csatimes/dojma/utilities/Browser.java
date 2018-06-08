@@ -42,7 +42,7 @@ import androidx.core.content.ContextCompat;
  *
  * @author Rushikesh Jogdand
  */
-@SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "unused"})
 public final class Browser {
 
     /**

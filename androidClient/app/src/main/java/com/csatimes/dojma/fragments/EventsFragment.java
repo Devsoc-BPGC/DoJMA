@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.EventsRV;
-import com.csatimes.dojma.interfaces.OnTitleUpdateListener;
 import com.csatimes.dojma.models.EventItem;
 import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
@@ -32,18 +31,12 @@ public class EventsFragment extends Fragment {
     public static final String TAG = "fragments.EventsFragment";
     private final DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference()
             .child(DHC.FIREBASE_DATABASE_REFERENCE_EVENTS);
+    private final Realm mDatabase = Realm.getDefaultInstance();
+    private final RealmList<EventItem> mEventItems = new RealmList<>();
     private EventsRV mEventsAdapter;
     private TextView mErrorText;
-    private RealmList<EventItem> mEventItems;
-    private Realm mDatabase;
     private RecyclerView mEventsRecyclerView;
     private ValueEventListener mEventListener;
-    private OnTitleUpdateListener onTitleUpdateListener;
-
-    public static Fragment newInstance() {
-        EventsFragment eventsFragment=new EventsFragment();
-        return eventsFragment;
-    }
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -66,13 +59,6 @@ public class EventsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // As mentioned in Realm Docs, the realm should be instantiated in the
-        // onStart method. and because of the late initialising of the realm,
-        // mEventsAdapter is placed after it so that
-        // mEventsAdapter.notifyDataSetChanged() works
-        mDatabase = Realm.getDefaultInstance();
-
-        mEventItems = new RealmList<>();
         //noinspection DuplicateStringLiteralInspection
         final String fields[] = {"time", "title", "location", "desc", "key"};
         final Sort sortOrders[] = {Sort.ASCENDING, Sort.ASCENDING,
@@ -97,11 +83,6 @@ public class EventsFragment extends Fragment {
         } else {
             mErrorText.setVisibility(View.VISIBLE);
         }
-        if (onTitleUpdateListener != null) {        //noinspection DuplicateStringLiteralInspection
-
-            onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")",
-                    DHC.MAIN_ACTIVITY_EVENTS_POS);
-        }
     }
 
     @Override
@@ -116,55 +97,22 @@ public class EventsFragment extends Fragment {
         return new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(@NonNull final Realm realm) {
-                        realm.delete(EventItem.class);
-                        for (final DataSnapshot child :
-                                dataSnapshot.getChildren()) {
-                            try {
-                                final String key = child.getKey();
-                                final EventItem item = child.getValue(EventItem.class);
-                                if (item == null) continue;
-                                item.setKey(key);
-                                item.setDateTime(item.getStartDate() + item.getStartTime());
-                                realm.insertOrUpdate(item);
-//                                EventItem       bar  = realm.createObject(EventItem.class, key);
-//                                bar.setTitle(item.getTitle());
-//                                bar.setLocation(item.getLocation());
-//                                bar.setDesc(item.getDesc());
-//                                bar.setDateTime(item.getStartDate() + item.getStartTime());
-                            } catch (final Exception e) {
-                                DHC.e(TAG, "parse error of event in Events");
-                            }
+                mDatabase.executeTransaction(realm -> {
+                    realm.delete(EventItem.class);
+                    for (final DataSnapshot child :
+                            dataSnapshot.getChildren()) {
+                        try {
+                            final String key = child.getKey();
+                            final EventItem item = child.getValue(EventItem.class);
+                            if (item == null) continue;
+                            item.setKey(key);
+                            item.setDateTime(item.getStartDate() + item.getStartTime());
+                            realm.insertOrUpdate(item);
+                        } catch (final Exception e) {
+                            DHC.e(TAG, "parse error of event in Events");
                         }
                     }
                 });
-                /*for (final DataSnapshot child : dataSnapshot.getChildren()) {
-                    try {
-                        final String key = child.getKey();
-                        final EventItem foo = child.getValue(EventItem.class);
-                        mDatabase.executeTransaction(
-                                new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        EventItem bar = realm.createObject(EventItem.class, key);
-                                        bar.setTitle(foo.getTitle());
-                                        bar.setLocation(foo.getLocation());
-                                        bar.setDesc(foo.getDesc());
-                                        bar.setDateTime(foo.getStartDate() + foo.getStartTime());
-                                    }
-                                }
-                        );
-                    } catch (final Exception e) {
-                        DHC.e(TAG, "parse error of event in Events");
-                    }
-                }*/
-                if (onTitleUpdateListener != null) {
-                    //noinspection DuplicateStringLiteralInspection
-                    onTitleUpdateListener.onTitleUpdate("Events(" + getCount() + ")",
-                            DHC.MAIN_ACTIVITY_EVENTS_POS);
-                }
                 mEventItems.clear();
                 mEventItems.addAll(
                         mDatabase.where(EventItem.class)
@@ -178,13 +126,5 @@ public class EventsFragment extends Fragment {
                 DHC.e(TAG, "database Error " + error.getMessage());
             }
         };
-    }
-
-    private int getCount() {
-        return mEventsAdapter != null ? mEventsAdapter.getItemCount() : 0;
-    }
-
-    public void setOnTitleUpdateListener(final OnTitleUpdateListener listener) {
-        this.onTitleUpdateListener = listener;
     }
 }
