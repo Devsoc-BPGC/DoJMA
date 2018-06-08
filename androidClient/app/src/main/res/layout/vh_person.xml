@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_avatar"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:placeholderImageScaleType="fitXY"
+        app:roundAsCircle="true"
+        fresco:placeholderImage="@drawable/ic_contact" />
+
+    <TextView
+        android:id="@+id/tv_vh_developer_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="21dp"
+        android:paddingTop="5dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_vh_developer_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Abel Cool" />
+
+    <TextView
+        android:id="@+id/tv_vh_developer_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autoLink="phone"
+        android:paddingEnd="5dp"
+        android:paddingStart="21dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_vh_developer_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vh_developer_name"
+        android:textColor="@android:color/black"
+        android:textColorLink="@color/mac_color" />
+
+    <TextView
+        android:id="@+id/tv_vh_developer_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autoLink="email"
+        android:paddingBottom="5dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="21dp"
+        android:paddingTop="5dp"
+        android:textColor="@android:color/black"
+        android:textColorLink="@color/mac_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vh_developer_phone" />
+
+</androidx.constraintlayout.ConstraintLayout>
