@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f027b034-10b5-4576-8308-c60410ae95db" name="Default" comment="AndroidClient:&#10;Bottom NavBar added.&#10;Overflow Menu added.&#10;Favouries and Issues Fragments updated to funtionality.">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/build.gradle" afterPath="$PROJECT_DIR$/androidClient/app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/MainActivity.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/MainActivity.java" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/values/strings.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/ShortsActivity.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/ShortsActivity.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -65,7 +61,7 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -78,23 +74,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="DoJMA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DoJMA" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
@@ -333,7 +313,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2484">
           <caret line="167" column="31" lean-forward="false" selection-start-line="167" selection-start-column="31" selection-end-line="167" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -351,7 +330,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -366,7 +344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="69" column="22" lean-forward="false" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -381,7 +358,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2484">
           <caret line="167" column="31" lean-forward="false" selection-start-line="167" selection-start-column="31" selection-end-line="167" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -392,7 +368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>

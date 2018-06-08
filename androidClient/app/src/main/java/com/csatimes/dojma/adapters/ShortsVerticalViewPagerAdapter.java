@@ -9,6 +9,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
+import com.csatimes.dojma.models.ShortsItem;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -19,15 +28,72 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
     String mImageResources[] = {};
     Context mContext;
     LayoutInflater mLayoutInflater;
+    String ref = "campusWatch";
+
+    private List<ShortsItem> mShortsItems = new ArrayList<>();
+    private List<String> mShortsKeys = new ArrayList<>();
+
+
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mRef = mDatabase.getReference(ref);
+    private ChildEventListener mChildEventListener;
 
     public ShortsVerticalViewPagerAdapter(Context context) {
         mContext = context;
+
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ShortsItem shortsItem = dataSnapshot.getValue(ShortsItem.class);
+
+                mShortsItems.add(shortsItem);
+                mShortsKeys.add(dataSnapshot.getKey());
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                ShortsItem shortsItem = dataSnapshot.getValue(ShortsItem.class);
+                String shortsKey = dataSnapshot.getKey();
+
+                int shortsIndex = mShortsKeys.indexOf(shortsKey);
+                if(shortsIndex > -1) {
+                    mShortsItems.set(shortsIndex, shortsItem);
+                    notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String shortsKey = dataSnapshot.getKey();
+
+                int shortsIndex = mShortsKeys.indexOf(shortsKey);
+                if(shortsIndex > -1) {
+                    mShortsItems.remove(shortsIndex);
+                    mShortsKeys.remove(shortsIndex);
+                    notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mRef.addChildEventListener(childEventListener);
+        mChildEventListener = childEventListener;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return mShortsItems.size();
     }
 
     @Override
@@ -44,8 +110,10 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_shorts);
 
-        title.setText(mTitleResources[position]);
-        subtitle.setText(mSubtitleResources[position]);
+        ShortsItem shortsItem = mShortsItems.get(position);
+
+        title.setText(shortsItem.getTitle());
+        subtitle.setText(shortsItem.getSubtitle());
         imageView.setImageResource(R.drawable.bits);
 
         container.addView(itemView);
