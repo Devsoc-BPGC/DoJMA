@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MaclinksAdapter extends RecyclerView.Adapter<MacLinksViewHolder> implements ValueEventListener {
 
     private static final String TAG = "mac";
-    private ArrayList<Maclinks> maclinks;
+    private ArrayList<Maclinks> maclinks = new ArrayList<>();
 
     public MaclinksAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
@@ -45,7 +45,10 @@ public class MaclinksAdapter extends RecyclerView.Adapter<MacLinksViewHolder> im
 
     @Override
     public int getItemCount() {
-        return maclinks.size();
+        if(maclinks == null)
+            {return 0;}
+        else
+            {return maclinks.size();}
     }
 
     @Override

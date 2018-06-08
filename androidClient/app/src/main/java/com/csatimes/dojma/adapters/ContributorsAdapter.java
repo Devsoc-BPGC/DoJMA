@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHolder> implements ValueEventListener {
 
     private static final String TAG = "mac";
-    private ArrayList<Contributor> contributors;
+    private ArrayList<Contributor> contributors = new ArrayList<>();
 
     public ContributorsAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
@@ -61,8 +61,7 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHo
             return;
         if (contributors != null)
             contributors.clear();
-        for (DataSnapshot child :
-                dataSnapshot.getChildren()) {
+        for (DataSnapshot child : dataSnapshot.getChildren()) {
             contributors.add(child.getValue(Contributor.class));
         }
         notifyDataSetChanged();

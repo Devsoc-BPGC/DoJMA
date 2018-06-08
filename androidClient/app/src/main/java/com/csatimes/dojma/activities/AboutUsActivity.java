@@ -1,5 +1,6 @@
 package com.csatimes.dojma.activities;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -30,23 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AboutUsActivity extends AppCompatActivity {
-
-    final Context context = this.getContext();
-    final Intent copy_intent = new Intent(context, CopyLinkBroadcastReceiver.class);
-    private PendingIntent copy_pendingIntent = PendingIntent
-            .getBroadcast(context, 0, copy_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    final String copy_label = "Copy Link";
-
-    private int colorResource = getChromeCustomTabColorFromTheme();
-    private final CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-            .setShowTitle(true)
-            .setToolbarColor(colorResource)
-            .setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_arrow_back_white_24dp))
-            .addMenuItem(copy_label, copy_pendingIntent)
-            .addDefaultShareMenuItem()
-            .enableUrlBarHiding()
-            .build();
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -96,14 +80,4 @@ public class AboutUsActivity extends AppCompatActivity {
 
     }
 
-    private int getChromeCustomTabColorFromTheme() {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
-    }
-
-    public Context getContext() {
-        return AboutUsActivity.this;
-    }
 }

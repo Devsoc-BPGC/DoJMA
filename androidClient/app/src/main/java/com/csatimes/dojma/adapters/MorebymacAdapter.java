@@ -23,7 +23,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MorebymacAdapter extends RecyclerView.Adapter<MorebymacViewHolder> implements ValueEventListener{
 
-    private ArrayList<Morebymac> moreApps;
+    private ArrayList<Morebymac> moreApps = new ArrayList<>();
 
     public MorebymacAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
