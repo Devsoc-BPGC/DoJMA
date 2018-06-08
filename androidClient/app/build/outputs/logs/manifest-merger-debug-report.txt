@@ -1,0 +1,808 @@
+-- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:202:9-210:20
+	android:grantUriPermissions
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:206:13-47
+	android:authorities
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:204:13-60
+	android:exported
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:205:13-37
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:203:13-62
+manifest
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+MERGED from [io.realm:realm-android-library:5.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-realm-android-library-5.1.0.aar\f9b1a927224f3bd3437faad4f56cebb0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:20:1-40:12
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:2:1-16:12
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-lib-10.0.2.aar\1afe141f9af4bd9a47afc2146928bc29\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.material:material:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\material-1.0.0-alpha1.aar\e31e28e206910ef0a0a1d19e73500518\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\appcompat-1.0.0-alpha1.aar\c769d00418b4e1670ec546f9bc7ddc64\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v13-1.0.0-alpha1.aar\26b44386a0db8f7ab5ac91582523986f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-database:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-16.0.1.aar\3160e909c78af992612add24310623a9\AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:17:1-37:12
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.firebase:firebase-core:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.0.aar\23c48e19025dcc9db01ee8fe965173dc\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:17:1-34:12
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:17:1-55:12
+MERGED from [com.google.firebase:firebase-database-connection:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-connection-16.0.1.aar\c47e81487e2a6379ef4e570b27634332\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:17:1-41:12
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:17:1-65:12
+MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:2:1-16:12
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-interop-16.0.0.aar\71216ee8fc64f93049ff4513007802ff\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-tasks-15.0.1.aar\24fccd79dd27ab2e6968fec1691050b9\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-database-collection-15.0.1.aar\ff4e4db841af8f98740e2a15cf4ac8d6\AndroidManifest.xml:2:1-8:12
+MERGED from [com.google.firebase:firebase-measurement-connector:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-16.0.0.aar\f900e11cad0221021e28357856f0758e\AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-stats-15.0.1.aar\168a7fabbf0342772b31c9f51c85deef\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-ads-identifier-15.0.1.aar\3e956934e94488a5a297e85643c0f8ef\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0-alpha1.aar\448b199df6dde4f6fb3ec69206a6d93c\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-instrumentation-2.0.0.aar\5d36ea92576e0454c725b5811a7bbca8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-2.0.0.aar\df52b53162518548cf967f44ea175e20\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0-alpha1.aar\f297a34e85b26c700152e9d229dfe58c\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\recyclerview-1.0.0-alpha1.aar\e38411a9cf88f766fd281865c9e1189a\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.browser:browser:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\browser-1.0.0-alpha1.aar\89a6f63598f1e3c5316ac03177c73abf\AndroidManifest.xml:17:1-22:12
+MERGED from [com.alexvasilkov:android-commons:1.2.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-commons-1.2.4.aar\4d4f3d0ed537b801d193e4e517d4d28d\AndroidManifest.xml:2:1-14:12
+MERGED from [me.relex:circleindicator:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-circleindicator-1.2.2.aar\5d4fb6e8e9a8e758da4967715e67cabb\AndroidManifest.xml:2:1-12:12
+MERGED from [com.facebook.fresco:fresco:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fresco-1.9.0.aar\3e88fb835ed6a27d404ea3c6e52eb737\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.0.aar\236d83e98bd41bea4066eb68d4f5ef6f\AndroidManifest.xml:2:1-11:12
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\eb95aff4e675ef71db28e555434359c9\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\fragment-1.0.0-alpha1.aar\de96dfbabe7302cc3657778758b12133\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0-alpha1.aar\35d1f51b8057da7b9f02ab9857d2eaf8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0-alpha1.aar\68619428d7e29514873a6428f93d0518\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0-alpha1.aar\ca56387a28c7da713c04069ed0de32f8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.0.0-alpha1.aar\400bcd601433e11ca1b0361c359bae2d\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\transition-1.0.0-alpha1.aar\1066573f808ad8db3a54563101cb7e21\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\media-1.0.0-alpha1.aar\41aa9a0efbdb8688b6641612d45f878e\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\loader-1.0.0-alpha1.aar\0abfcc7605f52ccb452d28434fdc024f\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0-alpha1.aar\efe838e4c66ca9925574dbe6d30ddff4\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.0.0-alpha1.aar\71391a3f1b513238b14d97890ac25f69\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0-alpha1.aar\13391aaf57d02c0decb7cddee8b466e5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0-alpha1.aar\1bd688a00085f039ff61a4df831b24ca\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\customview-1.0.0-alpha1.aar\b2f842faff2c7c9e4df1512c2b6ed243\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0-alpha1.aar\2485bab6f9c1ddfa61854decd465fb88\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0-alpha1.aar\04b37a860e5c3776913335328086b61d\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0-alpha1.aar\65d816cc73d55fd181aa872e28a24c41\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0-alpha1.aar\9433ab15e08a97aaa3538d7d1b378310\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0-alpha1.aar\b98f241bb8d6d2bcf6d78b0cea64aab8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0-alpha1.aar\f971c9daf1d1a3f8d6055c2267f83111\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\print-1.0.0-alpha1.aar\2e3ee148c15008cdabb2e04d12c3668d\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:drawee:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-drawee-1.9.0.aar\c4493dbeb0d48ce0069d3c939b802312\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-1.9.0.aar\5672bf8c2d844241447c797caab3da63\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline-base:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-base-1.9.0.aar\09aa0a62d2224a657eb97884aab64c3d\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:fbcore:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fbcore-1.9.0.aar\ca3aa7f89bada52dcf88c59407b9a81b\AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.soloader:soloader:0.3.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\soloader-0.3.0.aar\5cf93c6423fcecb638fd983cae6aa15a\AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.0.0-alpha1.aar\cd8c9d4a42b354a6b3c81879ea74b9b0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.0.0-alpha1.aar\a8d3aa025e243b05577afa21f80d0226\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-15.0.4.aar\defaa2aedf7b1f67507a6fe69cb0eace\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0-alpha1.aar\64dc5336a130e4d63c15cc619cb4d817\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0-alpha1.aar\8da4dc1641dc77e4b7ebf136ea3511a9\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+	package
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:4:5-33
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:3:5-51
+	android:versionCode
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:1-214:12
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:6:5-67
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:29:5-67
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:29:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-database-connection:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-connection-16.0.1.aar\c47e81487e2a6379ef4e570b27634332\AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-database-connection:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-connection-16.0.1.aar\c47e81487e2a6379ef4e570b27634332\AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.CHANGE_NETWORK_STATE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:10:5-80
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:10:22-77
+uses-permission#android.permission.WAKE_LOCK
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:11:5-68
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:25:5-68
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:24:5-68
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:11:22-65
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:12:22-78
+uses-permission#android.permission.CALL_PHONE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:13:5-69
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:13:22-66
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:14:5-75
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:14:22-72
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:21:5-79
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:21:22-76
+application
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:23:5-212:19
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:32:5-38:19
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:32:5-38:19
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:11:5-14:19
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:11:5-14:19
+MERGED from [com.google.android.material:material:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\material-1.0.0-alpha1.aar\e31e28e206910ef0a0a1d19e73500518\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\material-1.0.0-alpha1.aar\e31e28e206910ef0a0a1d19e73500518\AndroidManifest.xml:22:5-20
+MERGED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:30:5-20
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:30:5-20
+MERGED from [com.google.firebase:firebase-core:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.0.aar\23c48e19025dcc9db01ee8fe965173dc\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-core:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.0.aar\23c48e19025dcc9db01ee8fe965173dc\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:26:5-32:19
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:26:5-32:19
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:28:5-53:19
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:28:5-39:19
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:28:5-39:19
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:34:5-63:19
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:34:5-63:19
+MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:8:5-14:19
+MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:8:5-14:19
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-interop-16.0.0.aar\71216ee8fc64f93049ff4513007802ff\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-interop-16.0.0.aar\71216ee8fc64f93049ff4513007802ff\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-tasks-15.0.1.aar\24fccd79dd27ab2e6968fec1691050b9\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-tasks-15.0.1.aar\24fccd79dd27ab2e6968fec1691050b9\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-16.0.0.aar\f900e11cad0221021e28357856f0758e\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-16.0.0.aar\f900e11cad0221021e28357856f0758e\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-stats-15.0.1.aar\168a7fabbf0342772b31c9f51c85deef\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-stats-15.0.1.aar\168a7fabbf0342772b31c9f51c85deef\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-ads-identifier-15.0.1.aar\3e956934e94488a5a297e85643c0f8ef\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-ads-identifier-15.0.1.aar\3e956934e94488a5a297e85643c0f8ef\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:22:5-26:19
+MERGED from [com.alexvasilkov:android-commons:1.2.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-commons-1.2.4.aar\4d4f3d0ed537b801d193e4e517d4d28d\AndroidManifest.xml:12:5-20
+MERGED from [com.alexvasilkov:android-commons:1.2.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-commons-1.2.4.aar\4d4f3d0ed537b801d193e4e517d4d28d\AndroidManifest.xml:12:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.0.aar\236d83e98bd41bea4066eb68d4f5ef6f\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.0.aar\236d83e98bd41bea4066eb68d4f5ef6f\AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:22:5-89
+MERGED from [com.facebook.soloader:soloader:0.3.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\soloader-0.3.0.aar\5cf93c6423fcecb638fd983cae6aa15a\AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.soloader:soloader:0.3.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\soloader-0.3.0.aar\5cf93c6423fcecb638fd983cae6aa15a\AndroidManifest.xml:11:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-15.0.4.aar\defaa2aedf7b1f67507a6fe69cb0eace\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-15.0.4.aar\defaa2aedf7b1f67507a6fe69cb0eace\AndroidManifest.xml:22:5-20
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:28:9-35
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:27:9-41
+	android:icon
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:26:9-43
+	android:allowBackup
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:25:9-36
+		REJECTED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:12:9-35
+		REJECTED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:12:9-35
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:30:9-40
+	tools:replace
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:29:9-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:24:9-30
+activity#com.csatimes.dojma.activities.MainActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:31:9-59:20
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:33:13-45
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:34:13-47
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:32:13-52
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:35:13-39:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:36:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:38:17-77
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:38:27-74
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:www.csatimes.co.in/dojma/+data:scheme:http+data:scheme:https
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:40:13-51:29
+	android:autoVerify
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:41:17-42
+	tools:targetApi
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:42:17-36
+action#android.intent.action.VIEW
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:43:17-69
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:43:25-66
+category#android.intent.category.DEFAULT
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:45:17-76
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:45:27-73
+category#android.intent.category.BROWSABLE
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:46:17-78
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:46:27-75
+data
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:48:17-47
+	android:host
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:50:23-63
+	android:scheme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:48:23-44
+meta-data#android.app.shortcuts
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:53:13-55:53
+	android:resource
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:55:17-50
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:54:17-53
+meta-data#android.app.default_searchable
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:56:13-58:47
+	android:value
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:58:17-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:57:17-62
+activity#com.csatimes.dojma.activities.SettingsActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:60:9-68:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:63:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:62:13-60
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:64:13-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:61:13-56
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:65:13-67:78
+	android:value
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:67:17-75
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:66:17-63
+activity#com.csatimes.dojma.activities.AboutUsActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:69:9-78:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:72:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:71:13-60
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:73:13-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:70:13-55
+service#com.csatimes.dojma.services.UpdateCheckerService
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:80:9-82:40
+	android:exported
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:82:13-37
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:81:13-58
+receiver#com.csatimes.dojma.services.CopyLinkBroadcastReceiver
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:83:9-85:38
+	android:enabled
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:85:13-35
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:84:13-63
+receiver#com.csatimes.dojma.services.BootBroadcastService
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:86:9-90:20
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:86:19-64
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:87:13-89:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:88:17-79
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:88:25-76
+activity#com.csatimes.dojma.issues.IssuesActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:92:9-100:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:95:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:94:13-62
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:96:13-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:93:13-50
+activity#com.csatimes.dojma.activities.UtilitiesLinksActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:101:9-108:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:104:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:103:13-34
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:102:13-62
+activity#com.csatimes.dojma.activities.OfflineSimpleViewerActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:109:9-117:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:112:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:111:13-73
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:113:13-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:110:13-67
+activity#com.csatimes.dojma.activities.POSTDownloaderActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:118:9-122:47
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:121:13-66
+	android:configChanges
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:120:13-63
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:122:13-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:119:13-62
+activity#com.csatimes.dojma.activities.UtilitiesContactsActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:123:9-74
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:123:19-71
+meta-data#com.google.android.geo.API_KEY
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:134:9-136:55
+	android:value
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:136:13-52
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:135:13-58
+activity#com.csatimes.dojma.activities.UtilitiesMapsActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:138:9-144:20
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:140:13-56
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:139:13-61
+activity#com.csatimes.dojma.activities.AboutDojmaActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:145:9-153:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:148:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:147:13-63
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:149:13-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:146:13-58
+service#com.csatimes.dojma.services.HandleFirebaseMessages
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:155:9-173:19
+	android:enabled
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:157:13-35
+	android:exported
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:158:13-37
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:156:13-60
+intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:159:13-161:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:160:17-78
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:160:25-75
+meta-data#com.google.firebase.messaging.default_notification_icon
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:167:13-169:58
+	android:resource
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:169:17-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:168:17-87
+meta-data#com.google.firebase.messaging.default_notification_color
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:170:13-172:58
+	android:resource
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:172:17-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:171:17-88
+activity#com.csatimes.dojma.activities.UtilitiesMenuActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:175:9-183:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:178:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:177:13-62
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:179:13-44
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:176:13-61
+activity#com.csatimes.dojma.activities.SearchableActivity
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:184:9-200:20
+	android:parentActivityName
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:188:13-66
+	android:label
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:186:13-62
+	android:launchMode
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:187:13-43
+	android:theme
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:189:13-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:185:13-58
+intent-filter#action:name:android.intent.action.SEARCH
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:190:13-192:29
+action#android.intent.action.SEARCH
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:191:17-71
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:191:25-68
+meta-data#android.app.searchable
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:197:13-199:54
+	android:resource
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:199:17-51
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:198:17-54
+uses-sdk
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+MERGED from [io.realm:realm-android-library:5.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-realm-android-library-5.1.0.aar\f9b1a927224f3bd3437faad4f56cebb0\AndroidManifest.xml:6:5-8:41
+MERGED from [io.realm:realm-android-library:5.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-realm-android-library-5.1.0.aar\f9b1a927224f3bd3437faad4f56cebb0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:25:5-27:41
+MERGED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:25:5-27:41
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.jd-alexander:LikeButton:0.2.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-LikeButton-0.2.0.aar\58b347d64bab74b700ff534d353a5c32\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bmarrdev:android-DecoView-charting:v0.9.3] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-DecoView-charting-v0.9.3.aar\ae8c9ded74ab9c219afdcb849add6c05\AndroidManifest.xml:7:5-9:41
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-lib-10.0.2.aar\1afe141f9af4bd9a47afc2146928bc29\AndroidManifest.xml:7:5-9:41
+MERGED from [com.turingtechnologies.materialscrollbar:lib:10.0.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-lib-10.0.2.aar\1afe141f9af4bd9a47afc2146928bc29\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.material:material:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\material-1.0.0-alpha1.aar\e31e28e206910ef0a0a1d19e73500518\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\material-1.0.0-alpha1.aar\e31e28e206910ef0a0a1d19e73500518\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\appcompat-1.0.0-alpha1.aar\c769d00418b4e1670ec546f9bc7ddc64\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\appcompat-1.0.0-alpha1.aar\c769d00418b4e1670ec546f9bc7ddc64\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v13-1.0.0-alpha1.aar\26b44386a0db8f7ab5ac91582523986f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v13:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v13-1.0.0-alpha1.aar\26b44386a0db8f7ab5ac91582523986f\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-database:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-16.0.1.aar\3160e909c78af992612add24310623a9\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-16.0.1.aar\3160e909c78af992612add24310623a9\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-core:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.0.aar\23c48e19025dcc9db01ee8fe965173dc\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-core:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.0.aar\23c48e19025dcc9db01ee8fe965173dc\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-database-connection:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-connection-16.0.1.aar\c47e81487e2a6379ef4e570b27634332\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database-connection:16.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-database-connection-16.0.1.aar\c47e81487e2a6379ef4e570b27634332\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:5:5-6:37
+MERGED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:5:5-6:37
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-interop-16.0.0.aar\71216ee8fc64f93049ff4513007802ff\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-interop-16.0.0.aar\71216ee8fc64f93049ff4513007802ff\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-tasks-15.0.1.aar\24fccd79dd27ab2e6968fec1691050b9\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-tasks-15.0.1.aar\24fccd79dd27ab2e6968fec1691050b9\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-database-collection-15.0.1.aar\ff4e4db841af8f98740e2a15cf4ac8d6\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-database-collection:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\firebase-database-collection-15.0.1.aar\ff4e4db841af8f98740e2a15cf4ac8d6\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-16.0.0.aar\f900e11cad0221021e28357856f0758e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-16.0.0.aar\f900e11cad0221021e28357856f0758e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-stats-15.0.1.aar\168a7fabbf0342772b31c9f51c85deef\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-stats-15.0.1.aar\168a7fabbf0342772b31c9f51c85deef\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-ads-identifier-15.0.1.aar\3e956934e94488a5a297e85643c0f8ef\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-ads-identifier-15.0.1.aar\3e956934e94488a5a297e85643c0f8ef\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0-alpha1.aar\448b199df6dde4f6fb3ec69206a6d93c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0-alpha1.aar\448b199df6dde4f6fb3ec69206a6d93c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-instrumentation-2.0.0.aar\5d36ea92576e0454c725b5811a7bbca8\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex-instrumentation:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-instrumentation-2.0.0.aar\5d36ea92576e0454c725b5811a7bbca8\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-2.0.0.aar\df52b53162518548cf967f44ea175e20\AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\multidex-2.0.0.aar\df52b53162518548cf967f44ea175e20\AndroidManifest.xml:20:5-43
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0-alpha1.aar\f297a34e85b26c700152e9d229dfe58c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0-alpha1.aar\f297a34e85b26c700152e9d229dfe58c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\recyclerview-1.0.0-alpha1.aar\e38411a9cf88f766fd281865c9e1189a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\recyclerview-1.0.0-alpha1.aar\e38411a9cf88f766fd281865c9e1189a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.browser:browser:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\browser-1.0.0-alpha1.aar\89a6f63598f1e3c5316ac03177c73abf\AndroidManifest.xml:20:5-44
+MERGED from [androidx.browser:browser:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\browser-1.0.0-alpha1.aar\89a6f63598f1e3c5316ac03177c73abf\AndroidManifest.xml:20:5-44
+MERGED from [com.alexvasilkov:android-commons:1.2.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-commons-1.2.4.aar\4d4f3d0ed537b801d193e4e517d4d28d\AndroidManifest.xml:8:5-10:41
+MERGED from [com.alexvasilkov:android-commons:1.2.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-android-commons-1.2.4.aar\4d4f3d0ed537b801d193e4e517d4d28d\AndroidManifest.xml:8:5-10:41
+MERGED from [me.relex:circleindicator:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-circleindicator-1.2.2.aar\5d4fb6e8e9a8e758da4967715e67cabb\AndroidManifest.xml:8:5-10:41
+MERGED from [me.relex:circleindicator:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-circleindicator-1.2.2.aar\5d4fb6e8e9a8e758da4967715e67cabb\AndroidManifest.xml:8:5-10:41
+MERGED from [com.facebook.fresco:fresco:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fresco-1.9.0.aar\3e88fb835ed6a27d404ea3c6e52eb737\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fresco:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fresco-1.9.0.aar\3e88fb835ed6a27d404ea3c6e52eb737\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.0.aar\236d83e98bd41bea4066eb68d4f5ef6f\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.0.aar\236d83e98bd41bea4066eb68d4f5ef6f\AndroidManifest.xml:5:5-7:41
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\eb95aff4e675ef71db28e555434359c9\AndroidManifest.xml:7:5-43
+MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\eb95aff4e675ef71db28e555434359c9\AndroidManifest.xml:7:5-43
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\fragment-1.0.0-alpha1.aar\de96dfbabe7302cc3657778758b12133\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\fragment-1.0.0-alpha1.aar\de96dfbabe7302cc3657778758b12133\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0-alpha1.aar\35d1f51b8057da7b9f02ab9857d2eaf8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0-alpha1.aar\35d1f51b8057da7b9f02ab9857d2eaf8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0-alpha1.aar\68619428d7e29514873a6428f93d0518\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0-alpha1.aar\68619428d7e29514873a6428f93d0518\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0-alpha1.aar\ca56387a28c7da713c04069ed0de32f8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0-alpha1.aar\ca56387a28c7da713c04069ed0de32f8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.0.0-alpha1.aar\400bcd601433e11ca1b0361c359bae2d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.0.0-alpha1.aar\400bcd601433e11ca1b0361c359bae2d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\transition-1.0.0-alpha1.aar\1066573f808ad8db3a54563101cb7e21\AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\transition-1.0.0-alpha1.aar\1066573f808ad8db3a54563101cb7e21\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\media-1.0.0-alpha1.aar\41aa9a0efbdb8688b6641612d45f878e\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\media-1.0.0-alpha1.aar\41aa9a0efbdb8688b6641612d45f878e\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\loader-1.0.0-alpha1.aar\0abfcc7605f52ccb452d28434fdc024f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\loader-1.0.0-alpha1.aar\0abfcc7605f52ccb452d28434fdc024f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0-alpha1.aar\efe838e4c66ca9925574dbe6d30ddff4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0-alpha1.aar\efe838e4c66ca9925574dbe6d30ddff4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.0.0-alpha1.aar\71391a3f1b513238b14d97890ac25f69\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.0.0-alpha1.aar\71391a3f1b513238b14d97890ac25f69\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0-alpha1.aar\13391aaf57d02c0decb7cddee8b466e5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0-alpha1.aar\13391aaf57d02c0decb7cddee8b466e5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0-alpha1.aar\1bd688a00085f039ff61a4df831b24ca\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0-alpha1.aar\1bd688a00085f039ff61a4df831b24ca\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\customview-1.0.0-alpha1.aar\b2f842faff2c7c9e4df1512c2b6ed243\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\customview-1.0.0-alpha1.aar\b2f842faff2c7c9e4df1512c2b6ed243\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0-alpha1.aar\2485bab6f9c1ddfa61854decd465fb88\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0-alpha1.aar\2485bab6f9c1ddfa61854decd465fb88\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0-alpha1.aar\04b37a860e5c3776913335328086b61d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0-alpha1.aar\04b37a860e5c3776913335328086b61d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-1.0.0-alpha1.aar\bb7276a75f9af06dab0592ee25e06853\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0-alpha1.aar\65d816cc73d55fd181aa872e28a24c41\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0-alpha1.aar\65d816cc73d55fd181aa872e28a24c41\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0-alpha1.aar\9433ab15e08a97aaa3538d7d1b378310\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0-alpha1.aar\9433ab15e08a97aaa3538d7d1b378310\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0-alpha1.aar\b98f241bb8d6d2bcf6d78b0cea64aab8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0-alpha1.aar\b98f241bb8d6d2bcf6d78b0cea64aab8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0-alpha1.aar\f971c9daf1d1a3f8d6055c2267f83111\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0-alpha1.aar\f971c9daf1d1a3f8d6055c2267f83111\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\print-1.0.0-alpha1.aar\2e3ee148c15008cdabb2e04d12c3668d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\print-1.0.0-alpha1.aar\2e3ee148c15008cdabb2e04d12c3668d\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:drawee:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-drawee-1.9.0.aar\c4493dbeb0d48ce0069d3c939b802312\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-drawee-1.9.0.aar\c4493dbeb0d48ce0069d3c939b802312\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-1.9.0.aar\5672bf8c2d844241447c797caab3da63\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-1.9.0.aar\5672bf8c2d844241447c797caab3da63\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-base-1.9.0.aar\09aa0a62d2224a657eb97884aab64c3d\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-imagepipeline-base-1.9.0.aar\09aa0a62d2224a657eb97884aab64c3d\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fbcore-1.9.0.aar\ca3aa7f89bada52dcf88c59407b9a81b\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:1.9.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-fbcore-1.9.0.aar\ca3aa7f89bada52dcf88c59407b9a81b\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.soloader:soloader:0.3.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\soloader-0.3.0.aar\5cf93c6423fcecb638fd983cae6aa15a\AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.soloader:soloader:0.3.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\soloader-0.3.0.aar\5cf93c6423fcecb638fd983cae6aa15a\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.0.0-alpha1.aar\cd8c9d4a42b354a6b3c81879ea74b9b0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.0.0-alpha1.aar\cd8c9d4a42b354a6b3c81879ea74b9b0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.0.0-alpha1.aar\a8d3aa025e243b05577afa21f80d0226\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.0.0-alpha1.aar\a8d3aa025e243b05577afa21f80d0226\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-15.0.4.aar\defaa2aedf7b1f67507a6fe69cb0eace\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:15.0.4] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-15.0.4.aar\defaa2aedf7b1f67507a6fe69cb0eace\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0-alpha1.aar\64dc5336a130e4d63c15cc619cb4d817\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0-alpha1.aar\64dc5336a130e4d63c15cc619cb4d817\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0-alpha1.aar\8da4dc1641dc77e4b7ebf136ea3511a9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0-alpha1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0-alpha1.aar\8da4dc1641dc77e4b7ebf136ea3511a9\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:207:13-209:58
+	android:resource
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:209:17-55
+	android:name
+		ADDED from C:\Users\Harsh Raj\AndroidStudioProjects\DoJMA\androidClient\app\src\main\AndroidManifest.xml:208:17-67
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:30:5-76
+	android:name
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:30:22-73
+provider#com.amitshekhar.DebugDBInitProvider
+ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:33:9-37:40
+	android:enabled
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:36:13-35
+	android:authorities
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:35:13-71
+	android:exported
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:37:13-37
+	android:name
+		ADDED from [com.amitshekhar.android:debug-db:0.4.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\debug-db-0.4.0.aar\7ec4e72f14aab9f0c6edb065c4928385\AndroidManifest.xml:34:13-63
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:28:9-34:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:30:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:17.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-messaging-17.0.0.aar\091784bacb2f0b732f3337b72d28583f\AndroidManifest.xml:29:13-82
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-maps-15.0.1.aar\8852dcaf2984324c813158788854bd52\AndroidManifest.xml:28:9-32
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:27:9-31:19
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:35:9-39:19
+MERGED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:35:9-39:19
+	android:name
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:27:18-89
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:28:13-30:85
+	android:value
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:30:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-measurement-connector-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-measurement-connector-impl-16.0.0.aar\798a8dacebd72aa3326535841a56d1b4\AndroidManifest.xml:29:17-139
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:26:5-110
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:26:5-110
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:29:9-33:20
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:29:9-33:20
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:30:13-85
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:34:9-42:20
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:36:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:37:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:38:13-69
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:35:13-100
+intent-filter#action:name:com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:39:13-41:29
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:40:17-79
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:40:25-76
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:44:9-47:40
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:35:9-38:40
+MERGED from [com.google.firebase:firebase-analytics-impl:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-impl-16.0.0.aar\0861119e28ed5b2bf32512a7e589c1d7\AndroidManifest.xml:35:9-38:40
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:46:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:45:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:48:9-52:72
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:50:13-35
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:51:13-37
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:52:13-69
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-analytics-16.0.0.aar\27feda1f4bd620a00c4df2b130af0181\AndroidManifest.xml:49:13-87
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:26:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:26:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:28:5-30:47
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:30:9-44
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:29:9-63
+permission#com.csatimes.dojma.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:28:5-30:47
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:30:9-44
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:29:9-63
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:32:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:32:22-76
+uses-permission#com.csatimes.dojma.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:32:5-79
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:32:22-76
+meta-data#com.google.firebase.components:com.google.firebase.iid.Registrar
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:37:17-96
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:41:9-50:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:43:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:44:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:42:13-78
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:${applicationId}
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:45:13-49:29
+intent-filter#action:name:com.google.android.c2dm.intent.RECEIVE+category:name:com.csatimes.dojma
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:45:13-49:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:46:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:46:25-78
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:48:17-61
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:48:27-58
+category#com.csatimes.dojma
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:48:17-61
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:48:27-58
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:56:9-62:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:58:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:57:13-77
+intent-filter#action:name:com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:59:13-61:29
+	android:priority
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:59:28-51
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:60:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-iid-16.0.0.aar\bf76ba283d6218c3fd77699f010161f8\AndroidManifest.xml:60:25-77
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:9:9-13:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:11:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:12:13-37
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:13:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:16.0.0] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-firebase-common-16.0.0.aar\2c493480f55f55908733c5c7133d3da8\AndroidManifest.xml:10:13-77
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-base-15.0.1.aar\967834fd2510ce0f3f32b7d5acc00d14\AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] C:\Users\Harsh Raj\.gradle\caches\transforms-1\files-1.1\jetified-play-services-basement-15.0.1.aar\27feeb5697e8b4d1bef8fe80c45486cb\AndroidManifest.xml:24:13-58

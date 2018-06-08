@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.fresco:fbcore-1.9.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-1.9.0.aar/ca3aa7f89bada52dcf88c59407b9a81b/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-1.9.0.aar/ca3aa7f89bada52dcf88c59407b9a81b/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.fresco/fbcore/1.9.0/fb803543a3dea16a4dc1b7e4c16d78062ebf9bc3/fbcore-1.9.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

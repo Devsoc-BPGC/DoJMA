@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: android-android-P">
+    <CLASSES>
+      <root url="jar://C:/Android/sdk/platforms/android-P/android.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

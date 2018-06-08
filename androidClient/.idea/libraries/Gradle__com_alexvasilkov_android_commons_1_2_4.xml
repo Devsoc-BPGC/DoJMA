@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.alexvasilkov:android-commons-1.2.4">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/4d4f3d0ed537b801d193e4e517d4d28d/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-android-commons-1.2.4.aar/4d4f3d0ed537b801d193e4e517d4d28d/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alexvasilkov/android-commons/1.2.4/36328553be3f293f6f0a7eb12180c537b5d3dd60/android-commons-1.2.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
