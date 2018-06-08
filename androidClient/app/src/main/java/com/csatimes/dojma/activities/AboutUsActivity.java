@@ -1,31 +1,17 @@
 package com.csatimes.dojma.activities;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.ContributorsAdapter;
 import com.csatimes.dojma.adapters.MaclinksAdapter;
 import com.csatimes.dojma.adapters.MorebymacAdapter;
-import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
