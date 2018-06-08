@@ -1,15 +1,15 @@
 package com.csatimes.dojma.models;
 
 public class Morebymac {
-    public String name;
-    public String web;
+    public String appName;
+    public String playstoreUrl;
 
     public Morebymac() {
     }
 
-    public Morebymac(String name, String web) {
-        this.name = name;
-        this.web = web;
+    public Morebymac(String appName, String playstoreUrl) {
+        this.appName = appName;
+        this.playstoreUrl = playstoreUrl;
     }
 
 }

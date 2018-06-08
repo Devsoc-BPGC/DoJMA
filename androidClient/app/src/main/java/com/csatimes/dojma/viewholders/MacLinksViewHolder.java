@@ -1,8 +1,6 @@
 package com.csatimes.dojma.viewholders;
 
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,40 +12,36 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.models.Contributor;
+import com.csatimes.dojma.models.Maclinks;
+import com.csatimes.dojma.models.Morebymac;
 import com.csatimes.dojma.services.CopyLinkBroadcastReceiver;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-/**
- * Created by vikramaditya on 24/2/17.
- */
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ContributorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView nameTv;
-    public TextView emailTv;
-    public TextView phoneTv;
-    public SimpleDraweeView photoIv;
-    public Contributor contributor;
-    public Context context;
+public class MacLinksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public TextView linkTitle;
+    public SimpleDraweeView iconIv;
+    public Activity activity;
+    public Maclinks maclinks;
+    public Context context ;
 
-    public ContributorsViewHolder(View itemView) {
+
+    public MacLinksViewHolder(View itemView) {
         super(itemView);
-        context = itemView.getContext();
+        context=itemView.getContext();
         Fresco.initialize(context);
-        nameTv = itemView.findViewById(R.id.dojma_contributor_name);
-        emailTv = itemView.findViewById(R.id.dojma_contributor_email);
-        phoneTv = itemView.findViewById(R.id.dojma_contributor_phone);
-        photoIv = itemView.findViewById(R.id.dojma_contributor_image);
+        linkTitle=itemView.findViewById(R.id.dojma_maclinks_name);
+        iconIv=itemView.findViewById(R.id.dojma_maclinks_image);
         itemView.setOnClickListener(this);
     }
 
-    public void populate(Contributor contributor) {
-        this.contributor = contributor;
-        nameTv.setText(contributor.name);
-        emailTv.setText(contributor.email);
-        phoneTv.setText(contributor.phone);
-        photoIv.setImageURI(Uri.parse(contributor.photoUrl));
+    public void populate(Maclinks maclinks) {
+        this.maclinks = maclinks;
+        linkTitle.setText(maclinks.linkTitle);
+        iconIv.setImageURI(Uri.parse(maclinks.macLink));
     }
 
     @Override
@@ -65,7 +59,7 @@ public class ContributorsViewHolder extends RecyclerView.ViewHolder implements V
                 .addDefaultShareMenuItem()
                 .enableUrlBarHiding()
                 .build();
-        customTabsIntent.launchUrl(context, Uri.parse(contributor.web));
+        customTabsIntent.launchUrl(context, Uri.parse(maclinks.macLink));
     }
 
     private int getChromeCustomTabColorFromTheme() {

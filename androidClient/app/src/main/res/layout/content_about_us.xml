@@ -43,65 +43,17 @@
         android:background="@color/mac_color"
         android:src="@drawable/maclogopng" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/content_about_us_maclinks_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:weightSum="50"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="30dp">
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
 
-    <ImageButton
-        android:id="@+id/content_about_us_fb_imgbtn"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="@color/mac_color"
-        android:textColor="@color/white"
-        app:srcCompat="@drawable/ic_facebook_white" />
-
-    <ImageButton
-        android:id="@+id/content_about_us_google_play_imgbtn"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_margin="4dp"
-        android:layout_height="wrap_content"
-        android:background="@color/mac_color"
-        android:textColor="@color/white"
-        app:srcCompat="@drawable/ic_google_play" />
-
-    <ImageButton
-        android:id="@+id/content_about_us_github_imgbtn"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_margin="4dp"
-        android:layout_height="wrap_content"
-        android:background="@color/mac_color"
-        android:textColor="@color/white"
-        app:srcCompat="@drawable/ic_github_circle" />
-
-    <ImageButton
-        android:id="@+id/content_about_us_linkedin_imgbtn"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_margin="4dp"
-        android:layout_height="wrap_content"
-        android:background="@color/mac_color"
-        android:textColor="@color/white"
-        app:srcCompat="@drawable/ic_linkedin" />
-
-    <ImageButton
-        android:id="@+id/content_about_us_website_imgbtn"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_margin="4dp"
-        android:layout_height="wrap_content"
-        android:background="@color/mac_color"
-        android:textColor="@color/white"
-        app:srcCompat="@drawable/ic_website" />
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/content_about_us_desc_tv"
