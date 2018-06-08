@@ -44,7 +44,7 @@ public class DHC {
 
     public static final String MIME_TYPE_HTML = "text/html";
 
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     /**
      * Name of shared preferences file used for the app.
