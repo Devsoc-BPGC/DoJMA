@@ -115,38 +115,6 @@ public class MainActivity
 
         mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(mToolbar);
-        //mToolbar.setSubtitle("Test Subtitle");
-        //mToolbar.inflateMenu(R.menu.home_menu);
-
-        /*mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent;
-                switch(item.getItemId()) {
-                    case R.id.action_refresh:
-                        return true;
-                    case R.id.action_about_dojma:
-                        intent = new Intent(MainActivity.this, AboutDojmaActivity.class);
-                        startActivity(intent);
-                        return true;
-                    case R.id.action_about_us:
-                        intent = new Intent(MainActivity.this, AboutUsActivity.class);
-                        startActivity(intent);
-                        return true;
-                    case R.id.action_shareapp:
-                        return true;
-                    case R.id.action_settings:
-                        intent = new Intent(MainActivity.this, SettingsActivity.class);
-                        startActivity(intent);
-                        return true;
-                }
-                return false;
-            }
-        });*/
-
-        /**
-         ** BOTTOM NAVBAR IMPLEMENTATION:
-         **/
 
         //Loading the default fragment
         loadFragment(new HeraldFragment());
@@ -154,7 +122,6 @@ public class MainActivity
         //getting bottom navigation view and attaching the listener
         BottomNavigationView homeBottomNav = findViewById(R.id.nav_view);
         homeBottomNav.setOnNavigationItemSelectedListener(this);
-
     }
 
     @Override

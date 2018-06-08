@@ -7,23 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--include
-        layout="@layout/app_bar_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="false" />
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_home"
-        app:itemIconTint="?customNavDrawerIconTintColor"
-        app:itemTextColor="?customNavDrawerTitleTextColor"
-        app:menu="@menu/activity_home_drawer" /-->
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
@@ -40,8 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"/>
-
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" -->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
