@@ -85,7 +85,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         morebymacRecyclerView.setHasFixedSize(false);
         morebymacRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        morebymacRecyclerView.setAdapter(new MorebymacAdapter(context));
+        morebymacRecyclerView.setAdapter(new MorebymacAdapter());
 
 
         contributorsRecyclerView.setHasFixedSize(false);
