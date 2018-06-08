@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/bottom_herald"
+        android:enabled="true"
+        android:icon="@drawable/ic_chrome_reader_mode_white_24dp"
+        android:iconTint="@color/black"
+        android:title="@string/herald"
+        tools:ignore="UnusedAttribute" />
+    <item
+        android:id="@+id/bottom_issues"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_issues"
+        android:title="@string/issues" />
+    <item
+        android:id="@+id/bottom_favourites"
+        android:enabled="true"
+        android:icon="@drawable/ic_heart"
+        android:title="@string/favorites" />
+    <item
+        android:id="@+id/bottom_events"
+        android:enabled="true"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/events" />
+    <item
+        android:id="@+id/bottom_utilities"
+        android:enabled="true"
+        android:icon="@drawable/ic_local_convenience_store_black_24dp"
+        android:title="@string/utilities" />
+
+</menu>

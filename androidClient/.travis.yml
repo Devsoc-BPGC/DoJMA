@@ -1,0 +1,69 @@
+language: android
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - tools
+    - build-tools-25.0.2
+    - android sdk --no-ui --filter build-tools-25.0.2,android-25,extra-android-m2repository
+    - extra-google-google_play_services
+    - addon-google_apis-google-19
+    - extra-android-support
+    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-19
+    - sys-img-armeabi-v7a-android-16
+
+
+before_install:
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - sudo apt-get update -qq
+  - android list targets
+  - echo ${ANDROID_HOME}
+  - ls ${ANDROID_HOME}/tools/
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
+before_script:
+    - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+    - ${ANDROID_HOME}/tools/emulator -avd test -no-skin -no-audio -no-window -netspeed full -netdelay none &
+    - ls -la
+    - cat /usr/local/bin/android-wait-for-emulator
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
+
+after_failure:
+    - echo "Build failure"
+os:
+  - linux
+jdk:
+  - oraclejdk8
+
+sudo: required
+
+git:
+  depth: 25
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+script:
+    - ls -la
+    - ./gradlew clean
+    - ./gradlew generateDebugSources
+    - ./gradlew mockableAndroidJar
+    - ./gradlew prepareDebugUnitTestDependencies
+    - ./gradlew generateDebugAndroidTestSources
+    - ./gradlew compileDebugSources
+    - ./gradlew compileDebugUnitTestSources
+    - ./gradlew compileDebugAndroidTestSources
+    - ./gradlew assembleDebug
+    - ./gradlew clean build connectedCheck

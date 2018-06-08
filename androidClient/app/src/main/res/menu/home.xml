@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_refresh_herald"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:orderInCategory="1"
+        android:title="@string/menu_main_refresh_herald"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="0"
+        android:title="@string/menu_main_search_title"
+        app:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
+        tools:ignore="AppCompatResource" />
+    <item
+        android:id="@+id/action_about_dojma"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:orderInCategory="99"
+        android:title="@string/menu_main_about_dojma" />
+    <item
+        android:id="@+id/action_about_us"
+        android:orderInCategory="98"
+        android:title="@string/menu_main_about_app"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/action_shareapp"
+        android:orderInCategory="100"
+        android:title="@string/share_app"
+        android:showAsAction="never" />
+
+</menu>

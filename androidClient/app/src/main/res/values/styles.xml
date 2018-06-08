@@ -1,0 +1,172 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="defaultBackground">@color/white</item>
+        <item name="defaultBackgroundSemiTransparent">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/statusBarColor</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">
+            @color/navigationBarColor
+        </item>
+
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+
+        <item name="customNavDrawerTitleTextColor">@color/grey700</item>
+        <item name="customNavDrawerIconTintColor">@color/grey700</item>
+        <item name="customNavDrawerBackgroundColor">@color/colorPrimary</item>
+
+        <item name="customHeraldTitleTextColor">@color/grey900</item>
+        <item name="customHeraldDescTextColor">@color/grey800</item>
+        <item name="customHeraldDateTextColor">@color/grey700</item>
+
+        <item name="customGazetteTitleTextColor">@color/grey800</item>
+        <item name="customGazetteErrorTextColor">@color/grey700</item>
+
+        <item name="customEventsTitleTextColor">@color/grey800</item>
+        <item name="customEventsLocationTextColor">@color/grey700</item>
+        <item name="customEventsDescTextColor">@color/grey600</item>
+        <item name="customEventsViewColor">@color/grey400</item>
+        <item name="customEventsErrorTextColor">@color/grey700</item>
+
+        <item name="customSearchableErrorTextColor">@color/grey700</item>
+
+        <item name="customLinksLinkTextColor">@color/grey700</item>
+        <item name="customLinksTitleTextColor">@color/grey800</item>
+        <item name="customLinksCardBackgroundColor">@color/utilities_links_background</item>
+        <item name="customLinksCardTitleColor">@color/white</item>
+        <item name="customLinksCardSubTitleColor">@color/grey100</item>
+        <item name="customLinksCardButtonTextColor">@color/utilities_links_background</item>
+        <item name="customLinksCardButtonBackgroundColor">@color/grey100</item>
+        <item name="customLinksErrorTextColor">@color/grey700</item>
+
+        <item name="fabBackgroundColor">@color/white</item>
+        <item name="customFavouritesTextColor">@color/grey700</item>
+
+        <item name="customContactsCardBackgroundColor">@color/utilities_contacts_background</item>
+        <item name="customContactsNameTextColor">@color/grey700</item>
+        <item name="customContactsSub1TextColor">@color/grey600</item>
+        <item name="customContactsSub2TextColor">@color/grey600</item>
+        <item name="customContactsCardTitleColor">@color/white</item>
+        <item name="customContactsCardSubTitleColor">@color/white</item>
+        <item name="customContactsCardNamesTextColor">@color/grey100</item>
+
+        <item name="customContactsTaxiCardBackgroundColor">
+            @color/utilities_contacts_taxi_background
+        </item>
+        <item name="customContactsTaxiCardTitleColor">@color/black</item>
+        <item name="customContactsTaxiCardSubTitleColor">@color/grey900</item>
+
+        <item name="customMessCardBackgroundColor">@color/utilities_mess_background</item>
+        <item name="customMessCardTitleColor">@color/utilities_mess_title_color</item>
+        <item name="customMessCardSubTitleColor">@color/utilities_mess_sub_title_color</item>
+
+        <item name="customMapsCardBackgroundColor">@color/utilities_map_background</item>
+        <item name="customMapsCardTitleColor">@color/white</item>
+        <item name="customMapsCardSubTitleColor">@color/grey100</item>
+
+        <item name="customMiscCardBackgroundColor">@color/utilities_misc_background</item>
+        <item name="customMiscCardTitleColor">@color/white</item>
+        <item name="customMiscCardSubTitleColor">@color/grey100</item>
+
+        <item name="customSettingsSubTitleColor">@color/grey700</item>
+
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="defaultBackground">@color/grey900</item>
+        <item name="defaultBackgroundSemiTransparent">#FFFFFF00</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/grey900</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/grey900</item>
+        <item name="android:windowBackground">@color/grey900</item>
+        <item name="colorPrimary">@color/grey900</item>
+        <item name="colorPrimaryDark">@color/grey900</item>
+        <item name="android:textColorSecondary">@color/grey500</item>
+        <item name="android:textColorPrimary">@color/grey100</item>
+
+        <item name="customNavDrawerTitleTextColor">@color/grey400</item>
+        <item name="customNavDrawerIconTintColor">@color/white</item>
+        <item name="customNavDrawerBackgroundColor">@color/grey900</item>
+
+        <item name="customHeraldTitleTextColor">@color/grey400</item>
+        <item name="customHeraldDescTextColor">@color/grey600</item>
+        <item name="customHeraldDateTextColor">@color/grey500</item>
+
+        <item name="customGazetteTitleTextColor">@color/grey400</item>
+
+        <item name="customEventsTitleTextColor">@color/grey400</item>
+        <item name="customEventsLocationTextColor">@color/grey500</item>
+        <item name="customEventsDescTextColor">@color/grey700</item>
+        <item name="customEventsViewColor">@color/grey700</item>
+
+        <item name="customSearchableErrorTextColor">@color/grey600</item>
+
+        <item name="customLinksLinkTextColor">@color/grey600</item>
+        <item name="customLinksTitleTextColor">@color/grey400</item>
+        <item name="customLinksCardBackgroundColor">@color/grey700</item>
+        <item name="customLinksCardTitleColor">@color/grey400</item>
+        <item name="customLinksCardSubTitleColor">@color/grey100</item>
+        <item name="customLinksCardButtonTextColor">@color/grey700</item>
+        <item name="customLinksCardButtonBackgroundColor">@color/grey100</item>
+
+        <item name="fabBackgroundColor">@color/black</item>
+        <item name="customFavouritesTextColor">@color/grey600</item>
+
+        <item name="customContactsCardBackgroundColor">@color/grey700</item>
+        <item name="customContactsNameTextColor">@color/grey400</item>
+        <item name="customContactsSub1TextColor">@color/grey600</item>
+        <item name="customContactsSub2TextColor">@color/grey600</item>
+        <item name="customContactsCardTitleColor">@color/white</item>
+        <item name="customContactsCardSubTitleColor">@color/white</item>
+        <item name="customContactsCardNamesTextColor">@color/grey100</item>
+
+        <item name="customContactsTaxiCardBackgroundColor">@color/grey900</item>
+        <item name="customContactsTaxiCardTitleColor">@color/white</item>
+        <item name="customContactsTaxiCardSubTitleColor">@color/grey400</item>
+
+        <item name="customMessCardBackgroundColor">@color/grey800</item>
+
+        <item name="customMapsCardBackgroundColor">@color/grey700</item>
+
+        <item name="customSettingsSubTitleColor">@color/white</item>
+
+        <item name="colorControlHighlight">@color/grey500</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="customTab_toolbar_color">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@color/alert_dialog_background</item>
+        <item name="android:textColor">@color/alert_dialog_text_color</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="CallButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/call_button_color</item>
+    </style>
+
+    <style name="EmailButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/mail_button_color</item>
+    </style>
+
+    <style name="MainCallButtonColorControlHighlight" parent="AppTheme">
+        <item name="colorControlHighlight">@color/white</item>
+    </style>
+
+</resources>
