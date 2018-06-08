@@ -1,16 +1,14 @@
 package com.csatimes.dojma.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.models.Contributor;
+import com.csatimes.dojma.models.Maclinks;
 import com.csatimes.dojma.utilities.FirebaseKeys;
-import com.csatimes.dojma.viewholders.ContributorsViewHolder;
+import com.csatimes.dojma.viewholders.MacLinksViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,50 +17,49 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by vikramaditya on 24/2/17.
- */
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHolder> implements ValueEventListener {
+public class MaclinksAdapter extends RecyclerView.Adapter<MacLinksViewHolder> implements ValueEventListener {
 
     private static final String TAG = "mac";
-    private ArrayList<Contributor> contributors = new ArrayList<>();
+    private ArrayList<Maclinks> maclinks = new ArrayList<>();
 
-    public ContributorsAdapter() {
+    public MaclinksAdapter() {
         DatabaseReference devRef = FirebaseDatabase.getInstance().getReference()
-                .child(FirebaseKeys.FIREBASE_DATABASE_REFERENCE_CONTRIBUTORS);
+                .child(FirebaseKeys.FIREBASE_DATABASE_REFERENCE_MACLINKS);
         devRef.addValueEventListener(this);
         devRef.keepSynced(true);
     }
 
     @Override
-    public ContributorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MacLinksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View contributor = inflater.inflate(R.layout.item_format_contributors, parent, false);
-        return new ContributorsViewHolder(contributor);
+        final View maclink = inflater.inflate(R.layout.item_format_maclinks, parent, false);
+        return new MacLinksViewHolder(maclink);
     }
 
     @Override
-    public void onBindViewHolder(ContributorsViewHolder holder, int position) {
-        holder.populate(contributors.get(position));
+    public void onBindViewHolder(MacLinksViewHolder holder, int position) {
+        holder.populate(maclinks.get(position));
     }
 
     @Override
     public int getItemCount() {
-        if(contributors == null)
+        if(maclinks == null)
             {return 0;}
         else
-            {return contributors.size();}
+            {return maclinks.size();}
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         if (dataSnapshot == null)
             return;
-        if (contributors != null)
-            contributors.clear();
-        for (DataSnapshot child : dataSnapshot.getChildren()) {
-            contributors.add(child.getValue(Contributor.class));
+        if (maclinks != null)
+            maclinks.clear();
+        for (DataSnapshot child :
+                dataSnapshot.getChildren()) {
+            maclinks.add(child.getValue(Maclinks.class));
         }
         notifyDataSetChanged();
     }
@@ -71,5 +68,4 @@ public class ContributorsAdapter extends RecyclerView.Adapter<ContributorsViewHo
     public void onCancelled(DatabaseError databaseError) {
         Log.e(TAG, databaseError.getMessage(), databaseError.toException());
     }
-
 }
