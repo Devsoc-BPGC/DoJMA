@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,9 +24,8 @@ import androidx.viewpager.widget.PagerAdapter;
 
 public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
-    Context mContext;
-    LayoutInflater mLayoutInflater;
-    String ref = "campusWatch";
+    private LayoutInflater mLayoutInflater;
+    private String ref = "campusWatch";
 
     private List<ShortsItem> mShortsItems = new ArrayList<>();
     private List<String> mShortsKeys = new ArrayList<>();
@@ -35,10 +33,9 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = mDatabase.getReference(ref);
-    private ChildEventListener mChildEventListener;
 
     public ShortsVerticalViewPagerAdapter(Context context) {
-        mContext = context;
+        Context mContext = context;
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -86,7 +83,6 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
         };
 
         mRef.addChildEventListener(childEventListener);
-        mChildEventListener = childEventListener;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

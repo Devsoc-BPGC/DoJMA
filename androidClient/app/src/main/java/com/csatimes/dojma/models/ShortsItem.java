@@ -1,8 +1,6 @@
 package com.csatimes.dojma.models;
 
-import java.sql.Timestamp;
-
-public class ShortsItem {
+ public class ShortsItem {
     public String title;
     public String subtitle;
     public String timestamp;
