@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f027b034-10b5-4576-8308-c60410ae95db" name="Default" comment="CampusWatch functional.&#10;Fresco implemented to load Image in the same.">
+    <list default="true" id="f027b034-10b5-4576-8308-c60410ae95db" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/ShortsActivity.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/ShortsActivity.java" />
       <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" />
-      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/ShortsItem.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/ShortsItem.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,7 +53,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="993" />
+    <option name="x" value="67" />
     <option name="y" value="25" />
     <option name="width" value="927" />
     <option name="height" value="1055" />
@@ -273,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528537907087</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="CampusWatch functional.&#10;Fresco implemented to load Image in the same.">
+      <created>1528538908023</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1528538908023</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">

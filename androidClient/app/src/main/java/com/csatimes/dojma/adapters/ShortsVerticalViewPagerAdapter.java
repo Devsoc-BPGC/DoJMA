@@ -2,14 +2,17 @@ package com.csatimes.dojma.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ShortsItem;
+import com.csatimes.dojma.models.Tag;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.viewpager.widget.PagerAdapter;
+
+import static com.csatimes.dojma.aboutapp.AboutAppActivity.TAG;
 
 public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
@@ -40,6 +45,7 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "ShortsAdapter:onChildAdded:" + dataSnapshot.getKey());
                 ShortsItem shortsItem = dataSnapshot.getValue(ShortsItem.class);
 
                 mShortsItems.add(shortsItem);
@@ -49,6 +55,7 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d(TAG, "ShortsAdapter:onChildChanged:" + dataSnapshot.getKey());
                 ShortsItem shortsItem = dataSnapshot.getValue(ShortsItem.class);
                 String shortsKey = dataSnapshot.getKey();
 
@@ -61,6 +68,7 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "ShortsAdapter:onChildRemoved:" + dataSnapshot.getKey());
                 String shortsKey = dataSnapshot.getKey();
 
                 int shortsIndex = mShortsKeys.indexOf(shortsKey);
@@ -73,12 +81,14 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                Log.d(TAG, "ShortsAdapter:onChildMoved" + dataSnapshot.getKey());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.w(TAG, "ShortsAdapter:onCancelled", databaseError.toException());
+                Toast.makeText(mContext, "Failed to load card.",
+                        Toast.LENGTH_SHORT).show();
             }
         };
 
