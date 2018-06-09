@@ -43,7 +43,7 @@
     <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search DoJMA App</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
-    <string name="menu_main_about_app">About MAC</string>
+    <string name="menu_main_about_app">About App</string>
     <string name="menu_main_shareapp">Share App</string>
     <string name="menu_main_refresh">Refresh</string>
     <string name="menu_main_shorts">CampusWatch</string>

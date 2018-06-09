@@ -8,7 +8,7 @@
     android:background="?defaultBackground"
     android:fitsSystemWindows="true"
 
-    tools:context="com.csatimes.dojma.activities.OfflineSimpleViewerActivity">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

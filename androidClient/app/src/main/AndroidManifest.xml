@@ -26,8 +26,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
+        tools:replace="android:allowBackup,android:name,android:theme"
         android:theme="@style/AppTheme">
+        <activity android:name=".aboutapp.AboutAppActivity" />
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -66,17 +67,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.activities.MainActivity" />
         </activity>
-        <activity
-            android:name=".activities.AboutUsActivity"
-            android:label="@string/title_activity_about_us"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppThemeNoActionBar">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-
         <service
             android:name=".services.UpdateCheckerService"
             android:exported="false" />
@@ -102,15 +92,6 @@
             android:name=".activities.UtilitiesLinksActivity"
             android:label="Links"
             android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csatimes.dojma.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.OfflineSimpleViewerActivity"
-            android:label="@string/title_activity_offline_simple_viewer"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.activities.MainActivity" />

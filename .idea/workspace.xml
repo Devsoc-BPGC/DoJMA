@@ -1,11 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f027b034-10b5-4576-8308-c60410ae95db" name="Default" comment="AndroidClient:&#10;Bottom NavBar added.&#10;Overflow Menu added.&#10;Favouries and Issues Fragments updated to funtionality.">
+    <list default="true" id="f027b034-10b5-4576-8308-c60410ae95db" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/AboutAppActivity.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/AndroidAppAdapter.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/AndroidAppVh.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/MacApi.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/PersonAdapter.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/PersonVh.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/SocialAdapter.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/aboutapp/SocialLinkVh.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/AndroidApp.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/Person.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/SocialLink.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/FirebaseKeys.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable-hdpi-v11/ic_close.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable-hdpi-v11/ic_contact.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable-hdpi-v11/ic_mac.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable-hdpi-v11/ic_public.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable/shorts_card_back.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/drawable/shorts_image_frame.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_about_app.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/vh_android_app.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/vh_person.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/vh_social.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/build.gradle" afterPath="$PROJECT_DIR$/androidClient/app/build.gradle" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/AndroidManifest.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/DoJMA.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/DoJMA.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/AboutUsActivity.java" afterPath="" />
       <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/MainActivity.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/MainActivity.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/OfflineSimpleViewerActivity.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ContributorsAdapter.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/SearchAdapter.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/SearchAdapter.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/adapters/ShortsVerticalViewPagerAdapter.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/EventsFragment.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/EventsFragment.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/HeraldSearchViewHolder.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/HeraldSearchViewHolder.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/OnItemClickedListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/OnLikeClickedListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/OnScrollUpdateListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/herald/OnShareClickedListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/interfaces/GestureSettingsSetupListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/interfaces/ItemTouchHelperAdapter.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/interfaces/OnTitleUpdateListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/issues/IssuesActivity.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/issues/IssuesActivity.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/HeraldItem.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/models/HeraldItem.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/services/KeepAliveService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/Browser.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/Browser.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/CircleImageDrawable.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/CircleImageDrawable.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/CustomTabActivityHelper.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/CustomTabHelper.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/GestureSettingsMenu.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/ScrollAwareFABBehavior.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/SimpleAlertDialog.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/utilities/StackTransformer.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/viewholders/ContributorsViewHolder.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/viewholders/LinkItemViewHolder.java" afterPath="$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/viewholders/LinkItemViewHolder.java" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_about_dojma.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_about_dojma.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_about_us.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_article_viewer.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_article_viewer.xml" />
       <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_home.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_issues.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_issues.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_offline_simple_viewer.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_offline_simple_viewer.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_about_us.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_mess_menus.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_mess_menus.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_offline_simple_viewer.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_offline_simple_viewer.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/content_postdownloader.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_postdownloader.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_contact.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_contact.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_event.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_event.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_herald.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_herald.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_search_herald.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/item_format_search_herald.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/viewholder_shorts.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/layout/viewholder_shorts.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/values/attrs.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/values/attrs.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/values/colors.xml" />
       <change beforePath="$PROJECT_DIR$/androidClient/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/androidClient/app/src/main/res/values/strings.xml" />
+      <change beforePath="$PROJECT_DIR$/androidClient/build.gradle" afterPath="$PROJECT_DIR$/androidClient/build.gradle" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,7 +149,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/androidClient" />
     <property name="android.project.structure.last.selected" value="Project" />
     <property name="android.project.structure.proportion" value="0.15" />
   </component>
@@ -252,7 +322,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527489124431</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="CampusWatch Added">
+      <created>1528452487679</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1528452487679</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -264,7 +341,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32792208" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32792208" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -296,7 +373,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="AndroidClient:&#10;Bottom NavBar added.&#10;Overflow Menu added.&#10;Favouries and Issues Fragments updated to funtionality." />
-    <option name="LAST_COMMIT_MESSAGE" value="AndroidClient:&#10;Bottom NavBar added.&#10;Overflow Menu added.&#10;Favouries and Issues Fragments updated to funtionality." />
+    <MESSAGE value="CampusWatch Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="CampusWatch Added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -317,21 +395,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/favouritesfragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="79" column="13" lean-forward="false" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/favouritesfragment.java" />
     <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_home.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/BaseActivity.java">
@@ -348,13 +420,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/favouritesfragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="79" column="13" lean-forward="false" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/fragments/favouritesfragment.java" />
     <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2484">
@@ -363,13 +429,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/res/layout/activity_home.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/androidClient/app/src/main/java/com/csatimes/dojma/activities/BaseActivity.java">

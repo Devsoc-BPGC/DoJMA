@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.activities.BaseActivity;
@@ -34,12 +33,7 @@ public class IssuesActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             if (category != null) getSupportActionBar().setTitle(category);
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         final RecyclerView favRv = findViewById(R.id.rv_issues_activity);
 
         final HeraldAdapter mHeraldAdapter = new HeraldAdapter(this);
