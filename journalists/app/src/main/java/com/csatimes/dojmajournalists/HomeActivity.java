@@ -8,13 +8,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-  private   TextView tv;
-  private   Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button btn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
-        tv = findViewById(R.id.tv);
         btn = findViewById(R.id.btn);
 
         View.OnClickListener listener = new View.OnClickListener() {
