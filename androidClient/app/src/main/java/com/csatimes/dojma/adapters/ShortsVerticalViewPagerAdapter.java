@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ShortsItem;
-import com.csatimes.dojma.models.Tag;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
