@@ -15,8 +15,16 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="0"
         android:title="@string/menu_main_search_title"
-        app:showAsAction="ifRoom"
-        android:showAsAction="ifRoom"
+        app:showAsAction="always"
+        android:showAsAction="always"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/action_shorts"
+        android:title="@string/menu_main_shorts"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        app:showAsAction="always"
+        android:icon="@drawable/article_icon"
         tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/action_about_dojma"

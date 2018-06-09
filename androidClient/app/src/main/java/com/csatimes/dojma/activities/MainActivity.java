@@ -93,6 +93,10 @@ public class MainActivity extends BaseActivity
                 intent = new Intent(this, SearchableActivity.class);
                 break;
             }
+            case R.id.action_shorts:
+                intent = new Intent(this, ShortsActivity.class);
+                startActivity(intent);
+                return true;
             default: {
                 return super.onOptionsItemSelected(item);
             }

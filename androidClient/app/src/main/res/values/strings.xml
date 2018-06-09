@@ -11,6 +11,8 @@
     <string name="title_activity_about_us">About</string>
     <string name="title_activity_favourites">Favourites</string>
     <string name="title_activity_searchable">Search DoJMA</string>
+    <string name="title_activity_shorts">CampusWatch</string>
+
 
 
     <string name="menu_enable_pan">Pan</string>
@@ -42,6 +44,9 @@
     <string name="menu_main_search_title">Search DoJMA App</string>
     <string name="menu_main_about_dojma">About DoJMA</string>
     <string name="menu_main_about_app">About App</string>
+    <string name="menu_main_shareapp">Share App</string>
+    <string name="menu_main_refresh">Refresh</string>
+    <string name="menu_main_shorts">CampusWatch</string>
 
 
     <string name="shortcut_events_short_label">Events</string>
