@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,17 +24,17 @@ import java.util.Calendar;
 
 public class AddEventActivity extends AppCompatActivity  {
 
-    private   Button addBtn;
+
     private EditText eventTitle, eventDescription, eventTime, eventDate, eventLocation;
-    private   DatabaseReference databaseReference;
+    private DatabaseReference databaseReference;
     private Calendar c = Calendar.getInstance();
     private int Year = c.get(Calendar.YEAR);
-    private   int Month = c.get(Calendar.MONTH);
+    private int Month = c.get(Calendar.MONTH);
     private int Day = c.get(Calendar.DAY_OF_MONTH);
-    private   DatePickerDialog dpd;
-    //   SaveData saveData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button addBtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addevent_activity);
         eventTitle = findViewById(R.id.title);
@@ -60,6 +61,7 @@ public class AddEventActivity extends AppCompatActivity  {
                     dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            Log.i("AlertDialog","Message Received");
                         }
                     });
                     final AlertDialog alert = dialog.create();
@@ -95,6 +97,7 @@ public class AddEventActivity extends AppCompatActivity  {
         eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DatePickerDialog dpd;
                 dpd = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
