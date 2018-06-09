@@ -18,25 +18,49 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/shorts_card_back">
 
-                <ImageView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageview_shorts"
-                    android:scaleType="centerCrop"/>
+                    android:layout_height="300dp"
+                    android:padding="5dp">
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:id="@+id/draweeview_shorts"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/shorts_image_frame"/>
+
+                </FrameLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textview_title_shorts"
                     android:textAlignment="center"
-                    android:textSize="50sp"/>
+                    android:textSize="40sp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="3dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textSize="14sp"
+                    android:id="@+id/textview_timestamp_shorts"
+                    android:padding="5dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textview_subtitle_shorts"
                     android:textAlignment="center"
-                    android:textSize="30sp"/>
+                    android:textSize="18sp"
+                    android:padding="5dp"/>
+
 
             </LinearLayout>
 

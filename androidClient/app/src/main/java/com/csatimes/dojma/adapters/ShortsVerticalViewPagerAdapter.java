@@ -1,6 +1,7 @@
 package com.csatimes.dojma.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ShortsItem;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,9 +25,6 @@ import androidx.viewpager.widget.PagerAdapter;
 
 public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
-    String mTitleResources[] = {"Title 1", "Title 2", "Title 3", "Title 4", "Title 5"};
-    String mSubtitleResources[] = {"Short Sample text 1!", "Short Sample text 2!", "Short Sample text 3!", "Short Sample text 4!", "Short Sample text 5!"};
-    String mImageResources[] = {};
     Context mContext;
     LayoutInflater mLayoutInflater;
     String ref = "campusWatch";
@@ -107,14 +106,17 @@ public class ShortsVerticalViewPagerAdapter extends PagerAdapter {
 
         TextView title = (TextView) itemView.findViewById(R.id.textview_title_shorts);
         TextView subtitle = (TextView) itemView.findViewById(R.id.textview_subtitle_shorts);
+        TextView timestamp = (TextView) itemView.findViewById(R.id.textview_timestamp_shorts);
 
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_shorts);
+        SimpleDraweeView draweeView = (SimpleDraweeView) itemView.findViewById(R.id.draweeview_shorts);
 
         ShortsItem shortsItem = mShortsItems.get(position);
 
         title.setText(shortsItem.getTitle());
         subtitle.setText(shortsItem.getSubtitle());
-        imageView.setImageResource(R.drawable.bits);
+        timestamp.setText(shortsItem.getTimestamp());
+        Uri uri = Uri.parse(shortsItem.getImageUrl());
+        draweeView.setImageURI(uri);
 
         container.addView(itemView);
 
