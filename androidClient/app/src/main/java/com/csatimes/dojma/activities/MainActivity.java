@@ -13,12 +13,14 @@ import android.view.MenuItem;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.aboutapp.AboutAppActivity;
+import com.csatimes.dojma.campuswatch.ShortsActivity;
 import com.csatimes.dojma.favorites.FavouritesFragment;
 import com.csatimes.dojma.fragments.EventsFragment;
 import com.csatimes.dojma.fragments.Utilities;
 import com.csatimes.dojma.herald.HeraldFragment;
 import com.csatimes.dojma.issues.IssuesFragment;
 import com.csatimes.dojma.models.Person;
+import com.csatimes.dojma.models.ShortsItem;
 import com.csatimes.dojma.services.UpdateCheckerService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -36,11 +38,15 @@ import io.realm.Realm;
 
 import static android.content.Intent.ACTION_SEND;
 import static android.content.Intent.EXTRA_TEXT;
-import static com.csatimes.dojma.models.Person.FIELD_NAME;
+import static com.csatimes.dojma.models.Person.insertContributorsFromFirebase;
+import static com.csatimes.dojma.models.ShortsItem.FIELD_READ;
+import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_PLAINTEXT;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
+import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
 import static com.csatimes.dojma.utilities.FirebaseKeys.CONTRIB;
+import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
 @SuppressLint("GoogleAppIndexingApiWarning")
 public class MainActivity extends BaseActivity
@@ -48,11 +54,19 @@ public class MainActivity extends BaseActivity
 
     private static final String TAG = TAG_PREFIX + MainActivity.class.getSimpleName();
     private final List<Person> contributors = new ArrayList<>(0);
-    private final Realm realm = Realm.getDefaultInstance();
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
+        final Realm realm = Realm.getDefaultInstance();
+        final int unreadCount = realm.where(ShortsItem.class)
+                .equalTo(FIELD_READ, false)
+                .findAll()
+                .size();
+        if (unreadCount == 0) {
+            menu.findItem(R.id.action_shorts).setVisible(false);
+        }
+        realm.close();
         return true;
     }
 
@@ -93,10 +107,10 @@ public class MainActivity extends BaseActivity
                 intent = new Intent(this, SearchableActivity.class);
                 break;
             }
-            case R.id.action_shorts:
+            case R.id.action_shorts: {
                 intent = new Intent(this, ShortsActivity.class);
-                startActivity(intent);
-                return true;
+                break;
+            }
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -113,7 +127,7 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_home);
         final SharedPreferences mPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
 
-        if (mPreferences.getBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), true)) {
+        if (mPreferences.getBoolean(FIRST_INSTALL, true)) {
             final Intent postDlIntent = new Intent(this,
                     POSTDownloaderActivity.class);
             startActivity(postDlIntent);
@@ -129,32 +143,40 @@ public class MainActivity extends BaseActivity
         final BottomNavigationView homeBottomNav = findViewById(R.id.nav_view);
         homeBottomNav.setOnNavigationItemSelectedListener(this);
         contributors.clear();
-        for (final Person c : realm.where(Person.class).findAll()) {
+        final Realm db = Realm.getDefaultInstance();
+        for (final Person c : db.where(Person.class).findAll()) {
             if (c.isContributor) {
-                contributors.add(realm.copyFromRealm(c));
+                contributors.add(db.copyFromRealm(c));
             }
         }
+        db.close();
         FirebaseDatabase.getInstance().getReference()
                 .child(CONTRIB)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(final DataSnapshot dataSnapshot) {
-                        realm.executeTransaction(realm -> {
-                            contributors.clear();
-                            for (final DataSnapshot child :
-                                    dataSnapshot.getChildren()) {
-                                final Person person = child.getValue(Person.class);
-                                final Person oldValue = realm.where(Person.class)
-                                        .equalTo(FIELD_NAME, person.name)
-                                        .findFirst();
-                                if (oldValue != null) {
-                                    person.postName = oldValue.postName;
-                                }
-                                person.isContributor = true;
-                                realm.insertOrUpdate(person);
-                                contributors.add(person);
-                            }
-                        });
+                        contributors.clear();
+                        final Realm db = Realm.getDefaultInstance();
+                        db.executeTransaction(realm ->
+                                contributors.addAll(insertContributorsFromFirebase(dataSnapshot,
+                                        realm)));
+                        db.close();
+                    }
+
+                    @Override
+                    public void onCancelled(final DatabaseError databaseError) {
+                        Log.e(TAG, databaseError.getMessage(), databaseError.toException());
+                    }
+                });
+        FirebaseDatabase.getInstance().getReference(CAMPUS_WATCH).keepSynced(true);
+        FirebaseDatabase.getInstance().getReference(CAMPUS_WATCH)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        final Realm db = Realm.getDefaultInstance();
+                        db.executeTransaction(realm -> saveFirebaseData(dataSnapshot, realm));
+                        db.close();
+                        invalidateOptionsMenu();
                     }
 
                     @Override
@@ -196,5 +218,11 @@ public class MainActivity extends BaseActivity
                 .replace(R.id.home_container, fragment)
                 .commit();
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        invalidateOptionsMenu();
+        super.onPause();
     }
 }

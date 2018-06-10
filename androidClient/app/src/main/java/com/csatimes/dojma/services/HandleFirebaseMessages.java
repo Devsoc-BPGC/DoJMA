@@ -26,6 +26,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+
 public class HandleFirebaseMessages extends FirebaseMessagingService {
 
     private static final int DEFAULT_ID = 42;

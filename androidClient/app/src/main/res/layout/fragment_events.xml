@@ -9,7 +9,7 @@
         android:id="@+id/error_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/message_events_stay_connected"
+        android:text="@string/events_placeholder"
         android:textColor="?customEventsErrorTextColor"
         android:textSize="16sp"
         android:visibility="gone" />

@@ -13,16 +13,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 /**
  * @author Rushikesh Jogdand.
  */
-public class SocialAdapter extends RecyclerView.Adapter<SocialLinkVh>
-        implements RealmChangeListener<RealmResults<SocialLink>> {
+public class SocialAdapter extends RecyclerView.Adapter<SocialLinkVh> {
     private final List<SocialLink> links = new ArrayList<>(0);
-    private final Realm realm = Realm.getDefaultInstance();
     private final Browser browser;
 
     public SocialAdapter(@NonNull final Browser browser) {
@@ -31,7 +27,12 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialLinkVh>
     }
 
     private void getData() {
-        realm.where(SocialLink.class).findAllAsync().addChangeListener(this);
+        final Realm realm = Realm.getDefaultInstance();
+        links.clear();
+        for (final SocialLink link : realm.where(SocialLink.class).findAll()) {
+            links.add(realm.copyFromRealm(link));
+        }
+        realm.close();
     }
 
     @NonNull
@@ -57,16 +58,6 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialLinkVh>
 
     @Override
     public void onDetachedFromRecyclerView(@NonNull final RecyclerView recyclerView) {
-        realm.close();
         super.onDetachedFromRecyclerView(recyclerView);
-    }
-
-    @Override
-    public void onChange(final RealmResults<SocialLink> socialLinks) {
-        links.clear();
-        for (final SocialLink link : socialLinks) {
-            links.add(realm.copyFromRealm(link));
-        }
-        notifyDataSetChanged();
     }
 }

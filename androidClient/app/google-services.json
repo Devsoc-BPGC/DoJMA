@@ -33,6 +33,10 @@
         {
           "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
           "client_type": 3
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -68,6 +72,122 @@
             "package_name": "com.csatimes.dojma.admin",
             "certificate_hash": "d10f53c806bcb7749d6e055c55a0cf8bed02ec00"
           }
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtMrho7B--hAj1UTT7qIAfkcIcDikh4yU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011197336662:android:29813bbe2fc631ac",
+        "android_client_info": {
+          "package_name": "com.csatimes.dojma.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011197336662-b15t4trbm8rf9ta0vaik0usehfs8ab8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojma.debug",
+            "certificate_hash": "506cc66679f84c1e583cb61b04e321c6f3b42b45"
+          }
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtMrho7B--hAj1UTT7qIAfkcIcDikh4yU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011197336662:android:0fda1636780383cc",
+        "android_client_info": {
+          "package_name": "com.csatimes.dojmajournalists"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011197336662-h103diti9umf3v3sbo544ibvurtk5q4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojmajournalists",
+            "certificate_hash": "506cc66679f84c1e583cb61b04e321c6f3b42b45"
+          }
+        },
+        {
+          "client_id": "1011197336662-opko670e17uim93j2ptlgg0sjn1kue4p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojmajournalists",
+            "certificate_hash": "97830058aca35c734c7fe7368c5e9c0a4504fae8"
+          }
+        },
+        {
+          "client_id": "1011197336662-quotc9arkgh76hn9hf1qksnrenmpdr7n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojmajournalists",
+            "certificate_hash": "691c9e26f5d642b23fe6899c9a699cd2645fd639"
+          }
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",

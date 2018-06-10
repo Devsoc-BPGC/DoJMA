@@ -13,15 +13,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmResults;
 
 /**
  * @author Rushikesh Jogdand.
  */
-public class AndroidAppAdapter extends RecyclerView.Adapter<AndroidAppVh>
-        implements RealmChangeListener<RealmResults<AndroidApp>> {
-    private final Realm realm = Realm.getDefaultInstance();
+public class AndroidAppAdapter extends RecyclerView.Adapter<AndroidAppVh> {
     private final Browser browser;
     private final List<AndroidApp> apps = new ArrayList<>(0);
 
@@ -31,7 +27,11 @@ public class AndroidAppAdapter extends RecyclerView.Adapter<AndroidAppVh>
     }
 
     private void getData() {
-        realm.where(AndroidApp.class).findAllAsync().addChangeListener(this);
+        final Realm realm = Realm.getDefaultInstance();
+        for (final AndroidApp app : realm.where(AndroidApp.class).findAll()) {
+            apps.add(realm.copyFromRealm(app));
+        }
+        realm.close();
     }
 
     @NonNull
@@ -54,14 +54,5 @@ public class AndroidAppAdapter extends RecyclerView.Adapter<AndroidAppVh>
     @Override
     public int getItemCount() {
         return apps.size();
-    }
-
-    @Override
-    public void onChange(final RealmResults<AndroidApp> androidApps) {
-        apps.clear();
-        for (final AndroidApp app : androidApps) {
-            apps.add(realm.copyFromRealm(app));
-        }
-        notifyDataSetChanged();
     }
 }
