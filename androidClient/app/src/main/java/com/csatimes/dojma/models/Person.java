@@ -1,6 +1,5 @@
 package com.csatimes.dojma.models;
 
-import android.provider.ContactsContract;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.gson.annotations.SerializedName;
