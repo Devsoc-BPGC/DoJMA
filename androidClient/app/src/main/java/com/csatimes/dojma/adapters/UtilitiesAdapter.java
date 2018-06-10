@@ -132,14 +132,14 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             utsvh.cardView.setCardBackgroundColor(ContextCompat.getColor(context, messCardColor));
             utsvh.title.setTextColor(ContextCompat.getColor(context, messTitleColor));
             utsvh.subTitle.setTextColor(ContextCompat.getColor(context, messSubTitleColor));
-            utsvh.title.setText(R.string.UTILITIES_MENU_title);
+            utsvh.title.setText(R.string.menus);
             utsvh.subTitle.setText(R.string.UTILITIES_MENU_subtitle);
         } else if (holder.getItemViewType() == MISC) {
             final UtilitiesTitleSubTitleViewHolder utsvh = (UtilitiesTitleSubTitleViewHolder) holder;
             utsvh.cardView.setCardBackgroundColor(ContextCompat.getColor(context, miscCardColor));
             utsvh.title.setTextColor(ContextCompat.getColor(context, miscTitleColor));
             utsvh.subTitle.setTextColor(ContextCompat.getColor(context, miscSubTitleColor));
-            utsvh.title.setText(R.string.UTILITIES_MISC_title);
+            utsvh.title.setText(R.string.miscellaneous);
             utsvh.subTitle.setText(message);
         }
     }

@@ -52,9 +52,6 @@
             </intent-filter>
 
             <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-            <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".Searchable" />
         </activity>
@@ -125,7 +122,7 @@
         </activity>
         <activity
             android:name=".activities.AboutDojmaActivity"
-            android:label="@string/title_activity_about_dojma"
+            android:label="@string/about_dojma"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -195,9 +192,8 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.ShortsActivity"
-            android:label="@string/title_activity_shorts"
-            android:launchMode="singleTop"
+            android:name=".campuswatch.ShortsActivity"
+            android:label="@string/campus_watch"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>

@@ -3,71 +3,37 @@
     <string name="search_dojma">Search articles, events, contacts</string>
 
     <string name="action_settings">Settings</string>
-    <string name="USER_PREFERENCES_FIRST_INSTALL">FIRST_TIME_INSTALL</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
 
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_about_us">About</string>
     <string name="title_activity_favourites">Favourites</string>
     <string name="title_activity_searchable">Search DoJMA</string>
-    <string name="title_activity_shorts">CampusWatch</string>
 
-
-
-    <string name="menu_enable_pan">Pan</string>
-    <string name="menu_enable_zoom">Zoom</string>
-    <string name="menu_enable_rotation">Rotation</string>
-    <string name="menu_restrict_rotation">Restrict rotation</string>
-    <string name="menu_enable_overscroll_x">Overscroll X</string>
-    <string name="menu_enable_overscroll_y">Overscroll Y</string>
-    <string name="menu_enable_overzoom">Overzoom</string>
-    <string name="menu_fit_viewport">Fit viewport</string>
-    <string name="menu_fit_method">Fit method</string>
-    <string name="menu_gravity">Gravity</string>
-
-    \
-
-
-    <string name="title_activity_offline_simple_viewer">Offline View</string>
     <string name="title_activity_postdownloader">POSTDownloaderActivity</string>
     <string name="PREFERENCE_general_night_mode">pref_general_night_mode</string>
     <string name="PREFERENCE_general">pref_key_general</string>
     <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
     <string name="app_version">Version 2</string>
-    <string name="title_activity_maps">BITS Pilani K K Birla Goa Campus</string>
-    <string name="title_activity_about_dojma">About DoJMA</string>
+    <string name="title_activity_maps">BITS Goa Campus Map</string>
+    <string name="about_dojma">About DoJMA</string>
     <string name="title_activity_mess_menus">Menus</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
     <string name="share_prompt">share via … </string>
-    <string name="message_events_stay_connected">Stay connected for latest updates on events</string>
+    <string name="events_placeholder">Stay connected for latest updates on events</string>
     <string name="menu_main_search_title">Search DoJMA App</string>
-    <string name="menu_main_about_dojma">About DoJMA</string>
-    <string name="menu_main_about_app">About App</string>
-    <string name="menu_main_shareapp">Share App</string>
-    <string name="menu_main_refresh">Refresh</string>
-    <string name="menu_main_shorts">CampusWatch</string>
+    <string name="about_app">About App</string>
+    <string name="campus_watch">Campus Watch</string>
 
 
-    <string name="shortcut_events_short_label">Events</string>
-    <string name="shortcut_events_long_label">Events</string>
-    <string name="shortcut_events_disabled_label">Events</string>
-
-    <string name="shortcut_utilities_short_label">Utils</string>
-    <string name="shortcut_utilities_long_label">Utilities</string>
-    <string name="shortcut_utilities_disabled_label">Utilities</string>
     <string name="transition_utilities">utilities_transition</string>
-    <string name="UTILITIES_MISC_title">Miscellaneous</string>
+    <string name="miscellaneous">Miscellaneous</string>
     <string name="UTILITIES_MISC_subtitle">Click here to get all important notifications! Updating needs an active internet connection</string>
     <string name="UTILITIES_CONTACTS_TAXI_title">Taxis Info</string>
     <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
-    <string name="UTILITIES_MENU_title">Menus</string>
+    <string name="menus">Menus</string>
     <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
-    <string name="item_format_herald_desc">Desc</string>
-    <string name="item_format_herald_date">Date</string>
-    <string name="item_format_herald_title">Title</string>
-    <string name="menu_main_refresh_herald">Refresh</string>
-    <string name="share_app">Share App</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_share_app">Share App</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="herald">Herald</string>
     <string name="issues">Issues</string>

@@ -62,6 +62,7 @@ import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_INTENT_PAGES;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
+import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
 public class POSTDownloaderActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -97,7 +98,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         @Override
         public void onReceive(final Context context, Intent intent) {
             if (intent.getAction().equals(UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS)) {
-                mEditor.putBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), false);
+                mEditor.putBoolean(FIRST_INSTALL, false);
                 mEditor.apply();
                 QUOTA_TOTAL += QUOTA_UPDATE_SERVICE;
                 mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
@@ -470,7 +471,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         switch (id) {
             case R.id.content_post_downloader_start_btn:
                 Intent intent = new Intent(this, MainActivity.class);
-                mEditor.putBoolean(getString(R.string.USER_PREFERENCES_FIRST_INSTALL), false);
+                mEditor.putBoolean(FIRST_INSTALL, false);
                 mEditor.apply();
                 Intent updateIntent = new Intent(this, UpdateCheckerService.class);
                 updateIntent.putExtra(UPDATE_SERVICE_INTENT_PAGES, UPDATE_SERVICE_HERALD_DEFAULT_PAGES);

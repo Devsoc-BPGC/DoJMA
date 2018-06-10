@@ -26,6 +26,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import static com.csatimes.dojma.utilities.FirebaseKeys.MSG_TYPE_CAMPUS_WATCH;
+
 public class HandleFirebaseMessages extends FirebaseMessagingService {
 
     private static final int DEFAULT_ID = 42;
