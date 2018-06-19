@@ -1,139 +1,138 @@
 package com.csatimes.dojmajournalists;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
-public class AddEventActivity extends AppCompatActivity  {
+import androidx.appcompat.app.AppCompatActivity;
 
+import static com.csatimes.dojmajournalists.FirebaseKeys.NODE_EVENTS;
+import static com.csatimes.dojmajournalists.Jhc.getFirebaseRef;
 
-    private EditText eventTitle, eventDescription, eventTime, eventDate, eventLocation;
-    private DatabaseReference databaseReference;
-    private Calendar c = Calendar.getInstance();
-    private int Year = c.get(Calendar.YEAR);
-    private int Month = c.get(Calendar.MONTH);
-    private int Day = c.get(Calendar.DAY_OF_MONTH);
+public class AddEventActivity extends AppCompatActivity {
+    private final DatabaseReference databaseReference = getFirebaseRef().child(NODE_EVENTS);
+    private EditText eventTitle;
+    private EditText eventDescription;
+    private Button eventTime;
+    private Button eventDate;
+    private EditText eventLocation;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Button addBtn;
+    protected void onCreate(final Bundle savedInstanceState) {
+        final Button addBtn;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addevent_activity);
+        setContentView(R.layout.activity_add_event);
         eventTitle = findViewById(R.id.title);
+        eventTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(final CharSequence c, final int i,
+                                          final int i1, final int i2) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence c, final int i,
+                                      final int i1, final int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(final Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    eventTitle.setError(getString(R.string.required));
+                } else {
+                    eventTitle.setError(null);
+                }
+            }
+        });
         eventDescription = findViewById(R.id.desc);
         eventTime = findViewById(R.id.time);
         eventDate = findViewById(R.id.date);
         eventLocation = findViewById(R.id.location);
         addBtn = findViewById(R.id.add);
 
-        //getting time and date
-        setDatePickerDialog();
-        setTimePickerDialog();
+        eventDate.setOnClickListener(v -> {
+            eventDate.setError(null);
+            final DatePickerDialog dpd;
+            final Calendar c = Calendar.getInstance();
+            final int currentYear = c.get(Calendar.YEAR);
+            final int currentMonth = c.get(Calendar.MONTH);
+            final int currentDate = c.get(Calendar.DAY_OF_MONTH);
+            dpd = new DatePickerDialog(AddEventActivity.this,
+                    (view, year, month, dayOfMonth) ->
+                            eventDate.setText(String.format(Locale.ENGLISH, "%02d%02d%04d",
+                                    dayOfMonth, month, year)),
+                    currentYear,
+                    currentMonth,
+                    currentDate);
+            dpd.setTitle("Select Date");
+            dpd.show();
+        });
+        eventTime.setOnClickListener(v -> {
+            eventTime.setError(null);
+            final Calendar c = Calendar.getInstance();
+            final int hour = c.get(Calendar.HOUR_OF_DAY);
+            final int minute = c.get(Calendar.MINUTE);
+            final TimePickerDialog tpd = new TimePickerDialog(AddEventActivity.this,
+                    (view, hourOfDay, min) ->
+                            eventTime.setText(new DecimalFormat("00").format(hourOfDay) +
+                                    new DecimalFormat("00").format(min)), hour, minute, true);
+            tpd.setTitle(getString(R.string.select_time));
+            tpd.show();
+        });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("events2");
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(eventTitle.getText().toString().isEmpty()  || eventDescription.getText().toString().isEmpty() || eventTime.getText().toString().isEmpty() || eventDate.getText().toString().isEmpty() || eventLocation.getText().toString().isEmpty())
-                {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(AddEventActivity.this);
-                    dialog.setCancelable(false);
-                    dialog.setTitle("WAIT!");
-                    dialog.setMessage("Please ensure you fill all the entries." );
-                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Log.i("AlertDialog","Message Received");
-                        }
-                    });
-                    final AlertDialog alert = dialog.create();
-                    alert.show();
-                }
+        addBtn.setOnClickListener(view -> {
+            boolean areRequiredFieldsSet = true;
 
-                else {
-                    addData();
-                    Intent intent = new Intent(AddEventActivity.this,HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            if (eventTitle.getText().toString().isEmpty()) {
+                eventTitle.setError(getString(R.string.required));
+                areRequiredFieldsSet = false;
             }
 
-        };
-        addBtn.setOnClickListener(listener);
+            if (!eventDate.getText().toString().matches("[0-9]{8}")) {
+                eventDate.setError(getString(R.string.required));
+                areRequiredFieldsSet = false;
+            }
+
+            if (!eventTime.getText().toString().matches("[0-9]{4}")) {
+                eventTime.setError(getString(R.string.required));
+                areRequiredFieldsSet = false;
+            }
+
+            if (areRequiredFieldsSet) {
+                addData();
+            }
+        });
     }
+
     public void addData() {
-
-        String id = databaseReference.push().getKey();
-        databaseReference.child(id).child("title").setValue(eventTitle.getText().toString());
-        databaseReference.child(id).child("desc").setValue(eventDescription.getText().toString());
-        databaseReference.child(id).child("startTime").setValue(eventTime.getText().toString());
-        databaseReference.child(id).child("startDate").setValue(eventDate.getText().toString());
-        databaseReference.child(id).child("location").setValue(eventLocation.getText().toString());
-        Toast.makeText(AddEventActivity.this, "Added to Events!", Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void setDatePickerDialog(){
-
-        eventDate.setKeyListener(null);
-        eventDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog dpd;
-                dpd = new DatePickerDialog(AddEventActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        eventDate.setText(String.format(new DecimalFormat("00").format(dayOfMonth) + new DecimalFormat("00").format(month) + new DecimalFormat("00").format(year)));
-                    }
-                },Year,Month,Day);
-                dpd.setTitle("Select Date");
-                dpd.show();
+        final String id = databaseReference.push().getKey();
+        final Event event = new Event(eventTitle.getText().toString(),
+                eventDescription.getText().toString(),
+                eventTime.getText().toString(),
+                eventDate.getText().toString(),
+                eventLocation.getText().toString());
+        databaseReference.child(id).setValue(event).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(AddEventActivity.this,
+                        R.string.event_added, Toast.LENGTH_SHORT).show();
+                final Intent intent = new Intent(AddEventActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(AddEventActivity.this, "Could not add event", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
     }
-
-
-    public void setTimePickerDialog(){
-
-        eventTime.setKeyListener(null);
-        eventTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int Hour = c.get(Calendar.HOUR_OF_DAY);
-                int Minute = c.get(Calendar.MINUTE);
-                final TimePickerDialog tpd = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        eventTime.setText(new DecimalFormat("00").format(hourOfDay) + new DecimalFormat("00").format(minute));
-                    }
-
-                },Hour,Minute,true);
-                tpd.setTitle("Select Time");
-                tpd.show();
-            }
-        });
-    }
-
 }
-
-
-

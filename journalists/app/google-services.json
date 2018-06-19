@@ -107,6 +107,54 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1011197336662:android:29813bbe2fc631ac",
+        "android_client_info": {
+          "package_name": "com.csatimes.dojma.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011197336662-b15t4trbm8rf9ta0vaik0usehfs8ab8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojma.debug",
+            "certificate_hash": "506cc66679f84c1e583cb61b04e321c6f3b42b45"
+          }
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtMrho7B--hAj1UTT7qIAfkcIcDikh4yU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1011197336662:android:0fda1636780383cc",
         "android_client_info": {
           "package_name": "com.csatimes.dojmajournalists"
@@ -135,6 +183,54 @@
           "android_info": {
             "package_name": "com.csatimes.dojmajournalists",
             "certificate_hash": "691c9e26f5d642b23fe6899c9a699cd2645fd639"
+          }
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtMrho7B--hAj1UTT7qIAfkcIcDikh4yU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011197336662-jlhaou1l0lmcmc94651bocjmm0v5omr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011197336662:android:e7e3afc958301cb2",
+        "android_client_info": {
+          "package_name": "com.csatimes.dojmajournalists.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011197336662-f45ggmuocq6dals5e49qbu7cciqthtso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.csatimes.dojmajournalists.debug",
+            "certificate_hash": "506cc66679f84c1e583cb61b04e321c6f3b42b45"
           }
         },
         {
