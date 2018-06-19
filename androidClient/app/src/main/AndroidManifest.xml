@@ -26,8 +26,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity android:name=".aboutapp.AboutAppActivity" />
         <activity
             android:name=".activities.MainActivity"
@@ -64,9 +64,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.csatimes.dojma.activities.MainActivity" />
         </activity>
+
         <service
             android:name=".services.UpdateCheckerService"
             android:exported="false" />
+
         <receiver
             android:name=".services.CopyLinkBroadcastReceiver"
             android:enabled="true" />
@@ -190,7 +192,6 @@
         <activity
             android:name=".articles.ArticleViewerActivity"
             android:exported="false" />
-
         <activity
             android:name=".campuswatch.ShortsActivity"
             android:label="@string/campus_watch"
@@ -200,7 +201,9 @@
                 <action android:name="android.intent.action.SHORTS" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".issues.PagerFragmentIssue" />
+        <activity android:name=".issues.IssuePagerFragment" />
+        <activity android:name=".issues.CategoryFragment"></activity>
     </application>
 
 </manifest>

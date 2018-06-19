@@ -65,9 +65,14 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.9.0'
     implementation 'com.facebook.fresco:webpsupport:1.9.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14-RC1'
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     debugImplementation 'com.amitshekhar.android:debug-db:0.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    implementation 'com.android.support:support-v4:28.0.0-alpha3'
 }
 
 apply plugin: 'com.google.gms.google-services'
