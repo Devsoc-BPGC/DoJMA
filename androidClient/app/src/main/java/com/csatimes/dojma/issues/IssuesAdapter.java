@@ -12,6 +12,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -62,6 +63,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssueVh>
         final RealmResults<HeraldItem> res = realm.where(HeraldItem.class)
                 .distinct(HeraldItem.CATEGORY)
                 .sort(HeraldItem.CATEGORY, Sort.ASCENDING)
+                .contains(HeraldItem.CATEGORY,"issue", Case.INSENSITIVE)
                 .findAllAsync();
         res.addChangeListener(this);
     }

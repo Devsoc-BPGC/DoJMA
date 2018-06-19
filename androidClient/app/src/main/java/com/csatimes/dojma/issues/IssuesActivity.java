@@ -2,6 +2,7 @@ package com.csatimes.dojma.issues;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -40,7 +41,7 @@ public class IssuesActivity extends BaseActivity {
         mHeraldAdapter.setCategory(category);
         favRv.setLayoutManager(new LinearLayoutManager(this));
         favRv.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
-
+        Log.d("devtag",category);
         favRv.setAdapter(mHeraldAdapter);
     }
 
