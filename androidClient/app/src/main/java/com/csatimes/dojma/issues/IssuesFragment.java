@@ -39,7 +39,7 @@ public class IssuesFragment extends Fragment {
             creator.add(category, CategoryFragment.class, args);
         }
         final FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getActivity().getSupportFragmentManager(), creator.create()
+                getChildFragmentManager(), creator.create()
         );
 
         viewPager.setAdapter(adapter);
