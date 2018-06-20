@@ -68,6 +68,8 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:0.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'
