@@ -12,11 +12,9 @@ import com.csatimes.dojma.R;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.getGridSpan;
 
