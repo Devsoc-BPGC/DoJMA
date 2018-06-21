@@ -7,43 +7,39 @@
     android:background="@color/colorAccentFaint"
     tools:context=".campuswatch.ShortsActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_back"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:elevation="8dp"
-        android:src="@drawable/ic_arrow_back"
-        android:tint="@color/colorPrimary"
-        app:elevation="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pressedTranslationZ="4dp" />
+        android:id="@+id/shorts_appbar"
+        android:elevation="9dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_done"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:elevation="8dp"
-        android:src="@drawable/ic_done_all"
-        android:tint="@color/colorPrimary"
-        app:elevation="8dp"
-        app:layout_constraintStart_toEndOf="@id/fab_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:pressedTranslationZ="4dp" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="top"
+            android:id="@+id/short_toolbar_collapse"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
+
+            <Toolbar
+                android:id="@+id/shorts_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white_translucent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:titleTextColor="@color/black"
+                app:layout_scrollFlags="scroll|enterAlways|snap"/>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.csatimes.dojma.campuswatch.ShortsVp
         android:id="@+id/vp_shorts"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
+        android:background="@color/black"
         android:elevation="0dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

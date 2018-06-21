@@ -8,12 +8,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:padding="4dp"
+    android:background="@drawable/ic_flash_yellow"
     android:elevation="4dp"
     android:theme="@style/Widget.MaterialComponents.CardView"
-    app:cardCornerRadius="2dp"
-    android:background="@drawable/ic_flash_yellow"
-    app:contentPadding="10dp">
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,55 +20,57 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:padding="5dp">
+            android:layout_height="265dp">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_shorts"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="6dp"
-                fresco:circularImage="true"
-                fresco:roundedCornerRadius="50dp" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/shorts_image_frame" />
+                android:layout_height="match_parent" />
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/tv_title_shorts"
-            style="@style/TextAppearance.AppCompat.Headline"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:paddingTop="3dp"
-            android:text="Hello World!"
-            android:textAlignment="center"
-            android:textSize="40sp" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_timestamp_shorts"
-            style="@style/TextAppearance.AppCompat.Caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="110022"
-            android:textAlignment="viewEnd"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_title_shorts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:lineSpacingExtra="5sp"
+                android:maxLines="2"
+                android:text="Hello World!"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
-        <TextView
-            android:id="@+id/tv_content"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Wow wow wow!"
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:lineSpacingExtra="5sp"
+                android:text="Wow wow wow!"
+                android:textColor="@color/grey800"
+                android:maxLines="12"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_timestamp_shorts"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/grey600"
+                android:fontFamily="@font/roboto_light"
+                android:text="March 16, 2018"
+                android:textSize="10sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
