@@ -155,10 +155,8 @@ public class UpdateCheckerService extends IntentService {
                                         entry.setOriginalTime(post.getString("date").substring(11));
 
                                         try {
-                                            String imageUrl = post.getString("thumbnail");
-                                            if (imageUrl == null)
-                                                imageUrl = post.getJSONObject("thumbnail_images").getJSONObject
-                                                        ("thumbnail").getString("url");
+                                            String imageUrl = post.getJSONObject("thumbnail_images").getJSONObject
+                                                        ("full").getString("url");
                                             if (imageUrl == null)
                                                 imageUrl = post.getJSONObject("attachments").getJSONObject("images").getJSONObject("large").getString("url");
                                             entry.setThumbnailUrl(imageUrl);

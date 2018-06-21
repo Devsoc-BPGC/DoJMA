@@ -4,39 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_format_herald_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:placeholderImage="@drawable/thumb_placeholder"
+        app:roundedCornerRadius="5dp" />
+
     <TextView
         android:id="@+id/item_format_herald_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:maxLines="2"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="3"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textColor="?customHeraldTitleTextColor"
         android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_herald_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/item_format_herald_image" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/item_format_herald_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+    <ImageButton
+        android:id="@+id/item_format_herald_share"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@color/transparent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:placeholderImage="@drawable/article_icon"
-        app:roundAsCircle="true" />
+        app:layout_constraintTop_toBottomOf="@+id/item_format_herald_title"
+        app:srcCompat="@drawable/ic_share" />
 
     <com.like.LikeButton
         android:id="@+id/item_format_herald_heart"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_marginTop="8dp"
         app:anim_scale_factor="2.5"
         app:circle_end_color="@color/likeCircleEnd"
         app:circle_start_color="@color/likeCircleStart"
@@ -44,51 +51,29 @@
         app:dots_secondary_color="@color/likeDotsColorSecondary"
         app:icon_size="22dp"
         app:icon_type="heart"
-        app:layout_constraintLeft_toLeftOf="@+id/item_format_herald_image"
-        app:layout_constraintTop_toBottomOf="@+id/item_format_herald_image"
+        app:layout_constraintRight_toLeftOf="@id/item_format_herald_share"
+        app:layout_constraintTop_toBottomOf="@+id/item_format_herald_title"
         app:liked="false" />
-
-    <ImageButton
-        android:id="@+id/item_format_herald_share"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/item_format_herald_heart"
-        app:layout_constraintRight_toRightOf="@+id/item_format_herald_image"
-        app:layout_constraintTop_toTopOf="@+id/item_format_herald_heart"
-        app:srcCompat="@drawable/ic_share" />
 
     <TextView
         android:id="@+id/item_format_herald_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_regular"
         android:maxLines="1"
+        android:paddingStart="16dp"
         android:textColor="?customHeraldDateTextColor"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_herald_image"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/item_format_herald_title" />
-
-    <TextView
-        android:id="@+id/item_format_herald_desc"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintTop_toBottomOf="@id/item_format_herald_date"
+        android:background="@color/grey600"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:gravity="fill"
-        android:maxLines="3"
-        android:paddingBottom="4dp"
-        android:textColor="?customHeraldDescTextColor"
-        app:layout_constraintBottom_toBottomOf="@+id/item_format_herald_heart"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/item_format_herald_image"
-        app:layout_constraintTop_toBottomOf="@+id/item_format_herald_date" />
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="12dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

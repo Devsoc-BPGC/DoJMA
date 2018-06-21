@@ -12,11 +12,9 @@ import com.csatimes.dojma.herald.HeraldAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 
 public class CategoryFragment extends Fragment {
@@ -45,7 +43,6 @@ public class CategoryFragment extends Fragment {
             Log.e(TAG, "Got no category", new Throwable().fillInStackTrace());
         }
         favRv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        favRv.addItemDecoration(new DividerItemDecoration(getActivity().getApplicationContext(), VERTICAL));
         favRv.setAdapter(mHeraldAdapter);
     }
 
