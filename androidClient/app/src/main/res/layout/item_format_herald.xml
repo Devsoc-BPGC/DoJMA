@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/item_format_herald_title" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         app:layout_constraintTop_toBottomOf="@id/item_format_herald_date"
         android:background="@color/grey600"
         android:layout_marginLeft="16dp"
