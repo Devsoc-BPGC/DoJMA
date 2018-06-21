@@ -38,9 +38,6 @@ public class HeraldFragment extends Fragment {
         heraldRv = view.findViewById(R.id.fragment_herald_rv);
         final Context context = getContext();
         heraldRv.setLayoutManager(new GridLayoutManager(context, getGridSpan()));
-        if (context != null) {
-            heraldRv.addItemDecoration(new DividerItemDecoration(context, VERTICAL));
-        }
     }
 
     @Override

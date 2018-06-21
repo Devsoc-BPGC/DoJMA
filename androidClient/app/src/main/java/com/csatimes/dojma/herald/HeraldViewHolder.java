@@ -32,7 +32,6 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
     private final TextView titleTv;
     private final TextView dateTv;
     private final SimpleDraweeView heraldSdv;
-    private final TextView descTv;
     private final LikeButton favLb;
     private HeraldItem item;
 
@@ -43,7 +42,6 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
         heraldSdv = itemView.findViewById(R.id.item_format_herald_image);
         dateTv = itemView.findViewById(R.id.item_format_herald_date);
         titleTv = itemView.findViewById(R.id.item_format_herald_title);
-        descTv = itemView.findViewById(R.id.item_format_herald_desc);
         favLb = itemView.findViewById(R.id.item_format_herald_heart);
         final ImageButton shareIb = itemView.findViewById(R.id.item_format_herald_share);
 
@@ -94,10 +92,8 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
         heraldSdv.setImageURI(Uri.parse(item.getThumbnailUrl()));
         favLb.setLiked(item.isFav());
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            descTv.setText(Html.fromHtml(item.getExcerpt(), Html.FROM_HTML_MODE_LEGACY));
             titleTv.setText(Html.fromHtml(item.getTitle(), Html.FROM_HTML_MODE_LEGACY));
         } else {
-            descTv.setText(Html.fromHtml(item.getExcerpt()));
             titleTv.setText(Html.fromHtml(item.getTitle()));
         }
     }
