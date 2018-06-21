@@ -12,11 +12,8 @@ import com.csatimes.dojma.herald.HeraldAdapter;
 import com.csatimes.dojma.models.HeraldItem;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
 public class IssuesActivity extends BaseActivity {
 
@@ -39,8 +36,6 @@ public class IssuesActivity extends BaseActivity {
         final HeraldAdapter mHeraldAdapter = new HeraldAdapter(this);
         mHeraldAdapter.setCategory(category);
         favRv.setLayoutManager(new LinearLayoutManager(this));
-        favRv.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
-
         favRv.setAdapter(mHeraldAdapter);
     }
 
