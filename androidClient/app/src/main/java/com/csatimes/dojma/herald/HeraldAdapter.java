@@ -14,6 +14,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -75,7 +76,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldViewHolder>
             query.equalTo(HeraldItem.FAV, true);
         }
         if (category != null) {
-            query.equalTo(HeraldItem.CATEGORY, category);
+            query.equalTo(HeraldItem.CATEGORY, category, Case.INSENSITIVE);
         }
         query.sort(EventItem.FIELD_ORIGINAL_DATE, Sort.DESCENDING);
         final RealmResults<HeraldItem> results = query.findAllAsync();
