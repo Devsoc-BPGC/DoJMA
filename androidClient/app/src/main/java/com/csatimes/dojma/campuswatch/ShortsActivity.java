@@ -14,8 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 public class ShortsActivity extends AppCompatActivity implements OnShortClicked {
-    AppBarLayout appBarLayout;
-    boolean clicked;
+    private AppBarLayout appBarLayout;
+    private boolean clicked;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

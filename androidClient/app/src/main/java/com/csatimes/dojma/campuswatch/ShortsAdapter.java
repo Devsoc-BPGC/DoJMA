@@ -97,7 +97,7 @@ public class ShortsAdapter extends PagerAdapter {
         timestamp.setText(shortsItem.timestamp);
         imageSdv.setImageURI(shortsItem.imageUrl);
         materialCardView.setOnClickListener(view -> {
-            OnClick();
+            onClick();
         });
         container.addView(itemView);
 
@@ -119,7 +119,7 @@ public class ShortsAdapter extends PagerAdapter {
         return view.equals(object);
     }
 
-    private void OnClick() {
+    private void onClick() {
         onShortClicked.onClick();
     }
 }
