@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ShortsItem;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,11 +28,6 @@ import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
 public class ShortsAdapter extends PagerAdapter {
 
     private final List<ShortsItem> shortsItems = new ArrayList<>(0);
-    private OnShortClicked onShortClicked;
-
-    public void setOnShortClicked(OnShortClicked onShortClicked) {
-        this.onShortClicked = onShortClicked;
-    }
 
     @SuppressWarnings("WeakerAccess")
     public ShortsAdapter() {
@@ -89,16 +83,13 @@ public class ShortsAdapter extends PagerAdapter {
         final TextView content = itemView.findViewById(R.id.tv_content);
         final TextView timestamp = itemView.findViewById(R.id.tv_timestamp_shorts);
         final SimpleDraweeView imageSdv = itemView.findViewById(R.id.sdv_shorts);
-        final MaterialCardView materialCardView = itemView.findViewById(R.id.cardview_shorts);
         final ShortsItem shortsItem = shortsItems.get(position);
 
         title.setText(shortsItem.title);
         content.setText(shortsItem.content);
         timestamp.setText(shortsItem.timestamp);
         imageSdv.setImageURI(shortsItem.imageUrl);
-        materialCardView.setOnClickListener(view -> {
-            onClick();
-        });
+
         container.addView(itemView);
 
         return itemView;
@@ -119,7 +110,4 @@ public class ShortsAdapter extends PagerAdapter {
         return view.equals(object);
     }
 
-    private void onClick() {
-        onShortClicked.onClick();
-    }
 }
