@@ -1,8 +1,6 @@
 package com.csatimes.dojma.campuswatch;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toolbar;
 
@@ -31,29 +29,12 @@ public class ShortsActivity extends AppCompatActivity implements OnShortClicked 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setTitle(R.string.campus_watch);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        toolbar.inflateMenu(R.menu.shorts_menu);
         ViewPager viewPager = findViewById(R.id.vp_shorts);
         ShortsAdapter shortsAdapter = new ShortsAdapter();
         shortsAdapter.setOnShortClicked(this);
         viewPager.setAdapter(shortsAdapter);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.shorts_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_refresh) {
-            //Perform refresh of data here.
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick() {
