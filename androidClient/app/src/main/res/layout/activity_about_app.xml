@@ -14,6 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
         android:elevation="4dp"
+        android:fontFamily="@font/ralewaymedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.csatimes.dojma.utilities.CustomTextViewRSB
                 android:id="@+id/tv_app_name"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -53,15 +54,15 @@
                 android:src="@drawable/ic_mac"
                 tools:background="@color/mac_color" />
 
-            <TextView
+            <com.csatimes.dojma.utilities.CustomTextViewRR
                 android:id="@+id/tv_app_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:justificationMode="inter_word"
-                android:padding="8dp"
+                android:padding="14dp"
                 android:textColor="#ff000000"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 tools:ignore="UnusedAttribute"
                 tools:text="This app is too good." />
 
@@ -73,12 +74,12 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <TextView
+            <com.csatimes.dojma.utilities.CustomTextViewRSB
                 android:id="@+id/tv_contrib"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="14dp"
                 android:text="Contributors"
                 android:textColor="#ff000000"
                 android:textSize="18sp"
@@ -91,12 +92,12 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <TextView
+            <com.csatimes.dojma.utilities.CustomTextViewRSB
                 android:id="@+id/tv_coco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="14dp"
                 android:text="MAC CoCo"
                 android:textColor="#000"
                 android:textSize="18sp"
@@ -109,11 +110,11 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <TextView
+            <com.csatimes.dojma.utilities.CustomTextViewRSB
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="14dp"
                 android:text="More by MAC"
                 android:textColor="#ff000000"
                 android:textSize="18sp" />

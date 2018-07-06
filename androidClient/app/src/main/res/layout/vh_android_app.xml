@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.button.MaterialButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/btn_android_app"
@@ -9,6 +10,7 @@
     android:background="@android:color/transparent"
     android:gravity="start|center_vertical"
     android:orientation="vertical"
+    android:fontFamily="@font/ralewaymedium"
     android:paddingBottom="12dp"
     android:paddingStart="24dp"
     android:paddingTop="12dp"

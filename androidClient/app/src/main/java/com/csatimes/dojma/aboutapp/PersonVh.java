@@ -6,6 +6,8 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.Person;
 import com.csatimes.dojma.utilities.Browser;
+import com.csatimes.dojma.utilities.CustomTextViewRL;
+import com.csatimes.dojma.utilities.CustomTextViewRR;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +25,10 @@ public class PersonVh extends RecyclerView.ViewHolder {
 
     public PersonVh(final View itemView, @NonNull final Browser browser) {
         super(itemView);
-        nameTv = itemView.findViewById(R.id.tv_vh_developer_name);
+        nameTv = (CustomTextViewRR)itemView.findViewById(R.id.tv_vh_developer_name);
         avatarIv = itemView.findViewById(R.id.iv_avatar);
-        phoneTv = itemView.findViewById(R.id.tv_vh_developer_phone);
-        emailTv = itemView.findViewById(R.id.tv_vh_developer_email);
+        phoneTv = (CustomTextViewRL)itemView.findViewById(R.id.tv_vh_developer_phone);
+        emailTv = (CustomTextViewRL)itemView.findViewById(R.id.tv_vh_developer_email);
         this.browser = browser;
     }
 
