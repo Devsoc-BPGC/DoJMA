@@ -25,6 +25,8 @@ public class Member extends RealmObject {
     public String phone;
     @SerializedName("imageUrl")
     public String imageUrl;
+    @SerializedName("post")
+    public String post;
 
     public static List<Member> insertMembersFromFirebase(@NonNull final DataSnapshot dataSnapshot,
                                                               @NonNull final Realm db) {
