@@ -1,7 +1,6 @@
 package com.csatimes.dojma.viewholders;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.Member;
