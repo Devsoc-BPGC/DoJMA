@@ -19,6 +19,7 @@ import com.csatimes.dojma.fragments.EventsFragment;
 import com.csatimes.dojma.fragments.Utilities;
 import com.csatimes.dojma.herald.HeraldFragment;
 import com.csatimes.dojma.issues.IssuesFragment;
+import com.csatimes.dojma.models.Member;
 import com.csatimes.dojma.models.Person;
 import com.csatimes.dojma.models.ShortsItem;
 import com.csatimes.dojma.services.UpdateCheckerService;
@@ -38,6 +39,7 @@ import io.realm.Realm;
 
 import static android.content.Intent.ACTION_SEND;
 import static android.content.Intent.EXTRA_TEXT;
+import static com.csatimes.dojma.models.Member.insertMembersFromFirebase;
 import static com.csatimes.dojma.models.Person.insertContributorsFromFirebase;
 import static com.csatimes.dojma.models.ShortsItem.FIELD_READ;
 import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
@@ -46,6 +48,7 @@ import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
 import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
 import static com.csatimes.dojma.utilities.FirebaseKeys.CONTRIB;
+import static com.csatimes.dojma.utilities.FirebaseKeys.MEMBER;
 import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
 @SuppressLint("GoogleAppIndexingApiWarning")
@@ -54,6 +57,7 @@ public class MainActivity extends BaseActivity
 
     private static final String TAG = TAG_PREFIX + MainActivity.class.getSimpleName();
     private final List<Person> contributors = new ArrayList<>(0);
+    private final List<Member> members = new ArrayList<>(0);
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -80,8 +84,9 @@ public class MainActivity extends BaseActivity
                 return true;
             }
             case R.id.action_about_dojma: {
-                intent = new Intent(this, AboutDojmaActivity.class);
-                break;
+                AboutDojmaActivity.launchAboutDojmaActivity(this,
+                        members);
+                return true;
             }
             case R.id.action_about_us: {
                 AboutAppActivity.launchAboutAppActivity(this,
@@ -168,6 +173,32 @@ public class MainActivity extends BaseActivity
                         Log.e(TAG, databaseError.getMessage(), databaseError.toException());
                     }
                 });
+
+        members.clear();
+        final Realm dbmember = Realm.getDefaultInstance();
+        for (final Member c : dbmember.where(Member.class).findAll()) {
+            members.add(dbmember.copyFromRealm(c));
+        }
+        dbmember.close();
+        FirebaseDatabase.getInstance().getReference()
+                .child(MEMBER)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                        members.clear();
+                        final Realm dbmember = Realm.getDefaultInstance();
+                        dbmember.executeTransaction(realm ->
+                                members.addAll(insertMembersFromFirebase(dataSnapshot,
+                                        realm)));
+                        dbmember.close();
+                    }
+
+                    @Override
+                    public void onCancelled(final DatabaseError databaseError) {
+                        Log.e(TAG, databaseError.getMessage(), databaseError.toException());
+                    }
+                });
+
         FirebaseDatabase.getInstance().getReference(CAMPUS_WATCH).keepSynced(true);
         FirebaseDatabase.getInstance().getReference(CAMPUS_WATCH)
                 .addValueEventListener(new ValueEventListener() {

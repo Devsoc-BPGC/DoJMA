@@ -18,7 +18,7 @@
         app:roundAsCircle="true"
         fresco:placeholderImage="@drawable/ic_contact" />
 
-    <TextView
+    <com.csatimes.dojma.utilities.CustomTextViewRR
         android:id="@+id/tv_vh_developer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Abel Cool" />
 
-    <TextView
+    <com.csatimes.dojma.utilities.CustomTextViewRL
         android:id="@+id/tv_vh_developer_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
         android:textColor="@android:color/black"
         android:textColorLink="@color/mac_color" />
 
-    <TextView
+    <com.csatimes.dojma.utilities.CustomTextViewRL
         android:id="@+id/tv_vh_developer_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

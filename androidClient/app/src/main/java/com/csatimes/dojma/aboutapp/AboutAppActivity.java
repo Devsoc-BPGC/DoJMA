@@ -15,6 +15,8 @@ import com.csatimes.dojma.models.AndroidApp;
 import com.csatimes.dojma.models.Person;
 import com.csatimes.dojma.models.SocialLink;
 import com.csatimes.dojma.utilities.Browser;
+import com.csatimes.dojma.utilities.CustomTextViewRR;
+import com.csatimes.dojma.utilities.CustomTextViewRSB;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -255,7 +257,7 @@ public class AboutAppActivity extends AppCompatActivity {
     }
 
     private void populateAppName() {
-        final TextView appNameTv = findViewById(R.id.tv_app_name);
+        final CustomTextViewRSB appNameTv = findViewById(R.id.tv_app_name);
         if (TextUtils.isEmpty(appName)) {
             appNameTv.setVisibility(View.GONE);
         } else {
@@ -265,7 +267,7 @@ public class AboutAppActivity extends AppCompatActivity {
     }
 
     private void populateAppDesc() {
-        final TextView descTv = findViewById(R.id.tv_app_desc);
+        final CustomTextViewRR descTv = findViewById(R.id.tv_app_desc);
         if (TextUtils.isEmpty(appDesc)) {
             descTv.setVisibility(View.GONE);
         } else {
@@ -282,7 +284,7 @@ public class AboutAppActivity extends AppCompatActivity {
                 people.add(realm.copyFromRealm(p));
             }
         }
-        findViewById(R.id.tv_coco).setVisibility(people.size() > 0 ? View.VISIBLE : View.GONE);
+        (findViewById(R.id.tv_coco)).setVisibility(people.size() > 0 ? View.VISIBLE : View.GONE);
         cocoRv.setAdapter(new PersonAdapter(people, browser));
     }
 

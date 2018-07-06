@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">DoJMA BITS Goa</string>
     <string name="search_dojma">Search articles, events, contacts</string>
+    <string name="dojma_members">DoJMA members</string>
 
     <string name="action_settings">Settings</string>
 
