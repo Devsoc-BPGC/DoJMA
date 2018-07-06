@@ -90,17 +90,12 @@ public class AboutDojmaActivity extends AppCompatActivity {
     }
 
     private void acquireData(final Bundle bundle, final Intent intent) {
-        if (intent != null) {
-            if (intent.hasExtra(EXTRA_DOJMA_MEM)) {
+        if ((intent != null) && (intent.hasExtra(EXTRA_DOJMA_MEM))) {
                 dojmaMembers = Arrays.asList((new Gson())
                         .fromJson(intent.getStringExtra(EXTRA_DOJMA_MEM), Member[].class));
-            }
-        } else if (bundle != null) {
-            if (bundle.containsKey(EXTRA_DOJMA_MEM)) {
+        } else if ((bundle != null) && (bundle.containsKey(EXTRA_DOJMA_MEM))) {
                 dojmaMembers = Arrays.asList((new Gson())
-                        .fromJson(bundle.getString(EXTRA_DOJMA_MEM),
-                                Member[].class));
-            }
+                        .fromJson(bundle.getString(EXTRA_DOJMA_MEM), Member[].class));
         }
     }
 
