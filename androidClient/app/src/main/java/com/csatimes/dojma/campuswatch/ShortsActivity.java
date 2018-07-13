@@ -1,34 +1,31 @@
 package com.csatimes.dojma.campuswatch;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Window;
+import android.widget.ImageButton;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.models.ShortsItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-import io.realm.Realm;
+
 
 public class ShortsActivity extends AppCompatActivity {
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shorts);
-        ((ViewPager) findViewById(R.id.vp_shorts)).setAdapter(new ShortsAdapter());
-        findViewById(R.id.fab_back).setOnClickListener(view -> onBackPressed());
-        findViewById(R.id.fab_done).setOnClickListener(view -> {
-            final Realm db = Realm.getDefaultInstance();
-            db.executeTransaction(realm -> {
-                for (final ShortsItem item : realm.where(ShortsItem.class).findAll()) {
-                    final ShortsItem updatedData = realm.copyFromRealm(item);
-                    updatedData.isRead = true;
-                    realm.insertOrUpdate(updatedData);
-                }
-            });
-            db.close();
-            onBackPressed();
-            finish();
-        });
+
+        final Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        window.setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
+        ImageButton back_but = findViewById(R.id.img_back);
+        back_but.setOnClickListener(view -> onBackPressed());
+
+        ViewPager viewPager = findViewById(R.id.vp_shorts);
+        viewPager.setAdapter(new ShortsAdapter());
     }
 }

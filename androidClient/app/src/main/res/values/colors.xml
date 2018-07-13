@@ -62,4 +62,5 @@
 
     <color name="mac_color">@color/green700</color>
     <color name="mac_color_faint">@color/green500</color>
+    <color name="white_translucent">#ccffffff</color>
 </resources>

@@ -40,7 +40,7 @@ public class ShortsAdapter extends PagerAdapter {
         final Realm realm = Realm.getDefaultInstance();
         for (final ShortsItem item : realm.where(ShortsItem.class).equalTo(FIELD_READ, false).findAll()) {
 
-                shortsItems.add(realm.copyFromRealm(item));
+            shortsItems.add(realm.copyFromRealm(item));
 
         }
         realm.close();
@@ -83,7 +83,6 @@ public class ShortsAdapter extends PagerAdapter {
         final TextView content = itemView.findViewById(R.id.tv_content);
         final TextView timestamp = itemView.findViewById(R.id.tv_timestamp_shorts);
         final SimpleDraweeView imageSdv = itemView.findViewById(R.id.sdv_shorts);
-
         final ShortsItem shortsItem = shortsItems.get(position);
 
         title.setText(shortsItem.title);
@@ -110,4 +109,5 @@ public class ShortsAdapter extends PagerAdapter {
     public boolean isViewFromObject(final View view, final Object object) {
         return view.equals(object);
     }
+
 }
