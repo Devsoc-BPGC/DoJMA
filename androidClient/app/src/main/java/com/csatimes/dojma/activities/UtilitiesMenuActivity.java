@@ -30,7 +30,9 @@ import io.realm.RealmList;
  * Created by vikramaditya on 15/12/16.
  */
 
-public class UtilitiesMenuActivity extends BaseActivity implements SearchAdapter.OnImageClicked {
+public class
+
+UtilitiesMenuActivity extends BaseActivity implements SearchAdapter.OnImageClicked {
 
     private static final String TAG = UtilitiesMenuActivity.class.getSimpleName();
     private final DatabaseReference mMessRef = FirebaseDatabase.getInstance().getReference()

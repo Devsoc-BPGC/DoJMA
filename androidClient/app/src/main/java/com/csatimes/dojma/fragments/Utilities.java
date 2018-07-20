@@ -35,8 +35,7 @@ public class Utilities extends Fragment {
     private static final String TAG = TAG_PREFIX + Utilities.class.getSimpleName();
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-                             final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_utilities, container, false);
     }
 

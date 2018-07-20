@@ -63,6 +63,8 @@
     <attr name="customMiscCardTitleColor" format="color" />
     <attr name="customMiscCardSubTitleColor" format="color" />
 
+    <attr name="customArchiveCardBackgroundColor" format="color" />
+
     <attr name="customFavouritesTextColor" format="color" />
 
     <attr name="customSettingsSubTitleColor" format="color"/>

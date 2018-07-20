@@ -10,7 +10,7 @@ import com.facebook.drawee.drawable.DrawableUtils;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 
 /**
- * Created by Vikramaditya Kukreja on 14-07-2016.
+ *  * Created by Vikramaditya Kukreja on 14-07-2016.
  */
 
 public class CircleImageDrawable extends ProgressBarDrawable {

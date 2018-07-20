@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.0'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.alexvasilkov:gesture-views:2.1.1'
     implementation 'com.alexvasilkov:android-commons:1.2.4'

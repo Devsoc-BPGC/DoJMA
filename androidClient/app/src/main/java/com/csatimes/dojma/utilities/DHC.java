@@ -184,6 +184,7 @@ public class DHC {
     public static final int LINKS = 3;
     public static final int MISC = 4;
     public static final int UTILITIES_ITEM_TYPE_MAP = 5;
+    public static final int ARCHIVES = 6;
 
     public static final int MAIN_ACTIVITY_EVENTS_POS = 3;
 

@@ -2,13 +2,10 @@ package com.csatimes.dojma.activities;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -51,19 +48,14 @@ public class UtilitiesLinksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_links);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_links_toolbar);
-        emptyList = (TextView) findViewById(R.id.content_links_empty_text);
-        RecyclerView linkRecyclerView = (RecyclerView) findViewById(R.id.content_links_rv);
+        Toolbar toolbar = findViewById(R.id.activity_links_toolbar);
+        emptyList = findViewById(R.id.content_links_empty_text);
+        RecyclerView linkRecyclerView = findViewById(R.id.content_links_rv);
 
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
