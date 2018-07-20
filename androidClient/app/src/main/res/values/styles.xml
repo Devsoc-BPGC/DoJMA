@@ -5,9 +5,7 @@
         <item name="defaultBackground">@color/white</item>
         <item name="defaultBackgroundSemiTransparent">@color/white</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/statusBarColor</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">
-            @color/navigationBarColor
-        </item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navigationBarColor</item>
 
         <item name="android:windowBackground">@color/white</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -69,6 +67,8 @@
         <item name="customMiscCardBackgroundColor">@color/utilities_misc_background</item>
         <item name="customMiscCardTitleColor">@color/white</item>
         <item name="customMiscCardSubTitleColor">@color/grey100</item>
+
+        <item name="customArchiveCardBackgroundColor">@color/utilities_archive_background</item>
 
         <item name="customSettingsSubTitleColor">@color/grey700</item>
 
