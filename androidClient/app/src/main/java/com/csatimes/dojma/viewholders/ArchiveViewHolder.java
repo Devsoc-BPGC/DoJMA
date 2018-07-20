@@ -30,9 +30,9 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
     private TextView title;
     private SimpleDraweeView image;
     private ProgressBar progressBar;
-    Context context;
-    ImageView circle, download;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private Context context;
+    private ImageView circle, download;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public ArchiveViewHolder(View itemView) {
         super(itemView);
