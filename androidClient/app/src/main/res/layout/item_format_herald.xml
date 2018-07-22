@@ -17,7 +17,7 @@
         app:placeholderImage="@drawable/thumb_placeholder"
         app:roundedCornerRadius="5dp" />
 
-    <TextView
+    <com.csatimes.dojma.utilities.CustomTextViewRSB
         android:id="@+id/item_format_herald_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -10,6 +10,6 @@
     <item android:bottom="100dp">
         <bitmap
             android:gravity="bottom|center_horizontal"
-            android:src="@drawable/madebymac" />
+            android:src="@drawable/madebymac_two" />
     </item>
 </layer-list>
