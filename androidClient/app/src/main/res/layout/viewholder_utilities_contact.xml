@@ -182,8 +182,6 @@
             android:padding="8dp"
             android:text="Click here for more contact numbers"
             android:textColor="?customContactsCardSubTitleColor"
-            android:textSize="12sp"
-
-            />
+            android:textSize="12sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

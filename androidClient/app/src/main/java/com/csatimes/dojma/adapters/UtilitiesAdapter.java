@@ -16,6 +16,7 @@ import com.csatimes.dojma.viewholders.UtilitiesContactsViewHolder;
 import com.csatimes.dojma.viewholders.UtilitiesLinksViewHolder;
 import com.csatimes.dojma.viewholders.UtilitiesTitleSubTitleViewHolder;
 
+import static com.csatimes.dojma.utilities.DHC.ARCHIVES;
 import static com.csatimes.dojma.utilities.DHC.CONTACTS;
 import static com.csatimes.dojma.utilities.DHC.CONTACTS_TAXI;
 import static com.csatimes.dojma.utilities.DHC.LINKS;
@@ -29,10 +30,6 @@ import static com.csatimes.dojma.utilities.DHC.MISC;
 
 public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private enum itemTypes {
-        CONTACTS, CONTACTS_TAXI, LINKS, MAP, MESS, MISC
-    }
-
     private static final String TAG = UtilitiesAdapter.class.getSimpleName();
     private final String message;
     private final Context context;
@@ -45,7 +42,7 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int miscCardColor;
     private final int miscTitleColor;
     private final int miscSubTitleColor;
-
+    private final int archiveCardColor;
 
     public UtilitiesAdapter(final Context context, final String message) {
         this.message = message;
@@ -60,7 +57,8 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         R.attr.customMessCardSubTitleColor,
                         R.attr.customMiscCardBackgroundColor,
                         R.attr.customMiscCardTitleColor,
-                        R.attr.customMiscCardSubTitleColor});
+                        R.attr.customMiscCardSubTitleColor,
+                        R.attr.customArchiveCardBackgroundColor,});
         taxiCardColor = a.getResourceId(0, -1);
         taxiTitleColor = a.getResourceId(1, -1);
         taxiSubTitleColor = a.getResourceId(2, -1);
@@ -70,6 +68,7 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         miscCardColor = a.getResourceId(6, -1);
         miscTitleColor = a.getResourceId(7, -1);
         miscSubTitleColor = a.getResourceId(8, -1);
+        archiveCardColor = a.getResourceId(9, -1);
         a.recycle();
     }
 
@@ -95,6 +94,11 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 break;
             }
             case MISC: {
+                view = inflater.inflate(R.layout.viewholder_utilities_title_subtitle, parent, false);
+                viewHolder = new UtilitiesTitleSubTitleViewHolder(view, parent.getContext(), viewType);
+                break;
+            }
+            case ARCHIVES: {
                 view = inflater.inflate(R.layout.viewholder_utilities_title_subtitle, parent, false);
                 viewHolder = new UtilitiesTitleSubTitleViewHolder(view, parent.getContext(), viewType);
                 break;
@@ -141,13 +145,21 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             utsvh.subTitle.setTextColor(ContextCompat.getColor(context, miscSubTitleColor));
             utsvh.title.setText(R.string.miscellaneous);
             utsvh.subTitle.setText(message);
+        } else if (holder.getItemViewType() == ARCHIVES) {
+            final UtilitiesTitleSubTitleViewHolder utsvh = (UtilitiesTitleSubTitleViewHolder) holder;
+            utsvh.cardView.setCardBackgroundColor(ContextCompat.getColor(context, archiveCardColor));
+            utsvh.title.setTextColor(ContextCompat.getColor(context, messTitleColor));
+            utsvh.subTitle.setTextColor(ContextCompat.getColor(context, messSubTitleColor));
+            utsvh.title.setText(R.string.UTILITIES_ARCHIVES_title);
+            utsvh.subTitle.setText(R.string.UTILITIES_ARCHIVES_subtitle);
         }
+
     }
 
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -165,6 +177,8 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 return MISC;
             case 5:
                 return UTILITIES_ITEM_TYPE_MAP;
+            case 6:
+                return ARCHIVES;
             default:
                 return -1;
         }

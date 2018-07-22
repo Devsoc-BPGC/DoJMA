@@ -18,6 +18,7 @@
     <string name="title_activity_maps">BITS Goa Campus Map</string>
     <string name="about_dojma">About DoJMA</string>
     <string name="title_activity_mess_menus">Menus</string>
+    <string name="title_activity_archives">Arhcives</string>
     <string name="message_app_share">Hey checkout DoJMA\'s android app on http://play.google.com/store/apps/details?id=com.csatimes.dojma and get all the latest updates</string>
     <string name="share_prompt">share via … </string>
     <string name="events_placeholder">Stay connected for latest updates on events</string>
@@ -33,6 +34,8 @@
     <string name="UTILITIES_CONTACTS_TAXI_subtitle">Contact details of taxi drivers</string>
     <string name="menus">Menus</string>
     <string name="UTILITIES_MENU_subtitle">Get all menus here</string>
+    <string name="UTILITIES_ARCHIVES_title">Archives</string>
+    <string name="UTILITIES_ARCHIVES_subtitle">Get all archives here</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_share_app">Share App</string>
     <string name="invalid_url">Invalid URL</string>
