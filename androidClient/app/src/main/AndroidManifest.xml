@@ -196,7 +196,7 @@
             android:name=".campuswatch.ShortsActivity"
             android:label="@string/campus_watch"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppThemeNoActionBar">
+            android:theme="@style/CampusWatchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SHORTS" />
             </intent-filter>
