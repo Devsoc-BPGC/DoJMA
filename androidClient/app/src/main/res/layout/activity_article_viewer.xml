@@ -56,23 +56,21 @@
                 android:paddingStart="4dp"
                 android:paddingTop="4dp">
 
-                <TextView
+                <com.csatimes.dojma.utilities.CustomTextViewRSB
                     android:id="@+id/tv_article_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
                     android:padding="8dp"
                     android:textColor="@color/colorPrimary"
                     android:textSize="28sp"
                     tools:text="The Southern Derby: CSK vs SRH" />
 
-                <TextView
+                <com.csatimes.dojma.utilities.CustomTextViewRR
                     android:id="@+id/tv_article_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:drawablePadding="4dp"
-                    android:fontFamily="@font/roboto_regular"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
