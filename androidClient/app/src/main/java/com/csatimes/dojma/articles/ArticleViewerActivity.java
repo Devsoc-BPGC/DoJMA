@@ -3,13 +3,10 @@ package com.csatimes.dojma.articles;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -39,7 +36,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.csatimes.dojma.models.Post.FIELD_ID;
 import static com.csatimes.dojma.models.Post.persistInRealm;
-import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_HTML;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DojmaApiValues.DOJMA_API_BASE_URL;
 
@@ -61,7 +57,6 @@ public class ArticleViewerActivity extends AppCompatActivity {
 
     private TextView titleTv;
     private TextView dateTv;
-    private View emptySpace;
     private SimpleDraweeView articleImage;
     private WebView contentWv;
     private Browser browser;
@@ -156,7 +151,6 @@ public class ArticleViewerActivity extends AppCompatActivity {
             }
         });
         articleImage = findViewById(R.id.sdv_article_image);
-        emptySpace = findViewById(R.id.space_above_article_card);
     }
 
     @Override
@@ -177,7 +171,9 @@ public class ArticleViewerActivity extends AppCompatActivity {
         } else {
             titleTv.setText(Html.fromHtml(post.title));
         }
-        contentWv.loadData(post.content, MIME_TYPE_HTML, null);
+        String htmlData = post.content;
+        htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />" + htmlData;
+        contentWv.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
         try {
             dateTv.setText(Html.fromHtml(articleDateFormat.format(DojmaApiValues.DOJMA_API_DATE_SDF.parse(post.date))));
         } catch (final ParseException e) {
@@ -185,14 +181,7 @@ public class ArticleViewerActivity extends AppCompatActivity {
         }
         if (post.fullThumbnailImage != null) {
             final Image headerImage = post.fullThumbnailImage;
-            final int scaledHeight = headerImage.height * Resources.getSystem().getDisplayMetrics().widthPixels / headerImage.width;
-            final ViewGroup.LayoutParams imageParams = articleImage.getLayoutParams();
-            imageParams.height = scaledHeight;
-            articleImage.setLayoutParams(imageParams);
             articleImage.setImageURI(headerImage.url);
-            final ViewGroup.LayoutParams params = emptySpace.getLayoutParams();
-            params.height = scaledHeight;
-            emptySpace.setLayoutParams(params);
         }
     }
 }
