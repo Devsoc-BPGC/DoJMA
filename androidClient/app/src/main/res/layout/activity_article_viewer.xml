@@ -23,7 +23,7 @@
                 android:layout_height="232dp"
                 android:elevation="0dp"
                 app:placeholderImage="@drawable/thumb_placeholder"
-                fresco:actualImageScaleType="fitXY" />
+                fresco:actualImageScaleType="centerCrop" />
 
             <ImageButton
                 android:id="@+id/fab_back"
