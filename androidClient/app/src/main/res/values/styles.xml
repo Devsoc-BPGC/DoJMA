@@ -9,8 +9,8 @@
             @color/navigationBarColor
         </item>
 
-        <item name="android:windowLightStatusBar" tools:targetApi="lollipop">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="lollipop">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="28">true</item>
 
         <item name="android:actionMenuTextColor">@color/greycustom</item>
 
@@ -183,8 +183,8 @@
     </style>
 
     <style name="CampusWatchTheme" parent="AppTheme">
-        <item name="android:windowLightStatusBar" tools:targetApi="lollipop">false</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="lollipop">false</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="28">false</item>
     </style>
 
 </resources>
