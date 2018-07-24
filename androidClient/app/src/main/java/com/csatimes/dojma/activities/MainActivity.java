@@ -41,7 +41,6 @@ import static android.content.Intent.ACTION_SEND;
 import static android.content.Intent.EXTRA_TEXT;
 import static com.csatimes.dojma.models.Member.insertMembersFromFirebase;
 import static com.csatimes.dojma.models.Person.insertContributorsFromFirebase;
-import static com.csatimes.dojma.models.ShortsItem.FIELD_READ;
 import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_PLAINTEXT;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
@@ -62,15 +61,6 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
-        final Realm realm = Realm.getDefaultInstance();
-        final int unreadCount = realm.where(ShortsItem.class)
-                .equalTo(FIELD_READ, false)
-                .findAll()
-                .size();
-        if (unreadCount == 0) {
-            menu.findItem(R.id.action_shorts).setVisible(false);
-        }
-        realm.close();
         return true;
     }
 
@@ -104,18 +94,15 @@ public class MainActivity extends BaseActivity
                         getString(R.string.share_prompt));
                 break;
             }
-            case R.id.action_settings: {
-                intent = new Intent(this, SettingsActivity.class);
-                break;
-            }
+//            case R.id.action_settings: {
+//                intent = new Intent(this, SettingsActivity.class);
+//                break;
+//            }
             case R.id.action_search: {
                 intent = new Intent(this, SearchableActivity.class);
                 break;
             }
-            case R.id.action_shorts: {
-                intent = new Intent(this, ShortsActivity.class);
-                break;
-            }
+
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -141,6 +128,11 @@ public class MainActivity extends BaseActivity
 
         final Toolbar mToolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_flash));
+        mToolbar.setNavigationOnClickListener(v -> {
+            Intent i = new Intent(this, ShortsActivity.class);
+            startActivity(i);
+        });
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.home_container, new HeraldFragment())
                 .commit();

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/theme_gradient_blue"
     android:fitsSystemWindows="true"
     tools:context="com.csatimes.dojma.activities.POSTDownloaderActivity">
 
@@ -51,7 +51,7 @@
         android:layout_marginStart="16dp"
         android:backgroundTint="@color/white"
         android:text=""
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
