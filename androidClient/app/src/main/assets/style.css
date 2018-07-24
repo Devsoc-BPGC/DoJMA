@@ -1,7 +1,13 @@
 img {
-  display: block;
-  max-width:96% !important;
-  max-height:300px !important;
-  width: auto !important;
-  height: auto !important;
+  max-width: 100%;
+  height: auto;
+}
+.wp-caption {
+    border: 1px solid #ddd;
+    text-align: center;
+    background-color: #f3f3f3;
+    padding-top: 4px;
+    margin-bottom: 10px;
+    max-width: 96%;
+    padding: 4px;
 }
