@@ -13,21 +13,13 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:icon="@drawable/ic_search"
         android:orderInCategory="0"
         android:showAsAction="ifRoom"
         android:title="@string/menu_main_search_title"
         app:showAsAction="ifRoom"
         tools:ignore="AppCompatResource" />
 
-    <item
-        android:id="@+id/action_shorts"
-        android:icon="@drawable/ic_flash_yellow"
-        android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="@string/campus_watch"
-        app:showAsAction="always"
-        tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/action_about_dojma"
         android:icon="@drawable/ic_info_outline_white_24dp"
@@ -38,11 +30,11 @@
         android:orderInCategory="98"
         android:showAsAction="never"
         android:title="@string/about_app" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings" />
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:showAsAction="never"-->
+        <!--android:title="@string/action_settings" />-->
     <item
         android:id="@+id/action_shareapp"
         android:orderInCategory="100"
