@@ -41,7 +41,6 @@ import static android.content.Intent.ACTION_SEND;
 import static android.content.Intent.EXTRA_TEXT;
 import static com.csatimes.dojma.models.Member.insertMembersFromFirebase;
 import static com.csatimes.dojma.models.Person.insertContributorsFromFirebase;
-import static com.csatimes.dojma.models.ShortsItem.FIELD_READ;
 import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_PLAINTEXT;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
