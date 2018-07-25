@@ -68,6 +68,7 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void downloadPdf(final Archive archive) {
+        Toast.makeText(context, "Download has started", Toast.LENGTH_SHORT).show();
         File archives = new File(Environment.getExternalStorageDirectory(), "archives");
         archives.mkdirs();
 
@@ -78,8 +79,10 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
         pathReference
                 .getFile(ifile)
                 .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(context, ifile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Download completed", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
+                    readPdf(ifile);
+
                 })
                 .addOnFailureListener(e -> Log.e(UtilitiesArchivesActivity.TAG, e.getMessage()))
                 .addOnProgressListener(taskSnapshot -> {
