@@ -49,11 +49,11 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/roboto_light"
-            android:lineSpacingExtra="2sp"
+            android:lineSpacingExtra="5sp"
             android:maxLines="12"
             android:text="Wow wow wow!"
             android:textColor="@color/grey800"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_timestamp_shorts"
