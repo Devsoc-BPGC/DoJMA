@@ -7,10 +7,10 @@
             android:gravity="top|center_horizontal"
             android:src="@drawable/dojma_logo" />
     </item>
-    <item android:bottom="100dp">
+    <item android:bottom="90dp">
         <bitmap
             android:gravity="bottom|center_horizontal"
-            android:src="@drawable/madebymac_two" />
+            android:src="@drawable/madebymac_three"/>
     </item>
 
 </layer-list>
