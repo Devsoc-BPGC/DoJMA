@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import static androidx.core.content.FileProvider.getUriForFile;
 
 public class ArchiveViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,7 +48,7 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
     public void populate(@NonNull final Archive archive) {
         title.setText(archive.title);
         image.setImageURI(archive.imageUrl);
-        File file = new File(Environment.getExternalStorageDirectory(), "archives/" + archive.title + ".pdf");
+        File file = new File(context.getFilesDir(), "archives/" + archive.title + ".pdf");
         if (file.exists()) {
             progressBar.setVisibility(View.GONE);
             circle.setVisibility(View.GONE);
@@ -55,8 +56,9 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
         }
 
         itemView.setOnClickListener(view -> {
-            if (file.exists())
+            if (file.exists()) {
                 readPdf(file);
+            }
             else {
                 circle.setVisibility(View.GONE);
                 download.setVisibility(View.GONE);
@@ -69,12 +71,12 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
 
     public void downloadPdf(final Archive archive) {
         Toast.makeText(context, "Download has started", Toast.LENGTH_SHORT).show();
-        File archives = new File(Environment.getExternalStorageDirectory(), "archives");
+        File archives = new File(context.getFilesDir(), "archives");
         archives.mkdirs();
 
         StorageReference storageRef = storage.getReference();
         StorageReference pathReference = storageRef.child("archives/" + archive.title +".pdf");
-        File ifile = new File(archives.getAbsolutePath(), archive.title + ".pdf");
+        File ifile = new File(context.getFilesDir(), "archives/"+archive.title + ".pdf");
 
         pathReference
                 .getFile(ifile)
@@ -92,10 +94,10 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void readPdf(File file){
-        Uri path = Uri.fromFile(file);
+        Uri path = getUriForFile(context, "com.csatimes.dojma.fileprovider", file);
         Intent target = new Intent(Intent.ACTION_VIEW);
         target.setDataAndType(path, "application/pdf");
-        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         Intent intent = Intent.createChooser(target, "Open File");
         try {
