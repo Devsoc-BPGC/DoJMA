@@ -25,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import static androidx.core.content.FileProvider.getUriForFile;
-import static com.alexvasilkov.events.internal.EventsParams.getContext;
 
 public class ArchiveViewHolder extends RecyclerView.ViewHolder {
 
