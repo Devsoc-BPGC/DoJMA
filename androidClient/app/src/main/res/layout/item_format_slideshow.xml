@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         app:actualImageScaleType="centerCrop"
         app:overlayImage="@drawable/gradient_nav_bar_title"
-        app:placeholderImage="@drawable/bits"
+        app:placeholderImage="@drawable/thumb_placeholder"
         app:placeholderImageScaleType="centerCrop"
         />
 
