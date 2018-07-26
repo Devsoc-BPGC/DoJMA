@@ -71,9 +71,8 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
 
     public void downloadPdf(final Archive archive) {
 
-        Toast.makeText(context, "Download has started " + context.getFilesDir(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Download has started", Toast.LENGTH_SHORT).show();
         File archives = new File(context.getFilesDir(), "archives");
-
         archives.mkdirs();
 
         StorageReference storageRef = storage.getReference();
