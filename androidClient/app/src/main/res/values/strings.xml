@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DoJMA</string>
     <string name="search_dojma">Search articles, events, contacts</string>
-    <string name="dojma_members">DoJMA members</string>
+    <string name="dojma_members">DoJMA Editorial Team</string>
 
     <string name="action_settings">Settings</string>
 
@@ -13,7 +13,7 @@
     <string name="title_activity_postdownloader">POSTDownloaderActivity</string>
     <string name="PREFERENCE_general_night_mode">pref_general_night_mode</string>
     <string name="PREFERENCE_general">pref_key_general</string>
-    <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Gazette tabs). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
+    <string name="about_us_main">This app, developed by the Mobile Applications Club, enables users to access all DoJMA content on their phones (through the Herald and the Campus Watch). Additionally, the Events tab in the application lets you add reminders for important campus events to your calendar while the Utilities tab keeps important information (emergency contacts, essential links, campus map, etc.) at your fingertips. </string>
     <string name="app_version">Version 2</string>
     <string name="title_activity_maps">BITS Goa Campus Map</string>
     <string name="about_dojma">About DoJMA</string>
@@ -45,5 +45,10 @@
     <string name="events">Events</string>
     <string name="utilities">Utilities</string>
     <string name="restart_on_theme_change_prompt">Please restart app for the changes to take place</string>
+    <string name="about_dojma_writeup">The Department of Journalism and Media Affairs, popularly known as DoJMA is the eyes and ears of the campus.
+        Articles, opinions, celebrity interviews and so much more - you name it, we do it.
+        Our journalists, designers and photographers strive to ensure that everything that is "up" in our college and beyond reaches as many people as possible through our website - BITS Herald, our official Facebook page, our Youtube channel and the DoJMA app.
+        Journalism is never silent: that is its greatest virtue and its greatest fault. Hence, we stick to the adage, "If you don't want it published, don't let it happen".
+        Feel free to reach out to us with anything. Journalism is about affecting your community in the most progressive way. And DoJMA strives to achieve just that.</string>
 
 </resources>

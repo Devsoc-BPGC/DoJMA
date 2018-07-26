@@ -27,46 +27,46 @@
 
         </FrameLayout>
 
-            <TextView
-                android:id="@+id/tv_title_shorts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:lineSpacingExtra="5sp"
-                android:maxLines="2"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="12dp"
-                android:text="Hello World!"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
+        <TextView
+            android:id="@+id/tv_title_shorts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:lineSpacingExtra="3sp"
+            android:maxLines="2"
+            android:text="Hello World!"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:lineSpacingExtra="5sp"
-                android:text="Wow wow wow!"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:textColor="@color/grey800"
-                android:maxLines="12"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:lineSpacingExtra="2sp"
+            android:maxLines="12"
+            android:text="Wow wow wow!"
+            android:textColor="@color/grey800"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tv_timestamp_shorts"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:textColor="@color/grey600"
-                android:fontFamily="@font/roboto_light"
-                android:text="March 16, 2018"
-                android:textSize="10sp" />
+        <TextView
+            android:id="@+id/tv_timestamp_shorts"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="March 16, 2018"
+            android:textColor="@color/grey600"
+            android:textSize="10sp" />
 
     </LinearLayout>
 

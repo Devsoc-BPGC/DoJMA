@@ -36,19 +36,59 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawablePadding="8dp"
-                android:src="@drawable/dojma"
-                android:padding="16dp" />
+                android:layout_height="250dp"
+                android:background="@drawable/theme_gradient_blue"
+                android:src="@drawable/dojma_logo" />
 
-            <com.csatimes.dojma.utilities.CustomTextViewRSB
+            <com.csatimes.dojma.utilities.CustomTextViewRR
+                android:id="@+id/tv_app_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/about_dojma_text"
-                android:text="@string/dojma_members"
+                android:gravity="center_vertical"
+                android:justificationMode="inter_word"
                 android:padding="14dp"
+                android:text="@string/about_dojma_writeup"
+                android:textColor="#ff000000"
+                android:textSize="16sp"
+                tools:ignore="UnusedAttribute"
+                tools:text="About DoJMA Goes here!" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/facebook_dojma"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_facebook_social" />
+
+                <ImageView
+                    android:id="@+id/twitter_dojma"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/twitter1" />
+
+                <ImageView
+                    android:id="@+id/youtube_dojma"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_youtube_social" />
+
+            </LinearLayout>
+
+            <com.csatimes.dojma.utilities.CustomTextViewRSB
+                android:id="@+id/about_dojma_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="@string/dojma_members"
                 android:textColor="#ff000000"
                 android:textSize="18sp"
                 android:visibility="gone"

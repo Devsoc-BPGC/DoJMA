@@ -22,12 +22,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.aboutapp.MacApi;
 import com.csatimes.dojma.adapters.MemberAdapter;
 import com.csatimes.dojma.models.Member;
 import com.csatimes.dojma.models.Person;
+import com.csatimes.dojma.utilities.Browser;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class AboutDojmaActivity extends AppCompatActivity {
     public static final String TAG_PREFIX = "mac.";
     public static final String TAG = TAG_PREFIX + AboutDojmaActivity.class.getSimpleName();
     public static final String MAC_API_BASE_URL = "https://us-central1-mac-bpgc.cloudfunctions.net";
+    private Browser browser;
     private final MacApi api = new Retrofit.Builder()
             .baseUrl(MAC_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -87,6 +90,21 @@ public class AboutDojmaActivity extends AppCompatActivity {
         initViews();
         populateViews();
         api.getPostHolders().enqueue(memberCallBack);
+        browser = new Browser(this);
+
+        ImageView twitter = findViewById(R.id.twitter_dojma);
+        twitter.setOnClickListener(view -> {
+            browser.launchUrl("https://twitter.com/dojmabitsgoa?lang=en");
+        });
+        ImageView facebook = findViewById(R.id.facebook_dojma);
+        facebook.setOnClickListener(view -> {
+            browser.launchUrl("https://www.facebook.com/DoJMABITSGoa/");
+        });
+        ImageView youtube = findViewById(R.id.youtube_dojma);
+        youtube.setOnClickListener(view -> {
+            browser.launchUrl("https://www.youtube.com/channel/UCtO0OtOBQ40poBQpJZ8ZVuA");
+        });
+
     }
 
     private void acquireData(final Bundle bundle, final Intent intent) {
@@ -108,31 +126,6 @@ public class AboutDojmaActivity extends AppCompatActivity {
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
-        /*final String html = "<b>The Editorial Team</b><br>" + "<br>" + " <br>" + "<br>" + "<b>Chief Coordinator</b>: Sumangala Patki<br>" +
-                "<br>" + "<b>Chief Editor</b>: M Kaushik Reddy<br>" + "<br>" +
-                "<b>Head, Waves</b>: Nitish Kulshrestha<br>" + "<br>" +
-                "<b>Head, Quark</b>: Rishi Raj Grandhe<br>" + "<br>" +
-                "<b>Head, Spree</b>: Mahima Samant<br>" + "<br>" + "<br>" +
-                "<b>Journalists</b><br>" + "<br>" + " <br>" + "<br>" + "Adheep Das<br>" + "<br>" + "Akshay Ginodia<br>" +
-                "<br>" + "Ayush Anand<br>" + "<br>" + "Chand Sethi<br>" + "<br>" + "Harsh Lodha<br>" + "<br>" +
-                "Nidhi Kadkol<br>" + "<br>" + "Nissim Gore-Datar<br>" + "<br>" + "Ranajoy Roy<br>" + "<br>" +
-                "Rohan Gajendragadkar<br>" + "<br>" + "Shashank Subramaniam<br>" + "<br>" + " <br>" + "<br>" +
-                "Aman Arora<br>" + "<br>" + "Anurag Kumar<br>" + "<br>" + "Esha Swaroop<br>" + "<br>" +
-                "Lucky Kaul<br>" + "<br>" + "Roshan Dattatri<br>" + "<br>" + "Roshan Nair<br>" +
-                "<br>" + "Saloni Dash<br>" + "<br>" + " <br>" + "<br>" + "Aditya Lahiri<br>" + "<br>" +
-                "Akshat Mittal<br>" + "<br>" + "Aman Singh Yadav<br>" + "<br>" + "Ankit<br>" + "<br>" +
-                "Apoorva Dhamne<br>" + "<br>" + "Aryan Agarwal<br>" + "<br>" + "Darshan Hegde<br>" + "<br>" +
-                "Mridul Summan<br>" + "<br>" + "Parth Ganatra<br>" + "<br>" + "Parul Verma<br>" + "<br>" +
-                "Poojan Thakkar<br>" + "<br>" +
-                "Rachit Rastogi<br>" + "<br>" + "Saumya Maheshwari<br>" + "<br>" + "Sharat Patil<br>" + "<br>" +
-                "Siddhinita Wandekar<br>" + "<br>" + "Soumalya Barari<br>" + "<br>" + "Vaibhav Garg";
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            textView.setText(Html.fromHtml(html));
-        }*/
-
         final Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
