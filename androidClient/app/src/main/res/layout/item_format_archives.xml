@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             app:actualImageScaleType="centerCrop"
             app:fadeDuration="300"
-            android:padding="2dp"
+            android:layout_marginTop="2dp"
             app:roundingBorderColor="@color/black"
-            app:roundedCornerRadius="2dp"
+            app:roundedCornerRadius="5dp"
             app:placeholderImage="@drawable/ic_local_convenience_store_black_24dp"
             app:viewAspectRatio="0.67" />
 
@@ -55,12 +55,12 @@
     </FrameLayout>
 
     <TextView
-        android:padding="14dp"
+        android:padding="8dp"
         android:id="@+id/item_format_archive_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@+id/item_format_archive_frame"
         android:text="@string/UTILITIES_ARCHIVES_title"
         android:textColor="@color/black"/>
