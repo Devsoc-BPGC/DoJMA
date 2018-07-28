@@ -1,6 +1,5 @@
 package com.csatimes.dojma.herald;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
@@ -28,17 +27,15 @@ import static com.csatimes.dojma.articles.ArticleViewerActivity.readArticle;
 public class HeraldViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener, OnLikeListener {
 
-    private final Activity parentActivity;
     private final TextView titleTv;
     private final TextView dateTv;
     private final SimpleDraweeView heraldSdv;
     private final LikeButton favLb;
     private HeraldItem item;
 
-    HeraldViewHolder(final View itemView, final Activity parentActivity) {
+    HeraldViewHolder(final View itemView) {
         super(itemView);
 
-        this.parentActivity = parentActivity;
         heraldSdv = itemView.findViewById(R.id.item_format_herald_image);
         dateTv = itemView.findViewById(R.id.item_format_herald_date);
         titleTv = itemView.findViewById(R.id.item_format_herald_title);
@@ -58,8 +55,8 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
             final Intent shareIntent = new Intent((Intent.ACTION_SEND));
             shareIntent.setType(DHC.MIME_TYPE_PLAINTEXT);
             shareIntent.putExtra(EXTRA_TEXT, item.getTitle_plain() + " at " + item.getUrl());
-            parentActivity.startActivity(Intent.createChooser(shareIntent,
-                    parentActivity.getString(R.string.share_prompt)));
+            view.getContext().startActivity(Intent.createChooser(shareIntent,
+                    view.getContext().getString(R.string.share_prompt)));
             return;
         }
         readArticle(view.getContext(), Integer.parseInt(item.getPostID()));

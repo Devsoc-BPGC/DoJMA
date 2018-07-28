@@ -43,7 +43,7 @@ public class HeraldFragment extends Fragment {
         super.onStart();
         final Activity activity = getActivity();
         if (activity != null) {
-            final HeraldAdapter mAdapter = new HeraldAdapter(activity);
+            final HeraldAdapter mAdapter = new HeraldAdapter();
             heraldRv.setAdapter(mAdapter);
         } else {
             Log.e(TAG, "getActivity() returned null in onStart()");
