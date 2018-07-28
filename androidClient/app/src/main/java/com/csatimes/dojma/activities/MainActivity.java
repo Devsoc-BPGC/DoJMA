@@ -2,10 +2,8 @@ package com.csatimes.dojma.activities;
 
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +19,6 @@ import com.csatimes.dojma.herald.HeraldFragment;
 import com.csatimes.dojma.issues.IssuesFragment;
 import com.csatimes.dojma.models.Member;
 import com.csatimes.dojma.models.Person;
-import com.csatimes.dojma.models.ShortsItem;
 import com.csatimes.dojma.services.UpdateCheckerService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -94,10 +91,6 @@ public class MainActivity extends BaseActivity
                         getString(R.string.share_prompt));
                 break;
             }
-//            case R.id.action_settings: {
-//                intent = new Intent(this, SettingsActivity.class);
-//                break;
-//            }
             case R.id.action_search: {
                 intent = new Intent(this, SearchableActivity.class);
                 break;
@@ -111,7 +104,6 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         setTheme(R.style.AppThemeNoActionBar);
