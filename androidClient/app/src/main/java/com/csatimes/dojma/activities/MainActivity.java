@@ -14,8 +14,10 @@ import com.csatimes.dojma.aboutapp.AboutAppActivity;
 import com.csatimes.dojma.campuswatch.ShortsActivity;
 import com.csatimes.dojma.favorites.FavouritesFragment;
 import com.csatimes.dojma.fragments.EventsFragment;
-import com.csatimes.dojma.fragments.Utilities;
+import com.csatimes.dojma.fragments.UtilitiesFragment;
 import com.csatimes.dojma.herald.HeraldFragment;
+import com.csatimes.dojma.home.HomeVm;
+import com.csatimes.dojma.home.Section;
 import com.csatimes.dojma.issues.IssuesFragment;
 import com.csatimes.dojma.models.Member;
 import com.csatimes.dojma.models.Person;
@@ -32,6 +34,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import io.realm.Realm;
 
 import static android.content.Intent.ACTION_SEND;
@@ -54,6 +57,7 @@ public class MainActivity extends BaseActivity
     private static final String TAG = TAG_PREFIX + MainActivity.class.getSimpleName();
     private final List<Person> contributors = new ArrayList<>(0);
     private final List<Member> members = new ArrayList<>(0);
+    private HomeVm homeVm;
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -108,6 +112,7 @@ public class MainActivity extends BaseActivity
     protected void onCreate(final Bundle savedInstanceState) {
         setTheme(R.style.AppThemeNoActionBar);
         super.onCreate(savedInstanceState);
+        homeVm = ViewModelProviders.of(this).get(HomeVm.class);
         setContentView(R.layout.activity_home);
         final SharedPreferences mPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
 
@@ -125,9 +130,38 @@ public class MainActivity extends BaseActivity
             Intent i = new Intent(this, ShortsActivity.class);
             startActivity(i);
         });
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_container, new HeraldFragment())
-                .commit();
+
+        homeVm.getCurrentSection().observe(this, section -> {
+            final Fragment fragment;
+            switch (section) {
+                case HERALD:
+                    fragment = new HeraldFragment();
+                    break;
+
+                case ISSUES:
+                    fragment = new IssuesFragment();
+                    break;
+
+                case FAVOURITES:
+                    fragment = new FavouritesFragment();
+                    break;
+
+                case EVENTS:
+                    fragment = new EventsFragment();
+                    break;
+
+                case UTILITIES:
+                    fragment = new UtilitiesFragment();
+                    break;
+
+                default:
+                    throw new IllegalStateException("There is no such section.");
+            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.home_container, fragment)
+                    .commit();
+        });
+
 
         final BottomNavigationView homeBottomNav = findViewById(R.id.nav_view);
         homeBottomNav.setOnNavigationItemSelectedListener(this);
@@ -203,35 +237,32 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem menuItem) {
-        final Fragment fragment;
+        final Section selectedSection;
         switch (menuItem.getItemId()) {
-            case R.id.bottom_herald: {
-                fragment = new HeraldFragment();
+            case R.id.bottom_herald:
+                selectedSection = Section.HERALD;
                 break;
-            }
-            case R.id.bottom_issues: {
-                fragment = new IssuesFragment();
+
+            case R.id.bottom_issues:
+                selectedSection = Section.ISSUES;
                 break;
-            }
-            case R.id.bottom_favourites: {
-                fragment = new FavouritesFragment();
+
+            case R.id.bottom_favourites:
+                selectedSection = Section.FAVOURITES;
                 break;
-            }
-            case R.id.bottom_events: {
-                fragment = new EventsFragment();
+
+            case R.id.bottom_events:
+                selectedSection = Section.EVENTS;
                 break;
-            }
-            case R.id.bottom_utilities: {
-                fragment = new Utilities();
+
+            case R.id.bottom_utilities:
+                selectedSection = Section.UTILITIES;
                 break;
-            }
-            default: {
+
+            default:
                 return onNavigationItemSelected(menuItem);
-            }
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_container, fragment)
-                .commit();
+        homeVm.getCurrentSection().setValue(selectedSection);
         return true;
     }
 
