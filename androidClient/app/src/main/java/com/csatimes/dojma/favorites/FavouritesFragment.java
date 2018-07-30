@@ -45,7 +45,7 @@ public class FavouritesFragment extends Fragment {
             Log.e(TAG, "getActivity() in onActivityCreated() returned null");
             return;
         }
-        final HeraldAdapter mHeraldAdapter = new HeraldAdapter(activity);
+        final HeraldAdapter mHeraldAdapter = new HeraldAdapter();
         mHeraldAdapter.onlyFavorites();
         favRv.setLayoutManager(new LinearLayoutManager(activity));
         favRv.addItemDecoration(new DividerItemDecoration(activity, VERTICAL));

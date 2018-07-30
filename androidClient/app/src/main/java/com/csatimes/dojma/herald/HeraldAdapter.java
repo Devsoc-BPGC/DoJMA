@@ -29,13 +29,8 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldViewHolder>
     private final List<HeraldItem> data = new ArrayList<>(0);
     private Realm realm;
     private boolean mustBeFavorites = false;
-    private final Activity parentActivity;
     private String category;
     private RecyclerView mRv;
-
-    public HeraldAdapter(@NonNull final Activity parentActivity) {
-        this.parentActivity = parentActivity;
-    }
 
     @NonNull
     @Override
@@ -43,7 +38,7 @@ public class HeraldAdapter extends RecyclerView.Adapter<HeraldViewHolder>
                                                final int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.item_format_herald, parent, false);
-        return new HeraldViewHolder(view, parentActivity);
+        return new HeraldViewHolder(view);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class IssuesActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         final RecyclerView favRv = findViewById(R.id.rv_issues_activity);
 
-        final HeraldAdapter mHeraldAdapter = new HeraldAdapter(this);
+        final HeraldAdapter mHeraldAdapter = new HeraldAdapter();
         mHeraldAdapter.setCategory(category);
         favRv.setLayoutManager(new LinearLayoutManager(this));
         favRv.setAdapter(mHeraldAdapter);

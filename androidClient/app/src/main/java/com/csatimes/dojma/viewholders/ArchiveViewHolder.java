@@ -11,18 +11,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.csatimes.dojma.BuildConfig;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.activities.UtilitiesArchivesActivity;
 import com.csatimes.dojma.models.Archive;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import static androidx.core.content.FileProvider.getUriForFile;
 
@@ -58,8 +58,7 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(view -> {
             if (file.exists()) {
                 readPdf(file);
-            }
-            else {
+            } else {
                 circle.setVisibility(View.GONE);
                 download.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
@@ -69,15 +68,16 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void downloadPdf(final Archive archive) {
+    private void downloadPdf(final Archive archive) {
 
         Toast.makeText(context, "Download has started", Toast.LENGTH_SHORT).show();
         File archives = new File(context.getFilesDir(), "archives");
+        //noinspection ResultOfMethodCallIgnored
         archives.mkdirs();
 
         StorageReference storageRef = storage.getReference();
-        StorageReference pathReference = storageRef.child("archives/" + archive.title +".pdf");
-        File ifile = new File(context.getFilesDir(), "archives/"+archive.title + ".pdf");
+        StorageReference pathReference = storageRef.child("archives/" + archive.title + ".pdf");
+        File ifile = new File(context.getFilesDir(), "archives/" + archive.title + ".pdf");
 
         pathReference
                 .getFile(ifile)
@@ -94,13 +94,14 @@ public class ArchiveViewHolder extends RecyclerView.ViewHolder {
                 });
     }
 
-    public void readPdf(File file){
-        Uri path = getUriForFile(context, "com.csatimes.dojma.fileprovider", file);
-        Intent target = new Intent(Intent.ACTION_VIEW);
+    private void readPdf(File file) {
+        final String authority = BuildConfig.APPLICATION_ID + ".fileProvider";
+        final Uri path = getUriForFile(context, authority, file);
+        final Intent target = new Intent(Intent.ACTION_VIEW);
         target.setDataAndType(path, "application/pdf");
         target.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        Intent intent = Intent.createChooser(target, "Open File");
+        final Intent intent = Intent.createChooser(target, "Open File");
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {

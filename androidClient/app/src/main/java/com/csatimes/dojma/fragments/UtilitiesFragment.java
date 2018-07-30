@@ -27,12 +27,12 @@ import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_MISC_CARD_MESSAGE;
 import static com.csatimes.dojma.utilities.DHC.getStaggeredGridSpan;
 
-public class Utilities extends Fragment {
+public class UtilitiesFragment extends Fragment {
     private final DatabaseReference mMiscReference = FirebaseDatabase.getInstance().getReference().child("miscCard");
     private ValueEventListener mMiscEventListener;
     private String mMessage = "";
     private SharedPreferences.Editor mEditor;
-    private static final String TAG = TAG_PREFIX + Utilities.class.getSimpleName();
+    private static final String TAG = TAG_PREFIX + UtilitiesFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {

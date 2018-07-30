@@ -34,7 +34,7 @@ public class CategoryFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView favRv = view.findViewById(R.id.rv_categories_fragment);
-        final HeraldAdapter mHeraldAdapter = new HeraldAdapter(getActivity().getParent());
+        final HeraldAdapter mHeraldAdapter = new HeraldAdapter();
         final Bundle b = getArguments();
         if (b != null && b.containsKey(KEY_CATEGORY)) {
             final String category = b.getString(KEY_CATEGORY);
@@ -46,8 +46,4 @@ public class CategoryFragment extends Fragment {
         favRv.setAdapter(mHeraldAdapter);
     }
 
-    @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 }
