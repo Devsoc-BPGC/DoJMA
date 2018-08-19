@@ -1,13 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?defaultBackground"
     tools:context=".fragments.UtilitiesFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/utilities_recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text_menu"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/grey100"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/menus"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/menu_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_menu" />
+
+        <TextView
+            android:id="@+id/text_utilities"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@id/menu_recycler"
+            android:background="@color/grey100"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/utilities"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/utility_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_utilities" />
+
+        <TextView
+            android:id="@+id/text_lookback"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@id/utility_recycler"
+            android:background="@color/grey100"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/dojma_lookback"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lookback_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_lookback" />
+    </RelativeLayout>
+</ScrollView>

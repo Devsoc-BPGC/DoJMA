@@ -1,29 +1,26 @@
 package com.csatimes.dojma.adapters;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
-import com.csatimes.dojma.viewholders.UtilitiesCampusMapViewHolder;
-import com.csatimes.dojma.viewholders.UtilitiesContactsViewHolder;
-import com.csatimes.dojma.viewholders.UtilitiesLinksViewHolder;
-import com.csatimes.dojma.viewholders.UtilitiesTitleSubTitleViewHolder;
+import com.csatimes.dojma.activities.UtilitiesArchivesActivity;
+import com.csatimes.dojma.activities.UtilitiesContactsActivity;
+import com.csatimes.dojma.activities.UtilitiesLinksActivity;
+import com.csatimes.dojma.activities.UtilitiesMapsActivity;
+import com.csatimes.dojma.activities.UtilitiesMenuActivity;
+import com.csatimes.dojma.models.UtilitiesItem;
+import java.util.List;
 
-import static com.csatimes.dojma.utilities.DHC.ARCHIVES;
-import static com.csatimes.dojma.utilities.DHC.CONTACTS;
-import static com.csatimes.dojma.utilities.DHC.CONTACTS_TAXI;
-import static com.csatimes.dojma.utilities.DHC.LINKS;
-import static com.csatimes.dojma.utilities.DHC.UTILITIES_ITEM_TYPE_MAP;
-import static com.csatimes.dojma.utilities.DHC.MESS;
-import static com.csatimes.dojma.utilities.DHC.MISC;
+import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
 
 /**
  * Created by Vikramaditya Kukreja on 21-07-2016.
@@ -31,14 +28,16 @@ import static com.csatimes.dojma.utilities.DHC.MISC;
 
 public class UtilitiesAdapter extends RecyclerView.Adapter<UtilitiesAdapter.ViewHolder> {
 
-    private String[] mData = new String[0];
+    private List<UtilitiesItem> utilitiesItems;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Context context;
 
     // data is passed into the constructor
-    public UtilitiesAdapter(Context context, String[] data) {
+    public UtilitiesAdapter(Context context, List<UtilitiesItem> utilitiesItems) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.utilitiesItems = utilitiesItems;
+        this.context = context;
     }
 
     // inflates the cell layout from xml when needed
@@ -51,24 +50,73 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<UtilitiesAdapter.View
     // binds the data to the textview in each cell
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.myTextView.setText(mData[position]);
+        UtilitiesItem utilitiesItem = utilitiesItems.get(position);
+        holder.myTextView.setText(utilitiesItem.getUtility());
+        holder.imageView.setImageDrawable(context.getDrawable(utilitiesItem.getIcon()));
+        holder.relativeLayout.setOnClickListener(view -> {
+            if (utilitiesItem.getType().equals("menu")) {
+                Intent i = new Intent(context, UtilitiesMenuActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("outlet",utilitiesItem.getUtility());
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Contacts")){
+                Intent i = new Intent(context, UtilitiesContactsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Taxi")){
+                Intent i = new Intent(context, UtilitiesContactsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra(CONTACTS_SHOW_TAXI_DATA,true);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Scooty Rentals")){
+                Intent i = new Intent(context, UtilitiesContactsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Car Rentals")){
+                Intent i = new Intent(context, UtilitiesContactsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Links")){
+                Intent i = new Intent(context, UtilitiesLinksActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Campus Map")){
+                Intent i = new Intent(context, UtilitiesMapsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+            else if (utilitiesItem.getUtility().equals("Archives")){
+                Intent i = new Intent(context, UtilitiesArchivesActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
     }
 
     // total number of cells
     @Override
     public int getItemCount() {
-        return mData.length;
+        return utilitiesItems.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView myTextView;
+        ImageView imageView;
+        RelativeLayout relativeLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.info_text);
-            itemView.setOnClickListener(this);
+            myTextView = itemView.findViewById(R.id.utility_text);
+            imageView = itemView.findViewById(R.id.icon_utility);
+            relativeLayout = itemView.findViewById(R.id.utility_item_relative);
         }
 
         @Override
@@ -78,9 +126,9 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<UtilitiesAdapter.View
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData[id];
-    }
+//    String getItem(int id) {
+//        return mData[id];
+//    }
 
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
