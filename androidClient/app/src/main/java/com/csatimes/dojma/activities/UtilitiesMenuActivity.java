@@ -20,8 +20,8 @@ public class UtilitiesMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mess_menus);
-        Intent intent = getIntent();
-        String outlet= intent.getStringExtra("outlet");
+//        Intent intent = getIntent();
+//        String outlet= intent.getStringExtra("outlet");
         ArrayList<Integer> menus = new ArrayList<>();
         menus.add(R.drawable.ic_arrow_back);
         menus.add(R.drawable.ic_call);

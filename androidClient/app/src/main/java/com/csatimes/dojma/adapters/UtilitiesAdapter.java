@@ -108,9 +108,9 @@ public class UtilitiesAdapter extends RecyclerView.Adapter<UtilitiesAdapter.View
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
-        ImageView imageView;
-        RelativeLayout relativeLayout;
+        public TextView myTextView;
+        public ImageView imageView;
+        public RelativeLayout relativeLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
