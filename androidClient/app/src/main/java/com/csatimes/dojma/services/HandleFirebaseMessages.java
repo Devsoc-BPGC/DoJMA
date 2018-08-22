@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -25,6 +26,8 @@ import java.util.Map;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+
+import static androidx.core.app.NotificationCompat.PRIORITY_MAX;
 
 
 public class HandleFirebaseMessages extends FirebaseMessagingService {
@@ -103,11 +106,12 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
             if (smallSubTitle != null) builder.setContentText(smallSubTitle);
             if (id != null) notificationId = Integer.parseInt(id);
             builder.setContentIntent(addWebsiteLinkPendingIntent(notificationId, link, className));
-
+            builder.setPriority(PRIORITY_MAX);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setCategory(Notification.CATEGORY_SOCIAL);
+                builder.setCategory(Notification.CATEGORY_EVENT);
             }
-
+            Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            builder.setSound(uri);
             builder.setSmallIcon(R.drawable.ic_stat_d);
             builder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
             builder.setAutoCancel(true);
