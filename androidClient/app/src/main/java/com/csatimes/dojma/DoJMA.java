@@ -5,6 +5,7 @@ import android.app.Application;
 import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -19,6 +20,7 @@ public class DoJMA extends Application {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         FirebaseDatabase.getInstance().getReference().keepSynced(true);
+        FirebaseMessaging.getInstance().subscribeToTopic("newCampusWatchAdded");
         Fresco.initialize(this);
         Realm.init(this);
         final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
