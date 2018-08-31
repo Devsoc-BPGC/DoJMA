@@ -50,7 +50,7 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                 if (version < supportsMin) return;
             }
 
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Dojma");
 
             int notificationId = DEFAULT_ID;
             final String type = data.get("type");
