@@ -14,4 +14,12 @@
         android:text="@string/add_event"
         android:textAllCaps="false"
         android:textSize="20sp" />
+    <Button
+        android:id="@+id/btn_add_cw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="@string/add_campus_watch"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
 </LinearLayout>
