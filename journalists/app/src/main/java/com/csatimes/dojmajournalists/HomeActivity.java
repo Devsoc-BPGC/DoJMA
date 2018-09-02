@@ -13,5 +13,8 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_add_event).setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this,
                         AddEventActivity.class)));
+        findViewById(R.id.btn_add_cw).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this,
+                        AddCampusWatch.class)));
     }
 }
