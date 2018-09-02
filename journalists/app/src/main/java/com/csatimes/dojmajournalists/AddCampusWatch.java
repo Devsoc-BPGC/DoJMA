@@ -32,33 +32,21 @@ public class AddCampusWatch extends AppCompatActivity {
     private final DatabaseReference databaseReference = getFirebaseRef().child(CAMPUS_WATCH);
     private EditText campusWatchTitle;
     private EditText cwDescription;
-    private Button btnChoose;
     private ImageView imageView;
     private Uri filePath;
     private String date;
     private final int PICK_IMAGE_REQUEST = 71;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         final Button addBtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_campus_watch);
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         campusWatchTitle = findViewById(R.id.title);
         campusWatchTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence c, final int i,
-                                          final int i1, final int i2) {
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence c, final int i,
-                                      final int i1, final int i2) {
-            }
-
             @Override
             public void afterTextChanged(final Editable editable) {
                 if (editable.toString().isEmpty()) {
@@ -70,7 +58,7 @@ public class AddCampusWatch extends AppCompatActivity {
         });
         cwDescription = findViewById(R.id.desc);
         addBtn = findViewById(R.id.add);
-        btnChoose = findViewById(R.id.btnChoose);
+        Button btnChoose = findViewById(R.id.btnChoose);
         imageView = findViewById(R.id.imgView);
         date = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
