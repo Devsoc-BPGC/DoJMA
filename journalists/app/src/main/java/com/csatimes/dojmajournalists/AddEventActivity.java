@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.text.DecimalFormat;
@@ -28,11 +30,13 @@ public class AddEventActivity extends AppCompatActivity {
     private Button eventTime;
     private Button eventDate;
     private EditText eventLocation;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         final Button addBtn;
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_add_event);
         eventTitle = findViewById(R.id.title);
         eventTitle.addTextChangedListener(new TextWatcher() {
@@ -134,5 +138,17 @@ public class AddEventActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null)
+        {
+            Intent i = new Intent(AddEventActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
     }
 }
