@@ -20,8 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddEventActivity"></activity>
-        <activity android:name=".AddCampusWatch"></activity>
+        <activity android:name=".AddEventActivity" />
+        <activity android:name=".AddCampusWatch" />
+        <activity android:name=".DeleteEvent"></activity>
     </application>
 
 </manifest>

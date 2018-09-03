@@ -7,4 +7,5 @@
     <string name="select_time">Select Time</string>
     <string name="required">required</string>
     <string name="cw_title">Title</string>
+    <string name="DeleteEvent">Delete Event</string>
 </resources>

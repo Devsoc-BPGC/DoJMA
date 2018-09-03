@@ -22,6 +22,9 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_add_cw).setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this,
                         AddCampusWatch.class)));
+        findViewById(R.id.btn_del_event).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this,
+                        DeleteEvent.class)));
     }
     @Override
     public void onStart() {

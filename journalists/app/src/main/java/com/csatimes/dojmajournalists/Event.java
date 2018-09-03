@@ -17,4 +17,10 @@ public class Event {
         this.startDate = startDate;
         this.location = location;
     }
+    public Event(final String title){
+        this.title = title;
+    }
+    public String getTitle() {
+        return this.title;
+    }
 }

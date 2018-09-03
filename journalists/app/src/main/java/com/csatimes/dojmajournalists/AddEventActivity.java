@@ -70,7 +70,7 @@ public class AddEventActivity extends AppCompatActivity {
             final DatePickerDialog dpd;
             final Calendar c = Calendar.getInstance();
             final int currentYear = c.get(Calendar.YEAR);
-            final int currentMonth = c.get(Calendar.MONTH);
+            final int currentMonth = c.get(Calendar.MONTH)+1;
             final int currentDate = c.get(Calendar.DAY_OF_MONTH);
             dpd = new DatePickerDialog(AddEventActivity.this,
                     (view, year, month, dayOfMonth) ->
