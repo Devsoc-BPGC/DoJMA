@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -70,12 +71,12 @@ public class AddEventActivity extends AppCompatActivity {
             final DatePickerDialog dpd;
             final Calendar c = Calendar.getInstance();
             final int currentYear = c.get(Calendar.YEAR);
-            final int currentMonth = c.get(Calendar.MONTH)+1;
+            final int currentMonth = c.get(Calendar.MONTH);
             final int currentDate = c.get(Calendar.DAY_OF_MONTH);
             dpd = new DatePickerDialog(AddEventActivity.this,
                     (view, year, month, dayOfMonth) ->
                             eventDate.setText(String.format(Locale.ENGLISH, "%02d%02d%04d",
-                                    dayOfMonth, month, year)),
+                                    dayOfMonth, month+1, year)),
                     currentYear,
                     currentMonth,
                     currentDate);
