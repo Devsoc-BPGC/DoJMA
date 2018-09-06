@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".AddEventActivity" />
         <activity android:name=".AddCampusWatch" />
-        <activity android:name=".DeleteEvent"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".DeleteEvent" />
     </application>
 
 </manifest>

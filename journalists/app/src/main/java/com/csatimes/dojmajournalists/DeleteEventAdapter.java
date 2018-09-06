@@ -1,6 +1,7 @@
 package com.csatimes.dojmajournalists;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,12 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.ViewHolder> {
     private List<Event> listItems;
+    private Context context;
 
 
     public DeleteEventAdapter(List<Event> eventList, Context context) {
         this.listItems = eventList;
+        this.context = context;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.
                     for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
                         appleSnapshot.getRef().removeValue();
                         notifyItemRemoved(position);
+                        Intent i = new Intent(context,HomeActivity.class);
+                        context.startActivity(i);
                     }
                 }
 

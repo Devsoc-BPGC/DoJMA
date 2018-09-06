@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ public class AddEventActivity extends AppCompatActivity {
     private Button eventDate;
     private EditText eventLocation;
     private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -65,7 +67,8 @@ public class AddEventActivity extends AppCompatActivity {
         eventDate = findViewById(R.id.date);
         eventLocation = findViewById(R.id.location);
         addBtn = findViewById(R.id.add);
-
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
         eventDate.setOnClickListener(v -> {
             eventDate.setError(null);
             final DatePickerDialog dpd;
@@ -122,6 +125,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void addData() {
         final String id = databaseReference.push().getKey();
+        progressBar.setVisibility(View.VISIBLE);
         final Event event = new Event(eventTitle.getText().toString(),
                 eventDescription.getText().toString(),
                 eventTime.getText().toString(),
@@ -134,6 +138,7 @@ public class AddEventActivity extends AppCompatActivity {
                 final Intent intent = new Intent(AddEventActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
+                progressBar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(AddEventActivity.this, "Could not add event", Toast.LENGTH_SHORT)
                         .show();
