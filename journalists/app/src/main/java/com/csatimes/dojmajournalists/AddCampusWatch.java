@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,16 +39,28 @@ public class AddCampusWatch extends AppCompatActivity {
     private String date;
     private final int PICK_IMAGE_REQUEST = 71;
     private StorageReference storageReference;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         final Button addBtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_campus_watch);
+        mAuth = FirebaseAuth.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         campusWatchTitle = findViewById(R.id.title);
         campusWatchTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
             @Override
             public void afterTextChanged(final Editable editable) {
                 if (editable.toString().isEmpty()) {
@@ -146,4 +160,15 @@ public class AddCampusWatch extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null)
+        {
+            Intent i = new Intent(AddCampusWatch.this, LoginActivity.class);
+            startActivity(i);
+        }
+    }
 }

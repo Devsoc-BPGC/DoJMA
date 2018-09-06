@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.text.DecimalFormat;
@@ -28,11 +32,14 @@ public class AddEventActivity extends AppCompatActivity {
     private Button eventTime;
     private Button eventDate;
     private EditText eventLocation;
+    private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         final Button addBtn;
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_add_event);
         eventTitle = findViewById(R.id.title);
         eventTitle.addTextChangedListener(new TextWatcher() {
@@ -60,7 +67,8 @@ public class AddEventActivity extends AppCompatActivity {
         eventDate = findViewById(R.id.date);
         eventLocation = findViewById(R.id.location);
         addBtn = findViewById(R.id.add);
-
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
         eventDate.setOnClickListener(v -> {
             eventDate.setError(null);
             final DatePickerDialog dpd;
@@ -71,7 +79,7 @@ public class AddEventActivity extends AppCompatActivity {
             dpd = new DatePickerDialog(AddEventActivity.this,
                     (view, year, month, dayOfMonth) ->
                             eventDate.setText(String.format(Locale.ENGLISH, "%02d%02d%04d",
-                                    dayOfMonth, month, year)),
+                                    dayOfMonth, month+1, year)),
                     currentYear,
                     currentMonth,
                     currentDate);
@@ -117,6 +125,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void addData() {
         final String id = databaseReference.push().getKey();
+        progressBar.setVisibility(View.VISIBLE);
         final Event event = new Event(eventTitle.getText().toString(),
                 eventDescription.getText().toString(),
                 eventTime.getText().toString(),
@@ -129,10 +138,23 @@ public class AddEventActivity extends AppCompatActivity {
                 final Intent intent = new Intent(AddEventActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
+                progressBar.setVisibility(View.GONE);
             } else {
                 Toast.makeText(AddEventActivity.this, "Could not add event", Toast.LENGTH_SHORT)
                         .show();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null)
+        {
+            Intent i = new Intent(AddEventActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
     }
 }
