@@ -52,5 +52,5 @@
         Feel free to reach out to us with anything. Journalism is about affecting your community in the most progressive way. And DoJMA strives to achieve just that.</string>
     <string name="dojma_app_ver">DoJMA Android App v3</string>
     <string name="dojma_lookback">DoJMA Lookback</string>
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>

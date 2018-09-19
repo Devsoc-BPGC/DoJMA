@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -44,6 +45,7 @@ public class ShortsAdapter extends PagerAdapter {
 
         }
         realm.close();
+        Collections.reverse(shortsItems);
     }
 
     private void getDataFromFirebase() {
@@ -56,6 +58,7 @@ public class ShortsAdapter extends PagerAdapter {
                             shortsItems.clear();
                             shortsItems.addAll(saveFirebaseData(dataSnapshot, realm));
                             notifyDataSetChanged();
+                            Collections.reverse(shortsItems);
                         });
                         db.close();
                     }
