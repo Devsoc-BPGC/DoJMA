@@ -51,10 +51,10 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                 final int supportsMin = Integer.parseInt(data.get("version"));
                 if (version < supportsMin) return;
             }
-
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
             int notificationId = DEFAULT_ID;
+
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this/*,Integer.toString(notificationId)*/);
+
             final String type = data.get("type");
             final String id = data.get("id");
             final String smallTitle = data.get("smallTitle");
@@ -92,6 +92,8 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                         final Bitmap image = getBitmapFromURL(imageUrl);
                         if (image != null) {
                             notificationBigPicture.bigPicture(image);
+                            builder.setLargeIcon(image);
+                            notificationBigPicture.bigLargeIcon(null);
                         }
                     }
                     if (bigSummaryText != null) {
