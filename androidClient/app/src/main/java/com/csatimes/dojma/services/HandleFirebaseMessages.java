@@ -1,6 +1,8 @@
 package com.csatimes.dojma.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -49,10 +51,10 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                 final int supportsMin = Integer.parseInt(data.get("version"));
                 if (version < supportsMin) return;
             }
+            int notificationId = DEFAULT_ID;
 
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Dojma");
 
-            int notificationId = DEFAULT_ID;
             final String type = data.get("type");
             final String id = data.get("id");
             final String smallTitle = data.get("smallTitle");
@@ -90,6 +92,8 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
                         final Bitmap image = getBitmapFromURL(imageUrl);
                         if (image != null) {
                             notificationBigPicture.bigPicture(image);
+                            builder.setLargeIcon(image);
+                            notificationBigPicture.bigLargeIcon(null);
                         }
                     }
                     if (bigSummaryText != null) {
@@ -115,23 +119,25 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
             builder.setSmallIcon(R.drawable.ic_stat_d);
             builder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
             builder.setAutoCancel(true);
-
+            final NotificationManager mNotificationManager = getApplicationContext().getSystemService(NotificationManager.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String channelId = getApplicationContext().getString(R.string.default_notification_channel_id);
+                NotificationChannel channel = new NotificationChannel(channelId, "My App Events", NotificationManager.IMPORTANCE_DEFAULT);
+                channel.setDescription("MyApp Event Controls");
+                mNotificationManager.createNotificationChannel(channel);
+                builder.setChannelId(channelId);
+            }
             if (ticker != null) {
                 builder.setTicker(ticker);
             } else {
                 builder.setTicker("New campus news!");
             }
-
             if (contentInfo != null) {
                 builder.setContentInfo(contentInfo);
             } else {
                 builder.setContentInfo("DoJMA");
             }
-
-            final NotificationManagerCompat mNotificationManager
-                    = NotificationManagerCompat.from(this);
             mNotificationManager.notify(notificationId, builder.build());
-
         }
     }
 

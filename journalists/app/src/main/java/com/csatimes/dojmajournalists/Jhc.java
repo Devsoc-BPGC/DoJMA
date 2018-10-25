@@ -9,9 +9,8 @@ import com.google.firebase.database.FirebaseDatabase;
  * @author Rushikesh Jogdand.
  */
 public class Jhc {
+
     public static DatabaseReference getFirebaseRef() {
-        return BuildConfig.DEBUG
-                ? FirebaseDatabase.getInstance().getReference().child(BuildConfig.BUILD_TYPE)
-                : FirebaseDatabase.getInstance().getReference();
+        return FirebaseDatabase.getInstance().getReference();
     }
 }

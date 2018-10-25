@@ -6,6 +6,13 @@
     android:orientation="vertical"
     tools:ignore="UnusedAttribute">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"

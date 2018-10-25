@@ -21,6 +21,7 @@ public class DoJMA extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         FirebaseDatabase.getInstance().getReference().keepSynced(true);
         FirebaseMessaging.getInstance().subscribeToTopic("newCampusWatchAdded");
+        FirebaseMessaging.getInstance().subscribeToTopic("newDojmaNotice");
         Fresco.initialize(this);
         Realm.init(this);
         final RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
