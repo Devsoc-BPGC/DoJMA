@@ -53,7 +53,7 @@ public class HandleFirebaseMessages extends FirebaseMessagingService {
             }
             int notificationId = DEFAULT_ID;
 
-            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this/*,Integer.toString(notificationId)*/);
+            final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Dojma");
 
             final String type = data.get("type");
             final String id = data.get("id");
