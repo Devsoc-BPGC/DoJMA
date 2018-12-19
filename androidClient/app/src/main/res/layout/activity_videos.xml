@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+
+    <com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="18sp"
+        android:paddingTop="18sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10sp"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:clickable="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="6"
+            >
+
+            <TextView
+                android:id="@+id/dateStampVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:clickable="true"/>
+
+            <TextView
+                android:id="@+id/tv_creator_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10sp"
+                android:gravity="right"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"
+                android:layout_weight="3"
+                android:clickable="true"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0"
+            android:paddingStart="18sp" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:layout_weight="3"
+            android:clickable="true"/>
+
+    </LinearLayout>
+</LinearLayout>

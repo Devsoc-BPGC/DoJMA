@@ -25,6 +25,12 @@
         android:icon="@drawable/ic_event_note_black_24dp"
         android:title="@string/events" />
     <item
+        android:id="@+id/bottom_videos"
+        android:enabled="true"
+        android:icon="@drawable/ic_play_36dp"
+        android:iconTint="@color/black"
+        android:title="@string/events" />
+    <item
         android:id="@+id/bottom_utilities"
         android:enabled="true"
         android:icon="@drawable/ic_local_convenience_store_black_24dp"

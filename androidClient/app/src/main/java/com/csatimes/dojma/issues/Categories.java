@@ -9,7 +9,7 @@ import java.util.List;
 public final class Categories {
     private static final List<String> CATEGORIES = Arrays.asList("Campus",
             "National", "World", "Technology", "Sports", "Interviews", "DoJMA Recommends",
-            "Bitzfeed");
+            "Bitzfeed", "Videos");
 
     public static List<String> getCATEGORIES() {
         return CATEGORIES;
