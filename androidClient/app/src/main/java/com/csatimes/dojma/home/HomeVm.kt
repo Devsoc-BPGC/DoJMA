@@ -21,5 +21,5 @@ class HomeVm(application: Application) : AndroidViewModel(application) {
  * Sections in the home screen. Refer [com.csatimes.dojma.activities.MainActivity]
  */
 enum class Section {
-    HERALD, ISSUES, FAVOURITES, EVENTS, VIDEOS, UTILITIES
+    HERALD, ISSUES, VIDEOS, EVENTS, UTILITIES
 }

@@ -143,24 +143,17 @@ public class MainActivity extends BaseActivity
                     fragment = new IssuesFragment();
                     break;
 
-                case FAVOURITES:
-                    fragment = new FavouritesFragment();
-                    break;
+                case VIDEOS:
+                fragment = new VideosFragment();
+                break;
 
                 case EVENTS:
                     fragment = new EventsFragment();
                     break;
 
-                case VIDEOS:
-                    fragment = new VideosFragment();
-                    break;
-
                 case UTILITIES:
                     fragment = new UtilitiesFragment();
                     break;
-
-
-
 
                 default:
                     throw new IllegalStateException("There is no such section.");
@@ -255,16 +248,12 @@ public class MainActivity extends BaseActivity
                 selectedSection = Section.ISSUES;
                 break;
 
-            case R.id.bottom_favourites:
-                selectedSection = Section.FAVOURITES;
+            case R.id.bottom_videos:
+                selectedSection = Section.VIDEOS;
                 break;
 
             case R.id.bottom_events:
                 selectedSection = Section.EVENTS;
-                break;
-
-            case R.id.bottom_videos:
-                selectedSection = Section.VIDEOS;
                 break;
 
             case R.id.bottom_utilities:
