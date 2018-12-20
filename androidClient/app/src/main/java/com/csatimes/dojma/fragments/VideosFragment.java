@@ -74,31 +74,5 @@ public class VideosFragment extends Fragment {
         } else {
             Log.e(TAG, "getActivity() returned null in onStart()");
         }
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
