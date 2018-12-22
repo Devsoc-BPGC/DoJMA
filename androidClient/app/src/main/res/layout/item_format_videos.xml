@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10sp"
         android:textSize="22sp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/ralewaymedium"
         android:textColor="#000000"
         android:textStyle="bold"
         android:clickable="true"/>
@@ -41,29 +41,47 @@
             android:id="@+id/dateStamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10sp"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="3"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:paddingBottom="10sp"
+            android:textColor="@color/browser_actions_title_color"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_creator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10sp"
-            android:gravity="right"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="3"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:paddingBottom="10sp"
+            android:textColor="@color/browser_actions_title_color"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/item_format_video_share"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_share"/>
+
     </LinearLayout>
+    <!--
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c0c0c0"
         android:paddingStart="18sp" />
-
+    -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey600" />
 
 
 
