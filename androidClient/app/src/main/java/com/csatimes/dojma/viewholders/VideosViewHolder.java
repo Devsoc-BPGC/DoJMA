@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
@@ -22,6 +23,7 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
     private String videoID;
     private String description;
     private SimpleDraweeView image;
+    private ImageButton shareVideo;
     private Intent intent = new Intent(itemView.getContext(),com.csatimes.dojma.activities.VideosActivity.class);
 
     public VideosViewHolder(View itemView) {
@@ -31,7 +33,7 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
         //video = itemView.findViewById(R.id.go);
         creatorTv = itemView.findViewById(R.id.tv_creator);
         image = itemView.findViewById(R.id.my_image_view);
-
+        shareVideo = itemView.findViewById(R.id.item_format_video_share);
     }
 
     public void populate(VideosItem parts)
@@ -135,6 +137,18 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
             else{
                 Intent redirecter = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                 itemView.getContext().startActivity(redirecter);
+            }
+        });
+
+        shareVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_SUBJECT, videoName);
+                share.putExtra(Intent.EXTRA_TEXT, videoURL);
+
+                itemView.getContext().startActivity(Intent.createChooser(share, "Share link!"));
             }
         });
 

@@ -20,7 +20,6 @@ public class VideosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videos);
-        //getActionBar().hide();
         videoID= getIntent().getStringExtra("id");
         String dateStamp = getIntent().getStringExtra("date");
         String videoName = getIntent().getStringExtra("title");
@@ -47,14 +46,20 @@ public class VideosActivity extends AppCompatActivity {
         TextView date = findViewById(R.id.dateStampVideo);
         TextView creatorTv = findViewById(R.id.tv_creator_video);
         TextView descriptionTv = findViewById(R.id.tv_description);
+        findViewById(R.id.fab_back).setOnClickListener(view -> onBackPressed());
 
         nameTv.setText(videoName);
-
         date.setText(dateStamp);
-
         creatorTv.setText(creator);
-
         descriptionTv.setText(description);
 
+
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        this.finish();
     }
 }
