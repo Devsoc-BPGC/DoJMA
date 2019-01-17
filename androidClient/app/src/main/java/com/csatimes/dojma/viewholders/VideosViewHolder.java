@@ -23,7 +23,7 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
     private String videoID;
     private String description;
     private SimpleDraweeView image;
-    private ImageButton shareVideo;
+    private ImageButton shareVideo, source;
     private Intent intent = new Intent(itemView.getContext(),com.csatimes.dojma.activities.VideosActivity.class);
 
     public VideosViewHolder(View itemView) {
@@ -34,6 +34,8 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
         creatorTv = itemView.findViewById(R.id.tv_creator);
         image = itemView.findViewById(R.id.my_image_view);
         shareVideo = itemView.findViewById(R.id.item_format_video_share);
+        source = itemView.findViewById(R.id.video_source);
+
     }
 
     public void populate(VideosItem parts)
@@ -54,16 +56,17 @@ public class VideosViewHolder extends RecyclerView.ViewHolder{
         description=parts.getDescription();
 
         String URL;
+
         if(type.equalsIgnoreCase("youtube")){
             videoID=videoURL.substring(videoURL.length()-11,videoURL.length());
             URL ="https://img.youtube.com/vi/"+videoID+"/hqdefault.jpg";
-
+            source.setImageResource(R.drawable.ic_youtube_24dp);
 
         }
         else if(type.equalsIgnoreCase("facebook")){
             videoID=videoURL.substring(videoURL.lastIndexOf("videos/")+6,videoURL.length()-1);
             URL ="https://graph.facebook.com/"+videoID+"/picture";
-
+            source.setImageResource(R.drawable.ic_facebook_social);
         }
         else{
             URL =type;

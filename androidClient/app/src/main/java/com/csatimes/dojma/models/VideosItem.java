@@ -3,6 +3,10 @@ package com.csatimes.dojma.models;
 public class VideosItem {
     private String videoURL,videoName,dateStamp,creator,type,description;
 
+    public VideosItem() {
+
+    }
+
     public VideosItem(String videoURL,String videoName,String dateStamp,String creator,String type,String description)
     {
         this.videoURL=videoURL;
