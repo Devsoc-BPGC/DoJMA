@@ -24,7 +24,7 @@ import io.realm.Realm;
 import static com.csatimes.dojma.aboutapp.AboutAppActivity.TAG;
 import static com.csatimes.dojma.models.ShortsItem.FIELD_READ;
 import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
-import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
+import static com.csatimes.dojma.utilities.FirebaseValues.CAMPUS_WATCH;
 
 public class ShortsAdapter extends PagerAdapter {
 

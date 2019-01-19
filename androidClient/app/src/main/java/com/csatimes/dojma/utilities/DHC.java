@@ -207,7 +207,7 @@ public class DHC {
      * Specific purpose log printing method where TAG is mentioned as one of the arg
      * and the <b>Error</b> level is used
      *
-     * @param tag Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
+     * @param tag     Tag which follows <b>{@value DHC#PACKAGE_NAME}.</b>tag
      * @param message Log message
      */
     public static void e(final String tag, final String message) {
@@ -217,9 +217,9 @@ public class DHC {
     /**
      * Get a colored snackbar with time period {@code Snackbar.LENGTH_SHORT}
      *
-     * @param view View paramter to Snackbar
-     * @param s Message to be shown
-     * @param bgColor Background color in value {@code int}
+     * @param view      View paramter to Snackbar
+     * @param s         Message to be shown
+     * @param bgColor   Background color in value {@code int}
      * @param textColor Text color. Value in {@code int}
      * @return Snackbar object with the specified text,colors
      */
@@ -237,9 +237,9 @@ public class DHC {
      * Utility function to check whether device is connected to the internet
      *
      * @param context Context object. eg. {@code this} if in Activity/Service or
-     * {@code getContext()} if calling from a fragment.
-     * <p>
-     * NOTE: Does not check if internet is working fine or not
+     *                {@code getContext()} if calling from a fragment.
+     *                <p>
+     *                NOTE: Does not check if internet is working fine or not
      * @return {@code true} if connected, {@code false} otherwise
      */
     public static boolean isOnline(final Context context) {
@@ -268,5 +268,12 @@ public class DHC {
         final float t = dpWidth / num;
         final float r = dpWidth % num;
         return r * 10 < num ? (int) Math.ceil(dpWidth / num) : (int) t;
+    }
+
+    public class Values {
+        /**
+         * The key of get field for video id in youtube urls
+         */
+        public static final String YT_VIDEO_KEY = "v";
     }
 }

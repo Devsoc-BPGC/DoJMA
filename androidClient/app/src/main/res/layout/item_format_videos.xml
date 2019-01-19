@@ -1,108 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:layout_gravity="center_horizontal"
+        android:cropToPadding="false"
+        fresco:placeholderImage="@android:drawable/ic_menu_camera"
+        fresco:roundedCornerRadius="8dp" />
+
+    <ImageButton
+        android:id="@+id/ib_share_video"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_alignTop="@id/sdv_thumb"
+        android:layout_alignEnd="@id/sdv_thumb"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_share" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginBottom="8dp"
-        >
+        android:layout_height="120dp"
+        android:layout_alignBottom="@id/sdv_thumb"
+        android:background="@drawable/bottom_rounded">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/my_image_view"
+        <TextView
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
-            android:layout_height="225dp"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true"
-            android:cropToPadding="false"
-            fresco:placeholderImage="@android:drawable/ic_menu_camera"
-            fresco:roundedCornerRadius="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_date"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/ralewaymedium"
+            android:paddingBottom="10sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="We can be heroes" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="123456" />
+
+        <TextView
+            android:id="@+id/tv_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_round"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="DoJMA" />
+
 
         <ImageButton
-            android:id="@+id/item_format_video_share"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_alignTop="@id/my_image_view"
-            android:layout_alignRight="@id/my_image_view"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_share" />
+            android:id="@+id/ib_video_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/tv_date"
+            android:background="#00000000"
+            android:padding="0dp"
+            android:src="@drawable/ic_youtube_24dp" />
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_alignBottom="@id/my_image_view"
-            android:background="@drawable/bottom_rounded">
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/dateStamp"
-                android:layout_marginLeft="8dp"
-                android:clickable="true"
-                android:fontFamily="@font/ralewaymedium"
-                android:paddingBottom="10sp"
-                android:text="We can be heroes"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dateStamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="3"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical"
-                android:text="123456"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_creator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_weight="3"
-                android:background="@drawable/button_round"
-                android:clickable="true"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:text="DoJMA"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-
-            <ImageButton
-                android:id="@+id/video_source"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_name"
-                android:src="@drawable/ic_youtube_24dp"
-                android:padding="0dp"
-                android:background="#00000000"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/dateStamp" />
-
-
-        </RelativeLayout>
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
+

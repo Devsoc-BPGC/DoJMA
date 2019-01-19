@@ -30,5 +30,6 @@ public class DoJMA extends Application {
                 .schemaVersion(DHC.REALM_DATABASE_SCHEMA_VERSION)
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+        Fresco.initialize(this);
     }
 }
