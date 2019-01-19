@@ -2,161 +2,116 @@ package com.csatimes.dojma.viewholders;
 
 import android.content.Intent;
 import android.net.Uri;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.VideosItem;
+import com.csatimes.dojma.utilities.DHC;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-public class VideosViewHolder extends RecyclerView.ViewHolder{
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
-    private TextView nameTv,date,creatorTv;
-    //private Button video;
-    private String videoName;
-    private String videoURL;
-    private String dateStamp;
-    private String creator;
-    private String type;
-    private String videoID;
-    private String description;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.csatimes.dojma.activities.VideosActivity.launchVideo;
+import static com.csatimes.dojma.viewholders.UrlOperations.getFbVideoThumbUrl;
+import static com.csatimes.dojma.viewholders.UrlOperations.getQueryMap;
+import static com.csatimes.dojma.viewholders.UrlOperations.getYtThumbUrl;
+
+public class VideosViewHolder extends RecyclerView.ViewHolder {
+
+    public static final String TAG = VideosViewHolder.class.getSimpleName();
+    private TextView nameTv;
+    private TextView date;
+    private TextView creatorTv;
     private SimpleDraweeView image;
-    private ImageButton shareVideo, source;
-    private Intent intent = new Intent(itemView.getContext(),com.csatimes.dojma.activities.VideosActivity.class);
+    private ImageButton shareVideo;
+    private ImageButton source;
 
     public VideosViewHolder(View itemView) {
-        super(itemView);//itemView is view_v.xml
+        super(itemView);
         nameTv = itemView.findViewById(R.id.tv_name);
-        date = itemView.findViewById(R.id.dateStamp);
-        //video = itemView.findViewById(R.id.go);
+        date = itemView.findViewById(R.id.tv_date);
         creatorTv = itemView.findViewById(R.id.tv_creator);
-        image = itemView.findViewById(R.id.my_image_view);
-        shareVideo = itemView.findViewById(R.id.item_format_video_share);
-        source = itemView.findViewById(R.id.video_source);
-
+        image = itemView.findViewById(R.id.sdv_thumb);
+        shareVideo = itemView.findViewById(R.id.ib_share_video);
+        source = itemView.findViewById(R.id.ib_video_source);
     }
 
-    public void populate(VideosItem parts)
-    {
-        videoName=parts.getVideoName();
-        nameTv.setText(videoName);
-
-        dateStamp=parts.getDateStamp();
-        date.setText(dateStamp);
-
-        creator=parts.getCreator();
-        creatorTv.setText(creator);
-
-        videoURL=parts.getVideoURL();
-
-        type=parts.getType();
-
-        description=parts.getDescription();
-
-        String URL;
-
-        if(type.equalsIgnoreCase("youtube")){
-            videoID=videoURL.substring(videoURL.length()-11,videoURL.length());
-            URL ="https://img.youtube.com/vi/"+videoID+"/hqdefault.jpg";
-            source.setImageResource(R.drawable.ic_youtube_24dp);
-
+    public void populate(VideosItem item) {
+        nameTv.setText(item.videoName);
+        date.setText(item.dateStamp);
+        creatorTv.setText(item.creator);
+        item.type = item.type.toLowerCase();
+        switch (item.type) {
+            case "youtube": {
+                Map<String, String> getParams = getQueryMap(item.videoURL);
+                if (getParams != null) {
+                    item.id = getParams.get(DHC.Values.YT_VIDEO_KEY);
+                    item.thumbUrl = getYtThumbUrl(item.id);
+                }
+                source.setImageResource(R.drawable.ic_youtube_24dp);
+                break;
+            }
+            case "facebook": {
+                URL url;
+                try {
+                    url = new URL(item.videoURL);
+                } catch (MalformedURLException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    break;
+                }
+                List<String> path = Arrays.asList((url.getPath().split("/")));
+                int i = path.lastIndexOf("videos");
+                if (i >= 0 && i < path.size() - 1) {
+                    item.id = path.get(i + 1);
+                    item.thumbUrl = getFbVideoThumbUrl(item.id);
+                }
+                source.setImageResource(R.drawable.ic_facebook_social);
+                break;
+            }
         }
-        else if(type.equalsIgnoreCase("facebook")){
-            videoID=videoURL.substring(videoURL.lastIndexOf("videos/")+6,videoURL.length()-1);
-            URL ="https://graph.facebook.com/"+videoID+"/picture";
-            source.setImageResource(R.drawable.ic_facebook_social);
+
+        if (item.thumbUrl == null) {
+            item.thumbUrl = item.type;
         }
-        else{
-            URL =type;
+
+        if (item.thumbUrl != null) {
+            Uri thumbnail = Uri.parse(item.thumbUrl);
+            image.setImageURI(thumbnail);
         }
-        Uri thumbnail = Uri.parse(URL);
-        image.setImageURI(thumbnail);
-        //video.setText(videoID);
 
-        nameTv.setOnClickListener(v -> {
-            if(type.equalsIgnoreCase("youtube"))
-            {
-                intent.putExtra("id", videoID);
-                intent.putExtra("title",videoName);
-                intent.putExtra("date",dateStamp);
-                intent.putExtra("creator",creator);
-                intent.putExtra("description",description);
-                itemView.getContext().startActivity(intent);
-            }
-            else{
-                Intent redirecter = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-                itemView.getContext().startActivity(redirecter);
-            }
-
-        });
-
-        date.setOnClickListener(v -> {
-
-            if(type.equalsIgnoreCase("youtube"))
-            {
-                intent.putExtra("id", videoID);
-                intent.putExtra("title",videoName);
-                intent.putExtra("date",dateStamp);
-                intent.putExtra("creator",creator);
-                intent.putExtra("description",description);
-                itemView.getContext().startActivity(intent);
-            }
-            else{
-                Intent redirecter = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-                itemView.getContext().startActivity(redirecter);
+        View.OnClickListener clickListener = (v -> {
+            if (item.type.equalsIgnoreCase("youtube")) {
+                launchVideo(itemView.getContext(), item);
+            } else {
+                Intent redirectionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.videoURL));
+                itemView.getContext().startActivity(redirectionIntent);
             }
         });
 
-        creatorTv.setOnClickListener(v -> {
+        nameTv.setOnClickListener(clickListener);
 
-            if(type.equalsIgnoreCase("youtube"))
-            {
-                intent.putExtra("id", videoID);
-                intent.putExtra("title",videoName);
-                intent.putExtra("date",dateStamp);
-                intent.putExtra("creator",creator);
-                intent.putExtra("description",description);
-                itemView.getContext().startActivity(intent);
-            }
-            else{
-                Intent redirecter = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-                itemView.getContext().startActivity(redirecter);
-            }
+        date.setOnClickListener(clickListener);
+
+        creatorTv.setOnClickListener(clickListener);
+
+        image.setOnClickListener(clickListener);
+
+        shareVideo.setOnClickListener(v -> {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_SUBJECT, item.videoName);
+            share.putExtra(Intent.EXTRA_TEXT, item.videoURL);
+            itemView.getContext().startActivity(Intent.createChooser(share, "Share video"));
         });
-
-        image.setOnClickListener(v -> {
-
-            if(type.equalsIgnoreCase("youtube"))
-            {
-                intent.putExtra("id", videoID);
-                intent.putExtra("title",videoName);
-                intent.putExtra("date",dateStamp);
-                intent.putExtra("creator",creator);
-                intent.putExtra("description",description);
-                itemView.getContext().startActivity(intent);
-            }
-            else{
-                Intent redirecter = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-                itemView.getContext().startActivity(redirecter);
-            }
-        });
-
-        shareVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent share = new Intent(android.content.Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_SUBJECT, videoName);
-                share.putExtra(Intent.EXTRA_TEXT, videoURL);
-
-                itemView.getContext().startActivity(Intent.createChooser(share, "Share link!"));
-            }
-        });
-
-
     }
-
 }
 

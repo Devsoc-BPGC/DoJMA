@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.aboutapp.AboutAppActivity;
 import com.csatimes.dojma.campuswatch.ShortsActivity;
-import com.csatimes.dojma.favorites.FavouritesFragment;
 import com.csatimes.dojma.fragments.EventsFragment;
 import com.csatimes.dojma.fragments.UtilitiesFragment;
 import com.csatimes.dojma.herald.HeraldFragment;
@@ -46,9 +45,9 @@ import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_PLAINTEXT;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
-import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
-import static com.csatimes.dojma.utilities.FirebaseKeys.CONTRIB;
-import static com.csatimes.dojma.utilities.FirebaseKeys.MEMBER;
+import static com.csatimes.dojma.utilities.FirebaseValues.CAMPUS_WATCH;
+import static com.csatimes.dojma.utilities.FirebaseValues.CONTRIB;
+import static com.csatimes.dojma.utilities.FirebaseValues.MEMBER;
 import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
 @SuppressLint("GoogleAppIndexingApiWarning")
