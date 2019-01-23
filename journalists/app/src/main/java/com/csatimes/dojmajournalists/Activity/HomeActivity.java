@@ -32,6 +32,9 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.send_notif).setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this,
                         SendNotificationActivity.class)));
+        findViewById(R.id.btn_update_menu).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this,
+                        MessMenuActivity.class)));
     }
     @Override
     public void onStart() {

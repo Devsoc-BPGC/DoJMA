@@ -25,7 +25,9 @@
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.DeleteEventActivity" />
         <activity android:name=".Activity.AddVideoActivity" />
-        <activity android:name=".Activity.SendNotificationActivity"></activity>
+        <activity android:name=".Activity.SendNotificationActivity" />
+        <activity android:name=".Activity.MessMenuActivity" />
+        <activity android:name=".Activity.UpdateMessMenuActivity"></activity>
     </application>
 
 </manifest>
