@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.csatimes.dojmajournalists.Model.CampusWatchModel;
+import com.csatimes.dojmajournalists.Model.SendNotificationModel;
 import com.csatimes.dojmajournalists.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,8 +35,9 @@ import static com.csatimes.dojmajournalists.Utils.Jhc.getFirebaseRef;
 
 public class SendNotificationActivity extends AppCompatActivity {
     private final DatabaseReference databaseReference = getFirebaseRef().child(SEND_NOTFICATION);
-    private EditText campusWatchTitle;
-    private EditText cwDescription;
+    private EditText notifTitle;
+    private EditText notifSubtitle;
+    private EditText notifclickUrl;
     private ImageView imageView;
     private Uri filePath;
     private String date;
@@ -48,12 +49,12 @@ public class SendNotificationActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         final Button addBtn;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_campus_watch);
+        setContentView(R.layout.activity_send_notification);
         mAuth = FirebaseAuth.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        campusWatchTitle = findViewById(R.id.title);
-        campusWatchTitle.addTextChangedListener(new TextWatcher() {
+        notifTitle = findViewById(R.id.title);
+        notifTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -67,13 +68,14 @@ public class SendNotificationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(final Editable editable) {
                 if (editable.toString().isEmpty()) {
-                    campusWatchTitle.setError(getString(R.string.required));
+                    notifTitle.setError(getString(R.string.required));
                 } else {
-                    campusWatchTitle.setError(null);
+                    notifTitle.setError(null);
                 }
             }
         });
-        cwDescription = findViewById(R.id.desc);
+        notifSubtitle = findViewById(R.id.desc);
+        notifclickUrl = findViewById(R.id.click_url);
         addBtn = findViewById(R.id.add);
         Button btnChoose = findViewById(R.id.btnChoose);
         imageView = findViewById(R.id.imgView);
@@ -82,8 +84,8 @@ public class SendNotificationActivity extends AppCompatActivity {
         addBtn.setOnClickListener(view -> {
             boolean areRequiredFieldsSet = true;
 
-            if (campusWatchTitle.getText().toString().isEmpty()) {
-                campusWatchTitle.setError(getString(R.string.required));
+            if (notifTitle.getText().toString().isEmpty()) {
+                notifTitle.setError(getString(R.string.required));
                 areRequiredFieldsSet = false;
             }
 
@@ -101,7 +103,7 @@ public class SendNotificationActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("campusWatch/" + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child("Notification/" + UUID.randomUUID().toString());
 
             ref.putFile(filePath)
                     .addOnSuccessListener(taskSnapshot -> {
@@ -110,12 +112,10 @@ public class SendNotificationActivity extends AppCompatActivity {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String imgUrl = uri.toString();
                             final String id = databaseReference.push().getKey();
-                            final CampusWatchModel campusWatchModel = new CampusWatchModel(campusWatchTitle.getText().toString(),
-                                    cwDescription.getText().toString(),
-                                    imgUrl,
-                                    date
+                            final SendNotificationModel sendNotificationModel = new SendNotificationModel(notifTitle.getText().toString(),
+                                    notifSubtitle.getText().toString(),date, imgUrl, notifclickUrl.getText().toString()
                             );
-                            databaseReference.child(id).setValue(campusWatchModel).addOnCompleteListener(task -> {
+                            databaseReference.child(id).setValue(sendNotificationModel).addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SendNotificationActivity.this,
                                             R.string.event_added, Toast.LENGTH_SHORT).show();
@@ -123,7 +123,7 @@ public class SendNotificationActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    Toast.makeText(SendNotificationActivity.this, "Could not add event", Toast.LENGTH_SHORT)
+                                    Toast.makeText(SendNotificationActivity.this, "Could not Send Notification", Toast.LENGTH_SHORT)
                                             .show();
                                 }
                             });

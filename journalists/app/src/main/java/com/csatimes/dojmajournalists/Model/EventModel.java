@@ -19,7 +19,7 @@ public class EventModel {
         this.location = location;
     }
 
-    public void EventsModel() {
+    public EventModel() {
     }
 
     public String getTitle() {
