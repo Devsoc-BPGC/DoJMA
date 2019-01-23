@@ -13,17 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".Activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddEventActivity" />
-        <activity android:name=".AddCampusWatch" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".DeleteEvent" />
+        <activity android:name=".Activity.AddEventActivity" />
+        <activity android:name=".Activity.AddCampusWatchActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.DeleteEventActivity" />
+        <activity android:name=".Activity.AddVideoActivity" />
+        <activity android:name=".Activity.SendNotificationActivity" />
+        <activity android:name=".Activity.MessMenuActivity" />
+        <activity android:name=".Activity.UpdateMessMenuActivity"></activity>
     </application>
 
 </manifest>

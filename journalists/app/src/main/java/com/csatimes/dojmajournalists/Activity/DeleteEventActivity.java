@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.csatimes.dojmajournalists.Adapter.DeleteEventAdapter;
+import com.csatimes.dojmajournalists.EventModel;
+import com.csatimes.dojmajournalists.R;
+import com.csatimes.dojmajournalists.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,8 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteEvent extends AppCompatActivity {
-    private List<Event> eventList = new ArrayList<>();
+public class DeleteEventActivity extends AppCompatActivity {
+    private List<EventModel> eventList = new ArrayList<>();
     private FirebaseAuth mAuth;
 
     @Override
@@ -45,11 +49,8 @@ public class DeleteEvent extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    EventsPuller dataPuller = snapshot.getValue(EventsPuller.class);
-                    Event listItem = new Event(
-                            dataPuller.getTitle()
-                    );
-                    eventList.add(listItem);
+                    EventModel eventModel = snapshot.getValue(EventModel.class);
+                    eventList.add(eventModel);
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -67,7 +68,7 @@ public class DeleteEvent extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            Intent i = new Intent(DeleteEvent.this, LoginActivity.class);
+            Intent i = new Intent(DeleteEventActivity.this, LoginActivity.class);
             startActivity(i);
         }
     }

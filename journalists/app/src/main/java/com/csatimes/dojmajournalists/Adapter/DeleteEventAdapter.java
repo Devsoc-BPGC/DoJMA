@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.csatimes.dojmajournalists.Activity.HomeActivity;
+import com.csatimes.dojmajournalists.EventModel;
+import com.csatimes.dojmajournalists.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,11 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.ViewHolder> {
-    private List<Event> listItems;
+    private List<EventModel> listItems;
     private Context context;
 
 
-    public DeleteEventAdapter(List<Event> eventList, Context context) {
+    public DeleteEventAdapter(List<EventModel> eventList, Context context) {
         this.listItems = eventList;
         this.context = context;
     }
@@ -41,7 +44,7 @@ public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.
 
     @Override
     public void onBindViewHolder(DeleteEventAdapter.ViewHolder holder, int position) {
-        final Event listItem = listItems.get(position);
+        final EventModel listItem = listItems.get(position);
         holder.Title.setText(listItem.getTitle());
         holder.delete_but.setOnClickListener(view -> {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();

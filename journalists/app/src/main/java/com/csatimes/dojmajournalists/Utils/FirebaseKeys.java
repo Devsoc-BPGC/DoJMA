@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Utils;
 
 /**
  * Keys for firebase.
@@ -7,4 +7,6 @@ package com.csatimes.dojmajournalists;
 public final class FirebaseKeys {
     public static final String NODE_EVENTS = "events2";
     public static final String CAMPUS_WATCH = "campusWatch";
+    public static final String SEND_NOTFICATION ="dojmaNotices";
+    public static final String VIDEOS = "videos";
 }
