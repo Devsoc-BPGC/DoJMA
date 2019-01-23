@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.csatimes.dojmajournalists.Model.CampusWatchModel;
+import com.csatimes.dojmajournalists.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +29,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import static com.csatimes.dojmajournalists.FirebaseKeys.CAMPUS_WATCH;
-import static com.csatimes.dojmajournalists.Jhc.getFirebaseRef;
+import static com.csatimes.dojmajournalists.Utils.FirebaseKeys.CAMPUS_WATCH;
+import static com.csatimes.dojmajournalists.Utils.Jhc.getFirebaseRef;
 
-public class AddCampusWatch extends AppCompatActivity {
+
+public class AddCampusWatchActivity extends AppCompatActivity {
     private final DatabaseReference databaseReference = getFirebaseRef().child(CAMPUS_WATCH);
     private EditText campusWatchTitle;
     private EditText cwDescription;
@@ -103,24 +106,24 @@ public class AddCampusWatch extends AppCompatActivity {
             ref.putFile(filePath)
                     .addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddCampusWatch.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCampusWatchActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String imgUrl = uri.toString();
                             final String id = databaseReference.push().getKey();
-                            final CampusWatchList campusWatchList = new CampusWatchList(campusWatchTitle.getText().toString(),
+                            final CampusWatchModel campusWatchList = new CampusWatchModel(campusWatchTitle.getText().toString(),
                                     cwDescription.getText().toString(),
                                     imgUrl,
                                     date
                             );
                             databaseReference.child(id).setValue(campusWatchList).addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(AddCampusWatch.this,
+                                    Toast.makeText(AddCampusWatchActivity.this,
                                             R.string.event_added, Toast.LENGTH_SHORT).show();
-                                    final Intent intent = new Intent(AddCampusWatch.this, HomeActivity.class);
+                                    final Intent intent = new Intent(AddCampusWatchActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    Toast.makeText(AddCampusWatch.this, "Could not add event", Toast.LENGTH_SHORT)
+                                    Toast.makeText(AddCampusWatchActivity.this, "Could not add event", Toast.LENGTH_SHORT)
                                             .show();
                                 }
                             });
@@ -128,7 +131,7 @@ public class AddCampusWatch extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddCampusWatch.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCampusWatchActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     })
                     .addOnProgressListener(taskSnapshot -> {
                         double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
@@ -167,7 +170,7 @@ public class AddCampusWatch extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null)
         {
-            Intent i = new Intent(AddCampusWatch.this, LoginActivity.class);
+            Intent i = new Intent(AddCampusWatchActivity.this, LoginActivity.class);
             startActivity(i);
         }
     }

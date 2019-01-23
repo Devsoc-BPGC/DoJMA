@@ -8,4 +8,6 @@
     <string name="required">required</string>
     <string name="cw_title">Title</string>
     <string name="DeleteEvent">Delete Event</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="add_video">Add Video</string>
 </resources>

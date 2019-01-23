@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Utils;
 
 import com.google.firebase.database.FirebaseDatabase;
 

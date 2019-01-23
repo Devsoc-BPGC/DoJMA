@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.csatimes.dojmajournalists.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

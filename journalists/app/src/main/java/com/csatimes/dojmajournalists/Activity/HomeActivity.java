@@ -1,9 +1,10 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.csatimes.dojmajournalists.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,10 +22,16 @@ public class HomeActivity extends AppCompatActivity {
                         AddEventActivity.class)));
         findViewById(R.id.btn_add_cw).setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this,
-                        AddCampusWatch.class)));
+                        AddCampusWatchActivity.class)));
         findViewById(R.id.btn_del_event).setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this,
-                        DeleteEvent.class)));
+                        DeleteEventActivity.class)));
+        findViewById(R.id.add_video).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this,
+                        AddVideoActivity.class)));
+        findViewById(R.id.send_notif).setOnClickListener(v ->
+                startActivity(new Intent(HomeActivity.this,
+                        SendNotificationActivity.class)));
     }
     @Override
     public void onStart() {

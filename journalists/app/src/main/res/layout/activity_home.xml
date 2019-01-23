@@ -4,16 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeActivity">
-
-    <Button
-        android:id="@+id/btn_add_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:text="@string/add_event"
-        android:textAllCaps="false"
-        android:textSize="20sp" />
+    tools:context=".Activity.HomeActivity">
     <Button
         android:id="@+id/btn_add_cw"
         android:layout_width="match_parent"
@@ -23,6 +14,31 @@
         android:textAllCaps="false"
         android:textSize="20sp" />
     <Button
+        android:id="@+id/send_notif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="@string/send_notification"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+    <Button
+        android:id="@+id/add_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="@string/add_video"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+    <Button
+        android:id="@+id/btn_add_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:text="@string/add_event"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+
+    <Button
         android:id="@+id/btn_del_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,4 +46,5 @@
         android:text="@string/DeleteEvent"
         android:textAllCaps="false"
         android:textSize="20sp" />
+
 </LinearLayout>
