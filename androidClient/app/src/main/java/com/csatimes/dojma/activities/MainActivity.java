@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.aboutapp.AboutAppActivity;
 import com.csatimes.dojma.campuswatch.ShortsActivity;
-import com.csatimes.dojma.favorites.FavouritesFragment;
 import com.csatimes.dojma.fragments.EventsFragment;
 import com.csatimes.dojma.fragments.UtilitiesFragment;
 import com.csatimes.dojma.herald.HeraldFragment;
+import com.csatimes.dojma.fragments.VideosFragment;
 import com.csatimes.dojma.home.HomeVm;
 import com.csatimes.dojma.home.Section;
 import com.csatimes.dojma.issues.IssuesFragment;
@@ -45,9 +45,9 @@ import static com.csatimes.dojma.models.ShortsItem.saveFirebaseData;
 import static com.csatimes.dojma.utilities.DHC.MIME_TYPE_PLAINTEXT;
 import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES;
-import static com.csatimes.dojma.utilities.FirebaseKeys.CAMPUS_WATCH;
-import static com.csatimes.dojma.utilities.FirebaseKeys.CONTRIB;
-import static com.csatimes.dojma.utilities.FirebaseKeys.MEMBER;
+import static com.csatimes.dojma.utilities.FirebaseValues.CAMPUS_WATCH;
+import static com.csatimes.dojma.utilities.FirebaseValues.CONTRIB;
+import static com.csatimes.dojma.utilities.FirebaseValues.MEMBER;
 import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
 @SuppressLint("GoogleAppIndexingApiWarning")
@@ -142,9 +142,9 @@ public class MainActivity extends BaseActivity
                     fragment = new IssuesFragment();
                     break;
 
-                case FAVOURITES:
-                    fragment = new FavouritesFragment();
-                    break;
+                case VIDEOS:
+                fragment = new VideosFragment();
+                break;
 
                 case EVENTS:
                     fragment = new EventsFragment();
@@ -247,8 +247,8 @@ public class MainActivity extends BaseActivity
                 selectedSection = Section.ISSUES;
                 break;
 
-            case R.id.bottom_favourites:
-                selectedSection = Section.FAVOURITES;
+            case R.id.bottom_videos:
+                selectedSection = Section.VIDEOS;
                 break;
 
             case R.id.bottom_events:

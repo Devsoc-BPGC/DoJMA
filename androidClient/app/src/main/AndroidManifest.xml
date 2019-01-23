@@ -19,7 +19,11 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="@string/default_notification_channel_id"/>
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="@string/default_notification_channel_id" />
+
     <application
         android:name=".DoJMA"
         android:allowBackup="false"
@@ -205,8 +209,11 @@
             android:name=".activities.UtilitiesArchivesActivity"
             android:label="@string/title_activity_archives"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.VideosActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            />
     </application>
 
 </manifest>

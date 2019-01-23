@@ -29,3 +29,31 @@ exports.notifyCampusWatchAdded = functions.database.ref("/campusWatch/{id}")
             throw error;
         });
     });
+
+    exports.broadcastNotif = functions.database.ref("/dojmaNotices/{id}")
+        .onCreate((snapshot,context) => {
+            const data = snapshot.val();
+            if(data.imageUrl === null || data.imageUrl === "" || !data.hasOwnProperty("imageUrl")){
+                data.imageUrl = "";
+            }
+            const msg = {
+                data : {
+                    smallTitle: data.title,
+                    bigTitle: data.title,
+                    smallSubTitle: data.subtitle,
+                    bigSummaryText : data.subtitle,
+                    link: data.clickUrl,
+                    imageUrl : data.imageUrl,
+                    type: "2",
+                    timestamp : data.timestamp
+                },
+                topic : `newDojmaNotice`
+            };
+            return admin.messaging().send(msg).then((response) => {
+                console.log(`Successfully sent /dojmaNotices/${context.params.id} update:`,response);
+                return 0;
+            }).catch((error) => {
+                console.log(`Error sending /dojmaNotices/${context.params.id} update:`, error);
+                throw error;
+            });
+        });
