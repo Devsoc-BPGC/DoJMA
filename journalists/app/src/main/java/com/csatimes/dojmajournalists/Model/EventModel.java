@@ -1,17 +1,28 @@
 package com.csatimes.dojmajournalists;
 
-public class EventsPuller {
-    private String title, location, startDate, startTime, desc;
+/**
+ * @author Aryan Agarwal.
+ */
 
-    public EventsPuller() {
+public class EventModel {
+    public String title;
+    public String desc;
+    public String startTime;
+    public String startDate;
+    public String location;
+
+    public EventModel(final String title, final String desc, final String startTime, final String startDate, final String location) {
+        this.title = title;
+        this.desc = desc;
+        this.startTime = startTime;
+        this.startDate = startDate;
+        this.location = location;
     }
 
+    public EventModel() {
+    }
 
     public String getTitle() {
-        return title;
-    }
-
-    public String setTitle() {
         return title;
     }
 

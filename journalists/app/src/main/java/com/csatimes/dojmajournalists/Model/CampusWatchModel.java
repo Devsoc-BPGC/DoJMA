@@ -1,11 +1,11 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Model;
 
-public class CampusWatchList {
+public class CampusWatchModel {
 
     public String title,content,imageUrl,timestamp;
 
 
-    public CampusWatchList(final String title, final String content, final String imageUrl, final String timestamp) {
+    public CampusWatchModel(final String title, final String content, final String imageUrl, final String timestamp) {
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;

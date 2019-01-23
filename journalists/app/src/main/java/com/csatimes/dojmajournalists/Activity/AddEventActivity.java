@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists;
+package com.csatimes.dojmajournalists.Activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.csatimes.dojmajournalists.EventModel;
+import com.csatimes.dojmajournalists.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -22,8 +24,8 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.csatimes.dojmajournalists.FirebaseKeys.NODE_EVENTS;
-import static com.csatimes.dojmajournalists.Jhc.getFirebaseRef;
+import static com.csatimes.dojmajournalists.Utils.FirebaseKeys.NODE_EVENTS;
+import static com.csatimes.dojmajournalists.Utils.Jhc.getFirebaseRef;
 
 public class AddEventActivity extends AppCompatActivity {
     private final DatabaseReference databaseReference = getFirebaseRef().child(NODE_EVENTS);
@@ -126,7 +128,7 @@ public class AddEventActivity extends AppCompatActivity {
     public void addData() {
         final String id = databaseReference.push().getKey();
         progressBar.setVisibility(View.VISIBLE);
-        final Event event = new Event(eventTitle.getText().toString(),
+        final EventModel event = new EventModel(eventTitle.getText().toString(),
                 eventDescription.getText().toString(),
                 eventTime.getText().toString(),
                 eventDate.getText().toString(),
