@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.csatimes.dojmajournalists.Activity.UpdateMessMenuActivity">
+    tools:context="com.csatimes.dojmajournalists.messmenu.UpdateMessMenuActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -15,10 +15,10 @@
         android:textSize="22sp" />
 
     <Button
-        android:id="@+id/upload"
+        android:id="@+id/btn_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
+        android:layout_below="@id/tv_title"
         android:layout_centerHorizontal="true"
         android:text="Upload Menu" />
 
@@ -30,7 +30,8 @@
         android:layout_centerVertical="true" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/update"
+        android:id="@+id/btn_update"
+        android:onClick="addData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

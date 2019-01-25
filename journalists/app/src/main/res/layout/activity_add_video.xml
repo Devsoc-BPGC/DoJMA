@@ -31,10 +31,11 @@
 
 
     <Button
-        android:id="@+id/date"
+        android:id="@+id/btn_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:onClick="chooseUploadDate"
         android:background="@android:color/white"
         android:drawableStart="@drawable/ic_date_range_black_24dp"
         android:drawableTint="@color/colorAccent"
@@ -50,13 +51,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp">
         <Spinner
-            android:id="@+id/creator"
+            android:id="@+id/spinner_creator"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"/>
         <Spinner
-            android:id="@+id/source"
+            android:id="@+id/spinner_source_type"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
@@ -75,7 +76,8 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp" />
     <Button
-        android:id="@+id/add"
+        android:id="@+id/btn_add"
+        android:onClick="addData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"

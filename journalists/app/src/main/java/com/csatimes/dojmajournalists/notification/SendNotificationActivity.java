@@ -1,6 +1,4 @@
-package com.csatimes.dojmajournalists.Activity;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.csatimes.dojmajournalists.notification;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,15 +8,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.csatimes.dojmajournalists.Model.SendNotificationModel;
 import com.csatimes.dojmajournalists.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.csatimes.dojmajournalists.home.HomeActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,32 +26,32 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import static com.csatimes.dojmajournalists.Utils.FirebaseKeys.SEND_NOTFICATION;
-import static com.csatimes.dojmajournalists.Utils.Jhc.getFirebaseRef;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.csatimes.dojmajournalists.login.LoginActivity.checkLogin;
+import static com.csatimes.dojmajournalists.utils.FirebaseKeys.SEND_NOTFICATION;
+import static com.csatimes.dojmajournalists.utils.Jhc.getFirebaseRef;
 
 
 public class SendNotificationActivity extends AppCompatActivity {
     private final DatabaseReference databaseReference = getFirebaseRef().child(SEND_NOTFICATION);
-    private EditText notifTitle;
-    private EditText notifSubtitle;
-    private EditText notifclickUrl;
-    private ImageView imageView;
+    private final int PICK_IMAGE_RC = 71;
+    private EditText titleEt;
+    private EditText subtitleEt;
+    private EditText clickUrlEt;
+    private ImageView thumbIv;
     private Uri filePath;
     private String date;
-    private final int PICK_IMAGE_REQUEST = 71;
     private StorageReference storageReference;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        final Button addBtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_notification);
-        mAuth = FirebaseAuth.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        notifTitle = findViewById(R.id.title);
-        notifTitle.addTextChangedListener(new TextWatcher() {
+        titleEt = findViewById(R.id.tv_title);
+        titleEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -68,36 +65,39 @@ public class SendNotificationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(final Editable editable) {
                 if (editable.toString().isEmpty()) {
-                    notifTitle.setError(getString(R.string.required));
+                    titleEt.setError(getString(R.string.required));
                 } else {
-                    notifTitle.setError(null);
+                    titleEt.setError(null);
                 }
             }
         });
-        notifSubtitle = findViewById(R.id.desc);
-        notifclickUrl = findViewById(R.id.click_url);
-        addBtn = findViewById(R.id.add);
-        Button btnChoose = findViewById(R.id.btnChoose);
-        imageView = findViewById(R.id.imgView);
+        subtitleEt = findViewById(R.id.et_desc);
+        clickUrlEt = findViewById(R.id.et_url);
+        Button chooseImgBtn = findViewById(R.id.btn_choose_img);
+        thumbIv = findViewById(R.id.iv_thumb);
         date = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
-
-        addBtn.setOnClickListener(view -> {
-            boolean areRequiredFieldsSet = true;
-
-            if (notifTitle.getText().toString().isEmpty()) {
-                notifTitle.setError(getString(R.string.required));
-                areRequiredFieldsSet = false;
-            }
-
-            if (areRequiredFieldsSet) {
-                addData();
-            }
-        });
-
-        btnChoose.setOnClickListener(v -> chooseImage());
+        chooseImgBtn.setOnClickListener(v -> chooseImage());
     }
 
-    public void addData() {
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_RC);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        checkLogin(this);
+    }
+
+    public void addData(View v) {
+        if (titleEt.getText().toString().isEmpty()) {
+            titleEt.setError(getString(R.string.required));
+            return;
+        }
+
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
@@ -112,9 +112,13 @@ public class SendNotificationActivity extends AppCompatActivity {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             final String imgUrl = uri.toString();
                             final String id = databaseReference.push().getKey();
-                            final SendNotificationModel sendNotificationModel = new SendNotificationModel(notifTitle.getText().toString(),
-                                    notifSubtitle.getText().toString(),date, imgUrl, notifclickUrl.getText().toString()
-                            );
+                            final SendNotificationModel sendNotificationModel = new SendNotificationModel();
+                            sendNotificationModel.title = titleEt.getText().toString();
+                            sendNotificationModel.subtitle = subtitleEt.getText().toString();
+                            sendNotificationModel.timestamp = date;
+                            sendNotificationModel.imageUrl = imgUrl;
+                            sendNotificationModel.clickUrl = clickUrlEt.getText().toString();
+                            assert id != null;
                             databaseReference.child(id).setValue(sendNotificationModel).addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SendNotificationActivity.this,
@@ -141,37 +145,18 @@ public class SendNotificationActivity extends AppCompatActivity {
         }
     }
 
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+        if (requestCode == PICK_IMAGE_RC && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                thumbIv.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null)
-        {
-            Intent i = new Intent(SendNotificationActivity.this, LoginActivity.class);
-            startActivity(i);
         }
     }
 }
