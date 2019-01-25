@@ -14,7 +14,7 @@
 
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -25,7 +25,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/desc"
+        android:id="@+id/et_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -36,8 +36,9 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/time"
+        android:id="@+id/btn_time"
         android:layout_width="match_parent"
+        android:onClick="chooseTime"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:background="@android:color/white"
@@ -50,7 +51,8 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/date"
+        android:id="@+id/btn_date"
+        android:onClick="chooseDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -64,7 +66,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/location"
+        android:id="@+id/et_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -75,7 +77,8 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/add"
+        android:id="@+id/btn_add"
+        android:onClick="addEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.csatimes.dojmajournalists.Activity.DeleteEventActivity">
+    tools:context="com.csatimes.dojmajournalists.events.DeleteEventActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:id="@+id/recycler_event"
+        android:id="@+id/rv_event"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_height="match_parent" />
 </LinearLayout>

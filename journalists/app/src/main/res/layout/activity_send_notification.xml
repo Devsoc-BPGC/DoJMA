@@ -7,7 +7,7 @@
     tools:ignore="UnusedAttribute">
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -18,7 +18,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/desc"
+        android:id="@+id/et_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -29,7 +29,7 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/click_url"
+        android:id="@+id/et_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -41,22 +41,22 @@
 
 
     <Button
-        android:id="@+id/btnChoose"
+        android:id="@+id/btn_choose_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Choose Image" />
 
 
     <ImageView
-        android:id="@+id/imgView"
+        android:id="@+id/iv_thumb"
         android:layout_width="match_parent"
         android:layout_height="100dp" />
 
     <Button
-        android:id="@+id/add"
+        android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:onClick="addData"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:text="Send Notification"

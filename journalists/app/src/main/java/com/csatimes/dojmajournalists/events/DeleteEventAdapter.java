@@ -1,4 +1,4 @@
-package com.csatimes.dojmajournalists.Adapter;
+package com.csatimes.dojmajournalists.events;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.csatimes.dojmajournalists.Activity.HomeActivity;
-import com.csatimes.dojmajournalists.EventModel;
 import com.csatimes.dojmajournalists.R;
+import com.csatimes.dojmajournalists.home.HomeActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,18 +44,18 @@ public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.
     @Override
     public void onBindViewHolder(DeleteEventAdapter.ViewHolder holder, int position) {
         final EventModel listItem = listItems.get(position);
-        holder.Title.setText(listItem.getTitle());
-        holder.delete_but.setOnClickListener(view -> {
+        holder.titleTv.setText(listItem.title);
+        holder.deleteBtn.setOnClickListener(view -> {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-            Query applesQuery = ref.child("events2").orderByChild("title").equalTo(listItem.getTitle());
+            Query applesQuery = ref.child("events2").orderByChild("title").equalTo(listItem.title);
 
             applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
                         appleSnapshot.getRef().removeValue();
                         notifyItemRemoved(position);
-                        Intent i = new Intent(context,HomeActivity.class);
+                        Intent i = new Intent(context, HomeActivity.class);
                         context.startActivity(i);
                     }
                 }
@@ -75,14 +74,14 @@ public class DeleteEventAdapter extends RecyclerView.Adapter<DeleteEventAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView Title;
-        public Button delete_but;
+        public TextView titleTv;
+        public Button deleteBtn;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            Title =  itemView.findViewById(R.id.event_name);
-            delete_but = itemView.findViewById(R.id.delete_but);
+            titleTv = itemView.findViewById(R.id.event_name);
+            deleteBtn = itemView.findViewById(R.id.delete_but);
         }
     }
 }
