@@ -1,9 +1,7 @@
 package com.csatimes.dojma.herald;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +39,9 @@ public class HeraldFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        final Activity activity = getActivity();
-        if (activity != null) {
+        if (heraldRv.getAdapter() == null) {
             final HeraldAdapter mAdapter = new HeraldAdapter();
             heraldRv.setAdapter(mAdapter);
-        } else {
-            Log.e(TAG, "getActivity() returned null in onStart()");
         }
     }
 }
