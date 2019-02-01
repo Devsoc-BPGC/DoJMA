@@ -200,7 +200,6 @@ public class UpdateCheckerService extends IntentService {
         //Apply changes if any
         editor.apply();
 
-        DHC.log("total herald items " + database.where(HeraldItem.class).findAll().size());
 
         if (downloadCount > 0) {
 

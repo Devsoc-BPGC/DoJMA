@@ -1,5 +1,7 @@
 package com.csatimes.dojma.models;
 
+import android.util.Log;
+
 import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.Exclude;
 
@@ -126,7 +128,7 @@ public class EventItem extends RealmObject {
             date = format.parse(datetime);
         } catch (final Exception e) {
             //noinspection HardCodedStringLiteral,StringConcatenation
-            DHC.log("Date parse error in start dateTime " + datetime + e.getMessage());
+            Log.d(TAG, String.format("setDateTime: Date parse error %s%s", datetime, e.getMessage()));
             this.time = Long.MAX_VALUE;
             startDateFormatted = null;
             startTimeFormatted = null;
@@ -142,7 +144,7 @@ public class EventItem extends RealmObject {
         try {
             startDateFormatted = sdf.format(date);
         } catch (final Exception e) {
-            DHC.e(TAG, "dd MMM parse error"); //NON-NLS
+            Log.e(TAG, String.format("setDateTime: parse error %s", datetime)); //NON-NLS
             startDateFormatted = null;
         }
 

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.EventsRV;
@@ -20,7 +19,6 @@ import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -31,12 +29,10 @@ public class EventsFragment extends Fragment {
     public static final String TAG = "fragments.EventsFragment";
     private final DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference()
             .child(DHC.FIREBASE_DATABASE_REFERENCE_EVENTS);
-    private final Realm mDatabase = Realm.getDefaultInstance();
-    private final RealmList<EventItem> mEventItems = new RealmList<>();
-    private EventsRV mEventsAdapter;
-    private TextView mErrorText;
-    private RecyclerView mEventsRecyclerView;
-    private ValueEventListener mEventListener;
+    private final Realm realm = Realm.getDefaultInstance();
+    private final RealmList<EventItem> eventItems = new RealmList<>();
+    private EventsRV eventsRV;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater,
@@ -48,48 +44,28 @@ public class EventsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mEventsRecyclerView = view.findViewById(R.id.events_recycler_view);
-        mErrorText = view.findViewById(R.id.error_text_view);
-
-        mEventsRecyclerView.setHasFixedSize(true);
-        mEventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView = view.findViewById(R.id.rv_events);
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        if (recyclerView.getAdapter() == null) {
+            //noinspection DuplicateStringLiteralInspection
+            final String fields[] = {"time", "title", "location", "desc", "key"};
+            final Sort sortOrders[] = {Sort.ASCENDING, Sort.ASCENDING,
+                    Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING};
+            eventItems.addAll(realm.where(EventItem.class)
+                    .sort(fields, sortOrders)
+                    .findAll());
 
-        //noinspection DuplicateStringLiteralInspection
-        final String fields[] = {"time", "title", "location", "desc", "key"};
-        final Sort sortOrders[] = {Sort.ASCENDING, Sort.ASCENDING,
-                Sort.ASCENDING, Sort.ASCENDING, Sort.ASCENDING};
-        mEventItems.addAll(mDatabase.where(EventItem.class)
-                .sort(fields, sortOrders)
-                .findAll());
+            eventsRV = new EventsRV(getContext(), eventItems, Calendar.getInstance().getTime());
+            recyclerView.setAdapter(eventsRV);
 
-        mEventsAdapter = new EventsRV(getContext(), mEventItems, Calendar.getInstance().getTime());
-        mEventsRecyclerView.setAdapter(mEventsAdapter);
-
-        mEventListener = returnValueListener();
-        eventsRef.addValueEventListener(mEventListener);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        assert getContext() != null;
-        if (DHC.isOnline(getContext())) {
-            mErrorText.setVisibility(View.GONE);
-        } else {
-            mErrorText.setVisibility(View.VISIBLE);
+            final ValueEventListener listener = returnValueListener();
+            eventsRef.addValueEventListener(listener);
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        eventsRef.removeEventListener(mEventListener);
-        mDatabase.close();
     }
 
     @SuppressWarnings("FeatureEnvy")
@@ -97,7 +73,7 @@ public class EventsFragment extends Fragment {
         return new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                mDatabase.executeTransaction(realm -> {
+                realm.executeTransaction(realm -> {
                     realm.delete(EventItem.class);
                     for (final DataSnapshot child :
                             dataSnapshot.getChildren()) {
@@ -113,12 +89,12 @@ public class EventsFragment extends Fragment {
                         }
                     }
                 });
-                mEventItems.clear();
-                mEventItems.addAll(
-                        mDatabase.where(EventItem.class)
+                eventItems.clear();
+                eventItems.addAll(
+                        realm.where(EventItem.class)
                                 .sort("time", Sort.ASCENDING)
                                 .findAll());
-                mEventsAdapter.notifyDataSetChanged();
+                eventsRV.notifyDataSetChanged();
             }
 
             @Override

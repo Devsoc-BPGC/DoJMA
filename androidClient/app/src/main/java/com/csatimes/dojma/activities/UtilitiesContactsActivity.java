@@ -8,7 +8,6 @@ import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.SearchAdapter;
 import com.csatimes.dojma.models.ContactItem;
 import com.csatimes.dojma.models.TypeItem;
-import com.csatimes.dojma.utilities.DHC;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +28,11 @@ import io.realm.Sort;
 import static com.csatimes.dojma.utilities.DHC.CONTACTS_SHOW_TAXI_DATA;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.CONTACT_ITEM_TYPE_TITLE;
+import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
 
 public class UtilitiesContactsActivity extends BaseActivity {
 
+    private static final String TAG = TAG_PREFIX + UtilitiesContactsActivity.class.getName();
     private Realm mDatabase;
     private List<TypeItem> dataSet;
     private SearchAdapter mContactsAdapter;
@@ -120,22 +121,22 @@ public class UtilitiesContactsActivity extends BaseActivity {
                 mDatabase.executeTransaction(realm -> realm.delete(ContactItem.class));
                 for (DataSnapshot childShot : dataSnapshot.getChildren()) {
                     final String type = childShot.child("type").getValue(String.class);
-                    final int id = childShot.child("id").getValue(Integer.class);
-
+                    final int id;
+                    Integer idI = childShot.child("id").getValue(Integer.class);
+                    if (idI == null) {
+                        continue;
+                    }
+                    id = idI;
                     for (DataSnapshot grandChildShot : childShot.child("contacts").getChildren()) {
-                        try {
-                            final ContactItem ci = grandChildShot.getValue(ContactItem.class);
-                            if (ci == null) {
-                                continue;
-                            }
-                            mDatabase.executeTransaction(realm -> {
-                                ci.type = type;
-                                ci.id = id;
-                                realm.insertOrUpdate(ci);
-                            });
-                        } catch (Exception e) {
-                            DHC.log("Contacts format wrong");
+                        final ContactItem ci = grandChildShot.getValue(ContactItem.class);
+                        if (ci == null) {
+                            continue;
                         }
+                        mDatabase.executeTransaction(realm -> {
+                            ci.type = type;
+                            ci.id = id;
+                            realm.insertOrUpdate(ci);
+                        });
                     }
                 }
                 generateContacts();
@@ -144,7 +145,6 @@ public class UtilitiesContactsActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                DHC.log(databaseError.getMessage());
             }
         };
     }
