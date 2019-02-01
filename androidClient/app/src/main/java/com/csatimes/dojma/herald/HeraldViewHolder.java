@@ -1,7 +1,6 @@
 package com.csatimes.dojma.herald;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
@@ -10,7 +9,10 @@ import android.widget.TextView;
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.HeraldItem;
 import com.csatimes.dojma.utilities.DHC;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -20,6 +22,7 @@ import io.realm.Realm;
 
 import static android.content.Intent.EXTRA_TEXT;
 import static com.csatimes.dojma.articles.ArticleViewerActivity.readArticle;
+import static com.csatimes.dojma.models.HeraldItem.getSmallImage;
 
 /**
  * @author Rushikesh Jogdand.
@@ -82,11 +85,17 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
         realm.close();
     }
 
-    @SuppressWarnings("FeatureEnvy")
     void populate(@NonNull final HeraldItem item) {
         this.item = item;
         dateTv.setText(item.getFormattedDate());
-        heraldSdv.setImageURI(Uri.parse(item.thumbnailUrl));
+        String lowResThumb = getSmallImage(item.thumbnailUrl, 300, 169);
+//        heraldSdv.setImageURI(Uri.parse(item.thumbnailUrl));
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setLowResImageRequest(ImageRequest.fromUri(lowResThumb))
+                .setImageRequest(ImageRequest.fromUri(item.thumbnailUrl))
+                .setOldController(heraldSdv.getController())
+                .build();
+        heraldSdv.setController(controller);
         favLb.setLiked(item.fav);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             titleTv.setText(Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY));

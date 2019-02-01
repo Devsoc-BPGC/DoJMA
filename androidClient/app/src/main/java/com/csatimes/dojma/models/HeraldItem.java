@@ -1,5 +1,8 @@
 package com.csatimes.dojma.models;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.text.ParseException;
@@ -12,6 +15,8 @@ import io.realm.annotations.Ignore;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
+import static com.csatimes.dojma.utilities.DHC.TAG_PREFIX;
+
 /**
  * HeraldItemFormat
  */
@@ -22,7 +27,7 @@ public class HeraldItem extends RealmObject {
     @Ignore
     public static final String CATEGORY = "category";
     public static final String FAV = "fav";
-
+    private static final String TAG = TAG_PREFIX + HeraldItem.class.getName();
     @PrimaryKey
     public String postID;
     public String title;
@@ -43,6 +48,27 @@ public class HeraldItem extends RealmObject {
     @Ignore
     private String formattedDate;
 
+    /**
+     * We can get low certain quality version of thumbnails by adding `-wxh` in
+     * url. Beware this works only for certain dimensions.
+     * @param url of *original* image
+     */
+    public static String getSmallImage(String url, int width, int height) {
+        if (TextUtils.isEmpty(url) || !url.contains(".")) {
+            Log.e(TAG, String.format("getSmallImage: improper url %s", url));
+            return null;
+        }
+        int lastDot = url.lastIndexOf('.');
+        String prefix = url.substring(0, lastDot);
+        String suffix = url.substring(lastDot);
+        return String.format(Locale.ENGLISH, "%s-%dx%d%s", prefix, width, height, suffix);
+    }
+
+    @Exclude
+    public String getFormattedDate() {
+        return formattedDate == null ? getOriginalDate() : formattedDate;
+    }
+
     public String getOriginalDate() {
         return originalDate;
     }
@@ -59,10 +85,5 @@ public class HeraldItem extends RealmObject {
         }
         SimpleDateFormat tf = new SimpleDateFormat("dd MMM , ''yy", Locale.UK);
         formattedDate = tf.format(of);
-    }
-
-    @Exclude
-    public String getFormattedDate() {
-        return formattedDate == null ? getOriginalDate() : formattedDate;
     }
 }
