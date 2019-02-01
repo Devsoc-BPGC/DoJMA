@@ -40,7 +40,6 @@ import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 
-import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_CONTACT;
 import static com.csatimes.dojma.utilities.DHC.SEARCH_ITEM_TYPE_EVENT;
@@ -73,20 +72,13 @@ public class SearchableActivity extends BaseActivity implements SearchAdapter.On
         gestureFrameLayout = findViewById(R.id.gesture_frame_search);
         simpleDraweeView = findViewById(R.id.imageView_content_search_large);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
         gestureFrameLayout.getController().getSettings().setOverzoomFactor(10);
 
         //These flags are for system bar on top
         //Don't bother yourself with this code
         final Window window = this.getWindow();
-        if (Build.VERSION.SDK_INT >= KITKAT) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         if (Build.VERSION.SDK_INT >= LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }

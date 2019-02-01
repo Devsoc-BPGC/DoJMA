@@ -11,26 +11,31 @@ import java.util.Map;
  * @author Rushikesh Jogdand.
  */
 public class UrlOperations {
-    private static final String ERROR_TAG = UrlOperations.class.getSimpleName();
+    private static final String TAG = UrlOperations.class.getSimpleName();
 
     public static Map<String, String> getQueryMap(String urlString) {
         URL url;
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            Log.e(ERROR_TAG, String.format("urlString = %s, error = %s", urlString, e.getMessage()), e);
+            Log.e(TAG, String.format("urlString = %s, error = %s", urlString, e.getMessage()), e);
             return null;
         }
-        final Map<String, String> query_pairs = new HashMap<>();
+        final Map<String, String> queryPairs = new HashMap<>();
+        final String query = url.getQuery();
+        if (query == null) {
+            Log.d(TAG, "getQueryMap: null query for url " + urlString);
+            return queryPairs;
+        }
         final String[] pairs = url.getQuery().split("&");
         for (String pair : pairs) {
             String kv[] = pair.split("=");
             if (kv.length < 2) {
                 continue;
             }
-            query_pairs.put(kv[0], kv[1]);
+            queryPairs.put(kv[0], kv[1]);
         }
-        return query_pairs;
+        return queryPairs;
     }
 
     public static String getYtThumbUrl(String videoId) {

@@ -60,12 +60,7 @@ UtilitiesMenuActivity extends BaseActivity implements SearchAdapter.OnImageClick
         gestureFrameLayout.getController().getSettings().setOverzoomFactor(10);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mMessRecyclerView.setLayoutManager(new GridLayoutManager(this, span()));
         mMessRecyclerView.setHasFixedSize(true);
@@ -135,21 +130,14 @@ UtilitiesMenuActivity extends BaseActivity implements SearchAdapter.OnImageClick
         return new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(final Realm realm) {
-                        realm.delete(MessItem.class);
-                    }
-                });
+                mDatabase.executeTransaction(realm -> realm.delete(MessItem.class));
                 mMessItems.clear();
                 for (final DataSnapshot childShot : dataSnapshot.getChildren()) {
                     final MessItem messItem = childShot.getValue(MessItem.class);
-                    mDatabase.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(@NonNull final Realm realm) {
-                            realm.insert(messItem);
-                        }
-                    });
+                    if (messItem == null) {
+                        continue;
+                    }
+                    mDatabase.executeTransaction(realm -> realm.insert(messItem));
                 }
                 mMessItems.addAll(mDatabase.where(MessItem.class).findAll());
                 if (mMessItems.isEmpty()) {

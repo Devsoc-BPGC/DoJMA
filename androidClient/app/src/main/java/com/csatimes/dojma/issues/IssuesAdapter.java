@@ -72,7 +72,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssueVh>
     public void onChange(@NonNull final RealmResults<HeraldItem> heraldItems) {
         issuesList.clear();
         for (final HeraldItem item : heraldItems) {
-            issuesList.add(item.getCategory());
+            issuesList.add(item.category);
         }
         notifyDataSetChanged();
     }

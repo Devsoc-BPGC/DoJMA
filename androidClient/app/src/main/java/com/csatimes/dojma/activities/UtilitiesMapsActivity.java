@@ -36,17 +36,14 @@ public class UtilitiesMapsActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
         fab = findViewById(R.id.utilities_map_icon);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://www.google.com/maps/d/u/0/viewer?mid=1oWEtH59EbMs82Z49uj00UnxQD2o"));
-                intent.setPackage("com.google.android.apps.maps");
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    Snackbar.make(fab, "Google Maps is not installed!", Snackbar.LENGTH_LONG).show();
-                }
+        fab.setOnClickListener(view -> {
+            final Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/d/u/0/viewer?mid=1oWEtH59EbMs82Z49uj00UnxQD2o"));
+            intent.setPackage("com.google.android.apps.maps");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Snackbar.make(fab, "Google Maps is not installed!", Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -112,7 +109,7 @@ public class UtilitiesMapsActivity extends FragmentActivity
         marker = new LatLng(15.392558, 73.878976);
         googleMap.addMarker(new MarkerOptions().position(marker).title("Ice n Spice"));
         marker = new LatLng(15.39191, 73.8764);
-        googleMap.addMarker(new MarkerOptions().position(marker).title("Borkars Super Store"));
+        googleMap.addMarker(new MarkerOptions().position(marker).title("Malakars Super Store"));
         marker = new LatLng(15.39199, 73.87626);
         googleMap.addMarker(new MarkerOptions().position(marker).title("SBI Branch"));
         marker = new LatLng(15.39202, 73.87619);

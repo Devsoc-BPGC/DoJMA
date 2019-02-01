@@ -2,10 +2,6 @@ package com.csatimes.dojma.activities;
 
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -20,12 +16,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmList;
 
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
 /**
  * Links Activity under the Utilities Section
@@ -61,9 +61,7 @@ public class UtilitiesLinksActivity extends BaseActivity {
         //Don't bother yourself with this code
         Window window = this.getWindow();
         // clear FLAG_TRANSLUCENT_STATUS flag:
-        if (Build.VERSION.SDK_INT >= 19) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         if (Build.VERSION.SDK_INT >= 21) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -106,27 +104,18 @@ public class UtilitiesLinksActivity extends BaseActivity {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(LinkItem.class);
-                    }
-                });
+                mDatabase.executeTransaction(realm -> realm.delete(LinkItem.class));
 
                 for (DataSnapshot shot : dataSnapshot.getChildren()) {
-                    try {
-                        final LinkItem foo = shot.getValue(LinkItem.class);
-                        mDatabase.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                LinkItem bar = realm.createObject(LinkItem.class);
-                                bar.setTitle(foo.getTitle());
-                                bar.setUrl(foo.getUrl());
-                            }
-                        });
-                    } catch (Exception ignore) {
-                        DHC.e(TAG, "parse error in link item");
+                    final LinkItem foo = shot.getValue(LinkItem.class);
+                    if (foo == null) {
+                        continue;
                     }
+                    mDatabase.executeTransaction(realm -> {
+                        LinkItem bar = realm.createObject(LinkItem.class);
+                        bar.setTitle(foo.getTitle());
+                        bar.setUrl(foo.getUrl());
+                    });
                 }
 
                 linkItems.clear();
@@ -134,8 +123,9 @@ public class UtilitiesLinksActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
                 if (adapter.getItemCount() == 0) {
                     emptyList.setVisibility(VISIBLE);
-                } else
+                } else {
                     emptyList.setVisibility(GONE);
+                }
             }
 
             @Override

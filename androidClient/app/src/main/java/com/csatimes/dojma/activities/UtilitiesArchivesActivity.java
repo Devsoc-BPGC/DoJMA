@@ -56,6 +56,7 @@ public class UtilitiesArchivesActivity extends BaseActivity {
                         for (final DataSnapshot child : dataSnapshot.getChildren()) {
                             Realm mDatabase = Realm.getDefaultInstance();
                             final Archive archive = child.getValue(Archive.class);
+                            if (archive == null) continue;
                             mDatabase.executeTransaction(realm -> realm.insertOrUpdate(archive));
                             mArchiveItems.add(archive);
                         }

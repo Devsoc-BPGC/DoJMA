@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,13 +155,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final HeraldItem hi = (HeraldItem) results.get(position).getValue();
                 hsvh.item = hi;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    hsvh.title.setText(Html.fromHtml(hi.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+                    hsvh.title.setText(Html.fromHtml(hi.title, Html.FROM_HTML_MODE_LEGACY));
                 } else {
-                    hsvh.title.setText(Html.fromHtml(hi.getTitle()));
+                    hsvh.title.setText(Html.fromHtml(hi.title));
                 }
 
-                hsvh.date.setText(hi.getUpdateDate());
-                hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.getThumbnailUrl()));
+                hsvh.date.setText(hi.updateDate);
+                hsvh.simpleDraweeView.setImageURI(Uri.parse(hi.thumbnailUrl));
                 break;
 
             case SEARCH_ITEM_TYPE_EVENT:
@@ -169,8 +170,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 eivh.item = ei;
                 eivh.title.setText(ei.getTitle());
                 eivh.location.setText(ei.getLocation());
-                eivh.dateTime.setText(ei.getStartDateFormatted() + "\n"
-                        + ei.getStartTimeFormatted());
+                eivh.dateTime.setText(String.format("%s\n%s", ei.getStartDateFormatted(), ei.getStartTimeFormatted()));
                 eivh.desc.setText(ei.getDesc());
                 eivh.up.setVisibility(View.INVISIBLE);
                 eivh.down.setVisibility(View.INVISIBLE);
@@ -182,36 +182,36 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final ContactItemViewHolder civh = (ContactItemViewHolder) holder;
                 final ContactItem ci = (ContactItem) results.get(position).getValue();
                 civh.contactItem = ci;
-                civh.contactName.setText(ci.getName());
+                civh.contactName.setText(ci.name);
 
-                if (ci.getNumber() != null && ci.getNumber().length() != 0) {
+                if (!TextUtils.isEmpty(ci.number)) {
                     civh.contactCall.setVisibility(VISIBLE);
                 } else {
                     civh.contactCall.setVisibility(GONE);
                 }
 
-                if (ci.getEmail() != null && ci.getEmail().length() != 0) {
+                if (!TextUtils.isEmpty(ci.email)) {
                     civh.contactEmail.setVisibility(VISIBLE);
                 } else {
                     civh.contactEmail.setVisibility(GONE);
                 }
 
-                if (ci.getSub1() != null && ci.getSub1().length() != 0) {
+                if (!TextUtils.isEmpty(ci.sub1)) {
                     civh.contactSub1.setVisibility(VISIBLE);
-                    civh.contactSub1.setText(ci.getSub1());
+                    civh.contactSub1.setText(ci.sub1);
                 } else {
                     civh.contactSub1.setVisibility(GONE);
                 }
 
-                if (ci.getSub2() != null && ci.getSub2().length() != 0) {
+                if (!TextUtils.isEmpty(ci.sub2)) {
                     civh.contactSub1.setVisibility(VISIBLE);
-                    civh.contactSub2.setText(ci.getSub2());
+                    civh.contactSub2.setText(ci.sub2);
                 } else {
                     civh.contactSub2.setVisibility(GONE);
                 }
 
-                if (ci.getIcon() != null && ci.getIcon().length() != 0) {
-                    civh.contactIcon.setImageURI(Uri.parse(ci.getIcon()));
+                if (!TextUtils.isEmpty(ci.icon)) {
+                    civh.contactIcon.setImageURI(Uri.parse(ci.icon));
                 } else {
                     civh.contactIcon.setImageURI(Uri.parse("res://" + mContext.getPackageName()
                             + "/" + R.drawable.ic_contact));
@@ -229,8 +229,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case SEARCH_ITEM_TYPE_MESS:
                 final MessItemViewHolder mivh = (MessItemViewHolder) holder;
                 final MessItem mi = (MessItem) results.get(position).getValue();
-                mivh.title.setText(mi.getTitle());
-                mivh.link = mi.getImageUrl();
+                mivh.title.setText(mi.title);
+                mivh.link = mi.imageUrl;
                 mivh.image.setImageURI(Uri.parse(mivh.link));
                 break;
             default:

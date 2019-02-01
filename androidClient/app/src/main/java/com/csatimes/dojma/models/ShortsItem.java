@@ -32,6 +32,9 @@ public class ShortsItem extends RealmObject {
         }
         for (final DataSnapshot child : dataSnapshot.getChildren()) {
             final ShortsItem updatedData = child.getValue(ShortsItem.class);
+            if (updatedData == null) {
+                continue;
+            }
             updatedData.id = child.getKey();
             final ShortsItem oldData = realm.where(ShortsItem.class)
                     .equalTo(FIELD_ID, updatedData.id)

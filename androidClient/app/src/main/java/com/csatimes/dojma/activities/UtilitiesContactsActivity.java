@@ -1,9 +1,6 @@
 package com.csatimes.dojma.activities;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -38,22 +38,18 @@ public class UtilitiesContactsActivity extends BaseActivity {
     private DatabaseReference mContactReference = FirebaseDatabase.getInstance().getReference("contacts");
     private ValueEventListener mContactListener;
     private TextView errorText;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.contacts_toolbar);
-        errorText = (TextView) findViewById(R.id.textView_activity_contacts_error);
-        RecyclerView contactsRecyclerView = (androidx.recyclerview.widget.RecyclerView) findViewById(R.id.content_contacts_rv);
+        Toolbar toolbar = findViewById(R.id.contacts_toolbar);
+        errorText = findViewById(R.id.textView_activity_contacts_error);
+        RecyclerView contactsRecyclerView = findViewById(R.id.content_contacts_rv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
 
         mDatabase = Realm.getDefaultInstance();
 
@@ -76,16 +72,16 @@ public class UtilitiesContactsActivity extends BaseActivity {
     private void generateContacts() {
         boolean showTaxiData = getIntent().getBooleanExtra(CONTACTS_SHOW_TAXI_DATA, false);
         dataSet.clear();
-        RealmResults<ContactItem> foo = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING).findAll();
-        for (int i = 0; i < foo.size(); i++) {
-
+        RealmResults<ContactItem> results = mDatabase.where(ContactItem.class).distinct("type").sort("id", Sort.ASCENDING).findAll();
+        for (ContactItem item : results) {
             if (showTaxiData) {
-                if (foo.get(i).getType().equalsIgnoreCase("taxi")) {
-                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, foo.get(i).getType()));
+                if (item.type.equalsIgnoreCase("taxi")) {
+                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, item.type));
                     RealmList<ContactItem> bar = new RealmList<>();
-                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
-                    for (int j = 0; j < bar.size(); j++)
+                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", item.type).findAll());
+                    for (int j = 0; j < bar.size(); j++) {
                         dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                    }
                     if (dataSet.isEmpty()) {
                         errorText.setVisibility(View.VISIBLE);
                     } else {
@@ -93,12 +89,13 @@ public class UtilitiesContactsActivity extends BaseActivity {
                     }
                 }
             } else {
-                if (!foo.get(i).getType().equalsIgnoreCase("taxi")) {
-                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, foo.get(i).getType()));
+                if (!item.type.equalsIgnoreCase("taxi")) {
+                    dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_TITLE, item.type));
                     RealmList<ContactItem> bar = new RealmList<>();
-                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", foo.get(i).getType()).findAll());
-                    for (int j = 0; j < bar.size(); j++)
+                    bar.addAll(mDatabase.where(ContactItem.class).equalTo("type", item.type).findAll());
+                    for (int j = 0; j < bar.size(); j++) {
                         dataSet.add(new TypeItem(CONTACT_ITEM_TYPE_CONTACT, bar.get(j)));
+                    }
                     if (dataSet.isEmpty()) {
                         errorText.setVisibility(View.VISIBLE);
                     } else {
@@ -120,34 +117,21 @@ public class UtilitiesContactsActivity extends BaseActivity {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(ContactItem.class);
-                    }
-                });
-                for (DataSnapshot childShot : dataSnapshot.getChildren()
-                        ) {
+                mDatabase.executeTransaction(realm -> realm.delete(ContactItem.class));
+                for (DataSnapshot childShot : dataSnapshot.getChildren()) {
                     final String type = childShot.child("type").getValue(String.class);
                     final int id = childShot.child("id").getValue(Integer.class);
 
                     for (DataSnapshot grandChildShot : childShot.child("contacts").getChildren()) {
                         try {
                             final ContactItem ci = grandChildShot.getValue(ContactItem.class);
-                            mDatabase.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    ContactItem cif = realm.createObject(ContactItem.class);
-                                    cif.setEmail(ci.getEmail());
-                                    cif.setId(id);
-                                    cif.setName(ci.getName());
-                                    cif.setType(type);
-                                    cif.setNumber(ci.getNumber());
-                                    cif.setSub1(ci.getSub1());
-                                    cif.setSub2(ci.getSub2());
-                                    cif.setIcon(ci.getIcon());
-                                }
+                            if (ci == null) {
+                                continue;
+                            }
+                            mDatabase.executeTransaction(realm -> {
+                                ci.type = type;
+                                ci.id = id;
+                                realm.insertOrUpdate(ci);
                             });
                         } catch (Exception e) {
                             DHC.log("Contacts format wrong");
@@ -165,21 +149,12 @@ public class UtilitiesContactsActivity extends BaseActivity {
         };
     }
 
-    /**
-     * Remove the reference to Firebase Database once the activity is not visible any more
-     * we use onStop because reference was added in {@link UtilitiesContactsActivity#onStart()}
-     */
     @Override
     protected void onStop() {
         super.onStop();
         mContactReference.removeEventListener(mContactListener);
     }
 
-    /**
-     * Destroy the mDatabase reference as soon as activity is destroyed
-     * Since the reference was created in the {@link UtilitiesContactsActivity#onCreate(Bundle)} method, it is best that
-     * it is closed in {@link UtilitiesContactsActivity#onDestroy()}
-     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

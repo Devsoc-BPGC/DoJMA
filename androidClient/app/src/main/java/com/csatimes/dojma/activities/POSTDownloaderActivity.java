@@ -11,13 +11,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ContactItem;
@@ -44,15 +41,12 @@ import io.realm.Realm;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_CONTACTS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_EVENTS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_LINKS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MESS;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_MISC_CARD;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_IMAGE_URL;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_NAVBAR_TITLE;
-import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_POSTERS;
-import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_TAXI;
 import static com.csatimes.dojma.utilities.DHC.FIREBASE_DATABASE_REFERENCE_UI;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS;
 import static com.csatimes.dojma.utilities.DHC.UPDATE_SERVICE_ACTION_NO_SUCCESS;
@@ -64,6 +58,7 @@ import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_IMAGE_URL
 import static com.csatimes.dojma.utilities.DHC.USER_PREFERENCES_NAVBAR_TITLE;
 import static com.csatimes.dojma.utilities.SpKeys.FIRST_INSTALL;
 
+@SuppressLint("SetTextI18n")
 public class POSTDownloaderActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = "activities.PostDownloaderActivity";
@@ -97,13 +92,13 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
         @Override
         public void onReceive(final Context context, Intent intent) {
-            if (intent.getAction().equals(UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS)) {
+            if (UPDATE_SERVICE_ACTION_DOWNLOAD_SUCCESS.equals(intent.getAction())) {
                 mEditor.putBoolean(FIRST_INSTALL, false);
                 mEditor.apply();
                 QUOTA_TOTAL += QUOTA_UPDATE_SERVICE;
                 mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
                 dojmaDownload = true;
-            } else if (intent.getAction().equals(UPDATE_SERVICE_ACTION_NO_SUCCESS)) {
+            } else if (UPDATE_SERVICE_ACTION_NO_SUCCESS.equals(intent.getAction())) {
                 int errorLine = mCircleLoadingView.addSeries(new SeriesItem.Builder(ContextCompat.getColor(context, R.color.red500))
                         .setRange(CIRCLE_MIN, CIRCLE_MAX, CIRCLE_MIN)
                         .setSpinDuration(CIRCLE_SPEED_DEFAULT)
@@ -183,17 +178,15 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         mStatusSwitcher.setOutAnimation(out);
 
         //Setup the TextView inside the switcher
-        mStatusSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            public View makeView() {
-                // Create run time textView with some attributes like gravity,
-                // color, etc.
-                TextView statusText = new TextView(POSTDownloaderActivity.this);
-                statusText.setPadding(0, 25, 0, 0);
-                statusText.setGravity(Gravity.CENTER);
-                statusText.setTextSize(16);
-                statusText.setTextColor(Color.WHITE);
-                return statusText;
-            }
+        mStatusSwitcher.setFactory(() -> {
+            // Create run time textView with some attributes like gravity,
+            // color, etc.
+            TextView statusText = new TextView(POSTDownloaderActivity.this);
+            statusText.setPadding(0, 25, 0, 0);
+            statusText.setGravity(Gravity.CENTER);
+            statusText.setTextSize(16);
+            statusText.setTextColor(Color.WHITE);
+            return statusText;
         });
 
 
@@ -221,39 +214,23 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                 //Download Events
                 {
                     final DataSnapshot eventsShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_EVENTS);
-                    mDatabase.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.delete(EventItem.class);
-                        }
-                    });
+                    mDatabase.executeTransaction(realm -> realm.delete(EventItem.class));
                     for (final DataSnapshot eventsShotChild : eventsShot.getChildren()) {
-                        try {
-                            final EventItem foo = eventsShotChild.getValue(EventItem.class);
-                            mDatabase.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    EventItem bar = realm.createObject(EventItem.class, eventsShotChild.getKey());
-                                    bar.setTitle(foo.getTitle());
-                                    bar.setLocation(foo.getLocation());
-                                    bar.setDesc(foo.getDesc());
-                                    bar.setDateTime(foo.getStartDate() + foo.getStartTime());
-                                }
-                            }, new Realm.Transaction.OnSuccess() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-                            }, new Realm.Transaction.OnError() {
-                                @Override
-                                public void onError(Throwable error) {
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            DHC.e(TAG, "Error occurred in parsing or storing events data");
+                        final EventItem foo = eventsShotChild.getValue(EventItem.class);
+                        if (foo == null) {
+                            continue;
                         }
+                        mDatabase.executeTransactionAsync(realm -> {
+                            EventItem bar = realm.createObject(EventItem.class, eventsShotChild.getKey());
+                            bar.setTitle(foo.getTitle());
+                            bar.setLocation(foo.getLocation());
+                            bar.setDesc(foo.getDesc());
+                            bar.setDateTime(foo.getStartDate() + foo.getStartTime());
+                        }, () -> {
+
+                        }, error -> {
+
+                        });
                     }
                     QUOTA_TOTAL += QUOTA_EVENTS;
                     mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
@@ -263,7 +240,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
                 //Download Contacts
                 {
-                    final DataSnapshot contactsShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_CONTACTS);
                     QUOTA_TOTAL += QUOTA_CONTACTS;
                     mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
                     mStatusSwitcher.setText("Added contacts");
@@ -271,37 +247,21 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                 //Download Links
                 {
                     final DataSnapshot linksShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_LINKS);
-                    mDatabase.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.delete(LinkItem.class);
-                        }
-                    });
+                    mDatabase.executeTransaction(realm -> realm.delete(LinkItem.class));
                     for (final DataSnapshot linksShotChild : linksShot.getChildren()) {
-                        try {
-                            final LinkItem foo = linksShotChild.getValue(LinkItem.class);
-                            mDatabase.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    LinkItem bar = realm.createObject(LinkItem.class);
-                                    bar.setTitle(foo.getTitle());
-                                    bar.setUrl(foo.getUrl());
-                                }
-                            }, new Realm.Transaction.OnSuccess() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-                            }, new Realm.Transaction.OnError() {
-                                @Override
-                                public void onError(Throwable error) {
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            DHC.e(TAG, "Error occurred in parsing or storing links data");
+                        final LinkItem foo = linksShotChild.getValue(LinkItem.class);
+                        if (foo == null) {
+                            continue;
                         }
+                        mDatabase.executeTransactionAsync(realm -> {
+                            LinkItem bar = realm.createObject(LinkItem.class);
+                            bar.setTitle(foo.getTitle());
+                            bar.setUrl(foo.getUrl());
+                        }, () -> {
+
+                        }, error -> {
+
+                        });
                     }
                     QUOTA_TOTAL += QUOTA_LINKS;
                     mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
@@ -311,37 +271,19 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                 //Download Mess' data
                 {
                     final DataSnapshot messShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_MESS);
-                    mDatabase.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.delete(MessItem.class);
-                        }
-                    });
+                    mDatabase.executeTransaction(realm -> realm.delete(MessItem.class));
                     for (final DataSnapshot messShotChild : messShot.getChildren()) {
-                        try {
-                            final MessItem foo = messShotChild.getValue(MessItem.class);
-                            mDatabase.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    MessItem bar = realm.createObject(MessItem.class);
-                                    bar.setTitle(foo.getTitle());
-                                    bar.setImageUrl(foo.getImageUrl());
-                                }
-                            }, new Realm.Transaction.OnSuccess() {
-                                @Override
-                                public void onSuccess() {
-
-                                }
-                            }, new Realm.Transaction.OnError() {
-                                @Override
-                                public void onError(Throwable error) {
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            DHC.e(TAG, "Error occurred in parsing or storing mess data");
+                        final MessItem foo = messShotChild.getValue(MessItem.class);
+                        if (foo == null) {
+                            continue;
                         }
+                        mDatabase.executeTransactionAsync(realm -> {
+                            realm.insertOrUpdate(foo);
+                        }, () -> {
+
+                        }, error -> {
+
+                        });
                     }
                     QUOTA_TOTAL += QUOTA_MESS;
                     mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
@@ -360,7 +302,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
                     mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
                 }
 
-                final DataSnapshot postersShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_POSTERS);
                 QUOTA_TOTAL += QUOTA_POSTERS;
                 mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
                 mStatusSwitcher.setText("Added posters");
@@ -376,7 +317,6 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
                 }
 
-                final DataSnapshot taxisShot = dataSnapshot.child(FIREBASE_DATABASE_REFERENCE_TAXI);
                 QUOTA_TOTAL += QUOTA_TAXI;
                 mCircleLoadingView.moveTo(mMainLoaderIndex, QUOTA_TOTAL);
                 mStatusSwitcher.setText("About to finish");
@@ -404,7 +344,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
         } else if (firebaseDownload && !dojmaDownload) {
             mStatusSwitcher.setText("Downloading few articles");
             mStartButton.setText("Skip");
-        } else if (!firebaseDownload && dojmaDownload) {
+        } else if (!firebaseDownload) {
             mStatusSwitcher.setText("Getting latest campus info ... ");
             mStartButton.setText("Skip");
         } else {
@@ -446,12 +386,7 @@ public class POSTDownloaderActivity extends AppCompatActivity implements View.On
 
         if (DHC.isOnline(this)) {
             if (!UpdateCheckerService.isInstanceCreated()) {
-                mDatabase.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(HeraldItem.class);
-                    }
-                });
+                mDatabase.executeTransaction(realm -> realm.delete(HeraldItem.class));
                 Intent intent = new Intent(this, UpdateCheckerService.class);
                 intent.putExtra(UPDATE_SERVICE_INTENT_PAGES, 1);
                 intent.putExtra(UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION, false);

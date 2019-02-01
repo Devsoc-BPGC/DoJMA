@@ -54,17 +54,17 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
         if (view.getId() == R.id.item_format_herald_share) {
             final Intent shareIntent = new Intent((Intent.ACTION_SEND));
             shareIntent.setType(DHC.MIME_TYPE_PLAINTEXT);
-            shareIntent.putExtra(EXTRA_TEXT, item.getTitle_plain() + " at " + item.getUrl());
+            shareIntent.putExtra(EXTRA_TEXT, String.format("%s at %s", item.title_plain, item.url));
             view.getContext().startActivity(Intent.createChooser(shareIntent,
                     view.getContext().getString(R.string.share_prompt)));
             return;
         }
-        readArticle(view.getContext(), Integer.parseInt(item.getPostID()));
+        readArticle(view.getContext(), item.postID);
     }
 
     @Override
     public void liked(final LikeButton likeButton) {
-        item.setFav(true);
+        item.fav = true;
         final Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.insertOrUpdate(item);
@@ -74,7 +74,7 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
 
     @Override
     public void unLiked(final LikeButton likeButton) {
-        item.setFav(false);
+        item.fav = (false);
         final Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.insertOrUpdate(item);
@@ -86,12 +86,12 @@ public class HeraldViewHolder extends RecyclerView.ViewHolder
     void populate(@NonNull final HeraldItem item) {
         this.item = item;
         dateTv.setText(item.getFormattedDate());
-        heraldSdv.setImageURI(Uri.parse(item.getThumbnailUrl()));
-        favLb.setLiked(item.isFav());
+        heraldSdv.setImageURI(Uri.parse(item.thumbnailUrl));
+        favLb.setLiked(item.fav);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            titleTv.setText(Html.fromHtml(item.getTitle(), Html.FROM_HTML_MODE_LEGACY));
+            titleTv.setText(Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY));
         } else {
-            titleTv.setText(Html.fromHtml(item.getTitle()));
+            titleTv.setText(Html.fromHtml(item.title));
         }
     }
 }

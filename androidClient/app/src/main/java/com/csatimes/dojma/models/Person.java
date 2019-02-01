@@ -53,6 +53,9 @@ public class Person extends RealmObject {
         final List<Person> result = new ArrayList<>(0);
         for(final DataSnapshot child: dataSnapshot.getChildren()) {
             final Person updatedData = child.getValue(Person.class);
+            if (updatedData == null) {
+                continue;
+            }
             final Person oldData = db.where(Person.class).equalTo(FIELD_NAME, updatedData.name).findFirst();
             if (oldData != null) {
                 updatedData.isContributor = oldData.isContributor;

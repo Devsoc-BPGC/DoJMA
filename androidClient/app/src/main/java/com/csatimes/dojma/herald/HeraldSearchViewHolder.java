@@ -28,9 +28,6 @@ public class HeraldSearchViewHolder extends RecyclerView.ViewHolder {
         date = itemView.findViewById(R.id.search_herald_date);
         simpleDraweeView = itemView.findViewById(R.id.search_herald_image);
 
-        itemView.setOnClickListener(v ->
-                ArticleViewerActivity.readArticle(itemView.getContext(),
-                        Integer.parseInt(item.getPostID()))
-        );
+        itemView.setOnClickListener(v -> ArticleViewerActivity.readArticle(itemView.getContext(), item.postID));
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,10 +12,14 @@ import com.csatimes.dojma.R;
 import com.csatimes.dojma.models.ContactItem;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * Created by vikramaditya on 17/1/17.
  */
 public class ContactItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private final ImageButton contactAdd;
+    private final Context context;
     public TextView contactName;
     public TextView contactSub1;
     public TextView contactSub2;
@@ -24,8 +27,6 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder implements Vi
     public ContactItem contactItem;
     public ImageButton contactCall;
     public ImageButton contactEmail;
-    private final ImageButton contactAdd;
-    private final Context context;
 
     public ContactItemViewHolder(View itemView, Context context) {
         super(itemView);
@@ -51,23 +52,21 @@ public class ContactItemViewHolder extends RecyclerView.ViewHolder implements Vi
         if (id == contactCall.getId()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + contactItem.getNumber()));
+            intent.setData(Uri.parse("tel:" + contactItem.number));
             context.startActivity(intent);
 
         } else if (id == contactEmail.getId()) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + contactItem.getEmail()));
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + contactItem.email));
             context.startActivity(Intent.createChooser(intent, "Send Email"));
 
         } else if (id == contactAdd.getId()) {
-            /**
-             * @see <a href = "https://developer.android.com/training/contacts-provider/modify-data.html">Modifying Data Documentation</a> for more
-             */
+            // see https://developer.android.com/training/contacts-provider/modify-data.html for more.
             Intent addContactIntent = new Intent(ContactsContract.Intents.Insert.ACTION);
             addContactIntent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-            addContactIntent.putExtra(ContactsContract.Intents.Insert.NAME, contactItem.getName());
-            addContactIntent.putExtra(ContactsContract.Intents.Insert.PHONE, contactItem.getNumber());
+            addContactIntent.putExtra(ContactsContract.Intents.Insert.NAME, contactItem.name);
+            addContactIntent.putExtra(ContactsContract.Intents.Insert.PHONE, contactItem.number);
             addContactIntent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
-            addContactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL, contactItem.getEmail());
+            addContactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL, contactItem.email);
             addContactIntent.putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK);
             context.startActivity(addContactIntent);
         }

@@ -93,17 +93,11 @@ public class AboutDojmaActivity extends AppCompatActivity {
         browser = new Browser(this);
 
         ImageView twitter = findViewById(R.id.twitter_dojma);
-        twitter.setOnClickListener(view -> {
-            browser.launchUrl("https://twitter.com/dojmabitsgoa?lang=en");
-        });
+        twitter.setOnClickListener(view -> browser.launchUrl("https://twitter.com/dojmabitsgoa?lang=en"));
         ImageView facebook = findViewById(R.id.facebook_dojma);
-        facebook.setOnClickListener(view -> {
-            browser.launchUrl("https://www.facebook.com/DoJMABITSGoa/");
-        });
+        facebook.setOnClickListener(view -> browser.launchUrl("https://www.facebook.com/DoJMABITSGoa/"));
         ImageView youtube = findViewById(R.id.youtube_dojma);
-        youtube.setOnClickListener(view -> {
-            browser.launchUrl("https://www.youtube.com/channel/UCtO0OtOBQ40poBQpJZ8ZVuA");
-        });
+        youtube.setOnClickListener(view -> browser.launchUrl("https://www.youtube.com/channel/UCtO0OtOBQ40poBQpJZ8ZVuA"));
 
     }
 
