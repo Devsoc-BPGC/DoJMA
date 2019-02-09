@@ -90,7 +90,7 @@ public class UpdateCheckerService extends IntentService {
         final SharedPreferences preferences = getSharedPreferences(DHC.USER_PREFERENCES, MODE_PRIVATE);
         final SharedPreferences.Editor editor = preferences.edit();
 
-        final String urlPrefix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX;
+        final String urlPrefix = DHC.DOJMA_API_PREFIX;
         final String urlSuffix = DHC.UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX;
 
         final Realm database = Realm.getDefaultInstance();

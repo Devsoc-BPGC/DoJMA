@@ -62,8 +62,8 @@ public class DHC {
     public static final String UPDATE_SERVICE_ACTION_NO_SUCCESS = PACKAGE_NAME + ".services.updatecheckerservice.action.ns";
     public static final String UPDATE_SERVICE_INTENT_PAGES = PACKAGE_NAME + ".services.updatecheckerservice.extra.int.pages";
     public static final String UPDATE_SERVICE_INTENT_ENABLE_NOTIFICATION = PACKAGE_NAME + ".services.updatecheckerservice.extra.boolean.notifications";
-    public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_PREFIX = "http://bitsherald" +
-            ".org/api/blog/?json=all&page=";
+    public static final String DOJMA_API_PREFIX = "http://bitsherald.org/api/blog/?json=all&page=";
+    public static final String DOJMA_ROOT_URL = "http://bitsherald.org/";
     public static final String UPDATE_SERVICE_DOJMA_JSON_ADDRESS_SUFFIX = "/";
     /**
      * Key used in {@link #USER_PREFERENCES} ("{@value #USER_PREFERENCES}") to save latest number of

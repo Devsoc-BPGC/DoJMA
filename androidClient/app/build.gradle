@@ -89,6 +89,9 @@ dependencies {
     // Paging
     implementation "android.arch.paging:runtime:1.0.1"
 
+    // Work manager
+    implementation "android.arch.work:work-runtime:1.0.0-beta03"
+
 }
 
 apply plugin: 'com.google.gms.google-services'
