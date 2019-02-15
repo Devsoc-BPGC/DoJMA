@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.adapters.VideosAdapter;
@@ -30,7 +33,12 @@ public class VideosFragment extends Fragment {
     private static final String TAG = TAG_PREFIX + VideosFragment.class.getSimpleName();
     private RecyclerView videosRv;
     private List<VideosItem> videos = new ArrayList<>();
+    private List<VideosItem> filteredVideos = new ArrayList<>();
+    private List<VideosItem> allVideos = new ArrayList<>();
     private VideosAdapter mAdapter;
+    private Spinner spinner;
+    private List<String> list = new ArrayList<>();
+    private ArrayAdapter<String> dataAdapter;
 
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
@@ -43,6 +51,10 @@ public class VideosFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         videosRv = view.findViewById(R.id.fragment_videos_rv);
         videosRv.setHasFixedSize(true);
+        spinner = view.findViewById(R.id.filter_spinner);
+        mAdapter = new VideosAdapter(videos);
+        videosRv.setAdapter(mAdapter);
+        addListenerOnSpinnerItemSelection();
     }
 
     @Override
@@ -51,8 +63,11 @@ public class VideosFragment extends Fragment {
         final Activity activity = getActivity();
         getData();
         if (activity != null) {
-            mAdapter = new VideosAdapter(videos);
-            videosRv.setAdapter(mAdapter);
+            list.add("All");
+            dataAdapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_spinner_item, list);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(dataAdapter);
         } else {
             Log.e(TAG, "getActivity() returned null in onStart()");
         }
@@ -62,13 +77,16 @@ public class VideosFragment extends Fragment {
         FirebaseValues.videosRef().orderByChild("dateStamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                videos.clear();
+                allVideos.clear();
+                list.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     VideosItem videosItem = postSnapshot.getValue(VideosItem.class);
-                    videos.add(videosItem);
-                    Collections.reverse(videos);
+                    allVideos.add(videosItem);
+                    Collections.reverse(allVideos);
+                    list.add(videosItem.getCreator());
                 }
-                mAdapter.notifyDataSetChanged();
+                dataAdapter.notifyDataSetChanged();
+                setfilter(allVideos);
             }
 
             @Override
@@ -76,5 +94,35 @@ public class VideosFragment extends Fragment {
                 Log.e("Firebase Error", databaseError.getDetails());
             }
         });
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).toString().equals("All")){
+                    setfilter(allVideos);
+                }
+                else{
+                    for (int i=0; i<allVideos.size(); i++){
+                        if (allVideos.get(i).getCreator().equals(parent.getItemAtPosition(position).toString())){
+                            filteredVideos.add(allVideos.get(i));
+                        }
+                    }
+                    setfilter(filteredVideos);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                setfilter(allVideos);
+            }
+        });
+    }
+
+    public void setfilter(List<VideosItem> filterList) {
+        videos.clear();
+        videos.addAll(filterList);
+        mAdapter.notifyDataSetChanged();
     }
 }
