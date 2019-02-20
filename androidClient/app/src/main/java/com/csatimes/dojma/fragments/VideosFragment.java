@@ -51,6 +51,7 @@ public class VideosFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         videosRv = view.findViewById(R.id.fragment_videos_rv);
         videosRv.setHasFixedSize(true);
+        videosRv.setNestedScrollingEnabled(false);
         spinner = view.findViewById(R.id.filter_spinner);
         mAdapter = new VideosAdapter(videos);
         videosRv.setAdapter(mAdapter);
@@ -78,12 +79,13 @@ public class VideosFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 allVideos.clear();
-                list.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     VideosItem videosItem = postSnapshot.getValue(VideosItem.class);
                     allVideos.add(videosItem);
                     Collections.reverse(allVideos);
-                    list.add(videosItem.getCreator());
+                    if (!list.contains(videosItem.creator)){
+                        list.add(videosItem.getCreator());
+                    }
                 }
                 dataAdapter.notifyDataSetChanged();
                 setfilter(allVideos);
@@ -104,8 +106,9 @@ public class VideosFragment extends Fragment {
                     setfilter(allVideos);
                 }
                 else{
+                    filteredVideos.clear();
                     for (int i=0; i<allVideos.size(); i++){
-                        if (allVideos.get(i).getCreator().equals(parent.getItemAtPosition(position).toString())){
+                        if (parent.getItemAtPosition(position).toString().equals(allVideos.get(i).getCreator())){
                             filteredVideos.add(allVideos.get(i));
                         }
                     }
