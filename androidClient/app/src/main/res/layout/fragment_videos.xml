@@ -1,50 +1,42 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:orientation="horizontal"
+        android:elevation="4dp"
+        android:padding="8dp">
 
-        <RelativeLayout
-            android:id="@+id/filter"
+        <TextView
+            android:id="@+id/tv_videos_filter_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp">
+            android:text="@string/filter_videos_label"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/filer_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:text="View Videos by:" />
+        <Spinner
+            android:id="@+id/spinner_video_filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <Spinner
-                android:id="@+id/filter_spinner"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/filer_text"
-                android:background="@android:drawable/btn_dropdown"
-                android:spinnerMode="dropdown" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_videos_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_videos_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/filter"
-            android:contextClickable="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:ignore="UnusedAttribute" />
-
-    </RelativeLayout>
-
-</ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

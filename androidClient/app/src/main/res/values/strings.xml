@@ -53,4 +53,5 @@
     <string name="dojma_app_ver">DoJMA Android App v3</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="videos">Videos</string>
+    <string name="filter_videos_label">View Videos by:</string>
 </resources>
