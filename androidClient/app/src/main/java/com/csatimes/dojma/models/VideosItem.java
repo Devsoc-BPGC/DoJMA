@@ -3,6 +3,15 @@ package com.csatimes.dojma.models;
 public class VideosItem {
     public String videoURL;
     public String videoName;
+
+    public String getDateStamp() {
+        return dateStamp;
+    }
+
+    public void setDateStamp(String dateStamp) {
+        this.dateStamp = dateStamp;
+    }
+
     public String dateStamp;
 
     public String getCreator() {

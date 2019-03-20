@@ -18,8 +18,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -75,7 +78,7 @@ public class VideosFragment extends Fragment {
     }
 
     private void getData() {
-        FirebaseValues.videosRef().orderByChild("dateStamp").startAt("30-09-2017").endAt("30-09-2019").addValueEventListener(new ValueEventListener() {
+        FirebaseValues.videosRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 allVideos.clear();
@@ -83,7 +86,7 @@ public class VideosFragment extends Fragment {
                     VideosItem videosItem = postSnapshot.getValue(VideosItem.class);
                     allVideos.add(videosItem);
                     Collections.reverse(allVideos);
-                    if (!list.contains(videosItem.creator)){
+                    if (!list.contains(videosItem.creator)) {
                         list.add(videosItem.getCreator());
                     }
                 }
@@ -102,13 +105,12 @@ public class VideosFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString().equals("All")){
+                if (parent.getItemAtPosition(position).toString().equals("All")) {
                     setfilter(allVideos);
-                }
-                else{
+                } else {
                     filteredVideos.clear();
-                    for (int i=0; i<allVideos.size(); i++){
-                        if (parent.getItemAtPosition(position).toString().equals(allVideos.get(i).getCreator())){
+                    for (int i = 0; i < allVideos.size(); i++) {
+                        if (parent.getItemAtPosition(position).toString().equals(allVideos.get(i).getCreator())) {
                             filteredVideos.add(allVideos.get(i));
                         }
                     }
@@ -126,6 +128,19 @@ public class VideosFragment extends Fragment {
     public void setfilter(List<VideosItem> filterList) {
         videos.clear();
         videos.addAll(filterList);
+        class StringDateComparator implements Comparator<VideosItem> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            public int compare(VideosItem lhs, VideosItem rhs) {
+                try {
+                    return dateFormat.parse(lhs.getDateStamp()).compareTo(dateFormat.parse(rhs.getDateStamp()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        }
+        Collections.sort(videos, new StringDateComparator());
+        Collections.reverse(videos);
         mAdapter.notifyDataSetChanged();
     }
 }
