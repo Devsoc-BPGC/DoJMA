@@ -75,7 +75,7 @@ public class VideosFragment extends Fragment {
     }
 
     private void getData() {
-        FirebaseValues.videosRef().orderByChild("dateStamp").addValueEventListener(new ValueEventListener() {
+        FirebaseValues.videosRef().orderByChild("dateStamp").startAt("30-09-2017").endAt("30-09-2019").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 allVideos.clear();
