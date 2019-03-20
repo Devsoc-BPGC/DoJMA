@@ -28,7 +28,7 @@ import static com.csatimes.dojmajournalists.utils.Jhc.getFirebaseRef;
 public class AddVideoActivity extends AppCompatActivity {
 
     private final DatabaseReference databaseReference = getFirebaseRef().child(VIDEOS);
-    private final String[] departments = new String[]{"DoJMA", "DoPY"};
+    private final String[] departments = new String[]{"DoJMA", "DoPY", "FMaC", "Waves", "Quark","Spree","TedX","Dance Club","MuSoc", "Drama Club", "MIME Club","Synchronoise","Nirmaan", "Abhigyaan"};
     private final String[] sourceTypes = new String[]{"youtube", "facebook"};
     private String creator = "DoJMA";
     private String chosenType = "youtube";
