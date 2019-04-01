@@ -19,8 +19,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -133,6 +136,20 @@ public class VideosFragment extends Fragment {
                 }
             }
         }
+        class StringDateComparator implements Comparator<VideosItem> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            public int compare(VideosItem lhs, VideosItem rhs) {
+                try {
+                    return dateFormat.parse(lhs.getDateStamp()).compareTo(dateFormat.parse(rhs.getDateStamp()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        }
+        Collections.sort(videos, new StringDateComparator());
+        Collections.reverse(videos);
         mAdapter.notifyDataSetChanged();
     }
 }
