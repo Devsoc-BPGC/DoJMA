@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.csatimes.dojma.R;
 import com.csatimes.dojma.aboutapp.AboutAppActivity;
@@ -58,6 +59,8 @@ public class MainActivity extends BaseActivity
     private final List<Person> contributors = new ArrayList<>(0);
     private final List<Member> members = new ArrayList<>(0);
     private HomeVm homeVm;
+    private FrameLayout containerFl;
+    private float toolbarElevation;
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -114,6 +117,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         homeVm = ViewModelProviders.of(this).get(HomeVm.class);
         setContentView(R.layout.activity_home);
+        containerFl = findViewById(R.id.home_container);
         final SharedPreferences mPreferences = getSharedPreferences(USER_PREFERENCES, MODE_PRIVATE);
 
         if (mPreferences.getBoolean(FIRST_INSTALL, true)) {
@@ -125,6 +129,7 @@ public class MainActivity extends BaseActivity
 
         final Toolbar mToolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(mToolbar);
+        toolbarElevation = mToolbar.getElevation();
         mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_flash));
         mToolbar.setNavigationOnClickListener(v -> {
             Intent i = new Intent(this, ShortsActivity.class);
@@ -133,6 +138,7 @@ public class MainActivity extends BaseActivity
 
         homeVm.getCurrentSection().observe(this, section -> {
             final Fragment fragment;
+            containerFl.setElevation(0);
             switch (section) {
                 case HERALD:
                     fragment = new HeraldFragment();
@@ -140,11 +146,13 @@ public class MainActivity extends BaseActivity
 
                 case ISSUES:
                     fragment = new IssuesFragment();
+                    containerFl.setElevation(toolbarElevation);
                     break;
 
                 case VIDEOS:
-                fragment = new VideosFragment();
-                break;
+                    fragment = new VideosFragment();
+                    containerFl.setElevation(toolbarElevation);
+                    break;
 
                 case EVENTS:
                     fragment = new EventsFragment();
