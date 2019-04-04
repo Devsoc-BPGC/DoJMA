@@ -25,12 +25,14 @@ public class UtilitiesLinksViewHolder extends RecyclerView.ViewHolder implements
         Button link3 = (Button) itemView.findViewById(R.id.viewholder_links_format_link3);
         Button link4 = (Button) itemView.findViewById(R.id.viewholder_links_format_link4);
         Button link5 = (Button) itemView.findViewById(R.id.viewholder_links_format_link5);
+        Button link6 = (Button) itemView.findViewById(R.id.viewholder_links_format_link6);
         this.context = context;
         link1.setOnClickListener(this);
         link2.setOnClickListener(this);
         link3.setOnClickListener(this);
         link4.setOnClickListener(this);
         link5.setOnClickListener(this);
+        link6.setOnClickListener(this);
         itemView.setOnClickListener(this);
 
     }
@@ -60,7 +62,11 @@ public class UtilitiesLinksViewHolder extends RecyclerView.ViewHolder implements
             Intent intent = new Intent(context, UtilitiesLinksActivity.class);
             context.startActivity(intent);
 
+        } else if (view.getId() == R.id.viewholder_links_format_link6) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://bpgc-cte.org/"));
+            context.startActivity(intent);
         }
+
 
     }
 }
